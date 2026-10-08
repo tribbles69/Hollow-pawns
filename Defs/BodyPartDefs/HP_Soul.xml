@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- The soul. Added to the Human body in Patches/HP_HumanSoul.xml with coverage 0,
+       so no weapon, explosion or animal can ever hit it. The only way out is the
+       extract soul surgery, which kills the pawn (see Recipe_ExtractSoul.cs).
+       No spawnThingOnRemoved on purpose: that would let the vanilla "remove part"
+       surgery target the soul without killing anyone. -->
+  <BodyPartDef>
+    <defName>HP_Soul</defName>
+    <label>soul</label>
+    <hitPoints>10</hitPoints>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <frostbiteVulnerability>0</frostbiteVulnerability>
+    <bleedRate>0</bleedRate>
+    <skinCovered>false</skinCovered>
+    <solid>false</solid>
+    <canSuggestAmputation>false</canSuggestAmputation>
+    <pawnGeneratorCanAmputate>false</pawnGeneratorCanAmputate>
+  </BodyPartDef>
+
+</Defs>

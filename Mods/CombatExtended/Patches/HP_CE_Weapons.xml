@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- ========== Reaper scythe ==========
+       CE tool format, pitched above CE's longsword (point: sharp 2.0, blunt 1.0).
+       The soul reap rides on the blade exactly as in vanilla. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="HP_ReaperScythe"]/tools</xpath>
+    <value>
+      <tools>
+        <li Class="CombatExtended.ToolCE">
+          <label>snath</label>
+          <capacities>
+            <li>Blunt</li>
+          </capacities>
+          <power>8</power>
+          <cooldownTime>1.9</cooldownTime>
+          <chanceFactor>0.33</chanceFactor>
+          <armorPenetrationBlunt>2.0</armorPenetrationBlunt>
+          <linkedBodyPartsGroup>Handle</linkedBodyPartsGroup>
+        </li>
+        <li Class="CombatExtended.ToolCE">
+          <label>blade</label>
+          <capacities>
+            <li>Cut</li>
+          </capacities>
+          <power>24</power>
+          <cooldownTime>2.1</cooldownTime>
+          <armorPenetrationBlunt>2.5</armorPenetrationBlunt>
+          <armorPenetrationSharp>3.0</armorPenetrationSharp>
+          <linkedBodyPartsGroup>Blade</linkedBodyPartsGroup>
+          <extraMeleeDamages>
+            <li>
+              <def>HP_SoulReap</def>
+              <amount>1</amount>
+              <chance>1</chance>
+            </li>
+          </extraMeleeDamages>
+        </li>
+      </tools>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HP_ReaperScythe"]/statBases</xpath>
+    <value>
+      <Bulk>9</Bulk>
+      <MeleeCounterParryBonus>0.4</MeleeCounterParryBonus>
+    </value>
+  </Operation>
+
+</Patch>

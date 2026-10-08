@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ResearchProjectDef>
+    <defName>HP_SoulExtraction</defName>
+    <label>soul extraction</label>
+    <description>Learn to find the soul inside a human body, draw it out and bind it as essence. Unlocks the soul crucible, the soul generator, soulsteel and the extract soul surgery.</description>
+    <baseCost>1500</baseCost>
+    <techLevel>Industrial</techLevel>
+    <prerequisites>
+      <li>Electricity</li>
+    </prerequisites>
+    <!-- Placeholder position on the Main tab; move it if it overlaps something in your load order. -->
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>8.30</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>HP_SoulWeaponry</defName>
+    <label>soul weaponry</label>
+    <description>Drive projectiles with bound soul essence instead of powder. Every shot ends in a small, vicious blast that takes limbs and shakes the soul loose. Unlocks the soul gun family and soul-charged ammunition.</description>
+    <baseCost>2500</baseCost>
+    <techLevel>Industrial</techLevel>
+    <prerequisites>
+      <li>HP_SoulExtraction</li>
+      <li>Gunsmithing</li>
+    </prerequisites>
+    <researchViewX>8.00</researchViewX>
+    <researchViewY>8.30</researchViewY>
+  </ResearchProjectDef>
+
+</Defs>

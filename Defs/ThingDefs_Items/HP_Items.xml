@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Soul essence: the core resource. Fuel, ingredient, currency of the damned. -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HP_SoulEssence</defName>
+    <label>soul essence</label>
+    <description>The bound remnant of a human soul, a faintly warm, faintly humming vapour held in a glass phial. It burns without consuming anything, and it binds into metal. Nobody who works with it for long sleeps well.</description>
+    <graphicData>
+      <texPath>Things/Item/HP_SoulEssence</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <resourceReadoutPriority>Middle</resourceReadoutPriority>
+    <statBases>
+      <MaxHitPoints>40</MaxHitPoints>
+      <MarketValue>12</MarketValue>
+      <Mass>0.05</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- Soulsteel: plasteel with a soul bound into it. Sits one tier above plasteel. -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HP_Soulsteel</defName>
+    <label>soulsteel</label>
+    <description>Plasteel with soul essence bound through it. Harder and lighter than plasteel itself, cold to the touch, and it never quite stops ringing after it is struck.</description>
+    <graphicData>
+      <texPath>Things/Item/HP_Soulsteel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <resourceReadoutPriority>Middle</resourceReadoutPriority>
+    <statBases>
+      <MarketValue>14</MarketValue>
+      <Mass>0.3</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <StuffPower_Armor_Sharp>1.3</StuffPower_Armor_Sharp>
+      <StuffPower_Armor_Blunt>0.55</StuffPower_Armor_Blunt>
+      <StuffPower_Armor_Heat>0.6</StuffPower_Armor_Heat>
+      <StuffPower_Insulation_Cold>3</StuffPower_Insulation_Cold>
+      <StuffPower_Insulation_Heat>0</StuffPower_Insulation_Heat>
+      <SharpDamageMultiplier>1.25</SharpDamageMultiplier>
+      <BluntDamageMultiplier>1.1</BluntDamageMultiplier>
+    </statBases>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+    <stuffProps>
+      <categories>
+        <li>Metallic</li>
+      </categories>
+      <commonality>0</commonality>
+      <constructEffect>ConstructMetal</constructEffect>
+      <color>(98,196,206)</color>
+      <soundImpactStuff>BulletImpact_Metal</soundImpactStuff>
+      <soundMeleeHitSharp>MeleeHit_Metal_Sharp</soundMeleeHitSharp>
+      <soundMeleeHitBlunt>MeleeHit_Metal_Blunt</soundMeleeHitBlunt>
+      <statFactors>
+        <MaxHitPoints>3.0</MaxHitPoints>
+        <Beauty>1.2</Beauty>
+        <Flammability>0</Flammability>
+        <WorkToMake>2.4</WorkToMake>
+        <WorkToBuild>2.4</WorkToBuild>
+        <MeleeWeapon_CooldownMultiplier>0.9</MeleeWeapon_CooldownMultiplier>
+      </statFactors>
+    </stuffProps>
+  </ThingDef>
+
+</Defs>

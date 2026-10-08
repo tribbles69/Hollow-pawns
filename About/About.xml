@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Hollow Pawns</name>
+  <author>Aaron Clews</author>
+  <packageId>aaronclews.hollowpawns</packageId>
+  <modVersion>0.3.0</modVersion>
+  <supportedVersions>
+    <li>1.6</li>
+  </supportedVersions>
+  <description>Every human carries a soul.
+
+Pull it out of the fresh dead at the soul crucible, or out of the living on the operating table (they will not survive it). Burn soul essence for power, or bind it into soulsteel.
+
+v0.3:
+- Soul body part on humans (appended to the end of the body tree, so existing saves should be safe)
+- Extract soul surgery: yields soul essence and kills the patient
+- Soul crucible: harvest essence from human corpses, forge soulsteel, make soul weapons and ammo
+- Soulsteel: plasteel plus essence, one tier above plasteel
+- Soul generator: burns essence for power
+- Reaper's scythe: reaps souls on a hit, more often the better the wielder's Melee
+- Soul gun family: pistol, SMG, assault rifle, marksman rifle, sniper, machine gun, shotgun. Every shot ends in a one-cell soul blast that takes limbs, craters walls and shocks the soul until the target collapses.
+- Combat Extended: soul guns fire beams on shared soul charges; soul-charged variants of the common CE calibres; CE stats for everything
+
+Planned: soul vats and pipes (Vanilla Expanded Framework), soul mechs, a soul-eating xenotype.</description>
+</ModMetaData>

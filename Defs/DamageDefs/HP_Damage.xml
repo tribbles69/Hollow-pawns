@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Reaper scythe "crit". Does no damage itself; the worker rolls to tear the soul out. -->
+  <DamageDef>
+    <defName>HP_SoulReap</defName>
+    <label>soul reap</label>
+    <workerClass>HollowPawns.DamageWorker_SoulReap</workerClass>
+    <externalViolence>true</externalViolence>
+    <harmsHealth>false</harmsHealth>
+    <makesBlood>false</makesBlood>
+    <deathMessage>{0}'s soul has been reaped.</deathMessage>
+  </DamageDef>
+
+  <!-- Soul blast: what every soul gun hits with. Built like a grenade's damage
+       (it removes limbs rather than wounding them) and used as a one-cell explosion,
+       so a hit takes the part it lands on and a miss craters whatever is behind.
+       Each point of damage also rattles the target's soul (soul shock). -->
+  <DamageDef>
+    <defName>HP_SoulBlast</defName>
+    <label>soul blast</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <isExplosive>true</isExplosive>
+    <isRanged>true</isRanged>
+    <makesAnimalsFlee>true</makesAnimalsFlee>
+    <deathMessage>{0} was torn apart by a soul blast.</deathMessage>
+    <hediff>Shredded</hediff>
+    <hediffSolid>Crack</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Sharp</armorCategory>
+    <!-- Any part that takes even slightly more damage than it can hold is gone. -->
+    <overkillPctToDestroyPart>0~0.1</overkillPctToDestroyPart>
+    <minDamageToFragment>10</minDamageToFragment>
+    <defaultDamage>20</defaultDamage>
+    <defaultStoppingPower>1.5</defaultStoppingPower>
+    <defaultArmorPenetration>0.4</defaultArmorPenetration>
+    <!-- Walls take 4x: that's the crater. -->
+    <buildingDamageFactorImpassable>4</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>2</buildingDamageFactorPassable>
+    <plantDamageFactor>2</plantDamageFactor>
+    <explosionAffectOutsidePartsOnly>false</explosionAffectOutsidePartsOnly>
+    <explosionCellFleck>BlastDry</explosionCellFleck>
+    <explosionColorCenter>(0.55, 0.95, 1.0)</explosionColorCenter>
+    <explosionColorEdge>(0.3, 0.6, 0.7)</explosionColorEdge>
+    <additionalHediffs>
+      <li>
+        <hediff>HP_SoulShock</hediff>
+        <!-- 30 damage = 0.45 shock. Roughly three solid hits put someone down. -->
+        <severityPerDamageDealt>0.015</severityPerDamageDealt>
+      </li>
+    </additionalHediffs>
+  </DamageDef>
+
+</Defs>

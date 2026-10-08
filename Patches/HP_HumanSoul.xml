@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Give every human a soul.
+       Appended as the LAST child of the torso (the core part). Saves store body parts
+       by their index in the body tree, which is built depth-first, so a part added at
+       the very end gets a new index without shifting any existing one. That should keep
+       injuries and implants on pawns in existing saves where they were.
+       Alien races from other mods have their own bodies and get no soul until patched. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/BodyDef[defName="Human"]/corePart/parts</xpath>
+    <value>
+      <li>
+        <def>HP_Soul</def>
+        <coverage>0</coverage>
+        <depth>Inside</depth>
+      </li>
+    </value>
+  </Operation>
+
+</Patch>

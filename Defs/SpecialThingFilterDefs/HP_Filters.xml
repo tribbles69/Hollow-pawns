@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Matches corpses with no soul left (already extracted, or a race with no soul part).
+       The crucible's fixed filter disallows these so pawns never haul a husk to it. -->
+  <SpecialThingFilterDef>
+    <defName>HP_AllowSoulless</defName>
+    <label>allow soulless</label>
+    <description>Allow corpses whose soul has already been taken.</description>
+    <parentCategory>CorpsesHumanlike</parentCategory>
+    <workerClass>HollowPawns.SpecialThingFilterWorker_Soulless</workerClass>
+    <configurable>false</configurable>
+  </SpecialThingFilterDef>
+
+</Defs>

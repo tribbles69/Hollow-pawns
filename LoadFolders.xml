@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<loadFolders>
+  <!-- Everything at the root always loads. The Combat Extended folder (soul ammo,
+       CE weapon and material patches) only loads when CE is active. -->
+  <v1.6>
+    <li>/</li>
+    <li IfModActive="CETeam.CombatExtended">Mods/CombatExtended</li>
+  </v1.6>
+</loadFolders>

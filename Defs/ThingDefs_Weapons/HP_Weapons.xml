@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Reaper scythe ===================== -->
+  <!-- Every blade hit rolls to reap the target's soul: 0.5% per Melee level
+       (10% at Melee 20), tripled against the downed. A reaped target dies and
+       drops 12 essence. Not stuffable: it's soulsteel by definition. -->
+  <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
+    <defName>HP_ReaperScythe</defName>
+    <label>reaper's scythe</label>
+    <description>A long soulsteel scythe, cold enough to frost the hand that holds it. A skilled reaper can draw a soul out with the stroke of the blade: the target dies where they stand and their essence spills out at their feet. The better the reaper, the more often it happens. Those already down are easier still.</description>
+    <graphicData>
+      <texPath>Things/Item/Equipment/HP_ReaperScythe</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <techLevel>Industrial</techLevel>
+    <weaponTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </weaponTags>
+    <costList>
+      <HP_Soulsteel>90</HP_Soulsteel>
+      <HP_SoulEssence>20</HP_SoulEssence>
+    </costList>
+    <statBases>
+      <WorkToMake>30000</WorkToMake>
+      <Mass>3</Mass>
+      <MarketValue>2200</MarketValue>
+    </statBases>
+    <equippedAngleOffset>-65</equippedAngleOffset>
+    <recipeMaker>
+      <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>8</Crafting>
+      </skillRequirements>
+      <recipeUsers Inherit="False">
+        <li>HP_SoulCrucible</li>
+      </recipeUsers>
+    </recipeMaker>
+    <tools>
+      <li>
+        <label>snath</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>10</power>
+        <cooldownTime>2</cooldownTime>
+        <chanceFactor>0.5</chanceFactor>
+      </li>
+      <li>
+        <label>blade</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>22</power>
+        <cooldownTime>2.3</cooldownTime>
+        <armorPenetration>0.45</armorPenetration>
+        <extraMeleeDamages>
+          <li>
+            <def>HP_SoulReap</def>
+            <amount>1</amount>
+            <chance>1</chance>
+          </li>
+        </extraMeleeDamages>
+      </li>
+    </tools>
+  </ThingDef>
+
+</Defs>

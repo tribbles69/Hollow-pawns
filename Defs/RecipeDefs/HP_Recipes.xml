@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Surgery: tear the soul out of a living human. Always fatal. -->
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>HP_ExtractSoul</defName>
+    <label>extract soul</label>
+    <description>Draw the soul out of a living patient and bind it as soul essence. A body cannot live without its soul: the patient will die.</description>
+    <workerClass>HollowPawns.Recipe_ExtractSoul</workerClass>
+    <jobString>Extracting soul.</jobString>
+    <workAmount>3000</workAmount>
+    <isViolation>true</isViolation>
+    <targetsBodyPart>true</targetsBodyPart>
+    <appliedOnFixedBodyParts>
+      <li>HP_Soul</li>
+    </appliedOnFixedBodyParts>
+    <skillRequirements>
+      <Medicine>6</Medicine>
+    </skillRequirements>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+    <recipeUsers>
+      <li>Human</li>
+    </recipeUsers>
+    <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
+  </RecipeDef>
+
+  <!-- Crucible: harvest the lingering soul from a human corpse. -->
+  <RecipeDef>
+    <defName>HP_HarvestCorpseSoul</defName>
+    <label>harvest soul from corpse</label>
+    <description>Draw the lingering soul out of a human corpse and bind it as essence. The husk crumbles to nothing. Corpses whose soul has already been taken are useless.</description>
+    <jobString>Harvesting soul.</jobString>
+    <workAmount>1500</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <effectWorking>Cremate</effectWorking>
+    <soundWorking>Recipe_Cremate</soundWorking>
+    <recipeUsers>
+      <li>HP_SoulCrucible</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>CorpsesHumanlike</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>CorpsesHumanlike</li>
+      </categories>
+      <specialFiltersToDisallow>
+        <li>HP_AllowSoulless</li>
+      </specialFiltersToDisallow>
+    </fixedIngredientFilter>
+    <defaultIngredientFilter>
+      <categories>
+        <li>CorpsesHumanlike</li>
+      </categories>
+      <specialFiltersToDisallow>
+        <li>AllowCorpsesColonist</li>
+      </specialFiltersToDisallow>
+    </defaultIngredientFilter>
+    <products>
+      <HP_SoulEssence>8</HP_SoulEssence>
+    </products>
+    <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
+  </RecipeDef>
+
+  <!-- Crucible: bind essence into steel. -->
+  <RecipeDef>
+    <defName>HP_ForgeSoulsteel</defName>
+    <label>forge soulsteel</label>
+    <description>Bind soul essence through molten plasteel to make soulsteel.</description>
+    <jobString>Forging soulsteel.</jobString>
+    <workAmount>1600</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <effectWorking>Smelt</effectWorking>
+    <soundWorking>Recipe_Smelt</soundWorking>
+    <recipeUsers>
+      <li>HP_SoulCrucible</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Plasteel</li>
+          </thingDefs>
+        </filter>
+        <count>10</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_SoulEssence</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Plasteel</li>
+        <li>HP_SoulEssence</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HP_Soulsteel>10</HP_Soulsteel>
+    </products>
+    <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
+  </RecipeDef>
+
+</Defs>

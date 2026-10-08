@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Combat Extended: only runs when CE is loaded.
+       Mirrors how CE patches vanilla Plasteel (Items_Resource_Stuff.xml in the CE repo):
+         Steel    Sharp 1   Blunt 1.5  Heat 0
+         Plasteel Sharp 2   Blunt 3    Heat 0   Mass x0.8  MeleePenetration x1.25
+       Soulsteel goes one step above plasteel. Someone died for it. -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Combat Extended</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/ThingDef[defName="HP_Soulsteel"]/statBases</xpath>
+          <value>
+            <Bulk>0.03</Bulk>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/ThingDef[defName="HP_Soulsteel"]/stuffProps/categories</xpath>
+          <value>
+            <li>Metallic_Weapon</li>
+            <li>Steeled</li>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>Defs/ThingDef[defName="HP_Soulsteel"]/statBases/StuffPower_Armor_Sharp</xpath>
+          <value>
+            <StuffPower_Armor_Sharp>2.4</StuffPower_Armor_Sharp>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>Defs/ThingDef[defName="HP_Soulsteel"]/statBases/StuffPower_Armor_Blunt</xpath>
+          <value>
+            <StuffPower_Armor_Blunt>3.6</StuffPower_Armor_Blunt>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>Defs/ThingDef[defName="HP_Soulsteel"]/statBases/StuffPower_Armor_Heat</xpath>
+          <value>
+            <StuffPower_Armor_Heat>0</StuffPower_Armor_Heat>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/ThingDef[defName="HP_Soulsteel"]/stuffProps/statFactors</xpath>
+          <value>
+            <Mass>0.75</Mass>
+            <MeleePenetrationFactor>1.4</MeleePenetrationFactor>
+          </value>
+        </li>
+
+      </operations>
+    </match>
+  </Operation>
+
+</Patch>
