@@ -103,5 +103,6 @@ If any of these is wrong, the log will name it.
 - Quality of life (the Reaper's Mark): one-click extraction with a Soul-Lock safety catch, ensouled/soulless corpse stockpile filters, corpse soul status on hover, alerts.
 - Full-kit apparel sets (light and heavy for medieval, industrial and spacer) that fill every slot, with CE webbing/backpack/shield pieces when CE is loaded.
 - Flayed face masks, from corpses or living prisoners, named like soul jars.
+- Line forge: a soul-free 2x4 machine that turns steel and components into cheap conscript kit (full armour set, rifle with bayonet) for arming thralls between waves.
 
 The full plan, with design decisions, is in `ROADMAP.md`.

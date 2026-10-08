@@ -218,6 +218,16 @@ Like Ideology's skull extraction, but the face, worn as a mask.
 - Adults only, corpse or living, via `SoulUtility`'s age rule.
 - Build: one apparel def, a butcher bill and a surgery (C# workers), name storage shared with soul jars. Small worn art (face only).
 
+### 4.24 Line forge: cheap conscript kit for the endless war
+Arm ten thralls between waves without spending souls; save the expensive gear for real colonists.
+- **The line forge:** a 2x4 powered machine. **Steel, components and power only: no essence.** No pawn works it: materials are pulled from an input area next to it, finished kit is dropped on an output tile for haulers or thralls. Progress on the rare tick, and only while a bill has materials (no cost when idle).
+- **It only makes its own conscript kit** (its own recipes; it does not patch into other benches' recipes):
+  - **Conscript armour set:** helmet, body armour and enough pieces to fill every slot. Built with the apparel-set generator (4.22) as the cheapest tier, so it's guaranteed clash-free.
+  - **Conscript rifle with bayonet:** a basic, unreliable rifle (poor accuracy, short range) whose melee tools include a **bayonet stab**, so it doubles as a spear when the fighting reaches the wall. The bayonet is just a stab tool on the gun (XML). Under CE it uses standard 5.56 NATO, so it can load the soul-charged rounds (and CE's `ToolCE` stab for the bayonet).
+- **Deliberately rubbish, fixed stats:** no quality roll, poor stats, and near-zero market value so it can't be farmed for silver or compete with real gear.
+- **One-click kitting:** a **"conscript kit"** bill makes a whole loadout in one go, and a matching **outfit policy** means anyone assigned to it walks over and dresses themselves.
+- The loop: clone vats grow the bodies (4.5), the line forge arms them, they hold the wall; real colonists keep the soulsteel.
+
 ## 5. Considered and dropped
 - **Soul-drop on the requiem rifle** (kills dropped essence): dropped. The requiem is just a hard-hitting rifle; only the scythe reaps.
 - **Soulless pawns going rogue instead of dying:** dropped. No soul = death.
