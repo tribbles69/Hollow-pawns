@@ -48,6 +48,8 @@ The design record for the mod: what's built, what's decided, and everything plan
 
 Rough agreed order: **curses → demons → hell gate → thralls and clone vats → prisoner battery → ghosts → dreadnoughts**, with the smaller items slotted in wherever convenient. Each one sets up the next.
 
+Added after the second pirate think tank: **soul jars → blood debts** (they build on each other), with the soul broker and volatile stockpiles as small fill-in items.
+
 ### 4.1 Corpse wall (carrion wall)
 Outdoor wall made from a pile of corpses, human and animal. Goes with the StarCrete/hemocrete idea.
 - **Building it:** wall costs can't reference "any corpse" (every species has its own corpse def). So: a **"bind carrion"** bill at the butcher spot/table turns any corpse into a **carrion bale** (stackable resource); walls cost bales. XML. **Exclude child corpses** (needs a special filter, like `SpecialThingFilterWorker_Soulless`).
@@ -134,6 +136,49 @@ Sanguophage-style, eats souls. Needs Biotech.
 
 ---
 
+### 4.17 Soul jars (from the pirate think tank)
+A second option at the extract-soul surgery: **render** the soul into 12 essence as now, or **bottle it whole** as a named soul jar.
+- The jar stores the victim's name, faction, backstory and the day taken, shown on inspect. Must survive save/load.
+- Dim glowing decoration with good beauty: a shelf of the damned.
+- Smash it later for the same 12 essence, so bottling never costs anything.
+- Each bottling records a Tale that sculptors can carve.
+- Build: one ThingDef with a single-facing texture, a ThingComp storing the name (`PostExposeData`), a recipe worker for the second surgery option, a TaleDef. No ticking. Adults only via `SoulUtility`.
+- Conditions: search the Workshop for an existing soul-jar mod first; prove the name survives save/load before making art.
+- Mutiny clause: if playtests show everyone smashes their jars, cut the decoration and keep only the named Tale. (The blood-debt line below gives jars a stronger reason to exist.)
+
+### 4.18 Blood debts: revenge on whoever killed your colonists
+**1. The blood debt.** When an enemy kills a colonist, record it: the killer gets a visible **"Blood debt"** mark naming who they killed. Event-driven (hook on colonist death with a pawn instigator); store debts in a WorldComponent so they persist if the killer escapes.
+- Escaped killers are world pawns and can return in later raids, still marked. Seeing the mark in combat tells you to down them, not kill them.
+
+**2. Torment** (if captured): a new prisoner interaction mode next to recruit, enslave and execute. A warden runs sessions, modelled on vanilla's resistance-reduction job.
+- Each session adds soul shock and pain to the prisoner.
+- Colonists close to the victim get a growing **"Avenging {victim}"** mood buff.
+- Kind-hearted colonists and some Ideology precepts are disturbed; it's a violation and the prisoner's faction hates you for it.
+- Build: `PrisonerInteractionModeDef` (XML) + a warden JobDriver/WorkGiver (C#). Adults only.
+
+**3. The endings: art.** Both use the vanilla art system (quality from the sculptor's Artistic skill; description generated from a vengeance TaleDef).
+- **If they die → the effigy.** Their soul goes into a vengeance sculpture: *"A soulsteel figure of Vex the Butcher, cut down at the wall on Day 61 for the murder of Jeb."* Colonists who loved the victim get **"Avenged"** whenever they see it. Otherwise a normal art piece.
+- **If they live → the wailing effigy.** After torment, their living soul is bound into the sculpture, and it **screams** at moments that matter: when a raid arrives, at night, when someone walks past. Event-driven or a slow sampled check, never a per-tick comp.
+  - Avengers get a much stronger, lasting "Avenged".
+  - Everyone else gets **dread**, so placement matters.
+  - Raiders who hear it on approach get soul shock or panic: a grim defensive totem by the gate.
+  - **Smashing it** releases the soul for a big essence payout.
+- **Audio:** the scream needs a custom wail sound. Aaron has an audio-engineering background and will likely make this himself; leave a placeholder SoundDef pointing at a clearly named file.
+- Soul jars (4.17) remain the everyday version for anyone bottled; blood-debt enemies get the art.
+
+### 4.19 Soul broker (small, XML)
+- First, a **market-value pass** on essence (currently 12), soulsteel, jars and soul weapons.
+- Then traders: an orbital **soul broker** (comms console) and an outlander caravan variant that buy and sell essence, soulsteel and soul weapons at a markup. **Never pawns.** Settlement trade requests for essence via the vanilla quest system.
+- Check first whether existing traders already buy essence (it sits in the Manufactured category).
+
+### 4.20 Volatile stockpiles (small)
+Hoarded essence is dangerous cargo, so players spread their stock out.
+- Essence stacks get vanilla `CompExplosive` (like chemfuel): fire or a hit sets a stack off, radius scaling with stack size up to a cap, using **soul blast** damage (already applies soul shock), so pawns drop alive.
+- A soul generator breakdown vents a short soul shock pulse at whoever's nearby.
+- Under CE: soul-charged rounds cook off in fires, if CE's cook-off system accepts custom ammo (unverified).
+- Inspect text warns "Volatile: spread your stock."
+- Tick cost: none. Item explosions only run when triggered, and the vent fires on the breakdown event.
+
 ## 5. Considered and dropped
 - **Soul-drop on the requiem rifle** (kills dropped essence): dropped. The requiem is just a hard-hitting rifle; only the scythe reaps.
 - **Soulless pawns going rogue instead of dying:** dropped. No soul = death.
@@ -143,3 +188,4 @@ Sanguophage-style, eats souls. Needs Biotech.
 - **Pickle mod:** already exists on the Workshop ([KD] Pickled Vegetables).
 - **Three separate soul calibres under CE:** replaced by one shared soul charge (laser-style ammo sets).
 - **Burning or plain piercing beams:** chosen instead: punch + one-cell blast + soul shock.
+- **Ledger of the Unremembered** (bound-name weapons, a lectern reading the names, a mood hit if it burns): only the carved Tales were kept, inside soul jars.
