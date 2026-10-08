@@ -200,6 +200,24 @@ Already done: essence shows in the top-left resource readout (it's a resource wi
 
 **Mutiny clause:** if the gizmo or dialog patches clash with CE or a heavy modlist, or v1 grows past these five items, cut back to Mark + Soul-Lock and ship that.
 
+### 4.22 Full-kit apparel sets
+Aaron likes filling every clothing slot and hates working out what fits together. So: six sets that fill **every** slot, guaranteed conflict-free.
+- **Six sets:** light and heavy for each of medieval, industrial and spacer. Working names: *gravecloth* (medieval light: gambeson, hood and so on; mobile, cheap, good cold insulation), *ossuary plate* (medieval heavy, stuff-based), *mourner's kit* (industrial light, flak-style, fast), a soulsteel heavy set (industrial heavy), and spacer light/heavy at marine tier and above. The planned reliquary armour (4.12) can become the spacer heavy chest piece.
+- **A generator, like the guns** (`Source/tools/gen_apparel_sets.py`): each set is a table of pieces, each with one apparel layer and its covered body-part groups. The script **refuses to output a set where two pieces share a layer and any body part** (that's what makes items clash in-game) and **checks the set covers every slot**. Pull the exact slot list from the game's own apparel layer defs rather than guessing.
+- **Shared stat budget per tier**, so light vs heavy is a clear trade (armour against move speed and work speed) and no single piece outclasses the vanilla equivalent at its tier.
+- **Full-set bonus** (optional, small C#): a small buff for wearing every piece.
+- **Combat Extended extension** (CE-only folder): CE adds five layers: *webbing* (tactical vests, ammo and carry capacity), *backpack* (carry capacity), *shield* (off-hand melee/ballistic shields), *skin (head)* (headwraps and balaclavas under helmets) and *strapped (head)* (headsets and goggles). Each set gets its webbing, backpack and shield pieces (plus head pieces if they fit the theme) only when CE is loaded, so nobody gets half a set either way. Layers checked against CE's `Defs/ApparelLayerDefs/ApparelLayerDefs.xml`.
+- **Art is the real cost:** worn apparel needs every facing and body type. First pass borrows vanilla worn textures tinted by material, so stats and slot logic can be tested before custom art exists.
+
+### 4.23 Face masks (flayed)
+Like Ideology's skull extraction, but the face, worn as a mask.
+- **From corpses:** a **"take face"** bill at the butcher table on an adult human corpse. The corpse is marked rather than consumed (same mark-instead-of-consume code as the crucible husk change in 4.1), so it can still go to the crucible, the reanimation slab or the carrion wall.
+- **From the living:** a **"flay face"** surgery on an adult prisoner. They survive, permanently disfigured: a lasting condition with a heavy beauty and social penalty and a strong mood penalty for them. It counts as a violation; their faction hates you for it. A living face makes a better-quality mask than a corpse's.
+- **The mask:** sits in the face slot so it stacks with helmets (under CE, the *skin (head)* layer). It **keeps the name**, like soul jars: *"The face of Vex the Butcher."* Stats are about intimidation, not armour: slave suppression up, social penalty with most people, social bonus with psychopaths and bloodlust. With Ideology, precepts decide whether wearers are revered or reviled. Deteriorates like leather, so they're trophies you keep earning.
+- **Blood-debt tie-in (4.18):** flay your colonist's killer and wear them; colonists who loved the victim get "Avenged" when they see the wearer. Anyone who sees a **friend's** face being worn gets a heavy mood penalty.
+- Adults only, corpse or living, via `SoulUtility`'s age rule.
+- Build: one apparel def, a butcher bill and a surgery (C# workers), name storage shared with soul jars. Small worn art (face only).
+
 ## 5. Considered and dropped
 - **Soul-drop on the requiem rifle** (kills dropped essence): dropped. The requiem is just a hard-hitting rifle; only the scythe reaps.
 - **Soulless pawns going rogue instead of dying:** dropped. No soul = death.

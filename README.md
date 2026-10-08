@@ -101,5 +101,7 @@ If any of these is wrong, the log will name it.
 - Essence yield by corpse freshness, Ideology reactions, soul-eating xenotype.
 - Soul jars, blood debts (torment, vengeance effigies and the wailing effigy), the soul broker, volatile stockpiles.
 - Quality of life (the Reaper's Mark): one-click extraction with a Soul-Lock safety catch, ensouled/soulless corpse stockpile filters, corpse soul status on hover, alerts.
+- Full-kit apparel sets (light and heavy for medieval, industrial and spacer) that fill every slot, with CE webbing/backpack/shield pieces when CE is loaded.
+- Flayed face masks, from corpses or living prisoners, named like soul jars.
 
 The full plan, with design decisions, is in `ROADMAP.md`.
