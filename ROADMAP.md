@@ -228,6 +228,14 @@ Arm ten thralls between waves without spending souls; save the expensive gear fo
 - **One-click kitting:** a **"conscript kit"** bill makes a whole loadout in one go, and a matching **outfit policy** means anyone assigned to it walks over and dresses themselves.
 - The loop: clone vats grow the bodies (4.5), the line forge arms them, they hold the wall; real colonists keep the soulsteel.
 
+### 4.25 Trenches
+Dug trench cells that actually protect whoever stands in them. Pairs with the carrion wall as a parapet (4.1) and thralls holding a line (4.5).
+- **Step one: check *Frontline – Trenches*.** It already exists and CE ships patches for its guns (`ModPatches/Frontline - Trenches` in CE's repo). Find out how its trenches work. If it covers this, make Hollow Pawns' content work alongside it instead of building our own.
+- **Why it needs code (vanilla):** vanilla cover is directional. When a pawn is shot, only cover in the adjacent cells on the side facing the shooter counts. What a pawn stands on (terrain, or a building in its own cell) never counts, so a plain dug terrain would give no protection.
+- **Vanilla design:** trench as a terrain, dug by a designator. Small Harmony patch to the cover calculation: a pawn standing on trench terrain gets solid cover (~50–60%) from **every** direction, except from enemies adjacent to the trench or shooting down into it from its edge. Explosions and mortars still land. Trench cells are slow to move through and can't hold furniture.
+- **CE design:** CE models cover as **height** (`Source/CombatExtended/CombatExtended/CollisionVertical.cs`): projectiles fly in 3D, crouching pawns duck to the height of adjacent partial cover, and the pawn's height already gets adjusted (e.g. `heightAdjust += 1` when flying). A trench is the opposite: patch that height calculation so a pawn on trench terrain sits lower, and flat incoming fire passes over unless the shooter is close or elevated. One small patch, and more realistic than the vanilla version.
+- Tick cost: none; both patches only run when a shot is resolved.
+
 ## 5. Considered and dropped
 - **Soul-drop on the requiem rifle** (kills dropped essence): dropped. The requiem is just a hard-hitting rifle; only the scythe reaps.
 - **Soulless pawns going rogue instead of dying:** dropped. No soul = death.
