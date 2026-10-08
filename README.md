@@ -100,5 +100,6 @@ If any of these is wrong, the log will name it.
 - Soul mechs (gestator recipes using essence).
 - Essence yield by corpse freshness, Ideology reactions, soul-eating xenotype.
 - Soul jars, blood debts (torment, vengeance effigies and the wailing effigy), the soul broker, volatile stockpiles.
+- Quality of life (the Reaper's Mark): one-click extraction with a Soul-Lock safety catch, ensouled/soulless corpse stockpile filters, corpse soul status on hover, alerts.
 
 The full plan, with design decisions, is in `ROADMAP.md`.

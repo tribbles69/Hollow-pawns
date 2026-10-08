@@ -48,7 +48,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 
 Rough agreed order: **curses → demons → hell gate → thralls and clone vats → prisoner battery → ghosts → dreadnoughts**, with the smaller items slotted in wherever convenient. Each one sets up the next.
 
-Added after the second pirate think tank: **soul jars → blood debts** (they build on each other), with the soul broker and volatile stockpiles as small fill-in items.
+Added after the second pirate think tank: **soul jars → blood debts** (they build on each other), with the soul broker and volatile stockpiles as small fill-in items. The **Reaper's Mark** QoL package (4.21) can go in any time: it only needs what's already built.
 
 ### 4.1 Corpse wall (carrion wall)
 Outdoor wall made from a pile of corpses, human and animal. Goes with the StarCrete/hemocrete idea.
@@ -178,6 +178,27 @@ Hoarded essence is dangerous cargo, so players spread their stock out.
 - Under CE: soul-charged rounds cook off in fires, if CE's cook-off system accepts custom ammo (unverified).
 - Inspect text warns "Volatile: spread your stock."
 - Tick cost: none. Item explosions only run when triggered, and the vent fires on the breakdown event.
+
+### 4.21 The Reaper's Mark (quality of life, from the QoL think tank)
+*Know which bodies still hold a soul, take one in a click, and never by accident.* Everything in v1 works with what's already built. Nothing ticks per item.
+
+**v1**
+1. **Mark button** (gizmo) on adult human prisoners that queues the extract-soul surgery in one click, and a **Mark all** gizmo on the soul crucible that marks every eligible prisoner. Never shown for children or the soulless (check via `SoulUtility`). Harmony postfix on the pawn's gizmos; runs only on click.
+2. **Soul-Lock** toggle on any pawn: the mark buttons skip them and the surgery can't be queued on them. Plus an **"Are you sure?"** confirmation before any extraction is queued on a colonist (one-click killing needs a safety catch).
+3. **Ensouled / Soulless corpse stockpile filters.** Nearly free: `HP_AllowSoulless` and `SpecialThingFilterWorker_Soulless` already exist for the crucible. Add a configurable stockpile-facing filter def (and an "ensouled" counterpart) so haulers can route full corpses to the crucible and husks elsewhere.
+4. **Corpse hover line:** "Soul: intact (8 essence)" or "Soul: taken" on the corpse's inspect string.
+5. **Two alerts** (vanilla `Alert` subclasses, vanilla's own throttling): "Ensouled corpse unclaimed" and "Soul generator low" (a simple fuel threshold, not a forecast).
+
+Already done: essence shows in the top-left resource readout (it's a resource with a readout priority).
+
+**Later, once their features exist**
+- Rot alert ("corpses spoiling, ~N essence lost") → after essence-by-freshness.
+- Stockpile size and fire warning with a blast-radius overlay → after volatile stockpiles (4.20).
+- Thrall and husk status lines → after thralls and husks.
+- Essence forecast ("generators dark in ~9 hours") → once burn rates are stable.
+- A full soul management **tab** (Barnacle's Register) and a **soul sight map overlay** (Mossbeard's Pale Sight: souls glow, the soulless show as cold outlines). Both are nice but costly UI.
+
+**Mutiny clause:** if the gizmo or dialog patches clash with CE or a heavy modlist, or v1 grows past these five items, cut back to Mark + Soul-Lock and ship that.
 
 ## 5. Considered and dropped
 - **Soul-drop on the requiem rifle** (kills dropped essence): dropped. The requiem is just a hard-hitting rifle; only the scythe reaps.
