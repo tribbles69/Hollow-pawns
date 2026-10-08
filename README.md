@@ -105,5 +105,6 @@ If any of these is wrong, the log will name it.
 - Flayed face masks, from corpses or living prisoners, named like soul jars.
 - Line forge: a soul-free 2x4 machine that turns steel and components into cheap conscript kit (full armour set, rifle with bayonet) for arming thralls between waves.
 - Trenches that give real cover (all-round in vanilla, lower profile under CE); check the existing Frontline – Trenches mod first.
+- Thrall performance for big bases: a lean thrall think tree, stand-guard mode with auto-wake, and thrall racks that store them in suspension at near-zero cost.
 
 The full plan, with design decisions, is in `ROADMAP.md`.

@@ -236,6 +236,27 @@ Dug trench cells that actually protect whoever stands in them. Pairs with the ca
 - **CE design:** CE models cover as **height** (`Source/CombatExtended/CombatExtended/CollisionVertical.cs`): projectiles fly in 3D, crouching pawns duck to the height of adjacent partial cover, and the pawn's height already gets adjusted (e.g. `heightAdjust += 1` when flying). A trench is the opposite: patch that height calculation so a pawn on trench terrain sits lower, and flat incoming fire passes over unless the shooter is close or elevated. One small patch, and more realistic than the vanilla version.
 - Tick cost: none; both patches only run when a shot is resolved.
 
+### 4.26 Thrall performance: cheap enough for a big base
+Goal: Aaron wants a big base full of thralls. Thralls must cost far less than colonists to simulate.
+- **What the Soulless gene already cuts (4.5):** mood and situational thoughts (a notable per-pawn idle cost), social interactions and relationships, most needs, mental break checks, recreation jobs, most work scanning.
+- **What it doesn't:** pathfinding (the biggest cost whenever anyone moves), combat, health ticking, and hauling (map-wide haul searches are expensive, and hauling is one of their two jobs). So unmanaged, thralls in a big fight cost close to normal pawns.
+- **Custom think tree for thralls** (the real lever): fight if drafted → eat → sleep → haul within an assigned area → otherwise go to a muster point and stand down. Cuts per-decision cost to a fraction of a colonist's.
+- **Area-restricted hauling:** thralls only search a small assigned zone (e.g. the crucible yard), never the whole map.
+- **Lifespan** (4.5) keeps the population from creeping; husks (4.6) are cheaper still.
+
+**Stand guard** (on the map)
+- Toggle on a thrall or a group: they walk to their post and **stop**. No job searching, no wandering.
+- Hunger slows to a trickle (~0.1×) and rest doesn't drain (hediff with hunger/rest rate factors), so a guard can stand for days.
+- **Auto-wake:** when hostiles come within range they draft themselves and hold position. The wake check is one cheap "hostiles nearby?" look on the rare tick (use the map's existing attack-target cache), not per tick.
+- Still costs something (health ticks, rendering) but decision-making is near zero.
+
+**Thrall racks** (stored, near-zero cost)
+- A grim rack building holding several thralls in **suspended animation**, like a cryptosleep casket (model on vanilla's casket: contained pawns don't tick needs or health). A hundred racked thralls cost about the same as a hundred crates.
+- **Release** with one button or automatically when a raid arrives; they step out kitted and auto-draft at the rack.
+- The loop: clone vats grow them (4.5), the line forge arms them (4.24), racks store them, released when the wave hits.
+
+**Benchmark, don't guess:** use Dubs Performance Analyzer. Spawn 20 colonists and 20 thralls on a test map doing the same thing (idle, hauling, fighting, standing guard, racked) and compare per-pawn cost. Record results here. Worth a write-up for the RimWorld performance community.
+
 ## 5. Considered and dropped
 - **Soul-drop on the requiem rifle** (kills dropped essence): dropped. The requiem is just a hard-hitting rifle; only the scythe reaps.
 - **Soulless pawns going rogue instead of dying:** dropped. No soul = death.
