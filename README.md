@@ -1,4 +1,4 @@
-# Hollow Pawns v0.3
+# Hollow Pawns v0.3.2
 
 Every human has a soul. Take it from the dead at the soul crucible, or from the living on the operating table. They die without it.
 
@@ -57,13 +57,16 @@ The C# is in `Source/HollowPawns`. It is needed for the surgery (the kill), the 
 3. That writes `Assemblies\HollowPawns.dll`. It pulls RimWorld reference assemblies from NuGet (`Krafs.Rimworld.Ref`), so you don't need to point it at your RimWorld install.
 
 ## Install
-Copy the whole `HollowPawns` folder into `RimWorld\Mods`, enable it in RimSort, load it anywhere after Core and the DLCs (and after Combat Extended if you use it).
+Requires **Harmony** (`brrainz.harmony`, Steam Workshop 2009463077).
+Copy the whole `HollowPawns` folder into `RimWorld\Mods`, enable it in RimSort, load it after Harmony, Core and the DLCs (and after Combat Extended if you use it).
 
 ## First test (dev mode on)
 - [ ] No red errors on load. Check the log for anything mentioning `HP_`.
 - [ ] Research both projects (dev mode: finish instantly). Check neither overlaps anything on the Main tab. If they do, change `researchViewX/Y` in `Defs/ResearchProjectDefs/HP_Research.xml`.
 - [ ] Check a child prisoner: no *extract soul* option, the scythe never reaps them, and the crucible won't take a child's corpse.
-- [ ] Spawn a prisoner, queue *extract soul*. They die, 12 essence drops, the death message mentions the soul.
+- [ ] Spawn a prisoner, queue *extract soul*. They die, 12 essence drops, "Reaped" floats up, the death message mentions the soul.
+- [ ] Soul-loss death from any source: on a living adult, use the dev tool to add a *missing body part* hediff to the soul (Debug actions, add hediff, MissingBodyPart, pick "soul"). They should die at once.
+- [ ] Check the log for `tribbles69.hollowpawns` / Harmony errors on startup.
 - [ ] Put that corpse and a normal raider corpse near the crucible. Only the raider gets harvested.
 - [ ] Forge soulsteel, then make a soulsteel longsword and a soulsteel wall.
 - [ ] Give a Melee 20 colonist the scythe, fight a few downed prisoners: roughly 1 in 3 hits should reap ("Reaped" text, 12 essence).
@@ -80,6 +83,10 @@ Copy the whole `HollowPawns` folder into `RimWorld\Mods`, enable it in RimSort, 
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
 - The vanilla parents `BaseMeleeWeapon_Sharp_Quality`, `BaseHumanMakeableGun` and `BaseBullet`, the `Shot_ChargeRifle` / `Interact_Rifle` sounds, and the explosion fields copied from memory of vanilla's Bomb damage (`buildingDamageFactorImpassable`, `explosionCellFleck` and so on).
 - Under CE: whether CE's laser beam class runs an explosive comp on impact the way its bullets do. If the beams hit but never blast, the fallback is to switch the beams' parent from `LaserBulletBlue` to `BaseBulletCE` in the generator.
+
+- The soul-loss hook patches only the `AddHediff(Hediff, ...)` overload, on the assumption that the `AddHediff(HediffDef, ...)` overload calls it. The method bodies weren't available to check (reference assemblies only).
+- `destroyableByDamage=false` on the soul: the field exists in 1.6, but what it does wasn't checkable. Coverage 0 is the real protection.
+- Save safety of the soul part relies on `BodyDef` building its part list depth-first (`CacheDataRecursive` suggests so), so a part appended last to the torso gets the last index.
 
 If any of these is wrong, the log will name it.
 

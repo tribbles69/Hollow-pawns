@@ -3,7 +3,8 @@
 
   <!-- The soul. Added to the Human body in Patches/HP_HumanSoul.xml with coverage 0,
        so no weapon, explosion or animal can ever hit it. The only way out is the
-       extract soul surgery, which kills the pawn (see Recipe_ExtractSoul.cs).
+       extract soul surgery, which kills the pawn (see Recipe_ExtractSoul.cs). If anything
+       else ever marks it missing, Patch_SoulLossKills.cs kills the pawn too.
        No spawnThingOnRemoved on purpose: that would let the vanilla "remove part"
        surgery target the soul without killing anyone. -->
   <BodyPartDef>
@@ -17,6 +18,8 @@
     <solid>false</solid>
     <canSuggestAmputation>false</canSuggestAmputation>
     <pawnGeneratorCanAmputate>false</pawnGeneratorCanAmputate>
+    <!-- Second safety net: coverage 0 already keeps damage off it. -->
+    <destroyableByDamage>false</destroyableByDamage>
   </BodyPartDef>
 
 </Defs>

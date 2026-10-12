@@ -17,11 +17,12 @@ The design record for the mod: what's built, what's decided, and everything plan
 
 ---
 
-## 2. Built (v0.3.1)
+## 2. Built (v0.3.2)
 
 | Feature | Notes |
 |---|---|
-| Soul body part | On the Human body, appended last in the body tree (save-safe), coverage 0. |
+| Soul body part | On the Human body, appended last in the body tree (save-safe), coverage 0, not destroyable by damage. Adult humanlikes only (`SoulUtility.GetSoul`); Anomaly ghouls and shamblers are deliberately left as normal adults. |
+| No soul = death | Harmony postfix on `Pawn_HealthTracker.AddHediff`: any missing-part hediff on the soul kills the pawn, whatever added it (dev tools, other mods). Event-driven, no tick. Harmony ID `tribbles69.hollowpawns`; Harmony mod is a dependency. |
 | Extract soul surgery | Medicine 6. 12 essence, soul marked missing, patient dies. Violation on prisoners. |
 | Soul crucible | Corpse → 8 essence (corpse destroyed); soulless husks never hauled to it; colonist corpses off by default. Forges soulsteel; makes all soul weapons and ammo. |
 | Soul essence, soulsteel | Soulsteel = 10 plasteel + 3 essence, one tier above plasteel. CE armour 2.4 / 3.6 vs plasteel 2 / 3. |
@@ -36,7 +37,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 
 ## 3. Immediate to-do (before any new features)
 
-1. **Build the DLL** (`dotnet build -c Release` in `Source/HollowPawns`). It couldn't be compiled where it was written (no NuGet access), so expect a few compile fixes against the 1.6 reference assemblies.
+1. ~~**Build the DLL**~~ Done: compiles cleanly against `Krafs.Rimworld.Ref` 1.6.4871 (and Harmony 2.3.6 refs); `Assemblies/HollowPawns.dll` is committed. Still to confirm: the game version on Aaron's install matches 1.6.4871.
 2. **First in-game test** using the checklist in README.
 3. **Verify the uncertain defs** listed in README (vanilla parent names, sound and effect names, Bomb-style damage fields, `SurgeryFlesh`, `AllowCorpsesColonist`).
 4. **CE check:** confirm CE's laser beam class runs `CompProperties_ExplosiveCE` on impact. If beams hit but never blast, switch the beam parent from `LaserBulletBlue` to `BaseBulletCE` in `gen_soul_guns.py`.

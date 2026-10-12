@@ -16,12 +16,14 @@ namespace HollowPawns
 
         /// <summary>
         /// The pawn's soul part, or null if it has none: already taken, a body with no soul,
-        /// or not yet an adult. Children are never harvestable, by design: no surgery,
-        /// no reaping, and their corpses are never taken by the crucible.
+        /// not humanlike, or not yet an adult. Children are never harvestable, by design:
+        /// no surgery, no reaping, and their corpses are never taken by the crucible.
+        /// Children still carry the part (it's on the Human body), so it's already there
+        /// when they grow up; nothing can reach it before then.
         /// </summary>
         public static BodyPartRecord GetSoul(Pawn pawn)
         {
-            if (pawn?.health?.hediffSet == null || !pawn.DevelopmentalStage.Adult())
+            if (pawn?.health?.hediffSet == null || pawn.RaceProps?.Humanlike != true || !pawn.DevelopmentalStage.Adult())
             {
                 return null;
             }
@@ -64,11 +66,13 @@ namespace HollowPawns
 
             if (pawn.MapHeld != null)
             {
-                MoteMaker.ThrowText(pawn.DrawPos, pawn.MapHeld, "Reaped", ReapTextColor);
+                MoteMaker.ThrowText(pawn.DrawPos, pawn.MapHeld, "HP_Reaped".Translate(), ReapTextColor);
             }
             DropEssence(pawn, EssenceFromLivingSoul);
 
-            Hediff missingSoul = pawn.health.AddHediff(HediffDefOf.MissingBodyPart, soul);
+            // Patch_SoulLossKills kills the pawn as soon as this is added; the Kill below is
+            // only a fallback in case the patch didn't apply.
+            Hediff missingSoul = pawn.health.AddHediff(HediffDefOf.MissingBodyPart, soul, dinfo);
             if (!pawn.Dead)
             {
                 pawn.Kill(dinfo, missingSoul);
