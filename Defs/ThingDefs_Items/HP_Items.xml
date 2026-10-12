@@ -60,7 +60,7 @@
       <commonality>0</commonality>
       <constructEffect>ConstructMetal</constructEffect>
       <color>(98,196,206)</color>
-      <soundImpactStuff>BulletImpact_Metal</soundImpactStuff>
+      <soundImpactBullet>BulletImpact_Metal</soundImpactBullet>
       <soundMeleeHitSharp>MeleeHit_Metal_Sharp</soundMeleeHitSharp>
       <soundMeleeHitBlunt>MeleeHit_Metal_Blunt</soundMeleeHitBlunt>
       <statFactors>

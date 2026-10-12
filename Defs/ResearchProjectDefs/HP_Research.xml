@@ -12,7 +12,7 @@
     </prerequisites>
     <!-- Placeholder position on the Main tab; move it if it overlaps something in your load order. -->
     <researchViewX>7.00</researchViewX>
-    <researchViewY>8.30</researchViewY>
+    <researchViewY>5.50</researchViewY>
   </ResearchProjectDef>
 
   <ResearchProjectDef>
@@ -26,7 +26,7 @@
       <li>Gunsmithing</li>
     </prerequisites>
     <researchViewX>8.00</researchViewX>
-    <researchViewY>8.30</researchViewY>
+    <researchViewY>5.50</researchViewY>
   </ResearchProjectDef>
 
 </Defs>

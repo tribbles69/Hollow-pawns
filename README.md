@@ -8,7 +8,7 @@ Every human has a soul. Take it from the dead at the soul crucible, or from the 
 | Thing | What it does |
 |---|---|
 | **Soul** (body part) | Added to the Human body with 0 coverage, so damage can never hit it. Only adults' souls can be taken: children can't be operated on or reaped, and the crucible never takes their corpses. Animals, insects, mechanoids and alien races have no soul at all. |
-| **Extract soul** (surgery) | Needs Medicine 6 and 1 medicine. Drops 12 soul essence, marks the soul missing, kills the patient. Counts as a violation on prisoners and guests. |
+| **Extract soul** (surgery) | Needs Medicine 6; uses no medicine. Drops 12 soul essence, marks the soul missing, kills the patient. Counts as a violation on prisoners and guests. |
 | **Soul crucible** (Production, 3x1, 250W) | *Harvest soul from corpse*: 1 human corpse → 8 essence, corpse destroyed. Husks with no soul left are never hauled to it. Colonist corpses are off by default in the bill filter. *Forge soulsteel*: 10 plasteel + 3 essence → 10 soulsteel. Also makes every soul weapon and soul ammo. |
 | **Soulsteel** | Metallic stuff one tier above plasteel: tougher, sharper, lighter, non-flammable. Weapons, armour, walls, furniture. |
 | **Soul generator** (Power, 2x2) | 1200W, burns 2 essence a day, holds 20. One fresh corpse runs it for 4 days. |
@@ -74,14 +74,18 @@ Copy the whole `HollowPawns` folder into `RimWorld\Mods`, enable it in RimSort, 
 - [ ] With CE: compare a soulsteel and a plasteel armour piece; make soul charges and check each soul gun fires cyan beams with blasts; soul-charge some 5.56 and load it into an assault rifle.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
-- `SurgeryFlesh` as the surgery parent, and the `Cremate` / `Smelt` effect and sound names.
-- The `AllowCorpsesColonist` special filter name.
-- `Krafs.Rimworld.Ref` having a 1.6 version on NuGet.
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
-- The vanilla parents `BaseMeleeWeapon_Sharp_Quality`, `BaseHumanMakeableGun` and `BaseBullet`, the `Shot_ChargeRifle` / `Interact_Rifle` sounds, and the explosion fields copied from memory of vanilla's Bomb damage (`buildingDamageFactorImpassable`, `explosionCellFleck` and so on).
-- Under CE: whether CE's laser beam class runs an explosive comp on impact the way its bullets do. If the beams hit but never blast, the fallback is to switch the beams' parent from `LaserBulletBlue` to `BaseBulletCE` in the generator.
+- Research positions were checked against Core, Ideology and Biotech only. Royalty, Anomaly or Odyssey might put something at (7, 5.5) or (8, 5.5) on the Main tab.
 
 If any of these is wrong, the log will name it.
+
+### Verified (October 2026, against RimWorld 1.6.4871 and CE `3b38e8d`)
+Every def reference, abstract parent and field name in the mod was cross-checked against the game's own Core/Ideology/Biotech XML and CE's Defs and Patches, and every API the C# calls was checked by reflection against the 1.6 `Assembly-CSharp.dll`.
+- `Krafs.Rimworld.Ref` 1.6.4871 restores from NuGet and the DLL builds with 0 warnings.
+- All of these exist in Core: `SurgeryFlesh`, `Cremate` / `Smelt` effects, `Recipe_Cremate` / `Recipe_Smelt` sounds, `AllowCorpsesColonist`, `BaseMeleeWeapon_Sharp_Quality`, `BaseHumanMakeableGun`, `BaseBullet`, `Shot_ChargeRifle`, `Interact_Rifle`, `buildingDamageFactorImpassable`, `explosionCellFleck`. No hidden DLC dependency.
+- Fixed: soulsteel used `soundImpactStuff`, which isn't a field. Now `soundImpactBullet`, as plasteel does.
+- Fixed (found on first load): 4 soul-charged bullets (12 gauge slug and three charged calibres) had no graphic, and some lost CE's own speed, casings and mass, because the generator made siblings of CE's rounds instead of copies. `gen_soul_ammo.py` now clones CE's ammo and bullet defs and only overrides the soul fields. Soul rounds also cook off as soul rounds now. Generated from CE workshop item 2890901044.
+- CE laser beams do blast: `LaserBeamCE.Impact` → `BulletCE.Impact` → `ProjectileCE.Impact`, which runs `CompExplosiveCE` on both hits and misses. No need for the `BaseBulletCE` fallback.
 
 ## Roadmap
 **Weapons**

@@ -14,14 +14,15 @@
   <ThingDef Class="CombatExtended.AmmoDef" ParentName="45ACPBase">
     <defName>HP_Ammo_45ACP_FMJ_Soul</defName>
     <label>.45 ACP (Soul)</label>
-    <description>Standard .45 ACP rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
     <graphicData>
       <texPath>Things/Ammo/Pistol/FMJ</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
       <color>(98,196,206)</color>
     </graphicData>
-    <tradeTags Inherit="False" />
     <ammoClass>HP_SoulCharged</ammoClass>
+    <cookOffProjectile>HP_Bullet_45ACP_FMJ_Soul</cookOffProjectile>
+    <description>Standard .45 ACP rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
+    <tradeTags Inherit="False" />
     <generateAllowChance>0</generateAllowChance>
   </ThingDef>
 
@@ -29,10 +30,10 @@
     <defName>HP_Bullet_45ACP_FMJ_Soul</defName>
     <label>.45 ACP bullet (Soul)</label>
     <projectile Class="CombatExtended.ProjectilePropertiesCE">
-      <damageDef>HP_SoulBlast</damageDef>
       <damageAmountBase>15</damageAmountBase>
       <armorPenetrationSharp>5.25</armorPenetrationSharp>
       <armorPenetrationBlunt>13.57</armorPenetrationBlunt>
+      <damageDef>HP_SoulBlast</damageDef>
     </projectile>
     <comps>
       <li Class="CombatExtended.CompProperties_ExplosiveCE">
@@ -81,14 +82,15 @@
   <ThingDef Class="CombatExtended.AmmoDef" ParentName="44MagnumBase">
     <defName>HP_Ammo_44Magnum_FMJ_Soul</defName>
     <label>.44 Magnum (Soul)</label>
-    <description>Standard .44 Magnum rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
     <graphicData>
       <texPath>Things/Ammo/Revolver/FMJ</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
       <color>(98,196,206)</color>
     </graphicData>
-    <tradeTags Inherit="False" />
     <ammoClass>HP_SoulCharged</ammoClass>
+    <cookOffProjectile>HP_Bullet_44Magnum_FMJ_Soul</cookOffProjectile>
+    <description>Standard .44 Magnum rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
+    <tradeTags Inherit="False" />
     <generateAllowChance>0</generateAllowChance>
   </ThingDef>
 
@@ -96,10 +98,10 @@
     <defName>HP_Bullet_44Magnum_FMJ_Soul</defName>
     <label>.44 Magnum bullet (Soul)</label>
     <projectile Class="CombatExtended.ProjectilePropertiesCE">
-      <damageDef>HP_SoulBlast</damageDef>
       <damageAmountBase>19</damageAmountBase>
       <armorPenetrationSharp>9.0</armorPenetrationSharp>
       <armorPenetrationBlunt>29.1</armorPenetrationBlunt>
+      <damageDef>HP_SoulBlast</damageDef>
     </projectile>
     <comps>
       <li Class="CombatExtended.CompProperties_ExplosiveCE">
@@ -148,14 +150,15 @@
   <ThingDef Class="CombatExtended.AmmoDef" ParentName="556x45mmNATOBase">
     <defName>HP_Ammo_556x45mmNATO_FMJ_Soul</defName>
     <label>5.56x45mm NATO (Soul)</label>
-    <description>Standard 5.56x45mm NATO rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
     <graphicData>
       <texPath>Things/Ammo/Rifle/FMJ</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
       <color>(98,196,206)</color>
     </graphicData>
-    <tradeTags Inherit="False" />
     <ammoClass>HP_SoulCharged</ammoClass>
+    <cookOffProjectile>HP_Bullet_556x45mmNATO_FMJ_Soul</cookOffProjectile>
+    <description>Standard 5.56x45mm NATO rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
+    <tradeTags Inherit="False" />
     <generateAllowChance>0</generateAllowChance>
   </ThingDef>
 
@@ -163,10 +166,10 @@
     <defName>HP_Bullet_556x45mmNATO_FMJ_Soul</defName>
     <label>5.56x45mm NATO bullet (Soul)</label>
     <projectile Class="CombatExtended.ProjectilePropertiesCE">
-      <damageDef>HP_SoulBlast</damageDef>
       <damageAmountBase>18</damageAmountBase>
       <armorPenetrationSharp>9.0</armorPenetrationSharp>
       <armorPenetrationBlunt>42.73</armorPenetrationBlunt>
+      <damageDef>HP_SoulBlast</damageDef>
     </projectile>
     <comps>
       <li Class="CombatExtended.CompProperties_ExplosiveCE">
@@ -215,14 +218,15 @@
   <ThingDef Class="CombatExtended.AmmoDef" ParentName="762x51mmNATOBase">
     <defName>HP_Ammo_762x51mmNATO_FMJ_Soul</defName>
     <label>7.62x51mm NATO (Soul)</label>
-    <description>Standard 7.62x51mm NATO rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
     <graphicData>
       <texPath>Things/Ammo/Rifle/Battlerifle/FMJ</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
       <color>(98,196,206)</color>
     </graphicData>
-    <tradeTags Inherit="False" />
     <ammoClass>HP_SoulCharged</ammoClass>
+    <cookOffProjectile>HP_Bullet_762x51mmNATO_FMJ_Soul</cookOffProjectile>
+    <description>Standard 7.62x51mm NATO rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
+    <tradeTags Inherit="False" />
     <generateAllowChance>0</generateAllowChance>
   </ThingDef>
 
@@ -230,10 +234,10 @@
     <defName>HP_Bullet_762x51mmNATO_FMJ_Soul</defName>
     <label>7.62x51mm NATO bullet (Soul)</label>
     <projectile Class="CombatExtended.ProjectilePropertiesCE">
-      <damageDef>HP_SoulBlast</damageDef>
       <damageAmountBase>25</damageAmountBase>
       <armorPenetrationSharp>10.5</armorPenetrationSharp>
       <armorPenetrationBlunt>83.4</armorPenetrationBlunt>
+      <damageDef>HP_SoulBlast</damageDef>
     </projectile>
     <comps>
       <li Class="CombatExtended.CompProperties_ExplosiveCE">
@@ -282,14 +286,15 @@
   <ThingDef Class="CombatExtended.AmmoDef" ParentName="303BritishBase">
     <defName>HP_Ammo_303British_FMJ_Soul</defName>
     <label>.303 British (Soul)</label>
-    <description>Standard .303 British rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
     <graphicData>
       <texPath>Things/Ammo/Rifle/Clip/FMJ</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
       <color>(98,196,206)</color>
     </graphicData>
-    <tradeTags Inherit="False" />
     <ammoClass>HP_SoulCharged</ammoClass>
+    <cookOffProjectile>HP_Bullet_303British_FMJ_Soul</cookOffProjectile>
+    <description>Standard .303 British rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
+    <tradeTags Inherit="False" />
     <generateAllowChance>0</generateAllowChance>
   </ThingDef>
 
@@ -297,10 +302,10 @@
     <defName>HP_Bullet_303British_FMJ_Soul</defName>
     <label>.303 British bullet (Soul)</label>
     <projectile Class="CombatExtended.ProjectilePropertiesCE">
-      <damageDef>HP_SoulBlast</damageDef>
       <damageAmountBase>25</damageAmountBase>
       <armorPenetrationSharp>9.75</armorPenetrationSharp>
       <armorPenetrationBlunt>83.75</armorPenetrationBlunt>
+      <damageDef>HP_SoulBlast</damageDef>
     </projectile>
     <comps>
       <li Class="CombatExtended.CompProperties_ExplosiveCE">
@@ -349,15 +354,19 @@
   <ThingDef Class="CombatExtended.AmmoDef" ParentName="5x50mmCaselessBase">
     <defName>HP_Ammo_5x50mmCaseless_Sabot_Soul</defName>
     <label>5x50mm Caseless (Soul)</label>
-    <description>Standard 5x50mm Caseless rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
     <graphicData>
       <texPath>Things/Ammo/Railgun/Rifle</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
       <color>(98,196,206)</color>
     </graphicData>
-    <tradeTags Inherit="False" />
+    <statBases>
+      <MarketValue>0.05</MarketValue>
+    </statBases>
     <ammoClass>HP_SoulCharged</ammoClass>
     <generateAllowChance>0</generateAllowChance>
+    <cookOffProjectile>HP_Bullet_5x50mmCaseless_Sabot_Soul</cookOffProjectile>
+    <description>Standard 5x50mm Caseless rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
+    <tradeTags Inherit="False" />
   </ThingDef>
 
   <ThingDef ParentName="Base5x50mmCaselessBullet">
@@ -368,6 +377,7 @@
       <damageAmountBase>12</damageAmountBase>
       <armorPenetrationSharp>31.5</armorPenetrationSharp>
       <armorPenetrationBlunt>91.5</armorPenetrationBlunt>
+      <speed>206</speed>
     </projectile>
     <comps>
       <li Class="CombatExtended.CompProperties_ExplosiveCE">
@@ -416,25 +426,38 @@
   <ThingDef Class="CombatExtended.AmmoDef" ParentName="12GaugeBase">
     <defName>HP_Ammo_12Gauge_Slug_Soul</defName>
     <label>12 gauge shell (Soul)</label>
-    <description>Standard 12 gauge shell rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
     <graphicData>
       <texPath>Things/Ammo/Shotgun/Slug</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
       <color>(98,196,206)</color>
     </graphicData>
-    <tradeTags Inherit="False" />
+    <statBases>
+      <Mass>0.048</Mass>
+    </statBases>
     <ammoClass>HP_SoulCharged</ammoClass>
+    <cookOffProjectile>HP_Bullet_12Gauge_Slug_Soul</cookOffProjectile>
+    <description>Standard 12 gauge shell rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
+    <tradeTags Inherit="False" />
     <generateAllowChance>0</generateAllowChance>
   </ThingDef>
 
   <ThingDef ParentName="Base12GaugeBullet">
     <defName>HP_Bullet_12Gauge_Slug_Soul</defName>
     <label>12 gauge shell bullet (Soul)</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_big</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
     <projectile Class="CombatExtended.ProjectilePropertiesCE">
-      <damageDef>HP_SoulBlast</damageDef>
+      <speed>114</speed>
       <damageAmountBase>35</damageAmountBase>
       <armorPenetrationSharp>9.0</armorPenetrationSharp>
       <armorPenetrationBlunt>106.5</armorPenetrationBlunt>
+      <casingMoteDefname>Fleck_ShotgunShell_Green</casingMoteDefname>
+      <casingFilthDefname>Filth_ShotgunAmmoCasings_Green</casingFilthDefname>
+      <effectiveRangeMultiplier>1.5</effectiveRangeMultiplier>
+      <recoilMultiplier>1.33</recoilMultiplier>
+      <damageDef>HP_SoulBlast</damageDef>
     </projectile>
     <comps>
       <li Class="CombatExtended.CompProperties_ExplosiveCE">
@@ -483,23 +506,39 @@
   <ThingDef Class="CombatExtended.AmmoDef" ParentName="5x35mmChargedBase">
     <defName>HP_Ammo_5x35mmCharged_Soul</defName>
     <label>5x35mm Charged (Soul)</label>
-    <description>Standard 5x35mm Charged rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
     <graphicData>
       <texPath>Things/Ammo/Charged/MediumMech</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
       <color>(98,196,206)</color>
     </graphicData>
-    <tradeTags Inherit="False" />
+    <statBases>
+      <MarketValue>0.39</MarketValue>
+    </statBases>
     <ammoClass>HP_SoulCharged</ammoClass>
+    <description>Standard 5x35mm Charged rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
+    <tradeTags Inherit="False" />
     <generateAllowChance>0</generateAllowChance>
+    <cookOffProjectile>HP_Bullet_5x35mmCharged_Soul</cookOffProjectile>
   </ThingDef>
 
   <ThingDef ParentName="BaseBulletCE">
     <defName>HP_Bullet_5x35mmCharged_Soul</defName>
     <label>5x35mm Charged bullet (Soul)</label>
+    <graphicData>
+      <texPath>Things/Projectile/Charged/ChargeLanceShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+    </graphicData>
     <projectile Class="CombatExtended.ProjectilePropertiesCE">
       <damageDef>HP_SoulBlast</damageDef>
       <damageAmountBase>16</damageAmountBase>
+      <speed>178</speed>
+      <secondaryDamage>
+        <li>
+          <def>Bomb_Secondary</def>
+          <amount>2</amount>
+        </li>
+      </secondaryDamage>
       <armorPenetrationSharp>49.5</armorPenetrationSharp>
       <armorPenetrationBlunt>75.0</armorPenetrationBlunt>
     </projectile>
@@ -550,23 +589,38 @@
   <ThingDef Class="CombatExtended.AmmoDef" ParentName="6x22mmChargedBase">
     <defName>HP_Ammo_6x22mmCharged_Soul</defName>
     <label>6x22mm Charged (Soul)</label>
-    <description>Standard 6x22mm Charged rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
     <graphicData>
       <texPath>Things/Ammo/Charged/MediumMech</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
       <color>(98,196,206)</color>
     </graphicData>
-    <tradeTags Inherit="False" />
+    <statBases>
+      <MarketValue>0.27</MarketValue>
+    </statBases>
     <ammoClass>HP_SoulCharged</ammoClass>
+    <description>Standard 6x22mm Charged rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
+    <tradeTags Inherit="False" />
     <generateAllowChance>0</generateAllowChance>
+    <cookOffProjectile>HP_Bullet_6x22mmCharged_Soul</cookOffProjectile>
   </ThingDef>
 
   <ThingDef ParentName="BaseBulletCE">
     <defName>HP_Bullet_6x22mmCharged_Soul</defName>
     <label>6x22mm Charged bullet (Soul)</label>
+    <graphicData>
+      <texPath>Things/Projectile/Charged/ChargeShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
     <projectile Class="CombatExtended.ProjectilePropertiesCE">
       <damageDef>HP_SoulBlast</damageDef>
       <damageAmountBase>16</damageAmountBase>
+      <speed>151</speed>
+      <secondaryDamage>
+        <li>
+          <def>Bomb_Secondary</def>
+          <amount>4</amount>
+        </li>
+      </secondaryDamage>
       <armorPenetrationSharp>22.5</armorPenetrationSharp>
       <armorPenetrationBlunt>32.0</armorPenetrationBlunt>
     </projectile>
@@ -617,25 +671,32 @@
   <ThingDef Class="CombatExtended.AmmoDef" ParentName="6x24mmChargedBase">
     <defName>HP_Ammo_6x24mmCharged_Soul</defName>
     <label>6x24mm Charged (Soul)</label>
-    <description>Standard 6x24mm Charged rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
     <graphicData>
       <texPath>Things/Ammo/Charged/MediumRegular</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
       <color>(98,196,206)</color>
     </graphicData>
-    <tradeTags Inherit="False" />
     <ammoClass>HP_SoulCharged</ammoClass>
+    <description>Standard 6x24mm Charged rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
+    <tradeTags Inherit="False" />
     <generateAllowChance>0</generateAllowChance>
+    <cookOffProjectile>HP_Bullet_6x24mmCharged_Soul</cookOffProjectile>
   </ThingDef>
 
   <ThingDef ParentName="Base6x24mmChargedBullet">
     <defName>HP_Bullet_6x24mmCharged_Soul</defName>
     <label>6x24mm Charged bullet (Soul)</label>
     <projectile Class="CombatExtended.ProjectilePropertiesCE">
-      <damageDef>HP_SoulBlast</damageDef>
       <damageAmountBase>16</damageAmountBase>
+      <secondaryDamage>
+        <li>
+          <def>Bomb_Secondary</def>
+          <amount>4</amount>
+        </li>
+      </secondaryDamage>
       <armorPenetrationSharp>22.5</armorPenetrationSharp>
       <armorPenetrationBlunt>32.0</armorPenetrationBlunt>
+      <damageDef>HP_SoulBlast</damageDef>
     </projectile>
     <comps>
       <li Class="CombatExtended.CompProperties_ExplosiveCE">
@@ -684,23 +745,40 @@
   <ThingDef Class="CombatExtended.AmmoDef" ParentName="12x64mmChargedBase">
     <defName>HP_Ammo_12x64mmCharged_Soul</defName>
     <label>12x64mm Charged (Soul)</label>
-    <description>Standard 12x64mm Charged rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
     <graphicData>
       <texPath>Things/Ammo/Charged/LargeMech</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
       <color>(98,196,206)</color>
     </graphicData>
-    <tradeTags Inherit="False" />
+    <statBases>
+      <MarketValue>2.1</MarketValue>
+    </statBases>
     <ammoClass>HP_SoulCharged</ammoClass>
+    <description>Standard 12x64mm Charged rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
+    <tradeTags Inherit="False" />
     <generateAllowChance>0</generateAllowChance>
+    <cookOffProjectile>HP_Bullet_12x64mmCharged_Soul</cookOffProjectile>
   </ThingDef>
 
   <ThingDef ParentName="BaseBulletCE">
     <defName>HP_Bullet_12x64mmCharged_Soul</defName>
     <label>12x64mm Charged bullet (Soul)</label>
+    <graphicData>
+      <texPath>Things/Projectile/Charged/ChargeShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(1.3,1.3)</drawSize>
+    </graphicData>
     <projectile Class="CombatExtended.ProjectilePropertiesCE">
       <damageDef>HP_SoulBlast</damageDef>
       <damageAmountBase>49</damageAmountBase>
+      <speed>165</speed>
+      <secondaryDamage>
+        <li>
+          <def>Bomb_Secondary</def>
+          <amount>12</amount>
+        </li>
+      </secondaryDamage>
       <armorPenetrationSharp>45.0</armorPenetrationSharp>
       <armorPenetrationBlunt>405.0</armorPenetrationBlunt>
     </projectile>

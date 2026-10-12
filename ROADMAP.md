@@ -22,7 +22,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Feature | Notes |
 |---|---|
 | Soul body part | On the Human body, appended last in the body tree (save-safe), coverage 0. |
-| Extract soul surgery | Medicine 6. 12 essence, soul marked missing, patient dies. Violation on prisoners. |
+| Extract soul surgery | Medicine 6, no medicine used. 12 essence, soul marked missing, patient dies. Violation on prisoners. |
 | Soul crucible | Corpse → 8 essence (corpse destroyed); soulless husks never hauled to it; colonist corpses off by default. Forges soulsteel; makes all soul weapons and ammo. |
 | Soul essence, soulsteel | Soulsteel = 10 plasteel + 3 essence, one tier above plasteel. CE armour 2.4 / 3.6 vs plasteel 2 / 3. |
 | Soul generator | 1200W on 2 essence/day. |
@@ -36,11 +36,11 @@ The design record for the mod: what's built, what's decided, and everything plan
 
 ## 3. Immediate to-do (before any new features)
 
-1. **Build the DLL** (`dotnet build -c Release` in `Source/HollowPawns`). It couldn't be compiled where it was written (no NuGet access), so expect a few compile fixes against the 1.6 reference assemblies.
+1. ~~Build the DLL~~ Done: builds clean against `Krafs.Rimworld.Ref` 1.6.4871.
 2. **First in-game test** using the checklist in README.
-3. **Verify the uncertain defs** listed in README (vanilla parent names, sound and effect names, Bomb-style damage fields, `SurgeryFlesh`, `AllowCorpsesColonist`).
-4. **CE check:** confirm CE's laser beam class runs `CompProperties_ExplosiveCE` on impact. If beams hit but never blast, switch the beam parent from `LaserBulletBlue` to `BaseBulletCE` in `gen_soul_guns.py`.
-5. **Research tree positions:** `researchViewX/Y` are placeholders; move them so they don't overlap.
+3. ~~Verify the uncertain defs~~ Done: all exist in 1.6 Core; one bad field fixed (`soundImpactStuff`). See README "Verified".
+4. ~~CE laser blast check~~ Done: CE's laser beams run `CompExplosiveCE` on impact via `BulletCE` → `ProjectileCE.Impact`.
+5. ~~Research tree positions~~ Done: moved to (7, 5.5) and (8, 5.5), directly under the vanilla industrial columns.
 
 ---
 

@@ -10,6 +10,7 @@ For each calibre in CALIBRES it reads CE's standard round (FMJ, slug or charged)
   - a patch adding it to that calibre's ammo set, so every gun using the calibre accepts it
 Re-run after a CE update to pick up any stat changes.
 """
+import copy
 import glob
 import os
 import sys
@@ -65,6 +66,69 @@ def inherited(things, el, path):
     return None
 
 
+def child(el, tag, attrib=None):
+    """The direct child `tag`, created if missing."""
+    c = el.find(tag)
+    if c is None:
+        c = ET.SubElement(el, tag, attrib or {})
+    return c
+
+
+def put(el, tag, text):
+    child(el, tag).text = str(text)
+
+
+def to_xml(el):
+    """Serialise a def at the indent level used inside <Defs>."""
+    ET.indent(el, space="  ", level=1)
+    el.tail = None
+    return "  " + ET.tostring(el, encoding="unicode")
+
+
+def soul_projectile(proj, new_proj, cal, d, sh, bl, bs):
+    """A copy of CE's own projectile (so its speed, graphic, casings and so on carry over),
+    with soul blast damage and the one-cell blast on top."""
+    p = copy.deepcopy(proj)
+    p.attrib.pop("Name", None)
+    p.attrib.pop("Abstract", None)
+    put(p, "defName", new_proj)
+    put(p, "label", f"{cal} bullet (Soul)")
+    pr = child(p, "projectile", {"Class": "CombatExtended.ProjectilePropertiesCE"})
+    pr.set("Class", "CombatExtended.ProjectilePropertiesCE")
+    put(pr, "damageDef", "HP_SoulBlast")
+    put(pr, "damageAmountBase", d)
+    put(pr, "armorPenetrationSharp", sh)
+    put(pr, "armorPenetrationBlunt", bl)
+    blast = ET.SubElement(child(p, "comps"), "li", {"Class": "CombatExtended.CompProperties_ExplosiveCE"})
+    put(blast, "damageAmountBase", bs)
+    put(blast, "explosiveDamageType", "HP_SoulBlast")
+    put(blast, "explosiveRadius", "0.5")
+    return p
+
+
+def soul_ammo(ammo, new_ammo, new_proj, cal, tex, gclass):
+    """A copy of CE's own ammo item (mass, cook-off and so on), tinted and relabelled.
+    Cooks off as a soul round, so a burning stack goes up in soul blasts."""
+    a = copy.deepcopy(ammo)
+    a.attrib.pop("Name", None)
+    a.attrib.pop("Abstract", None)
+    put(a, "defName", new_ammo)
+    put(a, "label", f"{cal} (Soul)")
+    put(a, "description", f"Standard {cal} rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.")
+    g = child(a, "graphicData")
+    put(g, "texPath", tex)
+    put(g, "graphicClass", gclass)
+    put(g, "color", TINT)
+    tags = a.find("tradeTags")
+    if tags is not None:
+        a.remove(tags)
+    ET.SubElement(a, "tradeTags", {"Inherit": "False"})
+    put(a, "ammoClass", "HP_SoulCharged")
+    put(a, "generateAllowChance", "0")
+    put(a, "cookOffProjectile", new_proj)
+    return a
+
+
 def main(ce_root):
     things, sets = load_defs(ce_root)
     defs, patches, report = [], [], []
@@ -93,37 +157,9 @@ def main(ce_root):
 
         defs.append(f"""
   <!-- ===== {cal} (from {ammo_name}: {dmg:g} dmg, {sharp:g} sharp / {blunt:g} blunt) ===== -->
-  <ThingDef Class="CombatExtended.AmmoDef" ParentName="{ammo.get('ParentName')}">
-    <defName>{new_ammo}</defName>
-    <label>{cal} (Soul)</label>
-    <description>Standard {cal} rounds with a sliver of bound soul essence in the core. Every hit ends in a small soul blast.</description>
-    <graphicData>
-      <texPath>{tex}</texPath>
-      <graphicClass>{gclass}</graphicClass>
-      <color>{TINT}</color>
-    </graphicData>
-    <tradeTags Inherit="False" />
-    <ammoClass>HP_SoulCharged</ammoClass>
-    <generateAllowChance>0</generateAllowChance>
-  </ThingDef>
+{to_xml(soul_ammo(ammo, new_ammo, new_proj, cal, tex, gclass))}
 
-  <ThingDef ParentName="{proj.get('ParentName')}">
-    <defName>{new_proj}</defName>
-    <label>{cal} bullet (Soul)</label>
-    <projectile Class="CombatExtended.ProjectilePropertiesCE">
-      <damageDef>HP_SoulBlast</damageDef>
-      <damageAmountBase>{d}</damageAmountBase>
-      <armorPenetrationSharp>{sh}</armorPenetrationSharp>
-      <armorPenetrationBlunt>{bl}</armorPenetrationBlunt>
-    </projectile>
-    <comps>
-      <li Class="CombatExtended.CompProperties_ExplosiveCE">
-        <damageAmountBase>{bs}</damageAmountBase>
-        <explosiveDamageType>HP_SoulBlast</explosiveDamageType>
-        <explosiveRadius>0.5</explosiveRadius>
-      </li>
-    </comps>
-  </ThingDef>
+{to_xml(soul_projectile(proj, new_proj, cal, d, sh, bl, bs))}
 
   <RecipeDef ParentName="AmmoRecipeBase">
     <defName>HP_MakeAmmo_{ammo_name}_Soul</defName>

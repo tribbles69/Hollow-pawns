@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- Surgery: tear the soul out of a living human. Always fatal. -->
+  <!-- Surgery: tear the soul out of a living human. Always fatal. Uses no medicine. -->
   <RecipeDef ParentName="SurgeryFlesh">
     <defName>HP_ExtractSoul</defName>
     <label>extract soul</label>
@@ -17,21 +17,7 @@
     <skillRequirements>
       <Medicine>6</Medicine>
     </skillRequirements>
-    <ingredients>
-      <li>
-        <filter>
-          <categories>
-            <li>Medicine</li>
-          </categories>
-        </filter>
-        <count>1</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <categories>
-        <li>Medicine</li>
-      </categories>
-    </fixedIngredientFilter>
+    <!-- No medicine: the patient isn't meant to survive it (like Biotech's hemogen extraction). -->
     <recipeUsers>
       <li>Human</li>
     </recipeUsers>
