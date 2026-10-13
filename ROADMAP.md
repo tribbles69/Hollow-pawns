@@ -340,7 +340,7 @@ Works like Biotech pollution, but its own system. Taking and spending souls stai
 - **Holy water:** a crafted consumable from a blessed well or shrine. Pawns sprinkle it on tainted cells (designator + job) or drink it to lower their own corruption. Gentle, but a steady resource drain.
 - **Cleansing rite:** clears an area or a pawn. Costs time and gathers the colony; with Ideology it plugs into the ritual system. (This absorbs the "Rite of Laying" idea from the pirate council.)
 - **Salt lines:** cells that stop corruption spreading past them, like a firebreak. For walling off farms and bedrooms.
-- **Shrine:** a sanctified building that slowly cleans a radius around it (sampled cells, rare tick).
+- **Shrines:** see 4.35: a permanent bound shrine (consumes a vessel) and a fuelled essence shrine; both can cleanse or corrupt.
 - **Purgation surgery:** a painful operation that burns corruption out of a pawn. Adults only.
 
 **The two runs**
@@ -462,6 +462,34 @@ Arrival modes for demons (4.3) and, mirrored, zealots (4.28):
 - **CE:** mortars use CE's own shell ammo; generate soul and holy shell variants from CE's shells the same way `gen_soul_ammo.py` makes soul bullets.
 
 **Performance:** waves and portals are one-off scheduled events; the Great Rift is a single building checking itself on the rare tick.
+
+### 4.35 Reliquary, soul-bound items and shrines (decided 13 Oct 2026)
+What to do with a bound vessel (4.30) besides recipes and smashing.
+
+**Reliquary (display for a vessel)**
+- A shrine-like case holding **one vessel**, usually a soul lattice. Shows the soul's name and grade on inspect; good beauty.
+- Pawns who had a relationship with that person get a **"Remembered"** mood boost when near it.
+- The Escapee scenario (4.33) starts with one: their loved one is the first thing they build a home around.
+- No ticking: mood via a vanilla room/proximity thought, checked when vanilla checks thoughts.
+
+**Soul-bound items: one bill, not variants**
+- **No separate soul-bonded variants of each weapon or armour.** That doubles the defs and needs new art for every one.
+- Instead, one **"bind soul into item"** bill that works on **any** weapon or apparel: Hollow Pawns', vanilla's, Odyssey's unique weapons, other mods' gear. Consumes a vessel and adds a ThingComp holding the soul (name, grade, residue, day taken).
+- **Bonus:** grade sets the size, residue sets the kind (e.g. a pyromaniac's soul adds burn damage or fire resistance; a master shooter's adds accuracy). Applied through a StatPart, so it only does work when a stat is read; nothing ticks, unbound items cost nothing. Works under CE the same way.
+- **Hover text:** *"Bound: Vex the Butcher (Masterwork soul; residue: Pyromaniac)"*.
+- **Art:** binding a soul into a sculpture (or carving one with a vessel as an ingredient) uses a special TaleDef, so the generated description names them: *"A soulsteel figure of a woman weeping. Bound within is the soul of Vex the Butcher, taken at the Bone Altar on Day 61."*
+- **Breaking a bound item** (destroyed, or deteriorated to nothing) releases the soul: a ghost roll (4.8) and a small corruption burst.
+
+**Shrines: both can purify or corrupt**
+| Shrine | Runs on | Mode | Strength |
+|---|---|---|---|
+| **Bound shrine** (permanent) | Consumes a whole vessel when built | Chosen once at building and fixed: **consecrated** (cleans) or **desecrated** (corrupts) | Radius and strength scale with the soul's grade. Named for the soul: "Shrine of Vex" |
+| **Essence shrine** (fuelled) | Burns soul essence like fuel (refuelable comp) | Toggle: cleanse or spread | Fixed radius; works only while fuelled |
+- **Destroying a bound shrine** frees the soul as a ghost with a burst of the **opposite** effect (a consecrated shrine's fall spills corruption).
+- **The moral sting:** the strongest purist protection runs on a bound soul. The Inquisitors keep their land clean by doing the very thing they hunt. Ideology precepts could react to it.
+- Both are also wards (4.8): ghosts can't cross a consecrated shrine's radius.
+- **Tick cost:** both feed the corruption MapComponent's sampled-cell pass on the rare tick (4.28); no per-shrine ticking beyond the fuel comp's vanilla behaviour.
+- This replaces the plain "shrine" line in 4.28's purification list.
 
 ## 5. Considered and dropped
 - **Soul-drop on the requiem rifle** (kills dropped essence): dropped. The requiem is just a hard-hitting rifle; only the scythe reaps.
