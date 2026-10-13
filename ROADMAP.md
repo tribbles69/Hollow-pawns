@@ -22,7 +22,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Feature | Notes |
 |---|---|
 | Soul body part | On the Human body, appended last in the body tree (save-safe), coverage 0. |
-| Extract soul surgery | Medicine 6, no medicine used. 12 essence, soul marked missing, patient dies. Violation on prisoners. |
+| Extract soul surgery | Medicine 6, no medicine used. 12 essence, soul marked missing, patient dies. Violation on prisoners. **To be removed** once the extraction buildings (4.27) exist. |
 | Soul crucible | Corpse → 8 essence (corpse destroyed); soulless husks never hauled to it; colonist corpses off by default. Forges soulsteel; makes all soul weapons and ammo. |
 | Soul essence, soulsteel | Soulsteel = 10 plasteel + 3 essence, one tier above plasteel. CE armour 2.4 / 3.6 vs plasteel 2 / 3. |
 | Soul generator | 1200W on 2 essence/day. |
@@ -137,7 +137,7 @@ Sanguophage-style, eats souls. Needs Biotech.
 ---
 
 ### 4.17 Soul jars (from the pirate think tank)
-A second option at the extract-soul surgery: **render** the soul into 12 essence as now, or **bottle it whole** as a named soul jar.
+A second option at the extract-soul surgery: **render** the soul into 12 essence as now, or **bottle it whole** as a named soul jar. (The surgery is being removed, so this choice moves to the extraction buildings in 4.27.)
 - The jar stores the victim's name, faction, backstory and the day taken, shown on inspect. Must survive save/load.
 - Dim glowing decoration with good beauty: a shelf of the damned.
 - Smash it later for the same 12 essence, so bottling never costs anything.
@@ -180,7 +180,7 @@ Hoarded essence is dangerous cargo, so players spread their stock out.
 - Tick cost: none. Item explosions only run when triggered, and the vent fires on the breakdown event.
 
 ### 4.21 The Reaper's Mark (quality of life, from the QoL think tank)
-*Know which bodies still hold a soul, take one in a click, and never by accident.* Everything in v1 works with what's already built. Nothing ticks per item.
+*Know which bodies still hold a soul, take one in a click, and never by accident.* Everything in v1 works with what's already built. Nothing ticks per item. (Once the surgery is removed, "queue extraction" means queueing the prisoner for the altar or press in 4.27.)
 
 **v1**
 1. **Mark button** (gizmo) on adult human prisoners that queues the extract-soul surgery in one click, and a **Mark all** gizmo on the soul crucible that marks every eligible prisoner. Never shown for children or the soulless (check via `SoulUtility`). Harmony postfix on the pawn's gizmos; runs only on click.
@@ -258,7 +258,7 @@ Goal: Aaron wants a big base full of thralls. Thralls must cost far less than co
 **Benchmark, don't guess:** use Dubs Performance Analyzer. Spawn 20 colonists and 20 thralls on a test map doing the same thing (idle, hauling, fighting, standing guard, racked) and compare per-pawn cost. Record results here. Worth a write-up for the RimWorld performance community.
 
 ### 4.27 Extraction buildings and animated extraction
-The extract-soul surgery is a stopgap: it's convenient, but taking a soul deserves a proper place to do it. Two tiers, from cult to industry. The surgery can stay as a fallback or be removed once these exist (open decision).
+The extract-soul surgery is a stopgap: it's convenient, but taking a soul deserves a proper place to do it. Two tiers, from cult to industry. **Decided: the surgery will be removed once these buildings exist.** Anything that currently hangs off the surgery (soul jar bottling in 4.17, Reaper's Mark queueing in 4.21) moves to the buildings.
 
 **Bone Altar (early, no power, no research)**
 - Built from stone, bone and blood. The victim is bound on it and a pawn performs the rite.
@@ -280,7 +280,7 @@ The extract-soul surgery is a stopgap: it's convenient, but taking a soul deserv
 
 **Tick cost:** neither building ticks when idle. Animation runs from the job via effecters, only while someone is being harvested. Adults only via `SoulUtility`.
 
-**Order:** altar first (players hit it earliest), then the press.
+**Order:** altar first (players hit it earliest), then the press. Remove the surgery in the same release the altar ships, so there's never a gap with no way to extract.
 
 ## 5. Considered and dropped
 - **Soul-drop on the requiem rifle** (kills dropped essence): dropped. The requiem is just a hard-hitting rifle; only the scythe reaps.
