@@ -59,7 +59,7 @@ Outdoor wall made from a pile of corpses, human and animal. Goes with the StarCr
 - **Tick cost:** one MapComponent working through a sampled batch of carrion walls, not a comp per wall.
 - **Open decisions:**
   - Should frozen walls **stop** rotting entirely, or only **slow** down?
-  - **Husk change:** should the crucible leave a soulless corpse behind instead of destroying it? Then: harvest the soul → reanimate or bale the husk → nothing wasted. Small C# change (recipe worker marks the corpse soulless instead of consuming it). Strongly suggested, because it also feeds reanimated husks (4.6).
+  - ~~Husk change~~ **Decided (13 Oct 2026):** rendering a corpse at the crucible and binding a living pawn (4.30) both leave a **husk**: the body stays, marked soulless. Harvest the soul → reanimate, bale or take the face of the husk → nothing wasted. Small C# change (recipe worker marks the corpse soulless instead of consuming it).
 
 ### 4.2 Curses
 Debuff conditions: e.g. *Hollowed*, *Marked*, *Rotting luck*, *Soul-sick*.
@@ -284,6 +284,36 @@ The extract-soul surgery is a stopgap: it's convenient, but taking a soul deserv
 
 **Order:** altar first (players hit it earliest), then the press. Remove the surgery in the same release the altar ships, so there's never a gap with no way to extract.
 
+### 4.30 Render or bind: two ways to take a soul (decided 13 Oct 2026)
+Two paths with different jobs. Keeps essence fungible and puts names only where items are already unique.
+
+**Render: cheap and nasty**
+- Corpses at the crucible, the scythe's reap, battlefield harvesting.
+- Gives plain **soul essence** that always stacks. No name, no grade, no residue: who they were is lost.
+- Fast and in bulk. The dirtier route for corruption (4.28) per unit of essence.
+- The corpse is left behind as a **husk** (4.1).
+
+**Bind: the whole soul**
+- **Living adult pawns only**, at the Bone Altar or Soul Press (4.27).
+- The whole soul goes into a **vessel** that keeps the name, grade (4.29), residue and day taken. Survives save/load.
+- **Binding kills.** The no-soul-equals-death rule holds; the body is left as a **husk** for the reanimation slab (4.6), carrion wall (4.1) or face bill (4.23).
+- A vessel can be used in top-tier recipes, kept on display, or **smashed** for a large one-off lump of essence (more than rendering would have given).
+- Replaces soul jars (4.17): the jar becomes the medieval vessel. Its named Tale, beauty and inspect text carry over.
+
+**Three kinds of thing, kept separate**
+- **Vessels** are who they were (named, graded).
+- **Husks** are what's left (a soulless corpse; dead).
+- **Thralls** (4.5) were never anyone (vat-grown, born without a soul; the only things alive without one).
+
+**Why it adds depth**
+- Capture is worth the risk: killing someone gets plain essence; downing and capturing them can get an Exalted soul. Reasons to hold the scythe back, fire carefully and take prisoners.
+- Blood debts (4.18): a marked killer bound alive is the best vessel you'll ever get.
+- Grades only matter where they're meaningful: at the moment you decide about a living, named person. Corpses are fuel.
+
+**Performance:** essence stacks forever. Vessels are unique but rare (a living adult captive plus a ritual or machine each), so a colony holds dozens at most. A vessel stores a name, a grade and one trait or skill; nothing ticks; the description is built only on hover.
+
+**Vessel tiers:** medieval, industrial and spacer vessels to be designed (open, see chat 13 Oct 2026).
+
 ### 4.28 Corruption: the backbone
 Works like Biotech pollution, but its own system. Taking and spending souls stains the ground and the people who do it. **Bad on a purist run, a resource on a demon-cult run.** Aaron's idea (13 Oct 2026); it replaces the global "soul tally" meter the pirate council pitched, because corruption is visible on the map, so cause and effect stay clear.
 
@@ -331,9 +361,9 @@ Works like Biotech pollution, but its own system. Taking and spending souls stai
 ### 4.29 The Weight of Names: soul grades and residue (from the third pirate think tank)
 *Every soul has a name, a grade and a cost. You choose who to take.* The pirate captain's pick; built alongside corruption so the depth happens at the altar, face to face with a named pawn.
 - **Soul grades:** like art quality, from *Wretched* to *Exalted*. Set by the victim's skills and traits and by how it was taken (Bone Altar vs Soul Press, partial souls from a botched rite). A better grade gives more essence.
-- **Residue:** each soul keeps one trait or top skill from its owner, which colours what's forged from it. v1: **soulsteel only**. A master smith's soul makes finer soulsteel; a pyromaniac's sparks.
-- **Soul jars (4.17)** become the other road: bottle a named, graded soul instead of rendering it. **Top-tier recipes** (dreadnoughts 4.9, reliquary armour 4.12) need a high-grade jar.
-- **v1:** grades, residue on soulsteel only, jars. **Later:** residue on other crafts, a Ledger tab listing every name taken.
+- **Residue:** each bound soul keeps one trait or top skill from its owner. It lives on the **vessel**, and passes to the **finished item** crafted from that vessel (weapons and armour never stack, so it costs nothing). A master smith's soul makes a finer blade; a pyromaniac's sparks. **Never on essence or soulsteel**: unique data on a resource stops it stacking, which floods the map with single-unit piles and costs hauling and rendering performance.
+- **Vessels (4.30)** are the other road: bind a named, graded soul instead of rendering it. **Top-tier recipes** (dreadnoughts 4.9, reliquary armour 4.12) need a high-grade vessel as an ingredient.
+- **v1:** grades, vessels, residue on one or two top-tier recipes. **Later:** residue on more crafts, a Ledger tab listing every name taken.
 - **Build:** a ThingComp stamping grade and residue at extraction (stored with `PostExposeData`), quality-style display, a recipe check for high-grade jars. No ticking.
 - **Worth building if:** playtesters actually stop and think at the altar about which pawn to take.
 - **Mutiny clause:** if players render everything regardless of grade, scrap grades and let corruption carry the depth alone.
