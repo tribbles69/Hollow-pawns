@@ -491,7 +491,8 @@ What to do with a bound vessel (4.30) besides recipes and smashing.
 - **Tick cost:** both feed the corruption MapComponent's sampled-cell pass on the rare tick (4.28); no per-shrine ticking beyond the fuel comp's vanilla behaviour.
 - This replaces the plain "shrine" line in 4.28's purification list.
 
-### 4.36 Salt: lines, guns, and Medieval Overhaul (decided 13 Oct 2026)
+### 4.36 Salt: lines, guns, and Medieval Overhaul (OPTIONAL, not decided)
+**Status (13 Oct 2026): Aaron isn't fully sold. Keep as optional; nothing else in the mod should depend on salt.** Purification works without it (fire, holy water, rites, shrines). If it goes in, it needs the anti-cheese rules at the end of this section.
 
 **Salt the resource**
 - Our own salt item, from salt deposits or evaporating water at a salt pan (exact source to design).
@@ -519,6 +520,14 @@ What to do with a bound vessel (4.30) besides recipes and smashing.
 - **Against humans:** low damage, heavy pain, so it downs rather than kills: **the capture gun**, the way to take living prisoners for binding (4.30). Purists use it on demons, cultists use it to catch souls.
 - **Tiers:** medieval salt arrows and a thrown salt pouch; industrial rock-salt shotgun; **CE:** a salt shell for CE's 12 gauge, generated from CE's own shells like the soul rounds.
 - **Build:** one custom DamageDef with a worker that checks the target (demon gene, insectoid flesh type, ghost race) and scales damage. Runs only when a hit lands.
+
+**Anti-cheese rules (required if salt goes in)**
+- **Portal grid cheese:** a cheap salt grid over the whole map would stop portals and burrows opening anywhere, so the raid either always lands at the edge or fails entirely. Fix: if no valid spot exists, the portal **burns through**: it opens at the best spot anyway and destroys all salt in a radius. Salt can push demons around, never cancel them.
+- **Containing the altar:** a salt ring around the Bone Altar or grinder would delete the corruption cost of harvesting. Fix: salt stops **spread**, never the **splash** a source drops on its own cells, and lines holding back a source **wear fast**, so containment costs a steady salt supply.
+- **Free attrition:** a line across the approach burning every wave forever. Fix: modest burn, one burn per section before it breaks, relaying costs real salt and work.
+- **Free salt:** if salt is effectively infinite, none of the costs above bite. Its source must be slow or limited.
+- **Ghost-proofing everything:** fine to allow (ghosts are 1 in 100); don't balance around it.
+- **Capture gun:** non-lethal downing is close to vanilla blunt weapons, so not a new exploit; pain-immune targets (demons, thralls, Profaned) shrug off the pain part.
 
 ## 5. Considered and dropped
 - **Soul-drop on the requiem rifle** (kills dropped essence): dropped. The requiem is just a hard-hitting rifle; only the scythe reaps.
