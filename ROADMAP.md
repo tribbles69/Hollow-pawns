@@ -366,7 +366,44 @@ Two paths with different jobs. Keeps essence fungible and puts names only where 
 
 **Performance:** essence stacks forever. Vessels are unique but rare (a living adult captive plus a ritual or machine each), so a colony holds dozens at most. A vessel stores a name, a grade and one trait or skill; nothing ticks; the description is built only on hover.
 
-**Vessel tiers:** medieval, industrial and spacer vessels to be designed (open, see chat 13 Oct 2026).
+**Vessel tiers (decided 13 Oct 2026).** They differ in the highest grade they hold without damaging the soul, how safe they are, and what they're for.
+
+| Tier | Vessel | Made at / unlocked by | Grade cap | Risk | Uses |
+|---|---|---|---|---|---|
+| Medieval | **Reliquary urn** (clay, bone or stone, sealed with wax and lead) | Crafting spot, no research | Up to *Fine*; anything better drops one grade when bound | Fragile: if damaged it cracks, the soul escapes as a ghost (4.8) and a burst of corruption (4.28) spills out | Dim, eerie decoration; carries the named Tale; smash for essence |
+| Industrial | **Soul canister** (steel and glass pressure cell, gauges, faint glow) | Machining table, after Soul extraction | Up to *Masterwork*, no loss | Sturdy, but needs a **powered canister rack**; if power is out too long it vents corruption (one check on the rack when power state changes, no ticking) | Plugs into machines: prisoner battery (4.7), dreadnought cores (4.9) |
+| Spacer | **Soul lattice** (grown soulsteel/plasteel crystal) | Fabrication bench, late research | **Any grade, including *Exalted*** (the only vessel that can) | Fully stable: no leaks, no power | Reliquary armour cheat-death core (4.12), dreadnought soul cores, later maybe residue into implants |
+
+- **The progression:** early on you lose your best souls unless you wait; mid-game you keep them but depend on power; late game you hold anything safely. An Exalted prisoner early is a real dilemma: bind into an urn now and lose a grade, or keep them captive until lattices are researched.
+- **Any vessel at either building** (Bone Altar or Soul Press); the altar's botched-rite risk still applies whatever the vessel.
+- Naming: the spacer vessel is deliberately *not* a "soul gem", because The Profaned already uses that name (4.32).
+
+### 4.31 Corpse grinder (industrial)
+Bulk, automated, crude. The industrial-scale answer to a pile of raid corpses; the crucible stays the careful option.
+- **Building:** large (about 3x3) powered machine, steel and components, after Soul extraction research.
+- **No pawn works it** (same pattern as the line forge 4.24): haulers drop corpses in an input zone, it pulls them in, products drop on an output tile. Progress on the rare tick only while the hopper has something in it; nothing when idle.
+- **Output:**
+  - **Carrion bales** for corpse walls (4.1), skipping the "bind carrion" bill.
+  - **Soul essence**, rendered and plain (4.30), **less per body than the crucible**.
+  - **Meat and leather** (and bone if a mod adds it).
+- **Animals accepted** for bales, meat and leather; no essence (no soul).
+- **No husk:** the grinder eats the whole body. The one exception to the husk rule (4.1), on purpose: you trade reanimation and face-taking for throughput.
+- **Corruption:** vents heavily around itself (4.28): the dirtiest way to take a soul.
+- **Never children:** input filter uses `SoulUtility`'s age rule (the same special filter carrion bales need).
+- **Grim:** awful beauty, mood penalty for pawns who see it running, constant grinding sound (Aaron to make; placeholder SoundDef).
+- **Performance:** a net gain. Clears corpses that would otherwise lie around rotting, being hauled and rendered after every raid.
+- The loop it closes: raid → grinder → bales into walls, essence into ammo, line forge arms the thralls → next raid.
+
+### 4.32 Compatibility: The Profaned
+Optional patch for *The Profaned* (Botch_Job; Biotech xenotype of partly decayed undead humans, hostile faction, Cursebearers who raise the dead, its own soul gems, wraiths and corrupted blood). Lives in `Mods/Profaned/`, loaded only when that mod is active via `LoadFolders.xml`, like the CE folder. Does nothing without it.
+- **Profaned have souls, corrupted ones (decided 13 Oct 2026).** `SoulUtility` treats them as ensouled adults: they can be rendered or bound. Their essence comes out as **corrupted essence** (4.3) and they're comfortable on corrupted ground (4.28). A ready-made cult-side faction and a natural enemy for purist runs.
+- **Cursebearers share their soul.** Raising a husk doesn't bring the dead person back; their soul is gone. The Cursebearer plants a shard of its own corrupted soul in the empty body (like reimplanting a xenogerm in Biotech). So the rule holds: the risen body has a soul, just not its own.
+  - A shard is weak: always *Wretched*, a small amount of corrupted essence, residue taken from the **Cursebearer**, not the dead pawn.
+  - **Optional twist:** binding or killing a Cursebearer weakens or collapses everything it raised. One check when that pawn dies; no ticking. A reason to hunt Cursebearers first in a Profaned raid.
+- **Undead creatures** are animals: no souls, no change needed.
+- **Optional extra:** Profaned corrupted blood and tainted bones as valid inputs for cult-side recipes.
+- **Verify before building:** the xenotype def name, and how the Cursebearer revive actually works (Aaron remembers it working like gene implanting). Check the mod's own files; this section was written from its description page. CE support for The Profaned is unconfirmed by its author.
+- Source: [The Profaned on TOP-Mods](https://top-mods.com/mods/rimworld/factions/12268-the-profaned.html), [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/comments/3202008037).
 
 ## 5. Considered and dropped
 - **Soul-drop on the requiem rifle** (kills dropped essence): dropped. The requiem is just a hard-hitting rifle; only the scythe reaps.
