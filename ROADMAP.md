@@ -320,7 +320,7 @@ Works like Biotech pollution, but its own system. Taking and spending souls stai
 
 **Two layers**
 - **Terrain corruption:** its own map grid (one byte per cell, a `MapComponent`), separate from Biotech pollution so the mod needs no DLC and the two never get confused. Shown as a map overlay/section layer. Creeps outward slowly: the MapComponent processes a **sampled batch of cells on the rare tick**, like vanilla's steady environment effects. Never per-cell ticking.
-  - Effects: plants wither or turn into corrupted variants; beauty drops; ghosts (4.8) rise more easily on corrupted ground; mood penalty for purists living or working on it.
+  - Effects: **plants wither and nothing grows on corrupted ground** (decided 13 Oct 2026: no custom corrupted plants; a deep cult run has made its bed and lives on **meat and leather**: hunting, butchering, the corpse grinder 4.31); beauty drops; ghosts (4.8) rise more easily on corrupted ground; mood penalty for purists living or working on it.
 - **Pawn corruption:** a staged hediff, a bit like toxic buildup. Gained from working on corrupted ground, handling essence, performing extractions, being hit by corrupted weapons, or standing in a demon's aura.
   - It is **soul corruption**, so it only exists on pawns with a soul: `SoulUtility` returns null for children, so they are never affected. No special case needed; the firm rule holds by itself.
   - Stages: unease → dread and mood penalties → health effects and mental breaks → (top stage) a hook for curses (4.2) and, on cult runs, demonic changes.
@@ -435,6 +435,33 @@ Optional patch for *The Profaned* (Botch_Job; Biotech xenotype of partly decayed
 - **Optional extra:** Profaned corrupted blood and tainted bones as valid inputs for cult-side recipes.
 - **Verify before building:** the xenotype def name, and how the Cursebearer revive actually works (Aaron remembers it working like gene implanting). Check the mod's own files; this section was written from its description page. CE support for The Profaned is unconfirmed by its author.
 - Source: [The Profaned on TOP-Mods](https://top-mods.com/mods/rimworld/factions/12268-the-profaned.html), [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/comments/3202008037).
+
+### 4.33 Scenarios (decided 13 Oct 2026)
+Five small starts, each pointing at a different way to play.
+1. **The Inquisitors (purist):** three zealots, holy water, salt, the purist precept. They land near a fallen idol (4.28 event) already leaking corruption; destroying it is the first job.
+2. **The Coven (cult):** three cultists, a Bone Altar (4.27), one captive, the corruption-exalted precept. Start on corrupted ground, so no farming from day one: meat and leather only.
+3. **The Gravedigger (solo):** one undertaker with the Reaper's scythe on an old battlefield littered with corpses. Every body is a ghost roll (4.8), so the clock is ticking.
+4. **Endless War (industrial):** two overseers, three thralls (4.5), a line forge (4.24) and a corpse grinder (4.31). Frequent raids; you start partway into the loop.
+5. **The Escapee (spacer):** a lone survivor of a soul-press facility carrying a soul lattice (4.30) holding someone they loved, hunted by the faction that ran it. Ties straight into the Weight of Names (4.29).
+- Build: `ScenarioDef`s are XML. Starting buildings, captives and corrupted ground need small custom scenario parts (C#). The Escapee's starting lattice needs a pre-filled vessel with a generated name and relationship to the colonist.
+
+### 4.34 Demon raids and sieges (decided 13 Oct 2026)
+Arrival modes for demons (4.3) and, mirrored, zealots (4.28):
+- **Standard:** walk in from the map edge.
+- **Rift portals (the drop-pod version):** small portals tear open in or around the base; demons step out. Each leaves a scorch of corruption.
+- **Burrow (the infestation version):** a crack opens, preferring corrupted ground; demons crawl out.
+- **The Great Rift:** a huge hole opens and sends several waves over a few days, then collapses, leaving a crater and heavy corruption. Close it early with a cleansing rite or by killing its **rift keeper**. Similar in spirit to Anomaly's pit gate, but our own so it needs no DLC.
+- **Sieges:** a camp with mortars.
+
+**Mortar shells** (player can craft all three):
+| Shell | Effect | Used by |
+|---|---|---|
+| **Soul shell** ("someone's tormented soul") | Soul shock (existing) plus a corruption splash (4.28) | Demon sieges, cult players |
+| **Holy shell** ("a big ol' jug of holy water") | Purifies corruption in the blast and burns corrupted pawns, ghosts and corrupted thralls | Zealot sieges against cult runs, purist players |
+| **Plain explosive** | Standard | Both |
+- **CE:** mortars use CE's own shell ammo; generate soul and holy shell variants from CE's shells the same way `gen_soul_ammo.py` makes soul bullets.
+
+**Performance:** waves and portals are one-off scheduled events; the Great Rift is a single building checking itself on the rare tick.
 
 ## 5. Considered and dropped
 - **Soul-drop on the requiem rifle** (kills dropped essence): dropped. The requiem is just a hard-hitting rifle; only the scythe reaps.
