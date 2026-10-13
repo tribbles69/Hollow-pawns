@@ -339,7 +339,7 @@ Works like Biotech pollution, but its own system. Taking and spending souls stai
 - **Fire:** burning corrupted cells and corpses cleans them. Cheap and fast, but destroys crops, buildings and anything else caught in it.
 - **Holy water:** a crafted consumable from a blessed well or shrine. Pawns sprinkle it on tainted cells (designator + job) or drink it to lower their own corruption. Gentle, but a steady resource drain.
 - **Cleansing rite:** clears an area or a pawn. Costs time and gathers the colony; with Ideology it plugs into the ritual system. (This absorbs the "Rite of Laying" idea from the pirate council.)
-- **Salt lines:** cells that stop corruption spreading past them, like a firebreak. For walling off farms and bedrooms.
+- **Salt lines:** see 4.36: a conduit-style floor network that stops corruption, ghosts and demon portals.
 - **Shrines:** see 4.35: a permanent bound shrine (consumes a vessel) and a fuelled essence shrine; both can cleanse or corrupt.
 - **Purgation surgery:** a painful operation that burns corruption out of a pawn. Adults only.
 
@@ -490,6 +490,35 @@ What to do with a bound vessel (4.30) besides recipes and smashing.
 - Both are also wards (4.8): ghosts can't cross a consecrated shrine's radius.
 - **Tick cost:** both feed the corruption MapComponent's sampled-cell pass on the rare tick (4.28); no per-shrine ticking beyond the fuel comp's vanilla behaviour.
 - This replaces the plain "shrine" line in 4.28's purification list.
+
+### 4.36 Salt: lines, guns, and Medieval Overhaul (decided 13 Oct 2026)
+
+**Salt the resource**
+- Our own salt item, from salt deposits or evaporating water at a salt pan (exact source to design).
+- **Medieval Overhaul** already has salt. A `Mods/MedievalOverhaul/` patch folder (loaded only when MO is active, like the CE and Profaned folders) **swaps MO's salt into every Hollow Pawns recipe and hides ours**, so there's one salt in the game and MO players use their existing sources. **Check MO's salt def name in its files** before writing the patch.
+
+**Salt lines: built like power conduits, floor only**
+- Cheap building on the floor, links visually to neighbours like a conduit, walkable, blocks nothing, never ticks.
+- **Ghosts** (4.8) can't cross them at all (their custom movement checks the cell).
+- **Corruption** (4.28) won't spread past them.
+- **Demons** (4.3): the pathfinder isn't taught to avoid salt for one faction (awkward with the 1.6 pathfinder). Instead a demon stepping on a line is **burned and breaks that section**: a ward that holds once, then needs relaying. Usable as a trap line on approaches.
+- **Wear:** a line only wears while it's doing work (holding back heavy corruption, or broken by a demon). No weather decay, so no busywork.
+
+**Why a purist actually needs them**
+1. **Portals and burrows can't open near salt.** Rift portals and burrows (4.34) open inside or around the base, like drop pods and infestations. They **can't open within a few cells of a salt line or a consecrated shrine** (4.35). To keep demons arriving at the edge instead of in the bedroom, you run salt through the base: the same "network everywhere" feel as power conduits. Checked once, when the incident picks its spot.
+2. **Corruption creeps.** Black rain patches, rift craters, demon corpses and fallen idols spread corruption outward. Farms and bedrooms without a salt border get eaten slowly. Lines are the firebreak.
+3. **Wrathful ghosts** pass ordinary walls. Salted rooms are where people sleep safely.
+4. **Demon assaults:** a salt line across the killbox burns the front rank and breaks, so it's cheap attrition you relay between waves.
+
+**Cult mirror (optional): blood channels**
+- The cult version of a conduit network: channels that carry corruption from sources (altar, grinder, desecrated shrine) to demonic buildings that need to be "connected", like power. Cultists get their own reason to lay lines everywhere. Design later; flagged as optional.
+
+**Salt weapons**
+- **Rock salt** is painful but not very lethal against ordinary people, and devastating against the unholy.
+- **Against demons, insectoids and ghosts:** high damage plus a burning effect. Salt is one of the damage types allowed to hurt ghosts (4.8).
+- **Against humans:** low damage, heavy pain, so it downs rather than kills: **the capture gun**, the way to take living prisoners for binding (4.30). Purists use it on demons, cultists use it to catch souls.
+- **Tiers:** medieval salt arrows and a thrown salt pouch; industrial rock-salt shotgun; **CE:** a salt shell for CE's 12 gauge, generated from CE's own shells like the soul rounds.
+- **Build:** one custom DamageDef with a worker that checks the target (demon gene, insectoid flesh type, ghost race) and scales damage. Runs only when a hit lands.
 
 ## 5. Considered and dropped
 - **Soul-drop on the requiem rifle** (kills dropped essence): dropped. The requiem is just a hard-hitting rifle; only the scythe reaps.
