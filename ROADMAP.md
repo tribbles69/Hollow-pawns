@@ -101,8 +101,39 @@ Emergency meat shields. Chosen over true Biotech mechs, because true mechs must 
 ### 4.7 Prisoner battery
 A casket-style pod (like a cryptosleep casket). Lock a prisoner in: it generates power while slowly draining their soul. When the soul runs out they die and drop essence. Adults only. Small C# on top of vanilla's casket.
 
-### 4.8 Ghosts
-Corpses left unharvested too long can rise as a hostile ghost: hard to hit, with a dread aura. Ties into the essence loop: harvest your dead or they come back. Needs a custom pawn and art (bigger job).
+### 4.8 Ghosts (reworked 13 Oct 2026)
+A ghost is a soul still clinging to its body. Ghosts are **rare and local**: tied to one corpse, dealt with by dealing with the dead.
+
+**Spawning**
+- **1 in 100 chance per corpse**, rolled **once**, when an ensouled adult corpse has lain unharvested past a threshold (about a day; tune in testing). Mod setting so players can change the odds.
+- Only ensouled corpses: never children, animals, husks (soul already gone) or anything `SoulUtility` says has no soul.
+- Check: the corruption MapComponent (4.28) walks a sampled batch of corpses on the rare tick and rolls only for corpses that haven't rolled yet (a flag on the corpse). No per-corpse ticking.
+
+**Two kinds**
+- **Lingering ghost (harmless):** from an ordinary corpse. **Tethered** within a few cells of its body. Drifts and wails, nothing more. Dread: a mood penalty for anyone who sees it; maybe a cold spot lowering the temperature around it.
+- **Wrathful ghost (hostile):** from a corpse lying on **corrupted ground**, or a **corrupted corpse** (demons 4.3, Profaned 4.32). Still tethered, but its radius is wider and grows with corruption. Inside that radius it passes through walls and hunts. One haunted corner of the map to avoid, ward or clear, not a ghost roaming the whole base.
+
+**Ending a ghost:** render, bind (if somehow still possible), grind or burn its corpse, and the ghost goes with it. The real counterplay is "deal with your dead". It can also be destroyed directly (below).
+
+**No body, so no physical attack: grave chill**
+- Its touch attacks the soul directly and **ignores armour** (custom damage def with no armour category that applies a hediff).
+- **Grave chill:** stacking, like toxic buildup. Cold and slow movement → lost consciousness → downed → death at full severity if untreated. Also adds pawn corruption (4.28).
+- **Cures:** drinking holy water, a cleansing rite, or time in a warm, warded room.
+- **Only touches souls,** so ghosts ignore children entirely, consistent with the ground rules.
+
+**Passing through walls**
+- Leave the 1.6 pathfinder alone (Burst-compiled and multithreaded). Ghosts get their own movement: a custom job drifting them cell by cell in a straight line, ignoring walls and doors, drawn smoothly between cells.
+- **Warding:** salt lines, shrines and consecrated walls (4.28 purification) **stop** ghosts. Ordinary walls are air to them; warded rooms are safe. Gives purification a combat use.
+- **Check first:** how 1.6's flying animals move; it may offer a ready-made route.
+
+**Immune to most weapons**
+- **Step one (simple):** a comp on the ghost discards all damage except allowed types: soul blast (soul weapons), fire, thrown holy water, soulsteel or blessed melee, psychic. All damage passes through the same pre-apply check, so this works for vanilla and CE alike.
+- **Step two (later):** true pass-through, so bullets fly on to whatever's behind. Needs a projectile collision patch, and a separate one for CE's 3D projectiles (`ProjectileCE`).
+- **Targeting:** filter ghosts out as targets for weapons that can't hurt them, so colonists don't waste ammo. Small extra patch.
+
+**Performance:** ghost count is capped by neglected corpses at 1 in 100, so there are only ever a handful. Lingering ghosts idle near their body. Wrathful ghosts' leash and movement run only on themselves.
+
+**Art:** a translucent pawn-style graphic (all facings); lingering and wrathful can share it with a tint.
 
 ### 4.9 Soul dreadnoughts
 Huge Biotech-style mechs grown at the gestator from soulsteel and essence. They run on essence instead of power; possibly need a soul core made from a captured prisoner. Code is moderate; **the real cost is art** (all directions).
