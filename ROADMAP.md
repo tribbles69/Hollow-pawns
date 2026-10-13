@@ -257,6 +257,31 @@ Goal: Aaron wants a big base full of thralls. Thralls must cost far less than co
 
 **Benchmark, don't guess:** use Dubs Performance Analyzer. Spawn 20 colonists and 20 thralls on a test map doing the same thing (idle, hauling, fighting, standing guard, racked) and compare per-pawn cost. Record results here. Worth a write-up for the RimWorld performance community.
 
+### 4.27 Extraction buildings and animated extraction
+The extract-soul surgery is a stopgap: it's convenient, but taking a soul deserves a proper place to do it. Two tiers, from cult to industry. The surgery can stay as a fallback or be removed once these exist (open decision).
+
+**Bone Altar (early, no power, no research)**
+- Built from stone, bone and blood. The victim is bound on it and a pawn performs the rite.
+- Slow, painful, risky: a chance of a partial or damaged soul (less essence), and mood penalties for witnesses unless their ideology approves.
+- With Ideology: hook into the ritual system so the colony gathers to watch.
+- Animation: blood channels in the altar glow as the rite goes on, wisps tear out of the body unevenly, a guttering flame flares when the soul comes free.
+
+**Soul Press (late, powered, research-gated)**
+- Soulsteel and advanced components; heavy power draw while running.
+- Faster, cleaner, higher-quality souls than the altar. Downside: draws attention (raids, quests, or a faction that hates it).
+- Animation: the pawn is held in a field, the machine's rings or arms spin up, the soul is drawn up in a steady pale stream into a containment chamber that glows while full.
+
+**How to animate (keep it cheap)**
+- **Flecks** (XML particles: fade, drift, rotate, scale) for the wisps, sparks and flash. Vanilla batch-draws them.
+- **Effecters** chaining flecks and sounds over the job's duration, attached to the extraction job/toil, like vanilla surgery and psycasts.
+- **Pawn render node** overlays (1.5+ render tree): the victim's shudder, and a lingering "hollow" overlay afterwards so harvested pawns read at a glance.
+- **Custom shaders** (glow, distortion, dissolve) are optional extras. On 1.6 they come via Unity asset bundles, which will work differently on 1.7's Waylith engine: check the dev Discord before building any.
+- **Sound:** extraction tone, altar flame, press spin-up. Aaron will likely make these himself; leave placeholder SoundDefs with clearly named files.
+
+**Tick cost:** neither building ticks when idle. Animation runs from the job via effecters, only while someone is being harvested. Adults only via `SoulUtility`.
+
+**Order:** altar first (players hit it earliest), then the press.
+
 ## 5. Considered and dropped
 - **Soul-drop on the requiem rifle** (kills dropped essence): dropped. The requiem is just a hard-hitting rifle; only the scythe reaps.
 - **Soulless pawns going rogue instead of dying:** dropped. No soul = death.
