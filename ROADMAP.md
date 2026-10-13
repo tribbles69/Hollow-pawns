@@ -50,6 +50,8 @@ Rough agreed order: **curses → demons → hell gate → thralls and clone vats
 
 Added after the second pirate think tank: **soul jars → blood debts** (they build on each other), with the soul broker and volatile stockpiles as small fill-in items. The **Reaper's Mark** QoL package (4.21) can go in any time: it only needs what's already built.
 
+**Backbone (decided 13 Oct 2026): corruption (4.28) and the Weight of Names (4.29).** Corruption is the spine the dark features hang off: ghosts, curses, demons, the hell gate, corrupted essence and the cleansing rite all read from it instead of being separate systems. The Weight of Names makes each harvest a choice. Build order after the first in-game test and the extraction buildings (4.27): **soul grades and jars → corruption core (terrain + pawn) → purification → hostile and event sources → cult-side benefits**, then the existing feature order, now wired into corruption.
+
 ### 4.1 Corpse wall (carrion wall)
 Outdoor wall made from a pile of corpses, human and animal. Goes with the StarCrete/hemocrete idea.
 - **Building it:** wall costs can't reference "any corpse" (every species has its own corpse def). So: a **"bind carrion"** bill at the butcher spot/table turns any corpse into a **carrion bale** (stackable resource); walls cost bales. XML. **Exclude child corpses** (needs a special filter, like `SpecialThingFilterWorker_Soulless`).
@@ -281,6 +283,60 @@ The extract-soul surgery is a stopgap: it's convenient, but taking a soul deserv
 **Tick cost:** neither building ticks when idle. Animation runs from the job via effecters, only while someone is being harvested. Adults only via `SoulUtility`.
 
 **Order:** altar first (players hit it earliest), then the press. Remove the surgery in the same release the altar ships, so there's never a gap with no way to extract.
+
+### 4.28 Corruption: the backbone
+Works like Biotech pollution, but its own system. Taking and spending souls stains the ground and the people who do it. **Bad on a purist run, a resource on a demon-cult run.** Aaron's idea (13 Oct 2026); it replaces the global "soul tally" meter the pirate council pitched, because corruption is visible on the map, so cause and effect stay clear.
+
+**Two layers**
+- **Terrain corruption:** its own map grid (one byte per cell, a `MapComponent`), separate from Biotech pollution so the mod needs no DLC and the two never get confused. Shown as a map overlay/section layer. Creeps outward slowly: the MapComponent processes a **sampled batch of cells on the rare tick**, like vanilla's steady environment effects. Never per-cell ticking.
+  - Effects: plants wither or turn into corrupted variants; beauty drops; ghosts (4.8) rise more easily on corrupted ground; mood penalty for purists living or working on it.
+- **Pawn corruption:** a staged hediff, a bit like toxic buildup. Gained from working on corrupted ground, handling essence, performing extractions, being hit by corrupted weapons, or standing in a demon's aura.
+  - It is **soul corruption**, so it only exists on pawns with a soul: `SoulUtility` returns null for children, so they are never affected. No special case needed; the firm rule holds by itself.
+  - Stages: unease → dread and mood penalties → health effects and mental breaks → (top stage) a hook for curses (4.2) and, on cult runs, demonic changes.
+
+**Sources: the colony's own (all event-driven)**
+- **Extraction:** the Bone Altar spills heavily onto nearby cells; the Soul Press vents less per extraction but over a wider radius. (Which tier corrupts more overall is a balance call, still open.)
+- **Spending essence:** soul generator exhaust, the crucible, soulsteel forging.
+- **Soul blast impacts:** the cell a soul round craters gets a small stain.
+
+**Sources: how corruption reaches a purist colony**
+- **Events:** a black rain that taints a patch of the map (like toxic fallout); a fallen idol / cursed meteorite / demonic relic that keeps leaking corruption until destroyed; cursed loot from traders and quests.
+- **Hostiles:** demon raiders (4.3) carry a **corruption aura** that stains the ground they walk on and nearby pawns. Only checked on the rare tick, and only on the few hostile pawns that have it. **Corrupted weapons** add pawn corruption on hit and taint the struck cell.
+- **Aftermath:** demon corpses leak corruption while they lie there. The choice after a raid: harvest them (more corruption, plus corrupted essence) or burn them.
+
+**Purification: each method has a different cost**
+- **Fire:** burning corrupted cells and corpses cleans them. Cheap and fast, but destroys crops, buildings and anything else caught in it.
+- **Holy water:** a crafted consumable from a blessed well or shrine. Pawns sprinkle it on tainted cells (designator + job) or drink it to lower their own corruption. Gentle, but a steady resource drain.
+- **Cleansing rite:** clears an area or a pawn. Costs time and gathers the colony; with Ideology it plugs into the ritual system. (This absorbs the "Rite of Laying" idea from the pirate council.)
+- **Salt lines:** cells that stop corruption spreading past them, like a firebreak. For walling off farms and bedrooms.
+- **Shrine:** a sanctified building that slowly cleans a radius around it (sampled cells, rare tick).
+- **Purgation surgery:** a painful operation that burns corruption out of a pawn. Adults only.
+
+**The two runs**
+- **Purist:** corruption is a slow poison. Keep extraction away from living space, cleanse regularly, fight off demons who bring it to you.
+- **Demon cult:** corruption is the resource. Cultist genes or precepts thrive on it; corrupted ground boosts demonic buildings; the hell gate (4.4) needs it to open; essence harvested on corrupted ground comes out as stronger **corrupted essence** (4.3).
+- **The mirror enemy:** on a purist run, demons spread corruption at you. On a cult run, **zealot / inquisitor raids** come to purify your land with fire and holy water, burning away what you've cultivated. Same system, opposite threat.
+- **Ideology:** a precept from *Corruption: abhorrent* to *Corruption: exalted* decides how colonists feel about it.
+
+**What it ties together:** ghosts (4.8) rise more on corrupted ground; curses (4.2) come from high pawn corruption; demons (4.3) and the hell gate (4.4) feed on it; carrion walls (4.1) and volatile stockpiles (4.20) can leak it; the soul-eating xenotype (4.15) could be the cult-side endpoint.
+
+**Tick cost:** additions are all one-off events (extraction, spending, impact, hit). Spread and shrine cleaning are one sampled batch per rare tick in a single MapComponent. Auras run on the rare tick only on hostile pawns that carry them. Benchmark with Dubs Performance Analyzer once it exists.
+
+**Open decisions**
+- Altar vs Press: which corrupts more overall?
+- Does corruption ever decay on its own, or only through purification?
+- Should the cult benefits need Ideology/Biotech, or have a no-DLC version?
+- Mutiny clause: if spread is visually noisy or makes purist runs a chore, cut spread to only around sources and keep purification simple (fire + holy water).
+
+### 4.29 The Weight of Names: soul grades and residue (from the third pirate think tank)
+*Every soul has a name, a grade and a cost. You choose who to take.* The pirate captain's pick; built alongside corruption so the depth happens at the altar, face to face with a named pawn.
+- **Soul grades:** like art quality, from *Wretched* to *Exalted*. Set by the victim's skills and traits and by how it was taken (Bone Altar vs Soul Press, partial souls from a botched rite). A better grade gives more essence.
+- **Residue:** each soul keeps one trait or top skill from its owner, which colours what's forged from it. v1: **soulsteel only**. A master smith's soul makes finer soulsteel; a pyromaniac's sparks.
+- **Soul jars (4.17)** become the other road: bottle a named, graded soul instead of rendering it. **Top-tier recipes** (dreadnoughts 4.9, reliquary armour 4.12) need a high-grade jar.
+- **v1:** grades, residue on soulsteel only, jars. **Later:** residue on other crafts, a Ledger tab listing every name taken.
+- **Build:** a ThingComp stamping grade and residue at extraction (stored with `PostExposeData`), quality-style display, a recipe check for high-grade jars. No ticking.
+- **Worth building if:** playtesters actually stop and think at the altar about which pawn to take.
+- **Mutiny clause:** if players render everything regardless of grade, scrap grades and let corruption carry the depth alone.
 
 ## 5. Considered and dropped
 - **Soul-drop on the requiem rifle** (kills dropped essence): dropped. The requiem is just a hard-hitting rifle; only the scythe reaps.
