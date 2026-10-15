@@ -457,6 +457,43 @@ def cleanse_icon():
     ]
 
 
+# ---------- v0.8: reliquary, shrines ----------
+
+def reliquary():
+    return [
+        ("glow", 64, 54, 50, CYAN, 0.35),
+        (rrect(64, 108, 44, 12, 4), STONE_DARK, 1.0),  # plinth
+        (rrect(64, 60, 34, 42, 6), STONE, 1.0),  # case
+        (rrect(64, 58, 26, 34, 4), GLASS, 0.55),  # glass front
+        (circle(64, 62, 12), CYAN_PALE, 0.9),  # the vessel's glow inside
+        (rrect(64, 22, 38, 6, 3), STONE_DARK, 1.0),
+    ]
+
+
+def bound_shrine():
+    hollow = circle(64, 56, 13)
+    return [
+        ("glow", 64, 56, 54, (200, 220, 240), 0.35),
+        (poly([(30, 118), (98, 118), (88, 20), (64, 8), (40, 20)]), STONE, 1.0),
+        (poly([(36, 118), (92, 118), (84, 26), (64, 16), (44, 26)]), STONE_DARK, 0.35),
+        (hollow, OBSIDIAN, 1.0),
+        (circle(64, 56, 7), (220, 235, 250), 0.9),
+        (rrect(64, 96, 18, 3, 1.5), BONE, 0.8),
+    ]
+
+
+def essence_shrine():
+    bowl = union(rrect(64, 70, 40, 12, 10), poly([(28, 66), (100, 66), (84, 88), (44, 88)]))
+    return [
+        ("glow", 64, 52, 56, CYAN, 0.5),
+        (rrect(64, 106, 10, 20, 3), METAL_DARK, 1.0),
+        (rrect(64, 122, 30, 5, 2), METAL_DARK, 1.0),
+        (bowl, METAL, 1.0),
+        (union(circle(64, 50, 16), poly([(50, 54), (78, 54), (64, 18)])), CYAN, 0.85),
+        (circle(64, 54, 8), CYAN_PALE, 1.0),
+    ]
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
@@ -490,3 +527,7 @@ if __name__ == "__main__":
     write_png(os.path.join(ui, "Icons", "HP_CorruptionOverlay.png"), render(128, corruption_icon()))
     write_png(os.path.join(ui, "Icons", "HP_Soulless.png"), render(128, soulless_icon()))
     write_png(os.path.join(ui, "Designators", "HP_Cleanse.png"), render(128, cleanse_icon()))
+    # v0.8: reliquary and shrines (4.35)
+    write_png(os.path.join(b, "HP_Reliquary.png"), render(128, reliquary()))
+    write_png(os.path.join(b, "HP_BoundShrine.png"), render(128, bound_shrine()))
+    write_png(os.path.join(b, "HP_EssenceShrine.png"), render(128, essence_shrine()))

@@ -29,6 +29,9 @@ namespace HollowPawns
 
         private byte[] grid;
         private CellBoolDrawer drawer;
+
+        /// <summary>Shrines and anything else that pushes corruption around itself. Rebuilt as they spawn; not saved.</summary>
+        private readonly List<ICorruptionSource> sources = new List<ICorruptionSource>();
         private bool drawerDirty = true;
 
         public MapComponent_Corruption(Map map) : base(map)
@@ -50,6 +53,16 @@ namespace HollowPawns
             drawerDirty = true;
         }
 
+        public void Register(ICorruptionSource s)
+        {
+            if (!sources.Contains(s))
+            {
+                sources.Add(s);
+            }
+        }
+
+        public void Deregister(ICorruptionSource s) => sources.Remove(s);
+
         public override void MapComponentTick()
         {
             int tick = Find.TickManager.TicksGame;
@@ -58,6 +71,10 @@ namespace HollowPawns
                 return;
             }
             SampleCells();
+            for (int i = sources.Count - 1; i >= 0; i--)
+            {
+                sources[i].ApplyCorruption(this);
+            }
             PawnPass();
             if ((tick + map.uniqueID) % GenTicks.TickLongInterval == 0)
             {

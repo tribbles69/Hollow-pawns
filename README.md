@@ -104,6 +104,16 @@ Taking and spending souls stains the ground and the people who do it. Toggle the
 | **Corpse grinder** (3x3, 600W; research *Industrial harvest*) | Grinds corpses left next to it (make a stockpile there): carrion bales, 4 essence from an adult human soul, meat and leather. No worker, no husk, never children, heavy corruption. One corpse per 1000 ticks while powered. |
 | **Line forge** (4x2, 500W; research *Industrial harvest*) | Turns steel and components left next to it into conscript kit, no worker: a conscript rifle (bayonet, poor accuracy, 5.56 under CE), conscript helmet and vest, or the full kit. Near-worthless, no quality. A *Stop at* setting pauses it once that many of each piece are lying around the colony. |
 
+### Reliquaries, soul-bound items and shrines
+| Thing | What it does |
+|---|---|
+| **Reliquary** (Furniture, stone, wood or metal) | A display case for one filled vessel. Inspect shows whose soul it keeps. Anyone who cared about that person when they were taken (family, lovers, anyone with a good opinion of them) gets **Remembered** (+6) within 8 cells. Only vessels bound from v0.8 on remember who loved them. |
+| **Bind soul into item** (soul crucible) | One bill for **any** weapon or apparel, vanilla's or any mod's: uses up a filled vessel and binds that soul into the item. The soul's **residue** picks the gift (a Shooting soul: accuracy; Melee: hit chance; Construction, Mining, Cooking, Plants, Crafting, Intellectual: that work speed; Medicine: tend quality; Social: social impact; traits such as Pyromaniac: heat armour, Tough: less damage taken, Jogger: speed; anything else: psychic sensitivity) and the **grade** its size, from a seventh of the bonus (wretched) to all of it (exalted). The bearer gets it like any gear bonus. Hover: *Bound: Vex the Butcher (masterwork soul; residue: Pyromaniac)*. If the item is destroyed the soul gets out and corrupts the ground. |
+| **Bound shrine** (Misc, 120 stone) | Haulers bring it a filled vessel and the soul goes into the stone for good. Before that, toggle **consecrate** (cleans corrupted ground) or **desecrate** (corrupts it); fixed once bound. Radius 4.9 to 13.3 and strength by grade. Named for the soul: *shrine of Vex*. Breaking it frees the soul in a burst of the **opposite** effect. |
+| **Essence shrine** (Misc, research *Soul extraction*) | Burns about 3 essence a day; toggle **cleansing** or **spreading** corruption within 6.9 cells. Works only while fuelled. |
+
+Shrines work inside the corruption map pass (a few sampled cells each time), so they cost almost nothing.
+
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
 - **Soul guns fire beams.** Like CE's own lasers: one shared **soul charge** ammo (100 from 6 soulsteel + 4 essence, so about 200 shots per corpse), and each gun maps it to its own beam with its own damage and penetration, plus a one-cell soul blast on impact.
@@ -187,10 +197,17 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Line forge *Stop at 5*: it pauses (inspect says *paused*) once 5 of each piece are on the map, and starts again when colonists equip some.
 - [ ] With CE: compare a soulsteel and a plasteel armour piece; make soul charges and check each soul gun fires cyan beams with blasts; soul-charge some 5.56 and load it into an assault rifle.
 
+**v0.8 batch**
+- [ ] Reliquary: bind a prisoner who has a friend or relative in the colony, put the vessel in a reliquary: inspect names the soul; the friend standing near it gets *remembered*. Someone who didn't know them doesn't.
+- [ ] Bind soul into item: at the crucible, bind a vessel with a Shooting residue into a rifle: label says *soul-bound*, hover names the soul and the bonus, and the wielder's shooting accuracy shows the extra line from gear. Try a piece of apparel and a modded weapon too. Destroy a bound item with a dev tool: message and corruption. The bill never offers an already bound item.
+- [ ] Bound shrine: build one on corrupted ground, leave it consecrated, let a vessel be hauled in: the vessel disappears, the shrine is renamed *shrine of ...*, the overlay shows the corruption fading around it over a few days. Build a desecrated one elsewhere: corruption grows. Break one: a burst of the opposite.
+- [ ] Essence shrine: refuel with essence, toggle cleansing / spreading, watch the overlay; with no fuel it stops.
+
 ## Things I'm least sure of (from memory, not checked against 1.6)
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
 - Research positions were checked against Core, Ideology and Biotech only. Royalty, Anomaly or Odyssey might put something at (7, 5.5) or (8, 5.5) on the Main tab.
 
+- v0.8, unverified until tested in game: adding the soul-bound comp to every weapon and apparel def at startup (`SoulBoundInjector`); the bind bill handing back the same item (the item is despawned inside `GenRecipe.MakeRecipeProducts` and skipped by `ConsumeIngredient`); the bound shrine's storage filter being cleared after binding; `Building_Storage` subclasses with `maxItemsInCell` 1 as single-vessel holders.
 - v0.7, unverified until tested in game: the rite job (carrying a restrained prisoner and laying them on the altar cell; vanilla `Toils_Haul.StartCarryThing` on a pawn), `Building_CloneVat` re-implementing `IBillGiver.CurrentlyUsableForBills` (vanilla's isn't virtual), `ResurrectionUtility.TryResurrect` on rotted husks, the corruption overlay (`CellBoolDrawer`) and its toggle among the play settings, `DataExposeUtility.LookByteArray` for the corruption grid, thralls generated with a forced xenotype that has `canGenerateAsCombatant` false, CE armour values for the conscript vest and helmet (set by eye below CE's steel flak vest).
 - v0.6, unverified until tested in game: adding a faction to an existing save with `FactionGenerator.NewGeneratedFaction` (it will have no world bases in that save, and Ideology must give it an ideoligion); the storyteller firing an incident whose `baseChance` is 0 through an on/off cycle; demon pawn kinds inheriting from non-abstract vanilla kinds (`ThrasherBase`, `PirateKindBase`, `MercenaryHeavyBase`); `CompProperties_CauseHediff_Apparel` with no body part.
 - v0.5, unverified until tested in game: `HediffDef.preventsDeath` (no vanilla XML uses it; the game code reads it in `ShouldBeDead`/`CheckForStateChange`), the soul jar surviving minify and save/load, and the soul broker caravan patch on the abstract `OutlanderFactionBase`.

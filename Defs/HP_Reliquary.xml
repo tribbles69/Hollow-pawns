@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Reliquary, soul-bound items and shrines (4.35) =====================
+       What to do with a bound vessel besides smashing it. Nothing here ticks except the bound shrine
+       and the essence shrine (rare tick, one building each); their effect on the ground runs inside
+       the corruption map pass. -->
+
+  <!-- Reliquary: a case for one filled vessel. Anyone who cared about the soul inside is Remembered
+       nearby (ThoughtWorker_Remembered). -->
+  <ThingDef ParentName="FurnitureBase">
+    <defName>HP_Reliquary</defName>
+    <label>reliquary</label>
+    <description>A glass-fronted case on a carved plinth, made to hold a single soul vessel on display. It shows the name and grade of the soul inside. Those who loved that person find some comfort near it.</description>
+    <thingClass>HollowPawns.Building_Reliquary</thingClass>
+    <graphicData>
+      <texPath>Things/Building/HP_Reliquary</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>40</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <size>(1,1)</size>
+    <stuffCategories>
+      <li>Stony</li>
+      <li>Woody</li>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>50</costStuffCount>
+    <statBases>
+      <MaxHitPoints>120</MaxHitPoints>
+      <WorkToBuild>2400</WorkToBuild>
+      <Mass>15</Mass>
+      <Beauty>10</Beauty>
+    </statBases>
+    <designationCategory>Furniture</designationCategory>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsFurniture</li>
+    </thingCategories>
+    <surfaceType>Item</surfaceType>
+    <inspectorTabs>
+      <li>ITab_Storage</li>
+    </inspectorTabs>
+    <building>
+      <maxItemsInCell>1</maxItemsInCell>
+      <preventDeteriorationOnTop>true</preventDeteriorationOnTop>
+      <ignoreStoredThingsBeauty>false</ignoreStoredThingsBeauty>
+      <fixedStorageSettings>
+        <filter>
+          <thingDefs>
+            <li>HP_VesselUrn</li>
+            <li>HP_VesselCanister</li>
+            <li>HP_VesselLattice</li>
+          </thingDefs>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <priority>Important</priority>
+        <filter>
+          <thingDefs>
+            <li>HP_VesselUrn</li>
+            <li>HP_VesselLattice</li>
+          </thingDefs>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+  </ThingDef>
+
+  <ThoughtDef>
+    <defName>HP_Remembered</defName>
+    <workerClass>HollowPawns.ThoughtWorker_Remembered</workerClass>
+    <validWhileDespawned>false</validWhileDespawned>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>remembered</label>
+        <description>Their soul is right there, behind the glass. They're not entirely gone.</description>
+        <baseMoodEffect>6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- Bound shrine: consumes a filled vessel delivered to it (Building_BoundShrine, rare tick only to
+       take the vessel in), then cleans or corrupts the ground around it for good. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_BoundShrine</defName>
+    <label>bound shrine</label>
+    <description>A standing stone with a hollow at its heart for a soul. Bring it a filled vessel and the soul is sealed into the stone for good. Consecrate it first and it slowly cleans corrupted ground around it; desecrate it and it fouls the ground instead. The better the soul, the wider and stronger it works.\n\nIf the shrine is ever broken the soul tears free in a burst of the opposite of what it was bound to do.</description>
+    <thingClass>HollowPawns.Building_BoundShrine</thingClass>
+    <graphicData>
+      <texPath>Things/Building/HP_BoundShrine</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.6</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <size>(1,1)</size>
+    <tickerType>Rare</tickerType>
+    <stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>120</costStuffCount>
+    <statBases>
+      <MaxHitPoints>400</MaxHitPoints>
+      <WorkToBuild>5000</WorkToBuild>
+      <Beauty>4</Beauty>
+      <Flammability>0</Flammability>
+    </statBases>
+    <designationCategory>Misc</designationCategory>
+    <surfaceType>Item</surfaceType>
+    <inspectorTabs>
+      <li>ITab_Storage</li>
+    </inspectorTabs>
+    <building>
+      <maxItemsInCell>1</maxItemsInCell>
+      <fixedStorageSettings>
+        <filter>
+          <thingDefs>
+            <li>HP_VesselUrn</li>
+            <li>HP_VesselCanister</li>
+            <li>HP_VesselLattice</li>
+          </thingDefs>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <priority>Important</priority>
+        <filter>
+          <thingDefs>
+            <li>HP_VesselUrn</li>
+            <li>HP_VesselCanister</li>
+            <li>HP_VesselLattice</li>
+          </thingDefs>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>4</glowRadius>
+        <glowColor>(200,220,240,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Essence shrine: burns essence as fuel (consumed on its own rare tick by CompEssenceShrine, not by
+       CompRefuelable's per-tick consumption), toggle cleanse or spread. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_EssenceShrine</defName>
+    <label>essence shrine</label>
+    <description>A brazier of black iron that burns soul essence with a cold flame. Set it to cleanse and it slowly cleans the corrupted ground around it; set it to spread and it fouls the ground instead. It works only while it has essence to burn: about three a day.</description>
+    <graphicData>
+      <texPath>Things/Building/HP_EssenceShrine</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>40</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <size>(1,1)</size>
+    <tickerType>Rare</tickerType>
+    <costList>
+      <Steel>60</Steel>
+      <HP_SoulEssence>5</HP_SoulEssence>
+    </costList>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToBuild>2000</WorkToBuild>
+      <Beauty>2</Beauty>
+    </statBases>
+    <designationCategory>Misc</designationCategory>
+    <researchPrerequisites>
+      <li>HP_SoulExtraction</li>
+    </researchPrerequisites>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0</fuelConsumptionRate>
+        <fuelCapacity>30</fuelCapacity>
+        <fuelLabel>Essence</fuelLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>HP_SoulEssence</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="HollowPawns.CompProperties_EssenceShrine">
+        <radius>6.9</radius>
+        <strength>5</strength>
+        <fuelPerDay>3</fuelPerDay>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>4</glowRadius>
+        <glowColor>(120,220,230,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Bind soul into item: one bill for any weapon or apparel. RecipeWorker_BindSoulIntoItem keeps the
+       item; Patch_GenRecipe_SoulBind hands it back soul-bound. The vessel is used up. -->
+  <RecipeDef>
+    <defName>HP_BindSoulIntoItem</defName>
+    <label>bind soul into item</label>
+    <description>Pour the soul from a filled vessel into a weapon or a piece of apparel. The item keeps the soul for good: its grade decides how strong the gift is, its residue what the gift is. Works on any weapon or apparel.</description>
+    <jobString>Binding a soul into an item.</jobString>
+    <workerClass>HollowPawns.RecipeWorker_BindSoulIntoItem</workerClass>
+    <workAmount>3000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <effectWorking>Smelt</effectWorking>
+    <soundWorking>Recipe_Smelt</soundWorking>
+    <recipeUsers>
+      <li>HP_SoulCrucible</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_VesselUrn</li>
+            <li>HP_VesselCanister</li>
+            <li>HP_VesselLattice</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>Weapons</li>
+            <li>Apparel</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HP_VesselUrn</li>
+        <li>HP_VesselCanister</li>
+        <li>HP_VesselLattice</li>
+      </thingDefs>
+      <categories>
+        <li>Weapons</li>
+        <li>Apparel</li>
+      </categories>
+      <specialFiltersToDisallow>
+        <li>HP_AllowSoulBoundWeapons</li>
+        <li>HP_AllowSoulBoundApparel</li>
+      </specialFiltersToDisallow>
+    </fixedIngredientFilter>
+    <defaultIngredientFilter>
+      <thingDefs>
+        <li>HP_VesselUrn</li>
+        <li>HP_VesselCanister</li>
+        <li>HP_VesselLattice</li>
+      </thingDefs>
+      <categories>
+        <li>Weapons</li>
+        <li>Apparel</li>
+      </categories>
+    </defaultIngredientFilter>
+  </RecipeDef>
+
+  <SpecialThingFilterDef>
+    <defName>HP_AllowSoulBoundWeapons</defName>
+    <label>allow soul-bound</label>
+    <description>Allow weapons with a soul bound into them.</description>
+    <parentCategory>Weapons</parentCategory>
+    <workerClass>HollowPawns.SpecialThingFilterWorker_SoulBound</workerClass>
+    <allowedByDefault>true</allowedByDefault>
+    <configurable>true</configurable>
+  </SpecialThingFilterDef>
+
+  <SpecialThingFilterDef>
+    <defName>HP_AllowSoulBoundApparel</defName>
+    <label>allow soul-bound</label>
+    <description>Allow apparel with a soul bound into it.</description>
+    <parentCategory>Apparel</parentCategory>
+    <workerClass>HollowPawns.SpecialThingFilterWorker_SoulBound</workerClass>
+    <allowedByDefault>true</allowedByDefault>
+    <configurable>true</configurable>
+  </SpecialThingFilterDef>
+
+</Defs>

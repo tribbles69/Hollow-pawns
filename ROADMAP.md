@@ -43,6 +43,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Grades and vessels (4.29, 4.30) | Seven grades from skills (best and top three, passion counts). Render 6-20 essence by grade; smash a vessel for 1.5x. Urn (crafting spot, up to fine), canister (machining table, up to masterwork, powered rack), lattice (fabrication bench, any grade). Residue (a trait or top skill) is stored and shown; nothing uses it yet. |
 | Corruption core (4.28) | `MapComponent_Corruption`: a byte per cell; spills from rites, crucible, generator exhaust, soul blasts/bursts, broken vessels, demon auras and demon corpses; 200 sampled cells per 250 ticks for spread (above 80), withering (above 120) and fire cleansing; above 160 souls come out corrupted. Pawn corruption hediff (4 stages, curse at the top). Holy water (order + drink), purgation surgery. Overlay toggle in the play settings. Hell gate needs average 100 to open. |
 | Endless war (4.1, 4.5, 4.6, 4.24, 4.26, 4.31) | Thralls and clone vats (Biotech), reanimated husks (slab), stand guard, carrion bales and walls, corpse grinder, line forge with conscript rifle, helmet and vest. Soulless pawns keep only food and rest needs (Harmony on `ShouldHaveNeed`) and never chat. |
+| Reliquary, soul-bound items, shrines (4.35) | Reliquary case (Remembered thought for those who loved the soul), *bind soul into item* for any weapon or apparel (bonus by residue, size by grade, via a postfix on `StatWorker.StatOffsetFromGear`), bound shrine (consecrate or desecrate, fixed once bound) and essence shrine (fuelled, toggle). Shrines feed the corruption map pass. Not yet: shrines as ghost wards (with 4.8), soul-bound sculpture tales. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -496,6 +497,7 @@ Arrival modes for demons (4.3) and, mirrored, zealots (4.28):
 **Performance:** waves and portals are one-off scheduled events; the Great Rift is a single building checking itself on the rare tick.
 
 ### 4.35 Reliquary, soul-bound items and shrines (decided 13 Oct 2026)
+**Built in v0.8.** Decided while building: the bind bill is at the soul crucible; residue is matched back from its stored text (skill label or trait label) to a stat; a bound shrine takes its vessel on its rare tick. Not yet: ghost warding (needs 4.8) and the sculpture tale.
 What to do with a bound vessel (4.30) besides recipes and smashing.
 
 **Reliquary (display for a vessel)**

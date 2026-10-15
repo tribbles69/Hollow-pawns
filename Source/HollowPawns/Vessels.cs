@@ -44,6 +44,9 @@ namespace HollowPawns
         public bool corrupted;
         public bool damagedOnBinding;
 
+        /// <summary>Thing IDs of the living pawns who cared about them (reliquary "Remembered", 4.35). Empty on vessels bound before v0.8.</summary>
+        public List<int> lovedBy = new List<int>();
+
         public CompProperties_SoulVessel Props => (CompProperties_SoulVessel)props;
 
         private ThingDef EssenceDef => corrupted ? HP_DefOf.HP_CorruptedEssence : HP_DefOf.HP_SoulEssence;
@@ -60,6 +63,7 @@ namespace HollowPawns
             residue = SoulGrades.ResidueOf(victim);
             damagedOnBinding = rawGrade > cap;
             grade = damagedOnBinding ? cap : rawGrade;
+            lovedBy = BoundSoul.LovedBy(victim);
         }
 
         public override string TransformLabel(string label)
@@ -148,6 +152,11 @@ namespace HollowPawns
             Scribe_Values.Look(ref residue, "residue");
             Scribe_Values.Look(ref corrupted, "corrupted");
             Scribe_Values.Look(ref damagedOnBinding, "damagedOnBinding");
+            Scribe_Collections.Look(ref lovedBy, "lovedBy", LookMode.Value);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && lovedBy == null)
+            {
+                lovedBy = new List<int>();
+            }
         }
     }
 
