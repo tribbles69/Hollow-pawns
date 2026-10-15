@@ -17,7 +17,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 
 ---
 
-## 2. Built (v0.7)
+## 2. Built (v0.8)
 
 | Feature | Notes |
 |---|---|

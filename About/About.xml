@@ -3,7 +3,7 @@
   <name>Hollow Pawns</name>
   <author>Aaron Clews</author>
   <packageId>aaronclews.hollowpawns</packageId>
-  <modVersion>0.7.0</modVersion>
+  <modVersion>0.8.0</modVersion>
   <modDependencies>
     <li>
       <packageId>brrainz.harmony</packageId>

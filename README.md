@@ -1,8 +1,8 @@
-# Hollow Pawns v0.7
+# Hollow Pawns v0.8
 
 Every human has a soul. Take it from the dead at the soul crucible, or from the living on the operating table. They die without it.
 
-## What's in v0.7
+## What's in v0.8
 
 ### Souls and essence
 | Thing | What it does |
