@@ -439,7 +439,13 @@ namespace HollowPawns
             Thing bale = ThingMaker.MakeThing(HP_DefOf.HP_CarrionBale);
             bale.stackCount = CarrionBalesFor(inner);
             GenPlace.TryPlaceThing(bale, output, map, ThingPlaceMode.Near);
-            foreach (Thing product in corpse.ButcherProducts(null, 0.6f).ToList())
+            // Corpse.ButcherProducts needs a butcher pawn (blood filth at their feet, butchered-human
+            // history event), so with no pawn it throws. Take the inner pawn's products directly.
+            if (inner.RaceProps.BloodDef != null)
+            {
+                FilthMaker.TryMakeFilth(output, map, inner.RaceProps.BloodDef, inner.LabelIndefinite());
+            }
+            foreach (Thing product in inner.ButcherProducts(null, 0.6f).ToList())
             {
                 GenPlace.TryPlaceThing(product, output, map, ThingPlaceMode.Near);
             }
