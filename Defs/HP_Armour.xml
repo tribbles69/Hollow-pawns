@@ -122,6 +122,13 @@
         <maxCharges>2</maxCharges>
       </li>
     </comps>
+    <!-- The chest piece of the reliquary kit (4.22, gen_apparel_sets.py). -->
+    <modExtensions>
+      <li Class="HollowPawns.ApparelSetExtension">
+        <set>Reliquary</set>
+        <setLabel>reliquary kit</setLabel>
+      </li>
+    </modExtensions>
   </ThingDef>
 
   <RecipeDef>

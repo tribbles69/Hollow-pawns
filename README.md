@@ -155,7 +155,7 @@ The Inquisitors and the Gravedigger wait for salt, fallen idols and ghosts. The 
 | Thing | What it does |
 |---|---|
 | **Soul bow** (crafting spot, research *Recurve bow*; 40 wood and 5 essence) | A recurve bow whose arrows carry soul shock (about 0.16 a hit) on top of the wound. Under CE it takes ordinary streamlined arrows or **soul arrows** (crafting spot or smithy: wood, steel and essence, 10 at a time), and only soul arrows shock. Borrows the recurve bow art, tinted. |
-| **Bone fetish** (crafting spot or tailoring bench; wood and 3 essence) | Worn at the throat (neck, skin layer). **Halves** a reaper's chance against the wearer (a new *reap ward* stat). |
+| **Bone fetish** (crafting spot or tailoring bench; wood and 3 essence) | Worn at the throat (neck, on the overhead layer, so it fits under any shirt). **Halves** a reaper's chance against the wearer (a new *reap ward* stat). |
 | **Wraith lantern** (smithy, research *Soul extraction*; 30 steel and 15 essence) | Worn on the belt. **Unshutter lantern**: every enemy within 9 cells in line of sight takes soul shock, and about half break and run. Once a day. |
 
 ### Soul pipes (only with Vanilla Expanded Framework)
@@ -170,6 +170,20 @@ If VEF is loaded, a **Soul pipes** build tab appears (research *Industrial harve
 | **Soul valve** | Shuts the flow. |
 
 No soulsteel processor: VEF's processor can't make soulsteel the way the crucible does. The pipes borrow vanilla's power conduit art, tinted.
+
+### Full-kit apparel sets
+Six sets that fill every apparel slot (skin, middle, shell, belt, head, eyes) and never clash. Wear every piece of one set for **full kit** (mental break threshold -3%, pain shock threshold +5%). Most pieces are renamed copies of a vanilla piece (same coverage, recipe, bench and research, same art tinted, armour 90% of the original for light sets and 95% for heavy) plus a little essence; the belts (+3% global work speed) and eye pieces (-5% aiming time) are new.
+
+| Set | Tier | Pieces |
+|---|---|---|
+| **Gravecloth** | medieval light | tunic, leggings, gambeson, mourning cloak, hood, corpse-pouch belt, grave blinkers |
+| **Ossuary plate** | medieval heavy | arming shirt, arming hose, ossuary plate, ossuary helm, sword belt, bone visor |
+| **Mourner's kit** | industrial light | shirt, trousers, vest, coat, hat, belt, smoked goggles |
+| **Soulsteel kit** | industrial heavy | undershirt, greaves, vest, jacket, helmet, belt, goggles |
+| **Wraithweave** | spacer light | undershirt, leggings, armour, helmet, belt, lenses |
+| **Reliquary kit** | spacer heavy | undershirt, leggings, **reliquary armour** (4.12), helm, belt, lenses |
+
+Under **Combat Extended** each set adds a webbing, a backpack and a shield (copies of CE's own), and every CE patch on a vanilla original is applied to its copy too, so the CE numbers are CE's. Those three don't count toward the full-kit bonus, so it works the same either way.
 
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
@@ -272,6 +286,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Soul bow: shoot a raider a few times: soul shock appears in their health tab. Under CE: the bow's ammo list shows soul arrows next to stone, steel and plasteel; the soul arrow bill is at the crafting spot and smithy.
 - [ ] Bone fetish: wear it: stats show reap ward 50%. Wraith lantern: wear it in a fight, press *Unshutter*: message counts who fled, button greys out for a day.
 - [ ] Soul pipes (with VEF): the *Soul pipes* tab appears after *Industrial harvest*. Drain to vat to soul generator: essence hauled to the drain fills the vat, the generator refuels itself. *Draw essence* on the vat drops 25. A tap fills with stacks. Shut a valve: the far side stops filling. Without VEF: no tab, no errors.
+- [ ] Apparel sets: open the tailoring, smithy, machining and fabrication benches: each set's pieces are there next to the vanilla originals. Make and wear a full mourner's kit: no piece pushes another off, and *full kit* appears in health; take the hat off and it goes. With CE: the rig, pack and shield go on too, and the vest's armour reads in mm like CE's flak vest.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
@@ -283,8 +298,9 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - v0.8, unverified until tested in game: scenario parts (`MapGenerator.PlayerStartSpot` being set when `GenerateIntoMap` runs, vanilla's internal `ScenPart_CreateIncident` loading from XML with its private `minDays`/`maxDays`/`repeat`, a pawn killed as a world pawn inside `PlayerStartingThings`, a downed prisoner set by `Moving` `setMax` 0 staying a prisoner on the ground).
 - v0.8, unverified until tested in game: setting `AgeBiologicalTicks` directly (and `ResetAgeReversalDemand` with Ideology), `Pawn_HealthTracker.RestorePart` on a missing part, a pawn entering a `Building_Casket` subclass through my own job (copied from vanilla's cryptosleep job), the soul cradle's position on the research tab.
 - v0.8, unverified until tested in game: a `Pawn.Kill` prefix returning false (and whether anything else calls `Kill` past `ShouldBeDead` while the ward is up), `preventsDeath` on a hediff with a `Consciousness` cap, new `StatDef`s picking up apparel `equippedStatOffsets` on pawns.
-- v0.8, unverified until tested in game: `graphicData` `color` tinting borrowed vanilla textures (soul bow, reliquary armour, soul arrow projectile), a `OnSkin`/`Neck` apparel piece fitting with every vanilla outfit, CE's `AmmoArrowBase` with its trade tags replaced, and `CompGetWornGizmosExtra` showing the lantern button.
+- v0.8, unverified until tested in game: `graphicData` `color` tinting borrowed vanilla textures (soul bow, reliquary armour, soul arrow projectile), CE's `AmmoArrowBase` with its trade tags replaced, and `CompGetWornGizmosExtra` showing the lantern button.
 - v0.8, unverified until tested in game: the VEF soul pipes (VEF's `PipeSystem` field names are copied from Vanilla Chemfuel Expanded, not checked against VEF's code; `Custom3` link flag shared with some other mod; `UI/Designators/Deconstruct` as the deconstruct icon; `CompProperties_ExplosiveContent` with `HP_SoulBurst`; tinting the vanilla conduit atlas).
+- v0.8, unverified until tested in game: the apparel sets' borrowed worn art tinted by `colorGenerator`, `Inherit="False"` on empty `apparel/tags` and `thingSetMakerTags`, CE shields and backpacks copied from CE's own defs (render nodes and all), and whether every mirrored CE patch lands (the generator mirrors only patches that name the original by defName; patches on shared parents are inherited).
 - v0.7, unverified until tested in game: the rite job (carrying a restrained prisoner and laying them on the altar cell; vanilla `Toils_Haul.StartCarryThing` on a pawn), `Building_CloneVat` re-implementing `IBillGiver.CurrentlyUsableForBills` (vanilla's isn't virtual), `ResurrectionUtility.TryResurrect` on rotted husks, the corruption overlay (`CellBoolDrawer`) and its toggle among the play settings, `DataExposeUtility.LookByteArray` for the corruption grid, thralls generated with a forced xenotype that has `canGenerateAsCombatant` false, CE armour values for the conscript vest and helmet (set by eye below CE's steel flak vest).
 - v0.6, unverified until tested in game: adding a faction to an existing save with `FactionGenerator.NewGeneratedFaction` (it will have no world bases in that save, and Ideology must give it an ideoligion); the storyteller firing an incident whose `baseChance` is 0 through an on/off cycle; demon pawn kinds inheriting from non-abstract vanilla kinds (`ThrasherBase`, `PirateKindBase`, `MercenaryHeavyBase`); `CompProperties_CauseHediff_Apparel` with no body part.
 - v0.5, unverified until tested in game: `HediffDef.preventsDeath` (no vanilla XML uses it; the game code reads it in `ShouldBeDead`/`CheckForStateChange`), the soul jar surviving minify and save/load, and the soul broker caravan patch on the abstract `OutlanderFactionBase`.

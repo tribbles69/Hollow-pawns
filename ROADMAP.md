@@ -51,6 +51,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Unique armour (4.12) | Reliquary armour (two essence charges that each cancel a death and leave the wearer downed for a day; recharged at the crucible; made with a filled vessel, so it is soul-bound) and the reaper's shroud (+5% reap chance through a new stat). |
 | Lower-tech soul gear (4.13) | Soul bow (soul shock on every hit; CE soul arrows in its own ammo set), bone fetish (halves reap chance against the wearer) and wraith lantern (once a day: soul shock and panic on enemies within 9 cells). Not yet: javelins. |
 | Soul pipes (4.14) | Optional `Mods/VEF` folder, loaded only with Vanilla Expanded Framework: soul pipe, valve, drain, vat (vents a soul burst when wrecked), tap. Auto-refuels anything that burns essence. XML only. No soulsteel processor. |
+| Full-kit apparel sets (4.22) | `gen_apparel_sets.py`: six sets (gravecloth, ossuary plate, mourner's kit, soulsteel kit, wraithweave, reliquary kit) built from vanilla originals, checked clash-free and complete against the game's Human body with and without CE; CE adds webbing, backpack and shield per set and mirrors CE's patches. Full-kit hediff on wearing every piece. Art borrowed and tinted. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -273,6 +274,7 @@ Already done: essence shows in the top-left resource readout (it's a resource wi
 **Mutiny clause:** if the gizmo or dialog patches clash with CE or a heavy modlist, or v1 grows past these five items, cut back to Mark + Soul-Lock and ship that.
 
 ### 4.22 Full-kit apparel sets
+**Built in v0.8.** Decided while building: pieces copy a vanilla original rather than inventing stats, so no piece outclasses its vanilla equivalent (armour x0.9 light, x0.95 heavy) and CE's own patches can be mirrored onto them; the reliquary armour is the spacer heavy chest; CE-only pieces don't count toward the bonus.
 Aaron likes filling every clothing slot and hates working out what fits together. So: six sets that fill **every** slot, guaranteed conflict-free.
 - **Six sets:** light and heavy for each of medieval, industrial and spacer. Working names: *gravecloth* (medieval light: gambeson, hood and so on; mobile, cheap, good cold insulation), *ossuary plate* (medieval heavy, stuff-based), *mourner's kit* (industrial light, flak-style, fast), a soulsteel heavy set (industrial heavy), and spacer light/heavy at marine tier and above. The planned reliquary armour (4.12) can become the spacer heavy chest piece.
 - **A generator, like the guns** (`Source/tools/gen_apparel_sets.py`): each set is a table of pieces, each with one apparel layer and its covered body-part groups. The script **refuses to output a set where two pieces share a layer and any body part** (that's what makes items clash in-game) and **checks the set covers every slot**. Pull the exact slot list from the game's own apparel layer defs rather than guessing.

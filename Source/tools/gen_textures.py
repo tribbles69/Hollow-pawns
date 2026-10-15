@@ -647,6 +647,31 @@ def soul_basin(drain):
     return layers
 
 
+def kit_belt():
+    """A plain belt with two pouches, drawn pale so the set colour tints it."""
+    pale, dark = (225, 225, 225), (150, 150, 150)
+    return [
+        (rrect(64, 64, 54, 8, 4), pale, 1.0),
+        (rrect(40, 76, 12, 14, 3), dark, 1.0),
+        (rrect(88, 76, 12, 14, 3), dark, 1.0),
+        (rrect(64, 64, 9, 11, 2), (190, 190, 190), 1.0),
+        (rrect(64, 64, 5, 7, 1), dark, 1.0),
+    ]
+
+
+def kit_goggles():
+    """Two round lenses on a strap, pale for tinting."""
+    pale = (225, 225, 225)
+    return [
+        (rrect(64, 64, 58, 4, 2), (170, 170, 170), 1.0),
+        (circle(42, 64, 18), pale, 1.0),
+        (circle(86, 64, 18), pale, 1.0),
+        (circle(42, 64, 12), (90, 110, 115), 1.0),
+        (circle(86, 64, 12), (90, 110, 115), 1.0),
+        (rrect(64, 62, 6, 4, 2), pale, 1.0),
+    ]
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
@@ -698,3 +723,6 @@ if __name__ == "__main__":
     write_png(os.path.join(b, "HP_SoulValve.png"), render(128, soul_valve()))
     write_png(os.path.join(b, "HP_SoulTap.png"), render(128, soul_basin(False)))
     write_png(os.path.join(b, "HP_SoulDrain.png"), render(128, soul_basin(True)))
+    # Full-kit apparel sets (gen_apparel_sets.py): shared belt and goggles icons, tinted per set.
+    write_png(os.path.join(i, "Equipment", "HP_KitBelt.png"), render(128, kit_belt()))
+    write_png(os.path.join(i, "Equipment", "HP_KitGoggles.png"), render(128, kit_goggles()))

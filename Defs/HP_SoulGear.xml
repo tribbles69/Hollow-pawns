@@ -144,8 +144,9 @@
       <bodyPartGroups>
         <li>Neck</li>
       </bodyPartGroups>
+      <!-- Overhead, not OnSkin: the button-down shirt covers the neck on the skin layer. -->
       <layers>
-        <li>OnSkin</li>
+        <li>Overhead</li>
       </layers>
       <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
       <careIfWornByCorpse>false</careIfWornByCorpse>

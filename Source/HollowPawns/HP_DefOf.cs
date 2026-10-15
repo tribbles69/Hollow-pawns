@@ -33,6 +33,7 @@ namespace HollowPawns
         public static HediffDef HP_ReanimatedHusk;
         public static HediffDef HP_StandingGuard;
         public static HediffDef HP_Shackled;
+        public static HediffDef HP_FullKit;
         public static HediffDef HP_ReliquaryWard;
         public static HediffDef HP_RecentlyBathed;
         public static JobDef HP_BatheInFountain;

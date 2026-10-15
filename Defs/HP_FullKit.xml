@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Full-kit bonus (4.22): every piece of one set worn (ApparelSets.cs). The sets themselves are
+       generated into HP_ApparelSets.xml by Source/tools/gen_apparel_sets.py. -->
+  <HediffDef>
+    <defName>HP_FullKit</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>full kit</label>
+    <description>Wearing every piece of a matched kit. Everything fits, nothing pinches, nothing flaps: steadier nerves and a little more grit when it hurts.</description>
+    <defaultLabelColor>(0.6, 0.8, 0.85)</defaultLabelColor>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+        <statOffsets>
+          <MentalBreakThreshold>-0.03</MentalBreakThreshold>
+          <PainShockThreshold>0.05</PainShockThreshold>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>
