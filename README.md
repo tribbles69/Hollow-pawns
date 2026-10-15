@@ -195,6 +195,11 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 
 If any of these is wrong, the log will name it.
 
+### Fixed from the v0.7 load log
+- **Clone vat work loop.** While a vat was growing, workers took its bill and dropped it ten times a tick. `WorkGiver_DoBill` only asks `UsableForBillsAfterFueling`, and only the job driver asks `CurrentlyUsableForBills`. The vat now refuses on both while growing.
+- Demon faction: on old saves it was added and then forced hostile with `SetRelationDirect`, which errors for goodwill factions (one error per faction). It's `permanentEnemy`, so the generator already makes it hostile; the loop is gone.
+- Clone vat, corpse grinder and line forge are pass-through (slow), not impassable. Conscript rifle, helmet and vest aren't smeltable. Thralls have a will and resistance range (the game requires one for humanlike kinds).
+
 ### Fixed from the v0.6 load log
 - **Hell Unbound broke world generation.** The generated storyteller copied Cassandra's comps but not the population and adaptation curves she inherits from `BaseStoryteller`, so every pawn generated with it selected threw. It now has that parent. The demon wave's `minSpacingDays` (4) was longer than its 3-day window and is gone.
 - Essence stacks: vanilla `CompExplosive` needs every stack to tick every frame. Replaced by `CompVolatileEssence`, which bursts at once on fire damage, at half hit points (60% for corrupted) or when destroyed. There is no wick any more, so a fire bursts a stack the moment it reaches it. Unverified in game.

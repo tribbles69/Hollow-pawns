@@ -89,6 +89,8 @@
       <li>Gun</li>
     </weaponTags>
     <techHediffsChance>0</techHediffsChance>
+    <initialWillRange>0~1</initialWillRange>
+    <initialResistanceRange>5~10</initialResistanceRange>
   </PawnKindDef>
 
   <!-- About thirty days, then they fail and die. -->
@@ -147,7 +149,8 @@
     </graphicData>
     <size>(3,2)</size>
     <altitudeLayer>Building</altitudeLayer>
-    <passability>Impassable</passability>
+    <passability>PassThroughOnly</passability>
+    <pathCost>60</pathCost>
     <fillPercent>0.8</fillPercent>
     <castEdgeShadows>true</castEdgeShadows>
     <rotatable>false</rotatable>

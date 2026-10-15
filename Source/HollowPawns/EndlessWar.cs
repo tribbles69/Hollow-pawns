@@ -66,8 +66,11 @@ namespace HollowPawns
 
         public bool Growing => growTicksLeft > 0;
 
-        // Re-implements IBillGiver: Building_WorkTable's version isn't virtual, and work givers call it through the interface.
+        // Re-implements IBillGiver: Building_WorkTable's versions aren't virtual, and callers go through the interface.
+        // WorkGiver_DoBill only checks UsableForBillsAfterFueling while JobDriver_DoBill checks CurrentlyUsableForBills,
+        // so both must refuse while growing, or workers take the bill and drop it in a loop.
         bool IBillGiver.CurrentlyUsableForBills() => !Growing && base.CurrentlyUsableForBills();
+        bool IBillGiver.UsableForBillsAfterFueling() => !Growing && base.UsableForBillsAfterFueling();
 
         public void StartGrowing()
         {

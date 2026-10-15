@@ -332,7 +332,8 @@
     </graphicData>
     <size>(3,3)</size>
     <altitudeLayer>Building</altitudeLayer>
-    <passability>Impassable</passability>
+    <passability>PassThroughOnly</passability>
+    <pathCost>60</pathCost>
     <fillPercent>0.8</fillPercent>
     <blockWind>true</blockWind>
     <castEdgeShadows>true</castEdgeShadows>
@@ -377,7 +378,8 @@
     </graphicData>
     <size>(4,2)</size>
     <altitudeLayer>Building</altitudeLayer>
-    <passability>Impassable</passability>
+    <passability>PassThroughOnly</passability>
+    <pathCost>60</pathCost>
     <fillPercent>0.7</fillPercent>
     <castEdgeShadows>true</castEdgeShadows>
     <rotatable>false</rotatable>
@@ -425,6 +427,7 @@
       <li>HP_Conscript</li>
     </weaponTags>
     <tradeTags Inherit="False" />
+    <smeltable>false</smeltable>
     <statBases>
       <MarketValue>15</MarketValue>
       <Mass>3.2</Mass>
@@ -490,6 +493,7 @@
       <li>Headgear</li>
     </thingCategories>
     <tradeTags Inherit="False" />
+    <smeltable>false</smeltable>
     <generateAllowChance>0</generateAllowChance>
     <apparel>
       <bodyPartGroups>
@@ -538,6 +542,7 @@
       <li>Apparel</li>
     </thingCategories>
     <tradeTags Inherit="False" />
+    <smeltable>false</smeltable>
     <generateAllowChance>0</generateAllowChance>
     <apparel>
       <bodyPartGroups>

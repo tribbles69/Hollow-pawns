@@ -24,14 +24,8 @@ namespace HollowPawns
                 return;
             }
             Faction demons = FactionGenerator.NewGeneratedFaction(new FactionGeneratorParms(def));
+            // permanentEnemy: the generator already makes it hostile to everyone.
             Find.FactionManager.Add(demons);
-            foreach (Faction other in Find.FactionManager.AllFactionsListForReading)
-            {
-                if (other != demons)
-                {
-                    demons.SetRelationDirect(other, FactionRelationKind.Hostile, false);
-                }
-            }
             Log.Message("[Hollow Pawns] Added the demon faction to this save.");
         }
     }
