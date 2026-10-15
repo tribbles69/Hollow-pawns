@@ -47,6 +47,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Prisoner battery (4.7) | Casket-style generator: mark a prisoner *Battery*, a warden locks them in, 300-900 W by soul grade for five days, then a husk and some essence. Release early for soul shock. Rare tick only. |
 | Blood debts (4.18) | Killers of colonists carry a blood debt (kept as world pawns if they escape). Torment prisoner mode (pain, soul shock, Avenging for loved ones, kind colonists disturbed, goodwill hit). Vengeance effigy cast from a debtor's corpse; wailing effigy from the *Effigy* fate, screaming at night, at passers-by and at raids (soul shock, panic). Placeholder scream sound. Not yet: Ideology precept reactions, vengeance TaleDef. |
 | Scenarios (4.33) | The Coven (altar, shackled captive, corrupted ground), Endless War (Biotech: thralls, forge, grinder, generator, frequent raids) and the Escapee (lattice holding a loved one, hunted). Custom scenario parts for buildings, captives, corrupted ground, thralls and the lattice. Not yet: the Inquisitors and the Gravedigger, precepts. |
+| Longevity (4.10) | Fountain of youth (essence bath, 1-2 years, chance to cure a chronic condition, five-day cooldown) and soul cradle (spacer casket, three-day powered cycle on 30 essence: 5-8 years, all chronic conditions, one part regrown). |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -163,6 +164,7 @@ A ghost is a soul still clinging to its body. Ghosts are **rare and local**: tie
 Huge Biotech-style mechs grown at the gestator from soulsteel and essence. They run on essence instead of power; possibly need a soul core made from a captured prisoner. Code is moderate; **the real cost is art** (all directions).
 
 ### 4.10 Longevity
+**Built in v0.8.** Decided while building: the bath is a float-menu order, not recreation; nobody goes below 18; bathing and the cradle add a little soul corruption to the pawn.
 - **Fountain of youth** (medieval, unpowered): stone font fed with essence. A pawn bathes (job or recreation) and loses a year or two of biological age per dose, with a chance to cure old-age conditions (bad back, frailty, cataracts). One C# hook to set the age.
 - **Soul cradle** (spacer): sealed bio-pod running multi-day cycles on essence. Bigger age reversal, guaranteed chronic-condition removal, maybe regrowing lost parts. Model the cycle and occupancy on Ideology's biosculpter.
 

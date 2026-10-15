@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Longevity (4.10) =====================
+       Essence buys back years. Fountain: a bath (float menu job), fuel used per bath. Cradle: a casket
+       running a 3-day cycle on its own rare tick. Code in Longevity.cs. -->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_FountainOfYouth</defName>
+    <label>fountain of youth</label>
+    <description>A stone basin fed with soul essence. The water is cold and faintly bright. Bathing in it takes a year or two off, and now and then washes away the aches of age: a bad back, frailty, failing eyes. It costs 5 essence a bath, and nobody may bathe more than once every five days. The water leaves a little of whoever it was in you.\n\nRight-click it with a colonist to bathe.</description>
+    <graphicData>
+      <texPath>Things/Building/HP_FountainOfYouth</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <size>(2,2)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>150</costStuffCount>
+    <costList>
+      <HP_SoulEssence>10</HP_SoulEssence>
+    </costList>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>6000</WorkToBuild>
+      <Beauty>15</Beauty>
+    </statBases>
+    <designationCategory>Misc</designationCategory>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0</fuelConsumptionRate>
+        <fuelCapacity>25</fuelCapacity>
+        <fuelLabel>Essence</fuelLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>HP_SoulEssence</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="HollowPawns.CompProperties_Fountain">
+        <essencePerBath>5</essencePerBath>
+        <yearsPerBath>1~2</yearsPerBath>
+        <cureChance>0.25</cureChance>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(120,220,230,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>HP_RecentlyBathed</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>bathed in the fountain</label>
+    <description>Recently bathed in the fountain of youth. It won't work again for a few days.</description>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>300000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <JobDef>
+    <defName>HP_BatheInFountain</defName>
+    <driverClass>HollowPawns.JobDriver_BatheInFountain</driverClass>
+    <reportString>bathing in TargetA.</reportString>
+  </JobDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_SoulCradle</defName>
+    <label>soul cradle</label>
+    <description>A sealed pod lined with soul lattice. An adult lies inside while it runs a three-day cycle on 30 essence, threading borrowed soul through every cell. They come out five to eight years younger, free of every chronic condition, and with one lost body part regrown. The occupant needs nothing while sealed in. Needs power; without it the cycle pauses.\n\nRight-click it with a colonist to climb in.</description>
+    <thingClass>HollowPawns.Building_SoulCradle</thingClass>
+    <graphicData>
+      <texPath>Things/Building/HP_SoulCradle</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,2)</drawSize>
+    </graphicData>
+    <size>(1,2)</size>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>42</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(1,0,0)</interactionCellOffset>
+    <tickerType>Rare</tickerType>
+    <designationCategory>Misc</designationCategory>
+    <researchPrerequisites>
+      <li>HP_SoulCradle</li>
+    </researchPrerequisites>
+    <costList>
+      <Plasteel>80</Plasteel>
+      <ComponentSpacer>3</ComponentSpacer>
+      <HP_SoulEssence>40</HP_SoulEssence>
+    </costList>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <WorkToBuild>12000</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <Beauty>5</Beauty>
+    </statBases>
+    <building>
+      <isPlayerEjectable>true</isPlayerEjectable>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+    </building>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>400</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0</fuelConsumptionRate>
+        <fuelCapacity>60</fuelCapacity>
+        <fuelLabel>Essence</fuelLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>HP_SoulEssence</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>2</glowRadius>
+        <glowColor>(120,220,230,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <JobDef>
+    <defName>HP_EnterSoulCradle</defName>
+    <driverClass>HollowPawns.JobDriver_EnterSoulCradle</driverClass>
+    <reportString>entering TargetA.</reportString>
+  </JobDef>
+
+  <ResearchProjectDef>
+    <defName>HP_SoulCradle</defName>
+    <label>soul cradle</label>
+    <description>Thread borrowed soul through living flesh and teach it to remember being young. Unlocks the soul cradle.</description>
+    <baseCost>4000</baseCost>
+    <techLevel>Spacer</techLevel>
+    <prerequisites>
+      <li>HP_SoulLattice</li>
+    </prerequisites>
+    <!-- Placeholder position next to Soul lattice; move it if it overlaps something in your load order. -->
+    <researchViewX>18.00</researchViewX>
+    <researchViewY>6.10</researchViewY>
+  </ResearchProjectDef>
+
+</Defs>

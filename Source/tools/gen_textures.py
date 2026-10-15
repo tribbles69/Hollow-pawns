@@ -537,6 +537,34 @@ def effigy(wailing):
     return layers
 
 
+def fountain_of_youth():
+    """2x2 stone basin, bright water, a little spout."""
+    stone, stone_dark = (150, 145, 135), (110, 105, 98)
+    return [
+        ("glow", 128, 128, 120, CYAN, 0.35),
+        (circle(128, 132, 108), stone_dark, 1.0),
+        (circle(128, 128, 100), stone, 1.0),
+        (circle(128, 128, 78), (60, 110, 120), 1.0),
+        (circle(128, 128, 70), CYAN, 0.75),
+        (ring(128, 128, 40, 4), CYAN_PALE, 0.6),
+        (circle(128, 128, 22), stone, 1.0),
+        (circle(128, 124, 10), CYAN_PALE, 1.0),
+    ]
+
+
+def soul_cradle():
+    """1x2 sealed pod seen from above: a lid with a long window over a lattice glow."""
+    return [
+        ("glow", 64, 128, 90, CYAN, 0.3),
+        (rrect(64, 128, 54, 120, 26), METAL_DARK, 1.0),
+        (rrect(64, 128, 46, 112, 22), (200, 205, 210), 1.0),
+        (rrect(64, 120, 28, 84, 14), (40, 60, 66), 1.0),
+        (rrect(64, 120, 22, 78, 11), CYAN, 0.5),
+        (union(*[rrect(64, 60 + k * 20, 20, 1.5, 1) for k in range(7)]), CYAN_PALE, 0.6),
+        (circle(64, 226, 6), CYAN, 1.0),
+    ]
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
@@ -578,3 +606,5 @@ if __name__ == "__main__":
     write_png(os.path.join(b, "HP_PrisonerBattery.png"), render(256, prisoner_battery(), 128))
     write_png(os.path.join(b, "HP_VengeanceEffigy.png"), render(128, effigy(False)))
     write_png(os.path.join(b, "HP_WailingEffigy.png"), render(128, effigy(True)))
+    write_png(os.path.join(b, "HP_FountainOfYouth.png"), render(256, fountain_of_youth()))
+    write_png(os.path.join(b, "HP_SoulCradle.png"), render(128, soul_cradle(), 256))
