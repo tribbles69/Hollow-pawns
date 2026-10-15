@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Flayed face masks (4.23) =====================
+       Take a face from an adult corpse (butcher bill; the corpse is marked, not used up) or flay it
+       off a living prisoner or slave (surgery). The mask keeps the name. Code in FaceMasks.cs. -->
+
+  <HediffDef>
+    <defName>HP_FaceTaken</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>face taken</label>
+    <labelNoun>a taken face</labelNoun>
+    <description>The face has been cut away. What is left is raw, then scar.</description>
+    <defaultLabelColor>(0.75, 0.3, 0.3)</defaultLabelColor>
+    <isBad>true</isBad>
+    <everCurableByItem>false</everCurableByItem>
+    <stages>
+      <li>
+        <statOffsets>
+          <PawnBeauty>-3</PawnBeauty>
+        </statOffsets>
+        <painOffset>0.05</painOffset>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>HP_FaceFlayed</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>60</durationDays>
+    <stackLimit>1</stackLimit>
+    <stages>
+      <li>
+        <label>my face was taken</label>
+        <description>They cut my face off and walked away with it. Somebody is wearing it.</description>
+        <baseMoodEffect>-25</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_WearsFace</defName>
+    <thoughtClass>Thought_SituationalSocial</thoughtClass>
+    <workerClass>HollowPawns.ThoughtWorker_WearsFace</workerClass>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>wears a human face</label>
+        <baseOpinionOffset>-15</baseOpinionOffset>
+      </li>
+      <li>
+        <label>wears a fine trophy</label>
+        <baseOpinionOffset>10</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_LovedFaceWorn</defName>
+    <workerClass>HollowPawns.ThoughtWorker_LovedFaceWorn</workerClass>
+    <validWhileDespawned>false</validWhileDespawned>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>wearing a face I loved</label>
+        <description>Someone is walking around wearing the face of a person I loved.</description>
+        <baseMoodEffect>-20</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThingDef ParentName="ApparelBase">
+    <defName>HP_FaceMask</defName>
+    <label>flayed face</label>
+    <description>A human face, cut away, cured and stitched to a leather backing so it can be worn. It keeps the name of whoever it belonged to. Slaves find it hard to look at; most people find the wearer hard to like. Psychopaths and the bloodlusty think it's a fine trophy.\n\nFaces taken from the living cure better than faces taken from the dead. Like any leather, it wears out.</description>
+    <techLevel>Neolithic</techLevel>
+    <graphicData>
+      <texPath>Things/Item/Equipment/HP_FaceMask</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Mass>0.2</Mass>
+      <Flammability>1</Flammability>
+      <DeteriorationRate>2</DeteriorationRate>
+      <EquipDelay>1</EquipDelay>
+      <MarketValue>30</MarketValue>
+      <Beauty>-5</Beauty>
+    </statBases>
+    <equippedStatOffsets>
+      <SocialImpact>-0.15</SocialImpact>
+      <SlaveSuppressionOffset MayRequire="Ludeon.RimWorld.Ideology">0.15</SlaveSuppressionOffset>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>ApparelMisc</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Eyes</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Things/Pawn/Humanlike/Apparel/HP_FaceMask/HP_FaceMask</wornGraphicPath>
+      <layers>
+        <li>EyeCover</li>
+      </layers>
+      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <wearPerDay>0.6</wearPerDay>
+    </apparel>
+    <generateCommonality>0</generateCommonality>
+    <tradeability>Sellable</tradeability>
+    <comps>
+      <li>
+        <compClass>HollowPawns.CompFace</compClass>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <RecipeDef>
+    <defName>HP_TakeFace</defName>
+    <label>take face</label>
+    <description>Cut the face from an adult human corpse and cure it into a wearable mask. The corpse is left for the crucible, the slab or the wall.</description>
+    <jobString>Taking a face.</jobString>
+    <workerClass>HollowPawns.RecipeWorker_TakeFace</workerClass>
+    <workAmount>1500</workAmount>
+    <workSpeedStat>ButcheryFleshSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <effectWorking>ButcherFlesh</effectWorking>
+    <soundWorking>Recipe_ButcherCorpseFlesh</soundWorking>
+    <recipeUsers>
+      <li>ButcherSpot</li>
+      <li>TableButcher</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>CorpsesHumanlike</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>CorpsesHumanlike</li>
+      </categories>
+      <specialFiltersToDisallow>
+        <li>HP_NoFace</li>
+      </specialFiltersToDisallow>
+    </fixedIngredientFilter>
+    <defaultIngredientFilter>
+      <categories>
+        <li>CorpsesHumanlike</li>
+      </categories>
+      <specialFiltersToDisallow>
+        <li>AllowRotten</li>
+      </specialFiltersToDisallow>
+    </defaultIngredientFilter>
+  </RecipeDef>
+
+  <SpecialThingFilterDef>
+    <defName>HP_NoFace</defName>
+    <label>no face to take</label>
+    <description>Corpses whose face is already taken, or that aren't adult humans.</description>
+    <parentCategory>CorpsesHumanlike</parentCategory>
+    <workerClass>HollowPawns.SpecialThingFilterWorker_NoFace</workerClass>
+    <allowedByDefault>false</allowedByDefault>
+    <configurable>false</configurable>
+  </SpecialThingFilterDef>
+
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>HP_FlayFace</defName>
+    <label>flay face</label>
+    <description>Cut the face off a living prisoner or slave and cure it into a mask. They live, scarred for good and wretched about it. Faces taken from the living make better masks. This is a violation: their faction will not forgive it.</description>
+    <workerClass>HollowPawns.Recipe_FlayFace</workerClass>
+    <jobString>Flaying a face.</jobString>
+    <workAmount>2000</workAmount>
+    <hideBodyPartNames>true</hideBodyPartNames>
+    <targetsBodyPart>false</targetsBodyPart>
+    <isViolation>true</isViolation>
+    <anesthetize>false</anesthetize>
+    <uiIconThing>HP_FaceMask</uiIconThing>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <recipeUsers>
+      <li>Human</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+
+</Defs>

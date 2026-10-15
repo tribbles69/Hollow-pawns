@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- The flayed face stays on the vanilla EyeCover layer under CE: its worn art is head art
+       (no body type), which vanilla only loads that way for Overhead and EyeCover. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HP_FaceMask"]/statBases</xpath>
+    <value>
+      <Bulk>0.5</Bulk>
+      <WornBulk>0</WornBulk>
+    </value>
+  </Operation>
+
+</Patch>

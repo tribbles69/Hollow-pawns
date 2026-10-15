@@ -52,6 +52,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Lower-tech soul gear (4.13) | Soul bow (soul shock on every hit; CE soul arrows in its own ammo set), bone fetish (halves reap chance against the wearer) and wraith lantern (once a day: soul shock and panic on enemies within 9 cells). Not yet: javelins. |
 | Soul pipes (4.14) | Optional `Mods/VEF` folder, loaded only with Vanilla Expanded Framework: soul pipe, valve, drain, vat (vents a soul burst when wrecked), tap. Auto-refuels anything that burns essence. XML only. No soulsteel processor. |
 | Full-kit apparel sets (4.22) | `gen_apparel_sets.py`: six sets (gravecloth, ossuary plate, mourner's kit, soulsteel kit, wraithweave, reliquary kit) built from vanilla originals, checked clash-free and complete against the game's Human body with and without CE; CE adds webbing, backpack and shield per set and mirrors CE's patches. Full-kit hediff on wearing every piece. Art borrowed and tinted. |
+| Flayed faces (4.23) | Take-face butcher bill (corpse marked, not used up) and flay-face surgery (violation, lasting scar and mood). Named masks with social thoughts, a horror for whoever loved the face, and Avenged for blood-debt avengers. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -284,6 +285,7 @@ Aaron likes filling every clothing slot and hates working out what fits together
 - **Art is the real cost:** worn apparel needs every facing and body type. First pass borrows vanilla worn textures tinted by material, so stats and slot logic can be tested before custom art exists.
 
 ### 4.23 Face masks (flayed)
+**Built in v0.8.** Decided while building: the mask is on the eye slot (EyeCover) in both vanilla and CE, because vanilla only loads bodyless head art for Overhead and EyeCover; so it stacks with helmets but not with goggles. No Ideology precept reactions yet.
 Like Ideology's skull extraction, but the face, worn as a mask.
 - **From corpses:** a **"take face"** bill at the butcher table on an adult human corpse. The corpse is marked rather than consumed (same mark-instead-of-consume code as the crucible husk change in 4.1), so it can still go to the crucible, the reanimation slab or the carrion wall.
 - **From the living:** a **"flay face"** surgery on an adult prisoner. They survive, permanently disfigured: a lasting condition with a heavy beauty and social penalty and a strong mood penalty for them. It counts as a violation; their faction hates you for it. A living face makes a better-quality mask than a corpse's.

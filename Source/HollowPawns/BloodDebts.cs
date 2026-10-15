@@ -493,6 +493,11 @@ namespace HollowPawns
                     best = Mathf.Max(best, e.Wailing ? 1 : 0);
                 }
             }
+            // A face mask of the killer, worn by someone in sight (4.23).
+            if (best < 0 && FaceMasks.AvengedBySeenMask(p))
+            {
+                best = 0;
+            }
             return best < 0 ? ThoughtState.Inactive : ThoughtState.ActiveAtStage(best);
         }
     }

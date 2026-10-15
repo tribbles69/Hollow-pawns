@@ -1,3 +1,4 @@
+using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -42,6 +43,31 @@ namespace HollowPawns
         }
 
         public static bool HasSoul(Pawn pawn) => GetSoul(pawn) != null;
+
+        /// <summary>An adult human, alive or dead: the only kind whose face can be taken (4.23).</summary>
+        public static bool IsAdultHuman(Pawn pawn) => pawn?.RaceProps != null && pawn.RaceProps.Humanlike && pawn.DevelopmentalStage.Adult();
+
+        /// <summary>Whether this living or dead adult still has a face to take.</summary>
+        public static bool HasFace(Pawn pawn) => IsAdultHuman(pawn) && !pawn.health.hediffSet.HasHediff(HP_DefOf.HP_FaceTaken);
+
+        /// <summary>Marks a corpse's face taken without consuming the corpse (like MarkSoulTaken).</summary>
+        public static void MarkFaceTaken(Pawn pawn)
+        {
+            if (!HasFace(pawn))
+            {
+                return;
+            }
+            BodyPartRecord head = pawn.health.hediffSet.GetNotMissingParts().FirstOrDefault(p => p.def == BodyPartDefOf.Head);
+            Hediff h = HediffMaker.MakeHediff(HP_DefOf.HP_FaceTaken, pawn, head);
+            if (pawn.Dead)
+            {
+                pawn.health.hediffSet.AddDirect(h);
+            }
+            else
+            {
+                pawn.health.AddHediff(h);
+            }
+        }
 
         /// <summary>
         /// Alive without a soul: vat-grown thralls (the Soulless gene) and reanimated husks (the husk

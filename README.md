@@ -185,6 +185,13 @@ Six sets that fill every apparel slot (skin, middle, shell, belt, head, eyes) an
 
 Under **Combat Extended** each set adds a webbing, a backpack and a shield (copies of CE's own), and every CE patch on a vanilla original is applied to its copy too, so the CE numbers are CE's. Those three don't count toward the full-kit bonus, so it works the same either way.
 
+### Flayed faces
+| Thing | What it does |
+|---|---|
+| **Take face** (butcher spot or table) | On an adult human corpse. Makes a **flayed face** mask; the corpse is marked, not used up, so it can still go to the crucible, the slab or the wall. Up to *normal* quality. |
+| **Flay face** (surgery, prisoners and slaves) | They live, with *face taken* (beauty -3) and *my face was taken* (-25 for 60 days). A violation: -30 goodwill. The mask comes out a grade better than a corpse's. |
+| **Flayed face** (eye slot) | *face of Vex*: keeps the name. Social impact -15%, slave suppression +15% (Ideology). Others think less of the wearer (-15), unless they're psychopaths or bloodlust (+10). Anyone who loved that person and sees it worn gets -20. If the face carried a **blood debt**, the avengers who see it get *effigy of the killer* (+5). Wears out like leather. |
+
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
 - **Soul guns fire beams.** Like CE's own lasers: one shared **soul charge** ammo (100 from 6 soulsteel + 4 essence, so about 200 shots per corpse), and each gun maps it to its own beam with its own damage and penetration, plus a one-cell soul blast on impact.
@@ -287,6 +294,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Bone fetish: wear it: stats show reap ward 50%. Wraith lantern: wear it in a fight, press *Unshutter*: message counts who fled, button greys out for a day.
 - [ ] Soul pipes (with VEF): the *Soul pipes* tab appears after *Industrial harvest*. Drain to vat to soul generator: essence hauled to the drain fills the vat, the generator refuels itself. *Draw essence* on the vat drops 25. A tap fills with stacks. Shut a valve: the far side stops filling. Without VEF: no tab, no errors.
 - [ ] Apparel sets: open the tailoring, smithy, machining and fabrication benches: each set's pieces are there next to the vanilla originals. Make and wear a full mourner's kit: no piece pushes another off, and *full kit* appears in health; take the hat off and it goes. With CE: the rig, pack and shield go on too, and the vest's armour reads in mm like CE's flak vest.
+- [ ] Faces: *take face* at a butcher table on a raider's corpse: a *face of X* mask appears and the corpse is still there (inspect its health: face taken); the bill won't take it again. Wear it: social tab shows *wears a human face*. Flay a prisoner: they live, mood -25, goodwill drops. Flay a blood debtor: the victim's friend near the wearer gets *effigy of the killer*.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
@@ -301,6 +309,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - v0.8, unverified until tested in game: `graphicData` `color` tinting borrowed vanilla textures (soul bow, reliquary armour, soul arrow projectile), CE's `AmmoArrowBase` with its trade tags replaced, and `CompGetWornGizmosExtra` showing the lantern button.
 - v0.8, unverified until tested in game: the VEF soul pipes (VEF's `PipeSystem` field names are copied from Vanilla Chemfuel Expanded, not checked against VEF's code; `Custom3` link flag shared with some other mod; `UI/Designators/Deconstruct` as the deconstruct icon; `CompProperties_ExplosiveContent` with `HP_SoulBurst`; tinting the vanilla conduit atlas).
 - v0.8, unverified until tested in game: the apparel sets' borrowed worn art tinted by `colorGenerator`, `Inherit="False"` on empty `apparel/tags` and `thingSetMakerTags`, CE shields and backpacks copied from CE's own defs (render nodes and all), and whether every mirrored CE patch lands (the generator mirrors only patches that name the original by defName; patches on shared parents are inherited).
+- v0.8, unverified until tested in game: the flayed face's worn head art (three facings, EyeCover drawn over helmets), a `Thought_SituationalSocial` worker on every pair of pawns, `AddDirect` of a hediff on a corpse's head, `wearPerDay` on a mask.
 - v0.7, unverified until tested in game: the rite job (carrying a restrained prisoner and laying them on the altar cell; vanilla `Toils_Haul.StartCarryThing` on a pawn), `Building_CloneVat` re-implementing `IBillGiver.CurrentlyUsableForBills` (vanilla's isn't virtual), `ResurrectionUtility.TryResurrect` on rotted husks, the corruption overlay (`CellBoolDrawer`) and its toggle among the play settings, `DataExposeUtility.LookByteArray` for the corruption grid, thralls generated with a forced xenotype that has `canGenerateAsCombatant` false, CE armour values for the conscript vest and helmet (set by eye below CE's steel flak vest).
 - v0.6, unverified until tested in game: adding a faction to an existing save with `FactionGenerator.NewGeneratedFaction` (it will have no world bases in that save, and Ideology must give it an ideoligion); the storyteller firing an incident whose `baseChance` is 0 through an on/off cycle; demon pawn kinds inheriting from non-abstract vanilla kinds (`ThrasherBase`, `PirateKindBase`, `MercenaryHeavyBase`); `CompProperties_CauseHediff_Apparel` with no body part.
 - v0.5, unverified until tested in game: `HediffDef.preventsDeath` (no vanilla XML uses it; the game code reads it in `ShouldBeDead`/`CheckForStateChange`), the soul jar surviving minify and save/load, and the soul broker caravan patch on the abstract `OutlanderFactionBase`.

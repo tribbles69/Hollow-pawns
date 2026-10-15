@@ -672,6 +672,41 @@ def kit_goggles():
     ]
 
 
+SKIN = (215, 185, 165)
+SKIN_DARK = (150, 110, 95)
+
+
+def face_mask_icon():
+    """A flayed face on its leather backing, eye holes and stitches."""
+    return [
+        (union(circle(64, 58, 34), rrect(64, 80, 26, 22, 14)), (110, 80, 55), 1.0),
+        (union(circle(64, 58, 30), rrect(64, 80, 22, 18, 12)), SKIN, 1.0),
+        (circle(51, 56, 6), (40, 25, 20), 1.0),
+        (circle(77, 56, 6), (40, 25, 20), 1.0),
+        (rrect(64, 86, 10, 2.5, 1), SKIN_DARK, 1.0),
+        (union(*[rrect(64 + dx, 34, 1.2, 4, 1) for dx in range(-20, 21, 8)]), SKIN_DARK, 1.0),
+        (union(*[rrect(64, 40 + dy, 30, 0.8, 0.5) for dy in (0,)]), SKIN_DARK, 0.6),
+    ]
+
+
+def face_mask_worn(facing):
+    """Worn on the head: front shows the face, side a sliver of it, back only the ties."""
+    if facing == "north":
+        return [(rrect(64, 62, 26, 2.5, 1), (90, 60, 40), 1.0)]
+    if facing == "east":
+        return [
+            (union(circle(76, 64, 15), rrect(78, 74, 10, 10, 6)), SKIN, 1.0),
+            (circle(82, 62, 3), (40, 25, 20), 1.0),
+            (rrect(56, 62, 10, 2, 1), (90, 60, 40), 1.0),
+        ]
+    return [
+        (union(circle(64, 64, 18), rrect(64, 76, 13, 11, 8)), SKIN, 1.0),
+        (circle(57, 62, 3.5), (40, 25, 20), 1.0),
+        (circle(71, 62, 3.5), (40, 25, 20), 1.0),
+        (rrect(64, 79, 6, 1.5, 1), SKIN_DARK, 1.0),
+    ]
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
@@ -726,3 +761,7 @@ if __name__ == "__main__":
     # Full-kit apparel sets (gen_apparel_sets.py): shared belt and goggles icons, tinted per set.
     write_png(os.path.join(i, "Equipment", "HP_KitBelt.png"), render(128, kit_belt()))
     write_png(os.path.join(i, "Equipment", "HP_KitGoggles.png"), render(128, kit_goggles()))
+    # Flayed face mask (4.23): item icon and worn head art (Graphic_Multi, no body type for EyeCover).
+    write_png(os.path.join(i, "Equipment", "HP_FaceMask.png"), render(128, face_mask_icon()))
+    for facing in ("north", "east", "south"):
+        write_png(os.path.join(t, "Pawn", "Humanlike", "Apparel", "HP_FaceMask", "HP_FaceMask_" + facing + ".png"), render(128, face_mask_worn(facing)))
