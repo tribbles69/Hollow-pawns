@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Conscript kit under CE (4.24). The rifle shoots standard 5.56 NATO, so it can load the
+       soul-charged rounds; the bayonet is a CE stab tool. Numbers sit below CE's own bolt-action
+       rifle and steel flak vest / simple helmet: it's meant to be rubbish. -->
+
+  <Operation Class="CombatExtended.PatchOperationMakeGunCECompatible">
+    <defName>HP_ConscriptRifle</defName>
+    <statBases>
+      <Mass>3.6</Mass>
+      <RangedWeapon_Cooldown>1.3</RangedWeapon_Cooldown>
+      <SightsEfficiency>0.7</SightsEfficiency>
+      <ShotSpread>0.12</ShotSpread>
+      <SwayFactor>1.8</SwayFactor>
+      <Bulk>10</Bulk>
+    </statBases>
+    <Properties>
+      <recoilAmount>1.9</recoilAmount>
+      <verbClass>CombatExtended.Verb_ShootCE</verbClass>
+      <hasStandardCommand>true</hasStandardCommand>
+      <defaultProjectile>Bullet_556x45mmNATO_FMJ</defaultProjectile>
+      <warmupTime>1.2</warmupTime>
+      <range>40</range>
+      <soundCast>Shot_BoltActionRifle</soundCast>
+      <soundCastTail>GunTail_Heavy</soundCastTail>
+      <muzzleFlashScale>9</muzzleFlashScale>
+    </Properties>
+    <AmmoUser>
+      <magazineSize>20</magazineSize>
+      <reloadTime>4.5</reloadTime>
+      <ammoSet>AmmoSet_556x45mmNATO</ammoSet>
+    </AmmoUser>
+    <FireModes>
+      <aiAimMode>AimedShot</aiAimMode>
+    </FireModes>
+    <weaponTags>
+      <li>HP_Conscript</li>
+      <li>CE_AI_Rifle</li>
+    </weaponTags>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="HP_ConscriptRifle"]/tools</xpath>
+    <value>
+      <tools>
+        <li Class="CombatExtended.ToolCE">
+          <label>stock</label>
+          <capacities>
+            <li>Blunt</li>
+          </capacities>
+          <power>8</power>
+          <cooldownTime>1.55</cooldownTime>
+          <armorPenetrationBlunt>2.755</armorPenetrationBlunt>
+          <linkedBodyPartsGroup>Stock</linkedBodyPartsGroup>
+        </li>
+        <li Class="CombatExtended.ToolCE">
+          <label>bayonet</label>
+          <capacities>
+            <li>Stab</li>
+          </capacities>
+          <power>14</power>
+          <cooldownTime>1.6</cooldownTime>
+          <chanceFactor>1.5</chanceFactor>
+          <armorPenetrationSharp>1.2</armorPenetrationSharp>
+          <armorPenetrationBlunt>1.5</armorPenetrationBlunt>
+          <linkedBodyPartsGroup>Muzzle</linkedBodyPartsGroup>
+        </li>
+      </tools>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HP_ConscriptHelmet"]/statBases</xpath>
+    <value>
+      <Bulk>3</Bulk>
+      <WornBulk>1</WornBulk>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="HP_ConscriptHelmet"]/statBases/ArmorRating_Sharp</xpath>
+    <value>
+      <ArmorRating_Sharp>3</ArmorRating_Sharp>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="HP_ConscriptHelmet"]/statBases/ArmorRating_Blunt</xpath>
+    <value>
+      <ArmorRating_Blunt>5</ArmorRating_Blunt>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HP_ConscriptVest"]/statBases</xpath>
+    <value>
+      <Bulk>5</Bulk>
+      <WornBulk>3</WornBulk>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="HP_ConscriptVest"]/statBases/ArmorRating_Sharp</xpath>
+    <value>
+      <ArmorRating_Sharp>5</ArmorRating_Sharp>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="HP_ConscriptVest"]/statBases/ArmorRating_Blunt</xpath>
+    <value>
+      <ArmorRating_Blunt>6</ArmorRating_Blunt>
+    </value>
+  </Operation>
+
+</Patch>

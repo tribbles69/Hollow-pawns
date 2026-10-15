@@ -9,15 +9,33 @@ namespace HollowPawns
         public static ThingDef HP_SoulEssence;
         public static ThingDef HP_CorruptedEssence;
         public static ThingDef HP_SoulGenerator;
-        public static ThingDef HP_SoulJar;
+        public static ThingDef HP_CarrionBale;
+        public static ThingDef HP_CarrionWall;
+        public static ThingDef HP_ConscriptRifle;
+        public static ThingDef HP_ConscriptHelmet;
+        public static ThingDef HP_ConscriptVest;
         public static BodyPartDef HP_Soul;
-        public static RecipeDef HP_ExtractSoul;
         public static ResearchProjectDef HP_SoulExtraction;
+        public static DamageDef HP_SoulBlast;
         public static DamageDef HP_SoulBurst;
-        public static TaleDef HP_BottledSoul;
+        public static TaleDef HP_SoulBound;
+        public static JobDef HP_PerformSoulRite;
+        public static JobDef HP_CleanseCorruption;
+        public static DesignationDef HP_Cleanse;
+        public static ThingDef HP_HolyWater;
+        public static ThoughtDef HP_WitnessedSoulRite;
+        public static HediffDef HP_SoulCorruption;
+        public static HediffDef HP_PurgationPain;
+        public static HediffDef HP_RiteRestrained;
+        public static HediffDef HP_ReanimatedHusk;
+        public static HediffDef HP_StandingGuard;
 
-        // Demons live in Mods/Biotech and only exist with Biotech. Null without it.
+        // Biotech-only (Mods/Biotech). Null without Biotech; every use checks.
         [MayRequireBiotech] public static GeneDef HP_CorruptedSoul;
+        [MayRequireBiotech] public static GeneDef HP_Soulless;
+        [MayRequireBiotech] public static XenotypeDef HP_ThrallXenotype;
+        [MayRequireBiotech] public static PawnKindDef HP_ThrallKind;
+        [MayRequireBiotech] public static HediffDef HP_ThrallDecay;
         [MayRequireBiotech] public static FactionDef HP_Demons;
         [MayRequireBiotech] public static IncidentDef HP_DemonWave;
 

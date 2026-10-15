@@ -58,8 +58,29 @@ namespace HollowPawns
         /// <summary>Gate waves hit a little harder than a normal raid at the same wealth.</summary>
         public const float PointsFactor = 1.1f;
 
+        /// <summary>Average corruption over the gate and the ground around it needed to open it (4.28).</summary>
+        public const int CorruptionToOpen = 100;
+
         private bool open;
         private int ticksToWave = -1;
+
+        /// <summary>Average corruption over the gate's footprint and two cells around it.</summary>
+        public int GroundCorruption
+        {
+            get
+            {
+                int sum = 0, n = 0;
+                foreach (IntVec3 c in this.OccupiedRect().ExpandedBy(2))
+                {
+                    if (c.InBounds(Map))
+                    {
+                        sum += Corruption.At(c, Map);
+                        n++;
+                    }
+                }
+                return n == 0 ? 0 : sum / n;
+            }
+        }
 
         public override void TickRare()
         {
@@ -98,7 +119,7 @@ namespace HollowPawns
             {
                 yield break;
             }
-            yield return new Command_Toggle
+            var toggle = new Command_Toggle
             {
                 defaultLabel = open ? "Close gate" : "Open gate",
                 defaultDesc = "While open, the gate pulls a demon raid through every " + DaysBetweenWaves
@@ -111,6 +132,11 @@ namespace HollowPawns
                     ticksToWave = open ? Mathf.RoundToInt(DaysBetweenWaves * GenDate.TicksPerDay) : -1;
                 },
             };
+            if (!open && GroundCorruption < CorruptionToOpen)
+            {
+                toggle.Disable("The gate needs corrupted ground to open (" + GroundCorruption + " / " + CorruptionToOpen + " around it).");
+            }
+            yield return toggle;
             if (DebugSettings.ShowDevGizmos && open)
             {
                 yield return new Command_Action
@@ -130,7 +156,7 @@ namespace HollowPawns
             }
             sb.Append(open
                 ? "Open. Next wave in " + Mathf.Max(0, ticksToWave).ToStringTicksToPeriod() + "."
-                : "Closed.");
+                : "Closed. Ground corruption: " + GroundCorruption + " / " + CorruptionToOpen + " to open.");
             return sb.ToString();
         }
 

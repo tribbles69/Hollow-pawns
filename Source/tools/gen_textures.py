@@ -65,9 +65,11 @@ def intersect(a, b):
 
 # ---------- rendering ----------
 
-def render(size, layers):
-    """layers: list of (shape, (r, g, b), alpha) or ('glow', cx, cy, radius, rgb, alpha)."""
-    px = [[(0.0, 0.0, 0.0, 0.0)] * size for _ in range(size)]
+def render(size, layers, height=None):
+    """layers: list of (shape, (r, g, b), alpha) or ('glow', cx, cy, radius, rgb, alpha).
+    size is the width; height defaults to square."""
+    width, height = size, height or size
+    px = [[(0.0, 0.0, 0.0, 0.0)] * width for _ in range(height)]
 
     def over(dst, rgb, a):
         r, g, b, da = dst
@@ -80,16 +82,16 @@ def render(size, layers):
     for layer in layers:
         if layer[0] == "glow":
             _, cx, cy, rad, rgb, alpha = layer
-            for y in range(size):
-                for x in range(size):
+            for y in range(height):
+                for x in range(width):
                     d = math.hypot(x + 0.5 - cx, y + 0.5 - cy) / rad
                     if d < 1:
                         a = alpha * (1 - d) ** 2
                         px[y][x] = over(px[y][x], rgb, a)
             continue
         shape, rgb, alpha = layer
-        for y in range(size):
-            for x in range(size):
+        for y in range(height):
+            for x in range(width):
                 if shape(x + 0.5, y + 0.5) > 2:
                     continue
                 hits = 0
@@ -103,14 +105,14 @@ def render(size, layers):
 
 
 def write_png(path, px):
-    size = len(px)
+    w, h = len(px[0]), len(px)
     raw = bytearray()
     for row in px:
         raw.append(0)
         for r, g, b, a in row:
             raw += bytes((round(r), round(g), round(b), round(a * 255)))
     chunk = lambda t, d: struct.pack(">I", len(d)) + t + d + struct.pack(">I", zlib.crc32(t + d) & 0xFFFFFFFF)
-    png = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", size, size, 8, 6, 0, 0, 0))
+    png = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", w, h, 8, 6, 0, 0, 0))
     png += chunk(b"IDAT", zlib.compress(bytes(raw), 9)) + chunk(b"IEND", b"")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "wb") as f:
@@ -119,22 +121,6 @@ def write_png(path, px):
 
 
 # ---------- sprites (128 x 128) ----------
-
-def soul_jar():
-    body = rrect(64, 76, 30, 34, 12)
-    return [
-        ("glow", 64, 74, 62, CYAN, 0.55),
-        (body, GLASS, 0.55),
-        (rrect(64, 80, 24, 26, 10), CYAN, 0.35),
-        # the soul: a pale wisp with two dark eyes
-        (union(circle(64, 70, 13), poly([(51, 72), (77, 72), (72, 98), (64, 90), (56, 98)])), CYAN_PALE, 0.95),
-        (circle(59, 68, 2.6), (40, 90, 100), 0.9),
-        (circle(69, 68, 2.6), (40, 90, 100), 0.9),
-        (rrect(64, 40, 26, 6, 3), METAL, 1.0),
-        (rrect(64, 33, 20, 4, 2), METAL_DARK, 1.0),
-        (rrect(48, 64, 3, 18, 3), (255, 255, 255), 0.35),  # glass highlight
-    ]
-
 
 def soulfire():
     vial = rrect(64, 72, 17, 34, 8)
@@ -265,17 +251,242 @@ def storyteller_portrait():
     ]
 
 
+STONE = (125, 120, 112)
+STONE_DARK = (88, 84, 78)
+CLAY = (150, 95, 65)
+CLAY_DARK = (110, 68, 45)
+STEEL = (120, 128, 136)
+STEEL_DARK = (70, 76, 84)
+FLESH = (120, 55, 50)
+FLESH_DARK = (80, 35, 32)
+WIRE = (60, 60, 60)
+GREEN = (110, 200, 120)
+SILVER = (200, 210, 220)
+WATER = (130, 190, 235)
+PURPLE = (120, 30, 90)
+
+
+def urn(filled):
+    body = union(circle(64, 80, 30), rrect(64, 54, 16, 12, 6))
+    layers = [("glow", 64, 74, 60, CYAN, 0.45)] if filled else []
+    layers += [
+        (body, CLAY, 1.0),
+        (rrect(64, 96, 24, 3, 1.5), CLAY_DARK, 0.9),
+        (rrect(64, 40, 20, 6, 3), (90, 90, 95), 1.0),  # lead seal
+        (rrect(64, 33, 12, 3, 1.5), (180, 150, 70), 1.0),  # wax
+    ]
+    if filled:
+        layers += [(ring(64, 78, 14, 2.5), CYAN_PALE, 0.9), (circle(64, 78, 5), CYAN_PALE, 0.9)]
+    return layers
+
+
+def canister(filled):
+    layers = [("glow", 64, 64, 58, CYAN, 0.5)] if filled else []
+    layers += [
+        (rrect(64, 66, 26, 44, 8), STEEL, 1.0),
+        (rrect(64, 66, 16, 30, 5), CYAN if filled else (60, 70, 80), 0.95 if filled else 0.7),
+        (rrect(64, 24, 18, 6, 2), STEEL_DARK, 1.0),
+        (rrect(64, 108, 18, 6, 2), STEEL_DARK, 1.0),
+        (circle(84, 34, 6), (230, 230, 220), 1.0),  # gauge
+        (rrect(84, 33, 0.8, 4, 0.5), (40, 40, 40), 1.0),
+    ]
+    if filled:
+        layers.append((rrect(58, 60, 2.5, 20, 2.5), WHITE, 0.35))
+    return layers
+
+
+def lattice(filled):
+    hexagon = poly([(64, 18), (100, 40), (100, 88), (64, 110), (28, 88), (28, 40)])
+    inner = poly([(64, 34), (86, 48), (86, 80), (64, 94), (42, 80), (42, 48)])
+    layers = [("glow", 64, 64, 62, CYAN, 0.6)] if filled else []
+    layers += [
+        (hexagon, (200, 230, 240) if filled else (170, 180, 190), 0.55),
+        (ring(64, 64, 30, 1.5), (98, 196, 206), 0.9),
+        (inner, CYAN if filled else (150, 160, 170), 0.85 if filled else 0.5),
+        (poly([(64, 34), (64, 94), (60, 64)]), WHITE, 0.4),
+    ]
+    return layers
+
+
+def holy_water():
+    return [
+        ("glow", 64, 74, 46, WATER, 0.35),
+        (union(circle(64, 82, 24), rrect(64, 52, 9, 12, 3)), (215, 235, 245), 0.6),
+        (circle(64, 86, 18), WATER, 0.9),
+        (rrect(64, 36, 10, 5, 2), SILVER, 1.0),
+        (rrect(64, 86, 2, 9, 1), WHITE, 0.9),  # a small cross
+        (rrect(64, 83, 7, 2, 1), WHITE, 0.9),
+    ]
+
+
+def carrion_bale():
+    return [
+        (rrect(64, 70, 46, 34, 10), FLESH, 1.0),
+        (circle(44, 62, 10), FLESH_DARK, 0.8),
+        (circle(82, 80, 12), FLESH_DARK, 0.8),
+        (rrect(40, 70, 3, 36, 1), WIRE, 1.0),
+        (rrect(88, 70, 3, 36, 1), WIRE, 1.0),
+        (rrect(64, 52, 30, 2.5, 1), BONE, 0.9),
+        (circle(30, 52, 4), BONE, 0.9),
+    ]
+
+
+def carrion_wall():
+    return [
+        (rrect(64, 64, 62, 62, 8), FLESH_DARK, 1.0),
+        (circle(36, 40, 22), FLESH, 1.0),
+        (circle(88, 46, 24), FLESH, 1.0),
+        (circle(56, 90, 26), FLESH, 1.0),
+        (circle(98, 96, 16), FLESH, 0.9),
+        (rrect(60, 60, 30, 3, 1.5), BONE, 0.9),
+        (circle(28, 60, 5), BONE, 0.9),
+        (rrect(80, 100, 3, 18, 1.5), BONE, 0.8),
+    ]
+
+
+def bone_altar():
+    # 256 x 128: a 2x1 slab.
+    return [
+        ("glow", 128, 64, 80, EMBER_RED, 0.35),
+        (rrect(128, 66, 116, 46, 10), STONE, 1.0),
+        (rrect(128, 66, 104, 34, 6), STONE_DARK, 1.0),
+        (rrect(128, 66, 96, 3, 1.5), BLOOD, 0.95),  # blood channel
+        (rrect(64, 66, 3, 26, 1.5), BLOOD, 0.9),
+        (rrect(192, 66, 3, 26, 1.5), BLOOD, 0.9),
+        (circle(22, 66, 12), BONE, 1.0),
+        (circle(234, 66, 12), BONE, 1.0),
+        (circle(18, 63, 2.5), OBSIDIAN, 1.0),
+        (circle(26, 63, 2.5), OBSIDIAN, 1.0),
+        (circle(230, 63, 2.5), OBSIDIAN, 1.0),
+        (circle(238, 63, 2.5), OBSIDIAN, 1.0),
+    ]
+
+
+def soul_press():
+    return [
+        ("glow", 128, 120, 120, CYAN, 0.45),
+        (rrect(128, 132, 110, 110, 14), STEEL_DARK, 1.0),
+        (ring(128, 120, 76, 10), STEEL, 1.0),
+        (ring(128, 120, 54, 6), (98, 196, 206), 0.9),
+        (circle(128, 120, 34), (40, 70, 80), 1.0),
+        (circle(128, 120, 22), CYAN, 0.9),
+        (circle(128, 120, 10), CYAN_PALE, 1.0),
+        (rrect(128, 232, 90, 10, 4), STEEL, 1.0),
+        (rrect(40, 40, 10, 10, 3), STEEL, 1.0),
+        (rrect(216, 40, 10, 10, 3), STEEL, 1.0),
+    ]
+
+
+def reanimation_slab():
+    return [
+        ("glow", 128, 64, 80, GREEN, 0.3),
+        (rrect(128, 66, 116, 44, 8), STEEL, 1.0),
+        (rrect(128, 66, 100, 30, 5), (80, 95, 90), 1.0),
+        (rrect(128, 66, 90, 2, 1), GREEN, 0.8),
+        (circle(20, 40, 6), GREEN, 1.0),
+        (circle(20, 92, 6), GREEN, 1.0),
+        (rrect(236, 66, 10, 30, 3), STEEL_DARK, 1.0),
+    ]
+
+
+def corpse_grinder():
+    teeth = union(*[poly([(70 + i * 24, 108), (82 + i * 24, 108), (76 + i * 24, 128)]) for i in range(5)])
+    return [
+        (rrect(128, 128, 120, 120, 16), STEEL_DARK, 1.0),
+        (rrect(128, 118, 92, 82, 10), (40, 40, 44), 1.0),
+        (rrect(128, 120, 70, 50, 8), FLESH_DARK, 1.0),
+        (teeth, STEEL, 1.0),
+        (circle(100, 150, 10), BLOOD, 0.8),
+        (circle(156, 140, 7), BLOOD, 0.7),
+        (rrect(128, 236, 50, 10, 4), STEEL, 1.0),
+        (circle(30, 30, 8), EMBER_RED, 1.0),
+    ]
+
+
+def line_forge():
+    # 256 x 128: a 4x2 production line.
+    rollers = union(*[circle(36 + i * 23, 92, 7) for i in range(9)])
+    return [
+        (rrect(128, 66, 124, 58, 8), STEEL_DARK, 1.0),
+        (rrect(128, 92, 110, 10, 4), (50, 52, 56), 1.0),
+        (rollers, STEEL, 1.0),
+        (rrect(70, 40, 20, 22, 4), STEEL, 1.0),  # press heads
+        (rrect(128, 40, 20, 22, 4), STEEL, 1.0),
+        (rrect(186, 40, 20, 22, 4), STEEL, 1.0),
+        (rrect(128, 18, 100, 4, 2), (230, 160, 60), 1.0),  # warning stripe
+        (circle(240, 20, 6), (230, 160, 60), 1.0),
+    ]
+
+
+def clone_vat():
+    # 192 x 128: a 3x2 vat.
+    figure = union(circle(96, 44, 10), rrect(96, 76, 12, 22, 6))
+    return [
+        ("glow", 96, 64, 80, GREEN, 0.4),
+        (rrect(96, 64, 90, 58, 12), STEEL_DARK, 1.0),
+        (rrect(96, 62, 76, 44, 10), (60, 120, 80), 0.95),
+        (figure, (40, 70, 55), 0.85),
+        (rrect(96, 122, 70, 5, 2), STEEL, 1.0),
+        (circle(14, 20, 5), GREEN, 1.0),
+        (rrect(70, 50, 3, 22, 3), WHITE, 0.25),
+    ]
+
+
+def corruption_icon():
+    return [
+        (union(circle(64, 70, 34), circle(40, 50, 18), circle(90, 44, 16), circle(98, 90, 14)), PURPLE, 1.0),
+        (circle(64, 70, 14), (200, 60, 150), 1.0),
+    ]
+
+
+def soulless_icon():
+    return [
+        (ring(64, 58, 30, 6), WHITE, 1.0),
+        (rrect(64, 100, 22, 14, 6), WHITE, 1.0),
+        (circle(52, 56, 5), WHITE, 1.0),
+        (circle(76, 56, 5), WHITE, 1.0),
+    ]
+
+
+def cleanse_icon():
+    drop = union(circle(64, 76, 30), poly([(36, 66), (92, 66), (64, 14)]))
+    return [
+        (drop, WHITE, 1.0),
+        (rrect(64, 78, 4, 18, 1.5), WATER, 1.0),
+        (rrect(64, 74, 12, 4, 1.5), WATER, 1.0),
+    ]
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
-    write_png(os.path.join(t, "Building", "HP_SoulJar.png"), render(128, soul_jar()))
-    write_png(os.path.join(t, "Item", "Drug", "HP_Soulfire.png"), render(128, soulfire()))
-    write_png(os.path.join(t, "Item", "Drug", "HP_BorrowedTime.png"), render(128, borrowed_time()))
-    write_png(os.path.join(t, "Item", "HP_CorruptedEssence.png"), render(128, corrupted_essence()))
-    write_png(os.path.join(t, "Item", "Equipment", "HP_CursedIdol.png"), render(128, cursed_idol()))
-    write_png(os.path.join(t, "Building", "HP_HellGate.png"), render(256, scaled(hell_gate(), 2)))
+    b, i, ui = os.path.join(t, "Building"), os.path.join(t, "Item"), os.path.join(tx, "UI")
+    write_png(os.path.join(i, "Drug", "HP_Soulfire.png"), render(128, soulfire()))
+    write_png(os.path.join(i, "Drug", "HP_BorrowedTime.png"), render(128, borrowed_time()))
+    write_png(os.path.join(i, "HP_CorruptedEssence.png"), render(128, corrupted_essence()))
+    write_png(os.path.join(i, "Equipment", "HP_CursedIdol.png"), render(128, cursed_idol()))
+    write_png(os.path.join(b, "HP_HellGate.png"), render(256, scaled(hell_gate(), 2)))
     write_png(os.path.join(tx, "World", "HP_DemonFaction.png"), render(128, horned_head(WHITE)))
-    write_png(os.path.join(tx, "UI", "Icons", "HP_Demon.png"), render(128, horned_head(WHITE, OBSIDIAN)))
-    write_png(os.path.join(tx, "UI", "Icons", "HP_CorruptedSoul.png"), render(128, corrupted_soul_icon()))
-    write_png(os.path.join(tx, "UI", "HeroArt", "HP_HellUnbound.png"), render(512, scaled(storyteller_portrait(), 4)))
-    write_png(os.path.join(tx, "UI", "HeroArt", "HP_HellUnboundTiny.png"), render(128, storyteller_portrait()))
+    write_png(os.path.join(ui, "Icons", "HP_Demon.png"), render(128, horned_head(WHITE, OBSIDIAN)))
+    write_png(os.path.join(ui, "Icons", "HP_CorruptedSoul.png"), render(128, corrupted_soul_icon()))
+    write_png(os.path.join(ui, "HeroArt", "HP_HellUnbound.png"), render(512, scaled(storyteller_portrait(), 4)))
+    write_png(os.path.join(ui, "HeroArt", "HP_HellUnboundTiny.png"), render(128, storyteller_portrait()))
+    # v0.7: extraction, corruption, endless war
+    write_png(os.path.join(i, "HP_UrnEmpty.png"), render(128, urn(False)))
+    write_png(os.path.join(i, "HP_Urn.png"), render(128, urn(True)))
+    write_png(os.path.join(i, "HP_CanisterEmpty.png"), render(128, canister(False)))
+    write_png(os.path.join(i, "HP_Canister.png"), render(128, canister(True)))
+    write_png(os.path.join(i, "HP_LatticeEmpty.png"), render(128, lattice(False)))
+    write_png(os.path.join(i, "HP_Lattice.png"), render(128, lattice(True)))
+    write_png(os.path.join(i, "HP_HolyWater.png"), render(128, holy_water()))
+    write_png(os.path.join(i, "HP_CarrionBale.png"), render(128, carrion_bale()))
+    write_png(os.path.join(b, "HP_CarrionWall.png"), render(128, carrion_wall()))
+    write_png(os.path.join(b, "HP_BoneAltar.png"), render(256, bone_altar(), 128))
+    write_png(os.path.join(b, "HP_SoulPress.png"), render(256, soul_press()))
+    write_png(os.path.join(b, "HP_ReanimationSlab.png"), render(256, reanimation_slab(), 128))
+    write_png(os.path.join(b, "HP_CorpseGrinder.png"), render(256, corpse_grinder()))
+    write_png(os.path.join(b, "HP_LineForge.png"), render(256, line_forge(), 128))
+    write_png(os.path.join(b, "HP_CloneVat.png"), render(192, clone_vat(), 128))
+    write_png(os.path.join(ui, "Icons", "HP_CorruptionOverlay.png"), render(128, corruption_icon()))
+    write_png(os.path.join(ui, "Icons", "HP_Soulless.png"), render(128, soulless_icon()))
+    write_png(os.path.join(ui, "Designators", "HP_Cleanse.png"), render(128, cleanse_icon()))

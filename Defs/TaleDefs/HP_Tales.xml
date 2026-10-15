@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- Recorded when a soul is bottled, so sculptors can carve it. Recorded by Recipe_BottleSoul
+  <!-- Recorded when a soul is bound into a vessel, so sculptors can carve it. Recorded by Rites.Complete
        while the victim is still alive. Modelled on vanilla's ExecutedPrisoner. -->
   <TaleDef>
-    <defName>HP_BottledSoul</defName>
-    <label>soul bottled</label>
+    <defName>HP_SoulBound</defName>
+    <label>soul bound</label>
     <taleClass>Tale_DoublePawn</taleClass>
     <type>Volatile</type>
     <firstPawnSymbol>BOTTLER</firstPawnSymbol>

@@ -9,6 +9,7 @@ RimWorld 1.6 mod. Read `ROADMAP.md` first: it holds the ground rules, what's bui
 - `Source/HollowPawns/`: C# (net48). Build with `dotnet build -c Release`; output goes to `Assemblies/`. References come from the `Krafs.Rimworld.Ref` NuGet package.
 - `Source/tools/`: generators. `gen_soul_guns.py` owns the soul gun family (vanilla and CE); `gen_soul_ammo.py <CE path>` builds soul-charged ammo from Combat Extended's own defs (Aaron's CE is workshop item 2890901044); `gen_textures.py` draws the placeholder sprites; `gen_storyteller.py <RimWorld Data>` builds Hell Unbound from the game's Cassandra. Never hand-edit their output files.
 - Harmony is a dependency (brrainz.harmony); patches live next to the feature they serve and are applied in `HollowPawnsMod`.
+- Systems: souls are taken by the rite job (`Rites.cs`) at the altar or press, graded (`SoulGrade.cs`) and rendered or bound into vessels (`Vessels.cs`). Corruption is one MapComponent (`Corruption.cs`); every new soul source or sink should spill or cleanse through `Corruption.Spill`. Soulless pawns (thralls, husks) go through `SoulUtility.IsSoulless`.
 - Before asking Aaron to load the game, verify offline: build, then run `Source/tools/check_defs.py` (game Data dir, mod dir, CE Defs and Patches) to cross-check every def reference, parent, field name and bench work giver against the game's own XML (RimWorld is installed locally) and CE's. In-game loads take him ~10 minutes, so batch features between tests.
 
 ## Rules that must hold

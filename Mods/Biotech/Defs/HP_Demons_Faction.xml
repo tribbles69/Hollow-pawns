@@ -154,6 +154,7 @@
     <defaultFactionDef>HP_Demons</defaultFactionDef>
     <factionLeader>true</factionLeader>
     <combatPower>175</combatPower>
+    <initialResistanceRange>40~60</initialResistanceRange>
     <apparelRequired>
       <li>HP_CursedIdol</li>
     </apparelRequired>

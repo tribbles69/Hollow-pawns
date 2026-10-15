@@ -22,6 +22,21 @@ namespace HollowPawns
     {
         public CompProperties_SoulVent Props => (CompProperties_SoulVent)props;
 
+        /// <summary>Burning essence leaves exhaust: a little corruption around the generator every hour it runs.</summary>
+        public override void CompTick()
+        {
+            if (!parent.IsHashIntervalTick(GenDate.TicksPerHour) || !parent.Spawned)
+            {
+                return;
+            }
+            CompRefuelable fuel = parent.TryGetComp<CompRefuelable>();
+            CompFlickable flick = parent.TryGetComp<CompFlickable>();
+            if (fuel != null && fuel.HasFuel && (flick == null || flick.SwitchIsOn))
+            {
+                Corruption.Spill(parent.Position, parent.Map, 4, 2.9f);
+            }
+        }
+
         public override void ReceiveCompSignal(string signal)
         {
             if (signal != CompBreakdownable.BreakdownSignal || !parent.Spawned)

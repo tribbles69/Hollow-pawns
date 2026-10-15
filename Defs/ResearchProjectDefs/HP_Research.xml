@@ -4,7 +4,7 @@
   <ResearchProjectDef>
     <defName>HP_SoulExtraction</defName>
     <label>soul extraction</label>
-    <description>Learn to find the soul inside a human body, draw it out and bind it as essence. Unlocks the soul crucible, the soul generator, soulsteel and the extract soul surgery.</description>
+    <description>Learn to find the soul inside a human body, draw it out and bind it as essence. Unlocks the soul crucible, the soul generator, soulsteel and soul canisters.</description>
     <baseCost>1500</baseCost>
     <techLevel>Industrial</techLevel>
     <prerequisites>

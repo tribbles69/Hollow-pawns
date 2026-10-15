@@ -29,15 +29,10 @@
       <li>HP_CorruptedEssence</li>
     </tradeTags>
     <comps>
-      <li Class="CompProperties_Explosive">
+      <li Class="HollowPawns.CompProperties_VolatileEssence">
         <explosiveRadius>2</explosiveRadius>
-        <explosiveDamageType>HP_SoulBurst</explosiveDamageType>
         <explosiveExpandPerStackcount>0.04</explosiveExpandPerStackcount>
-        <startWickOnDamageTaken>
-          <li>Flame</li>
-        </startWickOnDamageTaken>
-        <startWickHitPointsPercent>0.6</startWickHitPointsPercent>
-        <wickTicks>40~100</wickTicks>
+        <burstHitPointsPercent>0.6</burstHitPointsPercent>
         <extraInspectStringKey>HP_VolatileInspect</extraInspectStringKey>
       </li>
     </comps>
@@ -74,6 +69,7 @@
       <li>HP_CursedIdol</li>
     </tradeTags>
     <generateAllowChance>0</generateAllowChance>
+    <smeltable>false</smeltable>
     <apparel>
       <bodyPartGroups>
         <li>Waist</li>

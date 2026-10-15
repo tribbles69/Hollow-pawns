@@ -27,7 +27,7 @@ namespace HollowPawns
         /// </summary>
         public static BodyPartRecord GetSoul(Pawn pawn)
         {
-            if (pawn?.health?.hediffSet == null || !pawn.DevelopmentalStage.Adult())
+            if (pawn?.health?.hediffSet == null || !pawn.DevelopmentalStage.Adult() || IsSoulless(pawn))
             {
                 return null;
             }
@@ -44,6 +44,23 @@ namespace HollowPawns
         public static bool HasSoul(Pawn pawn) => GetSoul(pawn) != null;
 
         /// <summary>
+        /// Alive without a soul: vat-grown thralls (the Soulless gene) and reanimated husks (the husk
+        /// condition). The only things alive without one (4.30). They're limited to food and rest needs.
+        /// </summary>
+        public static bool IsSoulless(Pawn pawn)
+        {
+            if (pawn?.health?.hediffSet == null)
+            {
+                return false;
+            }
+            if (HP_DefOf.HP_ReanimatedHusk != null && pawn.health.hediffSet.HasHediff(HP_DefOf.HP_ReanimatedHusk))
+            {
+                return true;
+            }
+            return HP_DefOf.HP_Soulless != null && pawn.genes != null && pawn.genes.HasActiveGene(HP_DefOf.HP_Soulless);
+        }
+
+        /// <summary>
         /// Demons carry a corrupted soul (the Biotech gene HP_CorruptedSoul). Taking it gives corrupted
         /// essence instead of clean. Always false without Biotech.
         /// </summary>
@@ -52,6 +69,14 @@ namespace HollowPawns
 
         /// <summary>The essence this pawn's soul turns into: corrupted for demons, clean for everyone else.</summary>
         public static ThingDef EssenceDefFor(Pawn pawn) => IsCorrupted(pawn) ? HP_DefOf.HP_CorruptedEssence : HP_DefOf.HP_SoulEssence;
+
+        /// <summary>
+        /// The essence a soul taken here becomes: corrupted for demons, and for anyone taken on deeply
+        /// corrupted ground (4.28); clean otherwise.
+        /// </summary>
+        public static ThingDef EssenceDefAt(Pawn pawn, IntVec3 cell, Map map) =>
+            IsCorrupted(pawn) || Corruption.At(cell, map) >= MapComponent_Corruption.CorruptsEssenceLevel
+                ? HP_DefOf.HP_CorruptedEssence : HP_DefOf.HP_SoulEssence;
 
         /// <summary>Drops this pawn's kind of essence where the pawn (or its corpse) is.</summary>
         public static void DropEssence(Pawn pawn, int count) => DropEssence(pawn.PositionHeld, pawn.MapHeld, count, EssenceDefFor(pawn));
@@ -89,31 +114,31 @@ namespace HollowPawns
         }
 
         /// <summary>
-        /// Tears the soul out of a living pawn: drops essence (or, with bottle, a soul jar holding
-        /// them whole), marks the soul missing, kills them.
-        /// Used by the extract soul and bottle soul surgeries and the reaper scythe.
+        /// The reaper scythe's reap: tears the soul out of a living pawn, renders it on the spot into
+        /// plain essence, and kills them. Leaves a husk.
         /// </summary>
-        public static void ReapLiving(Pawn pawn, DamageInfo? dinfo = null, bool bottle = false)
+        public static void ReapLiving(Pawn pawn, DamageInfo? dinfo = null)
+        {
+            if (GetSoul(pawn) == null || pawn.Dead)
+            {
+                return;
+            }
+            if (pawn.MapHeld != null)
+            {
+                MoteMaker.ThrowText(pawn.DrawPos, pawn.MapHeld, "Reaped", ReapTextColor);
+                DropEssence(pawn.PositionHeld, pawn.MapHeld, EssenceFromLivingSoul, EssenceDefAt(pawn, pawn.PositionHeld, pawn.MapHeld));
+            }
+            TakeSoulAndKill(pawn, dinfo);
+        }
+
+        /// <summary>Marks a living pawn's soul missing and kills them. No soul is no life.</summary>
+        public static void TakeSoulAndKill(Pawn pawn, DamageInfo? dinfo = null)
         {
             BodyPartRecord soul = GetSoul(pawn);
             if (soul == null || pawn.Dead)
             {
                 return;
             }
-
-            if (pawn.MapHeld != null)
-            {
-                MoteMaker.ThrowText(pawn.DrawPos, pawn.MapHeld, "Reaped", ReapTextColor);
-            }
-            if (bottle)
-            {
-                CompSoulJar.SpawnJarFor(pawn);
-            }
-            else
-            {
-                DropEssence(pawn, EssenceFromLivingSoul);
-            }
-
             Hediff missingSoul = pawn.health.AddHediff(HediffDefOf.MissingBodyPart, soul);
             if (!pawn.Dead)
             {
@@ -164,7 +189,7 @@ namespace HollowPawns
         /// </summary>
         public static SoulStatus GetStatus(Pawn pawn)
         {
-            if (pawn?.RaceProps?.body == null || !pawn.DevelopmentalStage.Adult())
+            if (pawn?.RaceProps?.body == null || !pawn.DevelopmentalStage.Adult() || IsSoulless(pawn))
             {
                 return SoulStatus.None;
             }
@@ -182,64 +207,40 @@ namespace HollowPawns
             return SoulStatus.None;
         }
 
-        // ---------- The Reaper's Mark: Soul-Lock and marking for extraction ----------
+        // ---------- The Reaper's Mark: Soul-Lock and marking for the altar or press ----------
 
         public static bool IsSoulLocked(Pawn pawn) => WorldComponent_SoulLocks.Get()?.IsLocked(pawn) ?? false;
 
-        /// <summary>Locks or unlocks a pawn. Locking also cancels any extraction already queued on them.</summary>
+        /// <summary>Locks or unlocks a pawn. Locking also clears any mark on them.</summary>
         public static void SetSoulLocked(Pawn pawn, bool locked)
         {
             WorldComponent_SoulLocks.Get()?.SetLocked(pawn, locked);
             if (locked)
             {
-                Unmark(pawn);
+                ClearFate(pawn);
             }
         }
 
-        /// <summary>Whether the extract soul surgery can be offered on this pawn at all.</summary>
+        /// <summary>Whether this pawn's soul can be taken at all.</summary>
         public static bool CanExtract(Pawn pawn) => HasSoul(pawn) && !IsSoulLocked(pawn);
 
-        /// <summary>Prisoners the Mark buttons may act on: soul intact, not locked, extraction researched.</summary>
-        public static bool CanMark(Pawn pawn) =>
-            pawn.IsPrisonerOfColony && !pawn.Dead && CanExtract(pawn) && HP_DefOf.HP_ExtractSoul.AvailableNow;
+        /// <summary>Prisoners the Mark buttons may act on: soul intact and not Soul-Locked.</summary>
+        public static bool CanMark(Pawn pawn) => pawn.IsPrisonerOfColony && !pawn.Dead && CanExtract(pawn);
 
-        /// <summary>Extract soul or bottle soul: any surgery that takes the soul.</summary>
-        public static bool IsSoulSurgery(RecipeDef recipe) =>
-            recipe?.workerClass != null && typeof(Recipe_ExtractSoul).IsAssignableFrom(recipe.workerClass);
+        public static SoulFate GetFate(Pawn pawn) => WorldComponent_SoulLocks.Get()?.GetFate(pawn) ?? SoulFate.None;
 
-        /// <summary>Whether any soul surgery is queued on the pawn.</summary>
-        public static bool IsMarked(Pawn pawn)
+        public static bool IsMarked(Pawn pawn) => GetFate(pawn) != SoulFate.None;
+
+        /// <summary>Marks a prisoner to be rendered or bound. Wardens bring them to an altar or press.</summary>
+        public static void SetFate(Pawn pawn, SoulFate fate)
         {
-            if (pawn.BillStack == null)
+            if (fate != SoulFate.None && !CanMark(pawn))
             {
-                return false;
+                return;
             }
-            foreach (Bill bill in pawn.BillStack)
-            {
-                if (IsSoulSurgery(bill.recipe))
-                {
-                    return true;
-                }
-            }
-            return false;
+            WorldComponent_SoulLocks.Get()?.SetFate(pawn, fate);
         }
 
-        /// <summary>Queues the extract soul surgery. Returns false if it couldn't.</summary>
-        public static bool Mark(Pawn pawn)
-        {
-            BodyPartRecord soul = GetSoul(pawn);
-            if (soul == null || IsMarked(pawn) || !CanMark(pawn))
-            {
-                return false;
-            }
-            HealthCardUtility.CreateSurgeryBill(pawn, HP_DefOf.HP_ExtractSoul, soul, null, false);
-            return true;
-        }
-
-        /// <summary>Removes any queued soul surgery (extract or bottle) from the pawn.</summary>
-        public static void Unmark(Pawn pawn)
-        {
-            pawn.BillStack?.Bills.RemoveAll(b => IsSoulSurgery(b.recipe));
-        }
+        public static void ClearFate(Pawn pawn) => WorldComponent_SoulLocks.Get()?.SetFate(pawn, SoulFate.None);
     }
 }

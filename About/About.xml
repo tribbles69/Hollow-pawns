@@ -3,7 +3,7 @@
   <name>Hollow Pawns</name>
   <author>Aaron Clews</author>
   <packageId>aaronclews.hollowpawns</packageId>
-  <modVersion>0.6.0</modVersion>
+  <modVersion>0.7.0</modVersion>
   <modDependencies>
     <li>
       <packageId>brrainz.harmony</packageId>
@@ -23,9 +23,9 @@
 
 Pull it out of the fresh dead at the soul crucible, or out of the living on the operating table (they will not survive it). Burn soul essence for power, or bind it into soulsteel.
 
-v0.6:
+v0.7:
 - Soul body part on humans (appended to the end of the body tree, so existing saves should be safe)
-- Extract soul surgery: yields soul essence and kills the patient
+- Bone Altar and Soul Press: wardens bring marked prisoners and take their souls, rendered into essence or bound whole into a vessel
 - Soul crucible: harvest essence from human corpses (leaving a soulless husk), forge soulsteel, make soul weapons and ammo
 - Soulsteel: plasteel plus essence, one tier above plasteel
 - Soul generator: burns essence for power
@@ -33,16 +33,18 @@ v0.6:
 - Soul gun family: pistol, SMG, assault rifle, marksman rifle, sniper, machine gun, shotgun. Every shot ends in a one-cell soul blast that takes limbs, craters walls and shocks the soul until the target collapses.
 - Combat Extended: soul guns fire beams on shared soul charges; soul-charged variants of the common CE calibres; CE stats for everything
 - The Reaper's Mark: one-click Mark soul on prisoners, Mark all at the crucible, a Soul-Lock safety catch, ensouled/soulless corpse filters, soul status on corpse hover, and alerts for unclaimed corpses and low generators
-- Soul jars: bottle a soul whole in a named, glowing jar; smash it for essence
+- Soul grades and vessels: every soul is graded; bind the best into urns, canisters or lattices that remember who they were
 - Soul drugs: soulfire (overcharge, hard crash, soul hunger) and borrowed time (cheat death for a day, at a year of life)
 - The soul broker: orbital and caravan traders in essence, soulsteel, soul weapons and drugs
 - Volatile essence: stockpiles burst into soul shock when fire or a blow sets them off; broken soul generators vent
 - Corpse harvest yield depends on freshness
+- Corruption: taking souls stains the ground and the people who do it; cleanse it with fire, holy water and purgation
+- The endless war: thralls from clone vats (Biotech), reanimated husks, carrion walls, the corpse grinder, the line forge and stand-guard
 - Curses: marked, rotting luck, soul-sick and hollowed, from demon blows, corrupted essence and cursed idols
 - Demons (Biotech): a horned demon xenotype and the demon host faction, whose corrupted souls give corrupted essence
 - The hell gate: open it to pull demon raids through on purpose; and the Hell Unbound storyteller
 
 Requires Harmony.
 
-Planned: thralls and clone vats, soul vats and pipes (Vanilla Expanded Framework), soul mechs, a soul-eating xenotype.</description>
+Planned: ghosts, reliquaries and shrines, soul vats and pipes (Vanilla Expanded Framework), soul mechs, a soul-eating xenotype.</description>
 </ModMetaData>

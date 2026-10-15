@@ -19,7 +19,6 @@ DEMON_WAVES = """<li Class="StorytellerCompProperties_OnOffCycle">
   <minDaysPassed>15</minDaysPassed>
   <onDays>3</onDays>
   <offDays>9</offDays>
-  <minSpacingDays>4</minSpacingDays>
   <numIncidentsRange>1~1</numIncidentsRange>
 </li>"""
 
@@ -28,7 +27,9 @@ def main(data):
     path = os.path.join(data, "Core", "Defs", "Storyteller", "Storytellers.xml")
     root = ET.parse(path).getroot()
     cass = next(d for d in root.iter("StorytellerDef") if d.findtext("defName") == "Cassandra")
-    st = ET.Element("StorytellerDef")
+    # Cassandra's population and adaptation curves live on the abstract BaseStoryteller; without this
+    # parent the def has null curves and pawn generation throws (seen in v0.6).
+    st = ET.Element("StorytellerDef", {"ParentName": cass.get("ParentName", "BaseStoryteller")})
     for tag, text in [
         ("defName", "HP_HellUnbound"),
         ("label", "Hell Unbound"),

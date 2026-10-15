@@ -1,52 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- Surgery: tear the soul out of a living human. Always fatal. Uses no medicine. -->
-  <RecipeDef ParentName="SurgeryFlesh">
-    <defName>HP_ExtractSoul</defName>
-    <label>extract soul</label>
-    <description>Draw the soul out of a living patient and bind it as soul essence. A body cannot live without its soul: the patient will die.</description>
-    <workerClass>HollowPawns.Recipe_ExtractSoul</workerClass>
-    <jobString>Extracting soul.</jobString>
-    <workAmount>3000</workAmount>
-    <isViolation>true</isViolation>
-    <targetsBodyPart>true</targetsBodyPart>
-    <appliedOnFixedBodyParts>
-      <li>HP_Soul</li>
-    </appliedOnFixedBodyParts>
-    <skillRequirements>
-      <Medicine>6</Medicine>
-    </skillRequirements>
-    <!-- No medicine: the patient isn't meant to survive it (like Biotech's hemogen extraction). -->
-    <recipeUsers>
-      <li>Human</li>
-    </recipeUsers>
-    <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
-  </RecipeDef>
-
-  <!-- Surgery: bottle the soul whole in a named soul jar. The same surgery as extract soul
-       (Recipe_BottleSoul shares its worker), but the soul is kept, not rendered. -->
-  <RecipeDef ParentName="SurgeryFlesh">
-    <defName>HP_BottleSoul</defName>
-    <label>bottle soul</label>
-    <description>Draw the soul out of a living patient and seal it, whole, in a soul jar that remembers who it was. The patient will die. Smash the jar later for the same 12 soul essence extraction would give.</description>
-    <workerClass>HollowPawns.Recipe_BottleSoul</workerClass>
-    <jobString>Bottling soul.</jobString>
-    <workAmount>3500</workAmount>
-    <isViolation>true</isViolation>
-    <targetsBodyPart>true</targetsBodyPart>
-    <appliedOnFixedBodyParts>
-      <li>HP_Soul</li>
-    </appliedOnFixedBodyParts>
-    <skillRequirements>
-      <Medicine>6</Medicine>
-    </skillRequirements>
-    <recipeUsers>
-      <li>Human</li>
-    </recipeUsers>
-    <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
-  </RecipeDef>
-
   <!-- Crucible: harvest the lingering soul from a human corpse. The corpse isn't destroyed:
        the worker marks its soul taken and leaves the husk for haulers. -->
   <RecipeDef>

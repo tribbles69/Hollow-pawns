@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Thralls and clone vats (4.5) =====================
+       Vat-grown adults born without a soul (SoulUtility.IsSoulless keys off the Soulless gene).
+       Hauling, firefighting and fighting only; only food and rest needs (Harmony patch on
+       Pawn_NeedsTracker.ShouldHaveNeed, shared with husks); no pain; no social life; 30 days. -->
+
+  <GeneDef>
+    <defName>HP_Soulless</defName>
+    <label>soulless</label>
+    <description>Grown without a soul. Carriers feel nothing, want nothing but food and sleep, never talk, never break, and can only haul, fight fires and fight. They are the only things alive without a soul.</description>
+    <iconPath>UI/Icons/HP_Soulless</iconPath>
+    <displayOrderInCategory>901</displayOrderInCategory>
+    <painFactor>0</painFactor>
+    <disabledWorkTags>ManualSkilled, Intellectual, Social, Artistic, Crafting, Cooking, Mining, PlantWork, Caring, Animals, Constructing, Cleaning</disabledWorkTags>
+    <biostatCpx>3</biostatCpx>
+    <biostatMet>2</biostatMet>
+    <canGenerateInGeneSet>false</canGenerateInGeneSet>
+    <selectionWeight>0</selectionWeight>
+  </GeneDef>
+
+  <XenotypeDef>
+    <defName>HP_ThrallXenotype</defName>
+    <label>thrall</label>
+    <description>Vat-grown soldiers with no soul. They haul, fight fires and fight, feel nothing, need only food and sleep, and last about thirty days before they fail.</description>
+    <descriptionShort>Vat-grown, soulless, short-lived soldiers and haulers.</descriptionShort>
+    <iconPath>UI/Icons/HP_Soulless</iconPath>
+    <inheritable>false</inheritable>
+    <!-- Only ever from a clone vat. -->
+    <canGenerateAsCombatant>false</canGenerateAsCombatant>
+    <factionlessGenerationWeight>0</factionlessGenerationWeight>
+    <genes>
+      <li>HP_Soulless</li>
+      <li>Skin_SlateGray</li>
+      <li>Hair_BaldOnly</li>
+      <li>Beard_NoBeardOnly</li>
+    </genes>
+  </XenotypeDef>
+
+  <BackstoryDef>
+    <defName>HP_VatGrownChild</defName>
+    <title>vat-grown</title>
+    <titleShort>vat-grown</titleShort>
+    <description>[PAWN_nameDef] was never a child. [PAWN_pronoun] was grown in a vat, fully formed, in a few days.</description>
+    <slot>Childhood</slot>
+    <spawnCategories>
+      <li>HP_VatGrown</li>
+    </spawnCategories>
+    <shuffleable>false</shuffleable>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HP_VatGrownAdult</defName>
+    <title>thrall</title>
+    <titleShort>thrall</titleShort>
+    <description>[PAWN_nameDef] was decanted to haul, fight and die. [PAWN_pronoun] has no memories and no wants.</description>
+    <slot>Adulthood</slot>
+    <skillGains>
+      <Shooting>4</Shooting>
+      <Melee>4</Melee>
+    </skillGains>
+    <spawnCategories>
+      <li>HP_VatGrown</li>
+    </spawnCategories>
+    <shuffleable>false</shuffleable>
+  </BackstoryDef>
+
+  <PawnKindDef>
+    <defName>HP_ThrallKind</defName>
+    <label>thrall</label>
+    <race>Human</race>
+    <combatPower>45</combatPower>
+    <isFighter>true</isFighter>
+    <backstoryFiltersOverride>
+      <li>
+        <categories>
+          <li>HP_VatGrown</li>
+        </categories>
+      </li>
+    </backstoryFiltersOverride>
+    <apparelMoney>200~400</apparelMoney>
+    <apparelTags>
+      <li>IndustrialBasic</li>
+      <li>IndustrialMilitaryBasic</li>
+    </apparelTags>
+    <weaponMoney>150~300</weaponMoney>
+    <weaponTags>
+      <li>Gun</li>
+    </weaponTags>
+    <techHediffsChance>0</techHediffsChance>
+  </PawnKindDef>
+
+  <!-- About thirty days, then they fail and die. -->
+  <HediffDef>
+    <defName>HP_ThrallDecay</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>thrall lifespan</label>
+    <description>Vat-grown bodies don't last. This one will fail in about thirty days from decanting.</description>
+    <isBad>false</isBad>
+    <initialSeverity>0.01</initialSeverity>
+    <lethalSeverity>1</lethalSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>0.0333</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>holding</label>
+      </li>
+      <li>
+        <minSeverity>0.85</minSeverity>
+        <label>failing</label>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.25</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ResearchProjectDef>
+    <defName>HP_CloneVats</defName>
+    <label>clone vats</label>
+    <description>Grow soulless adult soldiers in vats from meat, steel and a little essence.</description>
+    <baseCost>2500</baseCost>
+    <techLevel>Industrial</techLevel>
+    <prerequisites>
+      <li>HP_SoulExtraction</li>
+    </prerequisites>
+    <researchViewX>10.00</researchViewX>
+    <researchViewY>6.10</researchViewY>
+  </ResearchProjectDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_CloneVat</defName>
+    <label>clone vat</label>
+    <description>A powered vat that grows a soulless adult thrall in three days. A worker starts the culture (meat, steel and essence); the vat does the rest and decants the thrall in basic gear. It takes no new culture while it's growing, and pauses without power.</description>
+    <thingClass>HollowPawns.Building_CloneVat</thingClass>
+    <graphicData>
+      <texPath>Things/Building/HP_CloneVat</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,2)</drawSize>
+    </graphicData>
+    <size>(3,2)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.8</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <tickerType>Rare</tickerType>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <designationCategory>Production</designationCategory>
+    <researchPrerequisites>
+      <li>HP_CloneVats</li>
+    </researchPrerequisites>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+    <costList>
+      <Steel>200</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+      <HP_SoulEssence>20</HP_SoulEssence>
+    </costList>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>9000</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <Beauty>-10</Beauty>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>400</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Breakdownable" />
+    </comps>
+  </ThingDef>
+
+  <RecipeDef>
+    <defName>HP_StartThrall</defName>
+    <label>start thrall culture</label>
+    <description>Seed the vat with meat, steel and essence. It grows a thrall over three days.</description>
+    <workerClass>HollowPawns.RecipeWorker_StartThrall</workerClass>
+    <jobString>Starting a thrall culture.</jobString>
+    <workAmount>1500</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <recipeUsers>
+      <li>HP_CloneVat</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter><categories><li>MeatRaw</li></categories></filter>
+        <count>60</count>
+      </li>
+      <li>
+        <filter><thingDefs><li>Steel</li></thingDefs></filter>
+        <count>25</count>
+      </li>
+      <li>
+        <filter><thingDefs><li>HP_SoulEssence</li></thingDefs></filter>
+        <count>5</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories><li>MeatRaw</li></categories>
+      <thingDefs>
+        <li>Steel</li>
+        <li>HP_SoulEssence</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+  </RecipeDef>
+
+  <WorkGiverDef>
+    <defName>HP_DoBillsCloneVat</defName>
+    <label>tend the clone vats</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>70</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HP_CloneVat</li>
+    </fixedBillGiverDefs>
+    <verb>tend</verb>
+    <gerund>tending</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+</Defs>

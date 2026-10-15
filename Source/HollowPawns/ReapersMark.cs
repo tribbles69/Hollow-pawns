@@ -16,33 +16,37 @@ namespace HollowPawns
         public static readonly Texture2D MarkIcon = ContentFinder<Texture2D>.Get("Things/Item/HP_SoulEssence");
         public static readonly Texture2D LockIcon = TexCommand.ForbidOn;
 
-        /// <summary>The Mark toggle on a prisoner: queue or cancel extraction.</summary>
+        /// <summary>The Mark button on a prisoner: render, bind, or clear. Wardens take marked prisoners to an altar or press.</summary>
         public static Gizmo MarkGizmo(Pawn pawn)
         {
-            var toggle = new Command_Toggle
+            SoulFate fate = SoulUtility.GetFate(pawn);
+            var cmd = new Command_Action
             {
-                defaultLabel = "Mark soul",
-                defaultDesc = "Queue the extract soul surgery on this prisoner. They will die, and their soul becomes "
-                    + SoulUtility.EssenceFromLivingSoul + " soul essence.\n\nToggle off to cancel.",
+                defaultLabel = fate == SoulFate.Render ? "Marked: render" : fate == SoulFate.Bind ? "Marked: bind" : "Mark soul",
+                defaultDesc = "Mark this prisoner for a Bone Altar or Soul Press. Wardens bring them there and take the soul.\n\n"
+                    + "Render: plain soul essence, more for a better soul. Who they were is lost.\n"
+                    + "Bind: the whole soul goes into an empty vessel (urn, canister or lattice), named and graded. "
+                    + "Needs an empty vessel.\n\nEither way, they die.",
                 icon = MarkIcon,
-                isActive = () => SoulUtility.IsMarked(pawn),
-                toggleAction = () =>
+                action = () =>
                 {
+                    var options = new List<FloatMenuOption>
+                    {
+                        new FloatMenuOption("Render (essence)", () => SoulUtility.SetFate(pawn, SoulFate.Render)),
+                        new FloatMenuOption("Bind (into a vessel)", () => SoulUtility.SetFate(pawn, SoulFate.Bind)),
+                    };
                     if (SoulUtility.IsMarked(pawn))
                     {
-                        SoulUtility.Unmark(pawn);
+                        options.Add(new FloatMenuOption("Clear mark", () => SoulUtility.ClearFate(pawn)));
                     }
-                    else
-                    {
-                        SoulUtility.Mark(pawn);
-                    }
+                    Find.WindowStack.Add(new FloatMenu(options));
                 },
             };
             if (SoulUtility.IsSoulLocked(pawn))
             {
-                toggle.Disable("Soul-Locked.");
+                cmd.Disable("Soul-Locked.");
             }
-            return toggle;
+            return cmd;
         }
 
         /// <summary>The Soul-Lock toggle: the safety catch.</summary>
@@ -51,7 +55,7 @@ namespace HollowPawns
             return new Command_Toggle
             {
                 defaultLabel = "Soul-Lock",
-                defaultDesc = "While locked, this pawn's soul can't be marked or extracted, and locking cancels any extraction already queued.",
+                defaultDesc = "While locked, this prisoner can't be marked, Mark all skips them, and locking clears any mark already on them.",
                 icon = LockIcon,
                 isActive = () => SoulUtility.IsSoulLocked(pawn),
                 toggleAction = () => SoulUtility.SetSoulLocked(pawn, !SoulUtility.IsSoulLocked(pawn)),
@@ -69,67 +73,12 @@ namespace HollowPawns
                 yield return g;
             }
             Pawn pawn = __instance;
-            if (!HP_DefOf.HP_SoulExtraction.IsFinished || pawn.Dead
-                || SoulUtility.GetStatus(pawn) != SoulUtility.SoulStatus.Intact)
+            if (pawn.Dead || !pawn.IsPrisonerOfColony || SoulUtility.GetStatus(pawn) != SoulUtility.SoulStatus.Intact)
             {
                 yield break;
             }
-            bool prisoner = pawn.IsPrisonerOfColony;
-            if (!prisoner && pawn.Faction != Faction.OfPlayer)
-            {
-                yield break;
-            }
-            if (prisoner)
-            {
-                yield return ReapersMark.MarkGizmo(pawn);
-            }
+            yield return ReapersMark.MarkGizmo(pawn);
             yield return ReapersMark.LockGizmo(pawn);
-        }
-    }
-
-    /// <summary>
-    /// Every way of queuing extract soul goes through here: refuse Soul-Locked pawns, and
-    /// ask before queuing it on one of the colony's own.
-    /// </summary>
-    [HarmonyPatch(typeof(HealthCardUtility), nameof(HealthCardUtility.CreateSurgeryBill))]
-    public static class Patch_HealthCardUtility_CreateSurgeryBill
-    {
-        private static bool confirmed;
-
-        public static bool Prefix(Pawn medPawn, RecipeDef recipe, BodyPartRecord part, List<Thing> uniqueIngredients,
-            bool sendMessages, ref Bill_Medical __result)
-        {
-            if (!SoulUtility.IsSoulSurgery(recipe) || confirmed)
-            {
-                return true;
-            }
-            if (SoulUtility.IsSoulLocked(medPawn))
-            {
-                Messages.Message(medPawn.LabelShort + " is Soul-Locked.", medPawn, MessageTypeDefOf.RejectInput, false);
-                __result = null;
-                return false;
-            }
-            if (medPawn.Faction != Faction.OfPlayer)
-            {
-                return true;
-            }
-            Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-                "Take " + medPawn.LabelShort + "'s soul (" + recipe.label + ")? " + medPawn.LabelShort + " is one of your own, and will die.",
-                () =>
-                {
-                    confirmed = true;
-                    try
-                    {
-                        HealthCardUtility.CreateSurgeryBill(medPawn, recipe, part, uniqueIngredients, sendMessages);
-                    }
-                    finally
-                    {
-                        confirmed = false;
-                    }
-                },
-                destructive: true));
-            __result = null;
-            return false;
         }
     }
 

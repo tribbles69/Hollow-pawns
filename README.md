@@ -1,16 +1,18 @@
-# Hollow Pawns v0.6
+# Hollow Pawns v0.7
 
 Every human has a soul. Take it from the dead at the soul crucible, or from the living on the operating table. They die without it.
 
-## What's in v0.6
+## What's in v0.7
 
 ### Souls and essence
 | Thing | What it does |
 |---|---|
 | **Soul** (body part) | Added to the Human body with 0 coverage, so damage can never hit it. Only adults' souls can be taken: children can't be operated on or reaped, and the crucible never takes their corpses. Animals, insects, mechanoids and alien races have no soul at all. |
-| **Extract soul** (surgery) | Needs Medicine 6; uses no medicine. Drops 12 soul essence, marks the soul missing, kills the patient. Counts as a violation on prisoners and guests. |
-| **Bottle soul** (surgery) | The same, but the soul goes whole into a **soul jar** instead of loose essence. |
-| **Soul jar** | Comes out boxed; install it as decoration (beauty 20, dim cyan glow). Remembers who it was: "soul jar (Vex the Butcher)", with their title, faction and the date on inspect. *Smash jar* renders it into 12 essence, so bottling costs nothing. If a raid or fire breaks it, the essence spills out. Bottling records a tale sculptors can carve. |
+| **Bone Altar** (Production, 2x1, stone, no research) | Mark a prisoner (render or bind) and a warden restrains them, carries them here and takes the soul. Slow (about 1.6 hours), 1 in 4 rites botched (a grade worse), witnesses are disturbed, heavy corruption close by. |
+| **Soul Press** (Production, 2x2, 800W, research *Soul press*) | The same, faster (about 36 minutes), a grade better, never botched, nobody disturbed; vents less corruption per rite but over a wider area. |
+| **Soul grades** | Every soul is wretched, poor, common, good, fine, masterwork or exalted, from the victim's best and top-three skills (passion counts). Rendering gives 6 to 20 essence by grade. |
+| **Vessels** (bind) | A bound soul goes into the best empty vessel you have and keeps its name, grade, residue (a trait or top skill) and the day taken. **Reliquary urn** (crafting spot, stone): holds up to fine, fragile. **Soul canister** (machining table): up to masterwork; keep filled canisters on a powered **canister rack** or after a day without power they vent and the souls lose a grade. **Soul lattice** (fabrication bench, research *Soul lattice*): any grade, stable. |
+| **Smashing a vessel** | Gives 1.5x what rendering would have. If a vessel is broken any other way, the soul gets out and corruption spills. Binding records a tale sculptors can carve. The old extract and bottle soul surgeries are gone. |
 | **Soul crucible** (Production, 3x1, 250W, worked under **Crafting**) | *Harvest soul from corpse*: 1 human corpse → 8 essence fresh, 5 rotting, 2 desiccated, leaving a soulless husk behind for haulers. Husks are never hauled back to it. Colonist corpses are off by default in the bill filter. *Forge soulsteel*: 10 plasteel + 3 essence → 10 soulsteel. Also makes every soul weapon and soul ammo. |
 | **Soulsteel** | Metallic stuff one tier above plasteel: tougher, sharper, lighter, non-flammable. Weapons, armour, walls, furniture. |
 | **Soul generator** (Power, 2x2) | 1200W, burns 2 essence a day, holds 20. One fresh corpse runs it for 4 days. A breakdown vents a **soul burst** (radius ~3.9) at whoever is nearby. |
@@ -38,12 +40,12 @@ The **cursed idol** is belt-slot demon loot: +4 shooting and melee accuracy and 
 |---|---|
 | **Demon** (xenotype) | Horned, deep red, red-eyed, tailed. Robust, fire-resistant, hyper-aggressive, strong in melee, reduced pain. Carries the **corrupted soul** gene. |
 | **Demon host** (faction) | A permanent enemy built like the pirates, every member a demon: thralls, reavers, ravagers, brutes and arch-demons (vanilla raider gear). Raids like any enemy. Added to existing saves on load. |
-| **Corrupted essence** | What a demon's soul gives, from surgery, scythe, crucible or a bottled demon's jar. Worth 20. Volatile, more so than clean essence. *Purge corrupted essence* at the crucible: 5 corrupted → 10 clean, but the worker has a 1-in-3 chance of being cursed. The soul broker buys it. |
+| **Corrupted essence** | What a demon's soul gives (and any soul taken on deeply corrupted ground), from the altar, press, scythe, crucible or a demon's vessel. Worth 20. Volatile, more so than clean essence. *Purge corrupted essence* at the crucible: 5 corrupted → 10 clean, but the worker has a 1-in-3 chance of being cursed. The soul broker buys it. |
 | **Hell gate** (Misc, 3x3; research *Hell gate* after Soul weaponry) | 150 soulsteel, 40 essence, 6 components. Open it and a demon raid (110% normal points) comes through every 3 days; close it to stop. Dev mode adds *Wave now*. Rare tick only, idle when closed. |
 | **Hell Unbound** (storyteller) | Cassandra Classic plus a demon wave roughly every 12 days from day 15. Generated from the game's own Cassandra by `Source/tools/gen_storyteller.py`. |
 
 ### The soul broker
-An orbital trader (comms console) and an Outlander caravan that buy and sell soul essence, soulsteel and soul drugs at a markup. The orbital broker also sells soul weapons; the caravan only buys them. Both buy soul jars. Never pawns. Soul weapons and drugs have their own trade tags, so ordinary traders never stock them.
+An orbital trader (comms console) and an Outlander caravan that buy and sell soul essence, soulsteel and soul drugs at a markup. The orbital broker also sells soul weapons; the caravan only buys them. Both buy filled soul vessels. Never pawns. Soul weapons and drugs have their own trade tags, so ordinary traders never stock them.
 
 ### Weapons
 | Thing | What it does |
@@ -65,20 +67,42 @@ An orbital trader (comms console) and an Outlander caravan that buy and sell sou
 The table lives in `Source/tools/gen_soul_guns.py`. Change a number there and re-run it rather than editing the XML.
 
 ### The Reaper's Mark (quality of life)
-Know which bodies still hold a soul, take one in a click, and never by accident. Appears once *Soul extraction* is researched. Nothing ticks: it all runs when you look or click.
+Know which bodies still hold a soul, take one in a click, and never by accident. Nothing ticks: it all runs when you look or click.
 | Thing | What it does |
 |---|---|
-| **Mark soul** (button on prisoners) | Toggle: queues the extract soul surgery, or cancels it. Select several prisoners to mark them all. |
-| **Mark all** (button on the crucible) | Marks every prisoner on the map whose soul is intact and who isn't Soul-Locked. |
-| **Soul-Lock** (button on colonists, slaves and prisoners) | The safety catch. A locked pawn can't be marked, extract soul isn't offered on them, and locking cancels anything already queued. |
-| **"Are you sure?"** | Queuing extract soul on one of your own (colonist or slave) asks first. |
+| **Mark soul** (button on prisoners) | Render, bind, or clear. Wardens take marked prisoners to a free altar or press. Binding needs an empty vessel. |
+| **Mark all** (button on the altar and press) | Marks every prisoner on the map whose soul is intact and who isn't Soul-Locked to be rendered. |
+| **Soul-Lock** (button on prisoners) | The safety catch. A locked prisoner can't be marked, Mark all skips them, and locking clears any mark. |
 | **Allow ensouled / allow soulless** | Corpse filters on stockpiles, graves and bills, like fresh / rotten. Send full corpses to a crucible stockpile and husks elsewhere. Children and soulless races count as soulless. |
 | **Corpse hover line** | "Soul: intact (8 essence)" or "Soul: taken" on adult human corpses. |
 | **Alerts** | *Ensouled corpse unclaimed*: non-colony corpses with a soul lying outside storage on a home map. *Soul generator low*: a generator with about a day of essence left. |
 
 ### Research
-- **Soul extraction** (Industrial, after Electricity): crucible, generator, soulsteel, surgery, scythe.
+- **Soul extraction** (Industrial, after Electricity): crucible, generator, soulsteel, scythe, soul canisters and the canister rack.
+- **Soul press** (after Soul extraction and Microelectronics), **Soul lattice** (after Soul press and Fabrication), **Reanimation** (after Soul extraction), **Industrial harvest** (after Soul extraction and Machining), **Clone vats** (Biotech, after Soul extraction).
 - **Soul weaponry** (after Soul extraction and Gunsmithing): the gun family and soul ammo.
+
+### Corruption (the backbone)
+Taking and spending souls stains the ground and the people who do it. Toggle the overlay with the purple button among the map controls (bottom right).
+| Thing | What it does |
+|---|---|
+| **Ground corruption** | Spilled by soul rites (altar heavy and close, press thin and wide), crucible harvests, soul generators while they burn, soul blasts and bursts, broken vessels, demons walking about and demon corpses lying around. Above 80 it creeps into neighbouring cells; above 120 plants wither; above 160 any soul taken there comes out as corrupted essence. A sample of cells is checked every 250 ticks: nothing ticks per cell. |
+| **Soul corruption** (pawns) | Builds while a soul stands on corrupted ground, and on wardens who perform rites. Stages: unease, dread, sickening, consumed; at *consumed* it draws a curse about every 4 days. Fades slowly. Children, thralls and husks can't carry it; demons are immune. |
+| **Tainted / corrupted ground** | -3 / -8 mood standing on it. |
+| **Fire** | Burning cleans corrupted ground, along with everything else. |
+| **Holy water** (crafting spot or drug lab: 5 silver + 1 herbal medicine → 4) | The *Cleanse corruption* order (Orders tab): drag over ground; cleaners sprinkle one holy water per small patch. Or drink it: -0.15 soul corruption. |
+| **Purge soul corruption** (surgery, Medicine 5, 2 medicine) | Halves soul corruption at a stroke, with two days of pain. |
+| **Hell gate** | Now needs corrupted ground to open (average 100 over and around it). |
+
+### The endless war
+| Thing | What it does |
+|---|---|
+| **Thralls** (Biotech; research *Clone vats*) | A **clone vat** (3x2, 400W): a crafter starts a culture (60 meat, 25 steel, 5 essence), the vat grows an adult thrall for 3 days and decants it in basic gear. Thralls are soulless: no pain, only food and rest needs (no mood, no breaks), never chat, and can only haul, fight fires and fight. They fail after about 30 days. |
+| **Husks** (research *Reanimation*) | The **reanimation slab** (2x1, 300W, doctors) raises a soulless adult human corpse (a husk from the crucible or a rite) as a husk on your side: same body and gear, -30% moving, -20% manipulation, no pain, food and rest only, haul / firefight / fight only, dead in about 4 days. |
+| **Stand guard** (button on thralls and husks) | Drafted in place, hunger at a tenth, no tiredness. They stand down on their own when hungry. |
+| **Carrion** | *Bind carrion* at a butcher table or spot turns an adult human or animal corpse (never a child) into 2 carrion bales. **Carrion walls** (Structure, 2 bales) rot about 1% a day above freezing, leak rot stink, burn well and look awful. |
+| **Corpse grinder** (3x3, 600W; research *Industrial harvest*) | Grinds corpses left next to it (make a stockpile there): carrion bales, 4 essence from an adult human soul, meat and leather. No worker, no husk, never children, heavy corruption. One corpse per 1000 ticks while powered. |
+| **Line forge** (4x2, 500W; research *Industrial harvest*) | Turns steel and components left next to it into conscript kit, no worker: a conscript rifle (bayonet, poor accuracy, 5.56 under CE), conscript helmet and vest, or the full kit. Near-worthless, no quality. |
 
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
@@ -90,7 +114,7 @@ Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
 Tick cost: nothing new ticks except the generator, which ticks like the vanilla wood-fired generator, and soul shock fading like any other condition.
 
 ## Building the DLL (one time, and after any C# change)
-The C# is in `Source/HollowPawns`. It is needed for the surgery (the kill), the corpse filter and the scythe's reap. Without the DLL the mod will throw errors on load.
+The C# is in `Source/HollowPawns`. Most of the mod needs it. Without the DLL the mod will throw errors on load.
 
 1. Install the .NET SDK (8 or later): https://dotnet.microsoft.com/download
 2. In a terminal:
@@ -106,8 +130,8 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 ## First test (dev mode on)
 - [ ] No red errors on load. Check the log for anything mentioning `HP_`.
 - [ ] Research both projects (dev mode: finish instantly). Check neither overlaps anything on the Main tab. If they do, change `researchViewX/Y` in `Defs/ResearchProjectDefs/HP_Research.xml`.
-- [ ] Check a child prisoner: no *extract soul* option, the scythe never reaps them, and the crucible won't take a child's corpse.
-- [ ] Spawn a prisoner, queue *extract soul*. They die, 12 essence drops, the death message mentions the soul.
+- [ ] Check a child prisoner: no *Mark soul* button, the scythe never reaps them, and the crucible, grinder and carrion bills never take a child's corpse.
+- [x] ~~Extract soul surgery~~ (removed in v0.7; replaced by the altar and press).
 - [ ] Put that corpse and a normal raider corpse near the crucible. Only the raider gets harvested.
 - [ ] Forge soulsteel, then make a soulsteel longsword and a soulsteel wall.
 - [ ] Give a Melee 20 colonist the scythe, fight a few downed prisoners: roughly 1 in 3 hits should reap ("Reaped" text, 12 essence).
@@ -115,45 +139,66 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Miss on purpose into a wall: it should take a big chunk of damage, with some rubble. A colonist standing next to the target should be untouched.
 - [ ] Build a generator, fill it, check 1200W on the power tab.
 - [x] Load an old save: injuries and bionics on existing pawns should be where they were. (Passed, October 2026.)
-- [ ] Reaper's Mark: *Mark soul* on a prisoner adds the surgery bill; toggling off removes it. *Mark all* on the crucible marks every eligible prisoner and skips a child and a Soul-Locked one.
-- [ ] Soul-Lock a prisoner who is already marked: the bill disappears and extract soul is no longer in their operations list.
-- [ ] Queue extract soul on a colonist from the health tab: a confirmation appears; cancel adds nothing, confirm adds the bill.
+- [ ] Reaper's Mark: *Mark soul* → render on a prisoner; a warden takes them to the altar. *Mark all* on the altar marks every eligible prisoner and skips a child and a Soul-Locked one.
+- [ ] Soul-Lock a prisoner who is already marked: the mark clears and nobody comes for them.
 - [ ] Harvest at the crucible: the corpse stays as a husk, hovering it says "Soul: taken", and nobody hauls it back to the crucible.
 - [ ] Stockpile filters: a stockpile with *allow soulless* off rejects the husk.
 - [ ] Leave a raider corpse outside storage: *Ensouled corpse unclaimed* appears. Let a generator run below 2 essence: *Soul generator low* appears.
 
 **v0.5 batch** (dev mode makes most of these quick: spawn things, set rot, start fires, trigger breakdowns)
 - [ ] Freshness: hover a fresh, a rotting and a desiccated raider corpse: "Soul: intact (8 / 5 / 2 essence)". Harvest each: that much essence drops by the crucible.
-- [ ] Bottle soul on a prisoner: they die, a boxed soul jar drops, named after them. Install it: it glows, inspect shows name, title, faction and date. Save, reload: the name is still there.
-- [ ] *Smash jar*: confirmation, then 12 essence. Damage another jar until it breaks: 12 essence spills out.
+- [x] ~~Bottle soul and soul jars~~ (replaced by vessels in v0.7; see the v0.7 checks).
 - [ ] Have a sculptor make art after a bottling: the tale can show up ("bottling the soul of ...").
 - [ ] Volatile essence: set a stack of 75 on fire (dev: start fire) with a prisoner next to it: it bursts cyan, the prisoner drops from soul shock with only bruises. A single essence makes a small burst.
 - [ ] Generator vent: dev "break down" a soul generator with a pawn next to it: soul burst, message, pawn shocked.
 - [ ] Soulfire: craft at the drug lab, inject: "burning" stage with no pain and faster movement, then "crashing", then gone after ~12 hours. Dose a few times: addiction, then soul hunger when it lapses.
 - [ ] Borrowed time: inject a colonist, then shoot them to death with a dev tool (or let a raid do it): they go down instead of dying. They are a year older. Check what happens when it wears off with lethal wounds (expected: they die).
-- [ ] Soul broker: dev "trader arrives" with the soul broker: stocks essence, soulsteel, drugs and a few soul guns; offers to buy a soul jar. Check vanilla traders no longer stock soul guns.
+- [ ] Soul broker: dev "trader arrives" with the soul broker: stocks essence, soulsteel, drugs and a few soul guns; offers to buy a filled vessel. Check vanilla traders no longer stock soul guns.
 
 **v0.6 batch: curses, demons, the hell gate**
 - [ ] Load the old save: the log says "[Hollow Pawns] Added the demon faction to this save", and the demon host shows in the factions tab, hostile to everyone.
 - [ ] Dev: spawn a demon raid (Execute incident → *demon wave*, or a raid with the demon host). Demons have horns, red skin and tails, and carry vanilla raider gear; the arch-demon wears a cursed idol.
 - [ ] Let a demon hit a colonist a few times: roughly 1 hit in 10 lays a curse, with a message. Curses show in the health tab and fade over 4 days.
-- [ ] Capture a demon. Extract or bottle their soul: corrupted essence (or a jar that says "corrupted soul"). Harvest a demon corpse: hover says "Soul: corrupted (8 corrupted essence)", and the crucible drops corrupted essence.
+- [ ] Capture a demon and render them at the altar: corrupted essence. Harvest a demon corpse: hover says "Soul: corrupted (8 corrupted essence)", and the crucible drops corrupted essence.
 - [ ] Purge 5 corrupted essence at the crucible: 10 clean essence; roughly one batch in three curses the worker.
 - [ ] Put the cursed idol on a colonist: *curse: hollowed* appears; take it off: gone. Accuracy goes up while worn.
 - [ ] Set corrupted essence on fire: a bigger burst than clean essence.
 - [ ] Research *Hell gate*, build one, open it: inspect shows the countdown. Dev *Wave now*: a demon raid arrives. Close it: "Closed." Save and reload with it open: the countdown survives.
 - [ ] New game: *Hell Unbound* is in the storyteller list with its portrait; the demon host is in world generation.
 - [ ] Research tab: *Hell gate* sits at (9, 6.1) under the soul projects without overlapping.
+
+**v0.7 batch: extraction, corruption, the endless war**
+- [ ] Build a Bone Altar. Mark a prisoner → render. A warden restrains and carries them to the altar, a rite runs (about 1.6 hours with a progress bar), they die, essence drops by grade, a message names the grade. Colonists watching get "watched a soul torn out".
+- [ ] Craft an empty reliquary urn. Mark a skilled prisoner → bind. The warden fetches the urn first. A filled urn drops: inspect shows name, grade, residue and date; a soul better than fine says it was damaged. Save and reload: still there.
+- [ ] Smash a filled vessel: 1.5x essence. Damage another until it breaks: "A soul vessel broke", and corruption appears there.
+- [ ] Soul press: research it, power it, mark → render: faster, a grade better, no witness thought.
+- [ ] Canister rack: put a filled canister on a rack, cut the power for over a day: canisters vent, grade drops, corruption spills. Lattice: research and craft one at the fabrication bench.
+- [ ] Corruption overlay: the purple button in the bottom-right map controls shows corruption around the altar after a rite. Leave it a while: it creeps; plants wither on heavy patches.
+- [ ] A colonist standing on heavy corruption picks up *soul corruption* and the ground mood penalty. Holy water: make some, use *Cleanse corruption* (Orders) over the patch: cleaners sprinkle it and it fades. Drink one: corruption goes down. Purge surgery halves it.
+- [ ] Set fire to a corrupted patch: the corruption drops.
+- [ ] Hell gate: on clean ground the Open button is disabled with the corruption figure; on corrupted ground it opens.
+- [ ] Clone vat (Biotech): research, build, power, add *start thrall culture*: a crafter loads it, then the vat grows (inspect countdown; dev *Decant now*). A bald grey thrall appears in gear: only food and rest needs, no mood tab, works only hauling and firefighting, can be drafted. *Thrall lifespan* in health.
+- [ ] Reanimation slab: harvest a raider at the crucible (husk), then *reanimate husk*: the husk stands up on your side, slow, with *reanimated husk* in health and only food and rest needs.
+- [ ] *Stand guard* on a thrall: drafted in place; it shoots raiders in range; when hungry it stands down with a message.
+- [ ] Bind carrion at the butcher table, build carrion walls: they lose hit points slowly when warm and leak rot stink; frozen ones don't.
+- [ ] Corpse grinder: stockpile corpses next to it, power it: bales, meat, leather and a little essence appear at its front, corpses vanish one at a time, heavy corruption. A child corpse is left alone.
+- [ ] Line forge: choose *full conscript kit*, drop 100 steel and a component next to it: after a while a conscript rifle, helmet and vest appear. Under CE the rifle takes 5.56.
 - [ ] With CE: compare a soulsteel and a plasteel armour piece; make soul charges and check each soul gun fires cyan beams with blasts; soul-charge some 5.56 and load it into an assault rifle.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
 - Research positions were checked against Core, Ideology and Biotech only. Royalty, Anomaly or Odyssey might put something at (7, 5.5) or (8, 5.5) on the Main tab.
 
+- v0.7, unverified until tested in game: the rite job (carrying a restrained prisoner and laying them on the altar cell; vanilla `Toils_Haul.StartCarryThing` on a pawn), `Building_CloneVat` re-implementing `IBillGiver.CurrentlyUsableForBills` (vanilla's isn't virtual), `ResurrectionUtility.TryResurrect` on rotted husks, the corruption overlay (`CellBoolDrawer`) and its toggle among the play settings, `DataExposeUtility.LookByteArray` for the corruption grid, thralls generated with a forced xenotype that has `canGenerateAsCombatant` false, CE armour values for the conscript vest and helmet (set by eye below CE's steel flak vest).
 - v0.6, unverified until tested in game: adding a faction to an existing save with `FactionGenerator.NewGeneratedFaction` (it will have no world bases in that save, and Ideology must give it an ideoligion); the storyteller firing an incident whose `baseChance` is 0 through an on/off cycle; demon pawn kinds inheriting from non-abstract vanilla kinds (`ThrasherBase`, `PirateKindBase`, `MercenaryHeavyBase`); `CompProperties_CauseHediff_Apparel` with no body part.
-- v0.5, unverified until tested in game: `HediffDef.preventsDeath` (no vanilla XML uses it; the game code reads it in `ShouldBeDead`/`CheckForStateChange`), the soul jar surviving minify and save/load, vanilla `CompExplosive` on essence still firing with CE loaded, and the soul broker caravan patch on the abstract `OutlanderFactionBase`.
+- v0.5, unverified until tested in game: `HediffDef.preventsDeath` (no vanilla XML uses it; the game code reads it in `ShouldBeDead`/`CheckForStateChange`), the soul jar surviving minify and save/load, and the soul broker caravan patch on the abstract `OutlanderFactionBase`.
 
 If any of these is wrong, the log will name it.
+
+### Fixed from the v0.6 load log
+- **Hell Unbound broke world generation.** The generated storyteller copied Cassandra's comps but not the population and adaptation curves she inherits from `BaseStoryteller`, so every pawn generated with it selected threw. It now has that parent. The demon wave's `minSpacingDays` (4) was longer than its 3-day window and is gone.
+- Essence stacks: vanilla `CompExplosive` needs every stack to tick every frame. Replaced by `CompVolatileEssence`, which bursts at once on fire damage, at half hit points (60% for corrupted) or when destroyed. There is no wick any more, so a fire bursts a stack the moment it reaches it. Unverified in game.
+- Hell gate is now pass-through (slow), not impassable; cursed idol isn't smeltable; the arch-demon has a starting resistance (40-60).
 
 ### Verified (October 2026, against RimWorld 1.6.4871 and CE `3b38e8d`)
 Every def reference, abstract parent and field name in the mod was cross-checked against the game's own Core/Ideology/Biotech XML and CE's Defs and Patches, and every API the C# calls was checked by reflection against the 1.6 `Assembly-CSharp.dll`.
@@ -176,12 +221,12 @@ Every def reference, abstract parent and field name in the mod was cross-checked
 - Soul vats and pipes via Vanilla Expanded Framework PipeSystem (Thing to resource, Resource storage, Resource to power).
 - Soul mechs (gestator recipes using essence).
 - Ideology reactions, soul-eating xenotype.
-- Blood debts (torment, vengeance effigies and the wailing effigy), building on soul jars.
+- Blood debts (torment, vengeance effigies and the wailing effigy), building on vessels.
 - Curse ritual on a prisoner (the third curse source); demon-specific art.
 - Full-kit apparel sets (light and heavy for medieval, industrial and spacer) that fill every slot, with CE webbing/backpack/shield pieces when CE is loaded.
-- Flayed face masks, from corpses or living prisoners, named like soul jars.
-- Line forge: a soul-free 2x4 machine that turns steel and components into cheap conscript kit (full armour set, rifle with bayonet) for arming thralls between waves.
+- Flayed face masks, from corpses or living prisoners, named like vessels.
 - Trenches that give real cover (all-round in vanilla, lower profile under CE); check the existing Frontline – Trenches mod first.
-- Thrall performance for big bases: a lean thrall think tree, stand-guard mode with auto-wake, and thrall racks that store them in suspension at near-zero cost.
+- Thrall performance for big bases: a lean thrall think tree and thrall racks that store them in suspension at near-zero cost.
+- Ghosts, the prisoner battery, reliquaries and shrines, scenarios, demon portals and siege shells, Ideology corruption precepts and the cleansing rite.
 
 The full plan, with design decisions, is in `ROADMAP.md`.

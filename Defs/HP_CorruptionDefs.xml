@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Corruption (4.28) =====================
+       Ground corruption lives in MapComponent_Corruption (one byte per cell). Pawn corruption is this
+       hediff. Only souls can carry it (Corruption.AddToPawn checks SoulUtility). -->
+
+  <HediffDef>
+    <defName>HP_SoulCorruption</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>soul corruption</label>
+    <description>Taking and spending souls stains the people who do it. It builds from working on corrupted ground, performing soul rites and standing near demons. It fades slowly by itself; holy water and purgation clean it faster. At its worst it draws curses.</description>
+    <defaultLabelColor>(0.6, 0.15, 0.45)</defaultLabelColor>
+    <isBad>true</isBad>
+    <makesSickThought>false</makesSickThought>
+    <initialSeverity>0.01</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.02</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>faint</label>
+        <becomeVisible>false</becomeVisible>
+      </li>
+      <li>
+        <minSeverity>0.2</minSeverity>
+        <label>unease</label>
+        <statOffsets>
+          <MentalBreakThreshold>0.02</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+      <li>
+        <minSeverity>0.4</minSeverity>
+        <label>dread</label>
+        <statOffsets>
+          <MentalBreakThreshold>0.05</MentalBreakThreshold>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.6</minSeverity>
+        <label>sickening</label>
+        <statOffsets>
+          <MentalBreakThreshold>0.08</MentalBreakThreshold>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.10</offset>
+          </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>-0.10</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <!-- Top stage: draws curses (MapComponent_Corruption rolls one about every 4 days). -->
+        <minSeverity>0.85</minSeverity>
+        <label>consumed</label>
+        <statOffsets>
+          <MentalBreakThreshold>0.12</MentalBreakThreshold>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.15</offset>
+          </li>
+          <li>
+            <capacity>BloodPumping</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>HP_OnCorruptedGround</defName>
+    <workerClass>HollowPawns.ThoughtWorker_OnCorruptedGround</workerClass>
+    <validWhileDespawned>false</validWhileDespawned>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>tainted ground</label>
+        <description>The ground here feels wrong. Sour.</description>
+        <baseMoodEffect>-3</baseMoodEffect>
+      </li>
+      <li>
+        <label>corrupted ground</label>
+        <description>Something is soaked into the earth here and it's watching me.</description>
+        <baseMoodEffect>-8</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- Holy water: sprinkled on corrupted ground (Cleanse corruption order) or drunk to clean a soul. -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HP_HolyWater</defName>
+    <label>holy water</label>
+    <description>Water blessed with silver salts and prayer. Sprinkle it on corrupted ground (the Cleanse corruption order) or drink it to lower soul corruption.</description>
+    <graphicData>
+      <texPath>Things/Item/HP_HolyWater</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MaxHitPoints>40</MaxHitPoints>
+      <MarketValue>8</MarketValue>
+      <Mass>0.3</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <ingestible>
+      <preferability>NeverForNutrition</preferability>
+      <drugCategory>Medical</drugCategory>
+      <foodType>Fluid</foodType>
+      <baseIngestTicks>100</baseIngestTicks>
+      <ingestSound>Ingest_Drink</ingestSound>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <chairSearchRadius>0</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="HollowPawns.IngestionOutcomeDoer_Cleanse">
+          <amount>0.15</amount>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>212</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <RecipeDef>
+    <defName>HP_MakeHolyWater</defName>
+    <label>bless holy water x4</label>
+    <description>Bless water with silver salts and a medicinal herb.</description>
+    <jobString>Blessing holy water.</jobString>
+    <workAmount>800</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Cooking</workSkill>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <recipeUsers>
+      <li>CraftingSpot</li>
+      <li>DrugLab</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter><thingDefs><li>Silver</li></thingDefs></filter>
+        <count>5</count>
+      </li>
+      <li>
+        <filter><thingDefs><li>MedicineHerbal</li></thingDefs></filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Silver</li>
+        <li>MedicineHerbal</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HP_HolyWater>4</HP_HolyWater>
+    </products>
+  </RecipeDef>
+
+  <DesignationDef>
+    <defName>HP_Cleanse</defName>
+    <texturePath>UI/Designators/HP_Cleanse</texturePath>
+    <targetType>Cell</targetType>
+    <shouldBatchDraw>true</shouldBatchDraw>
+  </DesignationDef>
+
+  <JobDef>
+    <defName>HP_CleanseCorruption</defName>
+    <driverClass>HollowPawns.JobDriver_Cleanse</driverClass>
+    <reportString>cleansing corrupted ground.</reportString>
+  </JobDef>
+
+  <WorkGiverDef>
+    <defName>HP_CleanseCorruption</defName>
+    <label>cleanse corruption</label>
+    <giverClass>HollowPawns.WorkGiver_Cleanse</giverClass>
+    <workType>Cleaning</workType>
+    <priorityInType>40</priorityInType>
+    <verb>cleanse</verb>
+    <gerund>cleansing</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <!-- Purgation: a painful operation that burns corruption out of a soul. -->
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>HP_Purgation</defName>
+    <label>purge soul corruption</label>
+    <description>Burn corruption out of a patient's soul. Halves it at a stroke, and hurts for days.</description>
+    <workerClass>HollowPawns.Recipe_Purgation</workerClass>
+    <jobString>Purging corruption.</jobString>
+    <workAmount>2500</workAmount>
+    <targetsBodyPart>false</targetsBodyPart>
+    <skillRequirements>
+      <Medicine>5</Medicine>
+    </skillRequirements>
+    <ingredients>
+      <li>
+        <filter><categories><li>Medicine</li></categories></filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories><li>Medicine</li></categories>
+    </fixedIngredientFilter>
+    <recipeUsers>
+      <li>Human</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <HediffDef>
+    <defName>HP_PurgationPain</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>purgation burns</label>
+    <description>Where the corruption was burned out, it still burns.</description>
+    <isBad>true</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.5</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <painOffset>0.35</painOffset>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Children are never harvested: every recipe that takes corpses disallows this. -->
+  <SpecialThingFilterDef>
+    <defName>HP_AllowChildCorpses</defName>
+    <label>allow children</label>
+    <description>Allow the corpses of children.</description>
+    <parentCategory>CorpsesHumanlike</parentCategory>
+    <workerClass>HollowPawns.SpecialThingFilterWorker_ChildCorpse</workerClass>
+    <configurable>false</configurable>
+  </SpecialThingFilterDef>
+
+</Defs>

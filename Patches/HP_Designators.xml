@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- The Cleanse corruption order sits with the other orders. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/DesignationCategoryDef[defName="Orders"]/specialDesignatorClasses</xpath>
+    <value>
+      <li>HollowPawns.Designator_Cleanse</li>
+    </value>
+  </Operation>
+
+</Patch>

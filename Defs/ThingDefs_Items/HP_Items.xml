@@ -27,17 +27,12 @@ Volatile. Fire or a heavy blow sets a stack off in a burst of loose souls that d
       <li>Manufactured</li>
     </thingCategories>
     <comps>
-      <!-- Volatile stockpiles: chemfuel's pattern. A full stack of 75 bursts about 3.8 cells wide.
-           Only runs when the stack is set off, never per tick. -->
-      <li Class="CompProperties_Explosive">
+      <!-- Volatile stockpiles: chemfuel's radius rule, but bursts at once on the damage event (no ticking wick).
+           A full stack of 75 bursts about 3.8 cells wide. -->
+      <li Class="HollowPawns.CompProperties_VolatileEssence">
         <explosiveRadius>1.5</explosiveRadius>
-        <explosiveDamageType>HP_SoulBurst</explosiveDamageType>
         <explosiveExpandPerStackcount>0.03</explosiveExpandPerStackcount>
-        <startWickOnDamageTaken>
-          <li>Flame</li>
-        </startWickOnDamageTaken>
-        <startWickHitPointsPercent>0.5</startWickHitPointsPercent>
-        <wickTicks>70~150</wickTicks>
+        <burstHitPointsPercent>0.5</burstHitPointsPercent>
         <extraInspectStringKey>HP_VolatileInspect</extraInspectStringKey>
       </li>
     </comps>

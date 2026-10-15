@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Extraction buildings (4.27) =====================
+       Mark a prisoner (render or bind); a warden restrains them, carries them here and performs the
+       rite (JobDriver_SoulRite). Neither building ticks. Replaces the old surgeries. -->
+
+  <!-- Bone Altar: early, unpowered, no research. Slow and risky: 1 in 4 rites botched (a grade
+       worse), witnesses are disturbed, and it spills heavy corruption close by. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_BoneAltar</defName>
+    <label>bone altar</label>
+    <description>A slab of stone with channels cut for blood. A prisoner is bound on it and the soul torn out by hand. Slow, crude and messy: the rite often damages the soul, anyone watching is disturbed, and the ground around it sours with corruption.\n\nMark a prisoner to be rendered or bound; wardens bring them here.</description>
+    <graphicData>
+      <texPath>Things/Building/HP_BoneAltar</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,1)</drawSize>
+    </graphicData>
+    <size>(2,1)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>40</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <designationCategory>Production</designationCategory>
+    <stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>75</costStuffCount>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToBuild>2500</WorkToBuild>
+      <Beauty>-15</Beauty>
+    </statBases>
+    <comps>
+      <li Class="HollowPawns.CompProperties_SoulRite">
+        <riteTicks>4000</riteTicks>
+        <botchChance>0.25</botchChance>
+        <upsetsWitnesses>true</upsetsWitnesses>
+        <corruption>120</corruption>
+        <corruptionRadius>3.9</corruptionRadius>
+        <effecter>Cremate</effecter>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(200,70,40,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Soul Press: late, powered, researched. Fast and clean: a grade better, never botched, nobody
+       disturbed, and it vents less corruption per rite, but over a wider area. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_SoulPress</defName>
+    <label>soul press</label>
+    <description>A soulsteel frame that holds a prisoner in a field and draws the soul up in a steady pale stream. Faster and cleaner than any altar: souls come out a grade better and never damaged. It vents a thin haze of corruption over a wide area.\n\nMark a prisoner to be rendered or bound; wardens bring them here.</description>
+    <graphicData>
+      <texPath>Things/Building/HP_SoulPress</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <size>(2,2)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
+    <designationCategory>Production</designationCategory>
+    <researchPrerequisites>
+      <li>HP_SoulPress</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <costList>
+      <HP_Soulsteel>80</HP_Soulsteel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <statBases>
+      <MaxHitPoints>400</MaxHitPoints>
+      <WorkToBuild>9000</WorkToBuild>
+      <Flammability>0</Flammability>
+      <Beauty>-5</Beauty>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>800</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Breakdownable" />
+      <li Class="HollowPawns.CompProperties_SoulRite">
+        <riteTicks>1500</riteTicks>
+        <gradeBonus>1</gradeBonus>
+        <botchChance>0</botchChance>
+        <upsetsWitnesses>false</upsetsWitnesses>
+        <corruption>50</corruption>
+        <corruptionRadius>6.9</corruptionRadius>
+        <effecter>Smelt</effecter>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>4</glowRadius>
+        <glowColor>(120,220,230,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <JobDef>
+    <defName>HP_PerformSoulRite</defName>
+    <driverClass>HollowPawns.JobDriver_SoulRite</driverClass>
+    <reportString>taking the soul of TargetA.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <WorkGiverDef>
+    <defName>HP_PerformSoulRite</defName>
+    <label>take marked prisoners' souls</label>
+    <giverClass>HollowPawns.WorkGiver_SoulRite</giverClass>
+    <workType>Warden</workType>
+    <priorityInType>60</priorityInType>
+    <verb>take the soul of</verb>
+    <gerund>taking the soul of</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <!-- Held down for the rite: can't move, so the warden can carry them. Wears off in a day if the
+       rite never happens. -->
+  <HediffDef>
+    <defName>HP_RiteRestrained</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>restrained for a rite</label>
+    <description>Bound hand and foot and marked for a soul rite.</description>
+    <defaultLabelColor>(0.75, 0.3, 0.35)</defaultLabelColor>
+    <isBad>true</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <setMax>0</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>HP_WitnessedSoulRite</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>3</durationDays>
+    <stackLimit>3</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <nullifyingTraits>
+      <li>Psychopath</li>
+      <li>Bloodlust</li>
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>watched a soul torn out</label>
+        <description>I saw them tear someone's soul out on that altar. The sound it made.</description>
+        <baseMoodEffect>-6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ResearchProjectDef>
+    <defName>HP_SoulPress</defName>
+    <label>soul press</label>
+    <description>A machine that takes souls cleanly and quickly: better souls, no botched rites, nobody upset by the sight of it.</description>
+    <baseCost>1800</baseCost>
+    <techLevel>Industrial</techLevel>
+    <prerequisites>
+      <li>HP_SoulExtraction</li>
+      <li>MicroelectronicsBasics</li>
+    </prerequisites>
+    <researchViewX>10.00</researchViewX>
+    <researchViewY>5.50</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>HP_SoulLattice</defName>
+    <label>soul lattice</label>
+    <description>Grow a crystal lattice of soulsteel and plasteel that holds a soul of any grade forever, without power and without leaking.</description>
+    <baseCost>3500</baseCost>
+    <techLevel>Spacer</techLevel>
+    <prerequisites>
+      <li>HP_SoulPress</li>
+      <li>Fabrication</li>
+    </prerequisites>
+    <researchViewX>17.00</researchViewX>
+    <researchViewY>6.10</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- ===================== Vessels (4.30) =====================
+       Each tier: an empty vessel (stacks, carries a VesselExtension) and a filled one (one soul,
+       CompSoulVessel). Binding picks the highest-tier empty vessel available. -->
+
+  <ThingDef Name="HP_VesselBase" ParentName="ResourceBase" Abstract="True">
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <tradeTags>
+      <li>HP_SoulJar</li>
+    </tradeTags>
+  </ThingDef>
+
+  <ThingDef Name="HP_FilledVesselBase" ParentName="HP_VesselBase" Abstract="True">
+    <stackLimit>1</stackLimit>
+    <healthAffectsPrice>true</healthAffectsPrice>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <resourceReadoutPriority>Last</resourceReadoutPriority>
+  </ThingDef>
+
+  <!-- Reliquary urn: medieval, crafting spot, no research. Holds up to fine; fragile. -->
+  <ThingDef ParentName="HP_VesselBase">
+    <defName>HP_VesselUrn_Empty</defName>
+    <label>empty reliquary urn</label>
+    <description>A clay urn sealed with wax and lead, made to hold a soul. It holds up to a fine soul; anything better is damaged down to fine when bound. Fragile once filled.</description>
+    <graphicData>
+      <texPath>Things/Item/HP_UrnEmpty</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>10</stackLimit>
+    <statBases>
+      <MaxHitPoints>40</MaxHitPoints>
+      <Mass>1.5</Mass>
+      <WorkToMake>1200</WorkToMake>
+    </statBases>
+    <stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>15</costStuffCount>
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers>
+        <li>CraftingSpot</li>
+        <li>TableStonecutter</li>
+      </recipeUsers>
+    </recipeMaker>
+    <modExtensions>
+      <li Class="HollowPawns.VesselExtension">
+        <filledDef>HP_VesselUrn</filledDef>
+        <gradeCap>Fine</gradeCap>
+        <tier>0</tier>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="HP_FilledVesselBase">
+    <defName>HP_VesselUrn</defName>
+    <label>reliquary urn</label>
+    <description>A sealed urn holding a whole human soul. It hums faintly. Fragile: if it breaks, the soul gets out and the ground is corrupted. Smash it deliberately for more essence than rendering would give.</description>
+    <graphicData>
+      <texPath>Things/Item/HP_Urn</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>25</MaxHitPoints>
+      <Mass>1.5</Mass>
+      <MarketValue>180</MarketValue>
+      <Beauty>8</Beauty>
+      <Flammability>0</Flammability>
+    </statBases>
+    <comps>
+      <li Class="HollowPawns.CompProperties_SoulVessel">
+        <corruptionOnBreak>150</corruptionOnBreak>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>2</glowRadius>
+        <glowColor>(150,110,90,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Soul canister: industrial, machining table. Holds up to masterwork; needs a powered rack. -->
+  <ThingDef ParentName="HP_VesselBase">
+    <defName>HP_VesselCanister_Empty</defName>
+    <label>empty soul canister</label>
+    <description>A steel and glass pressure cell with gauges, made to hold a soul. It holds up to a masterwork soul without loss. Filled canisters belong on a powered canister rack: without power for too long, they vent.</description>
+    <graphicData>
+      <texPath>Things/Item/HP_CanisterEmpty</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>10</stackLimit>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Mass>3</Mass>
+      <WorkToMake>3000</WorkToMake>
+    </statBases>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+    </recipeMaker>
+    <modExtensions>
+      <li Class="HollowPawns.VesselExtension">
+        <filledDef>HP_VesselCanister</filledDef>
+        <gradeCap>Masterwork</gradeCap>
+        <tier>1</tier>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="HP_FilledVesselBase">
+    <defName>HP_VesselCanister</defName>
+    <label>soul canister</label>
+    <description>A pressure cell holding a whole human soul, gauges flickering. Keep it on a powered canister rack.</description>
+    <graphicData>
+      <texPath>Things/Item/HP_Canister</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>120</MaxHitPoints>
+      <Mass>3</Mass>
+      <MarketValue>300</MarketValue>
+      <Beauty>2</Beauty>
+      <Flammability>0</Flammability>
+    </statBases>
+    <comps>
+      <li Class="HollowPawns.CompProperties_SoulVessel">
+        <corruptionOnBreak>80</corruptionOnBreak>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>2</glowRadius>
+        <glowColor>(120,220,230,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Soul lattice: spacer, fabrication bench. Holds any grade, including exalted; fully stable. -->
+  <ThingDef ParentName="HP_VesselBase">
+    <defName>HP_VesselLattice_Empty</defName>
+    <label>empty soul lattice</label>
+    <description>A grown crystal lattice of soulsteel and plasteel. The only vessel that holds an exalted soul. Stable: no power, no leaks.</description>
+    <graphicData>
+      <texPath>Things/Item/HP_LatticeEmpty</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>10</stackLimit>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Mass>1</Mass>
+      <WorkToMake>9000</WorkToMake>
+    </statBases>
+    <costList>
+      <Plasteel>15</Plasteel>
+      <HP_Soulsteel>20</HP_Soulsteel>
+      <ComponentSpacer>1</ComponentSpacer>
+    </costList>
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HP_SoulLattice</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>10</Crafting>
+      </skillRequirements>
+      <recipeUsers>
+        <li>FabricationBench</li>
+      </recipeUsers>
+    </recipeMaker>
+    <modExtensions>
+      <li Class="HollowPawns.VesselExtension">
+        <filledDef>HP_VesselLattice</filledDef>
+        <gradeCap>Exalted</gradeCap>
+        <tier>2</tier>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="HP_FilledVesselBase">
+    <defName>HP_VesselLattice</defName>
+    <label>soul lattice</label>
+    <description>A crystal lattice holding a whole human soul, perfectly still, faintly singing.</description>
+    <graphicData>
+      <texPath>Things/Item/HP_Lattice</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>400</MaxHitPoints>
+      <Mass>1</Mass>
+      <MarketValue>600</MarketValue>
+      <Beauty>12</Beauty>
+      <Flammability>0</Flammability>
+    </statBases>
+    <comps>
+      <li Class="HollowPawns.CompProperties_SoulVessel">
+        <corruptionOnBreak>40</corruptionOnBreak>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(170,240,250,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Canister rack: a powered shelf for soul canisters (CompCanisterRack: rare tick on the rack only). -->
+  <ThingDef ParentName="StorageShelfBase">
+    <defName>HP_CanisterRack</defName>
+    <label>canister rack</label>
+    <description>A powered shelf that keeps soul canisters pressurised. If it goes without power for more than a day, every canister on it vents: the ground is corrupted and the souls lose a grade.</description>
+    <graphicData>
+      <texPath>Things/Building/Furniture/Shelf</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,2)</drawSize>
+      <color>(98,196,206)</color>
+    </graphicData>
+    <size>(2,1)</size>
+    <tickerType>Rare</tickerType>
+    <costStuffCount>30</costStuffCount>
+    <costList>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <designationCategory>Furniture</designationCategory>
+    <researchPrerequisites Inherit="False">
+      <li>HP_SoulExtraction</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <WorkToBuild>1500</WorkToBuild>
+      <Mass>8</Mass>
+    </statBases>
+    <building>
+      <storageGroupTag>HP_CanisterRack</storageGroupTag>
+      <fixedStorageSettings Inherit="False">
+        <filter>
+          <thingDefs>
+            <li>HP_VesselCanister</li>
+            <li>HP_VesselCanister_Empty</li>
+          </thingDefs>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings Inherit="False">
+        <priority>Important</priority>
+        <filter>
+          <thingDefs>
+            <li>HP_VesselCanister</li>
+          </thingDefs>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>60</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="HollowPawns.CompProperties_CanisterRack" />
+    </comps>
+  </ThingDef>
+
+</Defs>

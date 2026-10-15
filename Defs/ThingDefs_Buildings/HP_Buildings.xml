@@ -54,7 +54,6 @@
       </li>
       <li Class="CompProperties_Flickable" />
       <li Class="CompProperties_Breakdownable" />
-      <li Class="HollowPawns.CompProperties_SoulCrucible" />
       <li Class="CompProperties_Glower">
         <glowRadius>4</glowRadius>
         <glowColor>(120,220,230,0)</glowColor>
@@ -128,49 +127,6 @@
       <li Class="CompProperties_Breakdownable" />
       <!-- A breakdown vents a soul burst at whoever is nearby. Runs on the breakdown signal only. -->
       <li Class="HollowPawns.CompProperties_SoulVent" />
-    </comps>
-  </ThingDef>
-
-  <!-- Soul jar: a whole soul, bottled by the bottle soul surgery. Not buildable: it only comes
-       out of the surgery, boxed, ready to install. Remembers who it was (CompSoulJar). A dim,
-       glowing decoration: a shelf of the damned. Smash it for the essence; if a raid breaks it,
-       the essence spills out instead of being lost. -->
-  <ThingDef ParentName="BuildingBase">
-    <defName>HP_SoulJar</defName>
-    <label>soul jar</label>
-    <description>A sealed glass jar holding a human soul, whole. It glows faintly and never quite stops moving. Some colonists find a shelf of them beautiful. Smash it, and the soul inside becomes soul essence.</description>
-    <graphicData>
-      <texPath>Things/Building/HP_SoulJar</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1,1)</drawSize>
-    </graphicData>
-    <minifiedDef>MinifiedThing</minifiedDef>
-    <thingCategories>
-      <li>BuildingsArt</li>
-    </thingCategories>
-    <altitudeLayer>Building</altitudeLayer>
-    <passability>PassThroughOnly</passability>
-    <pathCost>30</pathCost>
-    <fillPercent>0.2</fillPercent>
-    <rotatable>false</rotatable>
-    <useHitPoints>true</useHitPoints>
-    <tradeTags>
-      <li>HP_SoulJar</li>
-    </tradeTags>
-    <statBases>
-      <MaxHitPoints>30</MaxHitPoints>
-      <Mass>1.5</Mass>
-      <Beauty>20</Beauty>
-      <!-- The 12 essence inside, and a little for the curiosity. -->
-      <MarketValue>180</MarketValue>
-      <Flammability>0</Flammability>
-    </statBases>
-    <comps>
-      <li Class="CompProperties_Glower">
-        <glowRadius>2.5</glowRadius>
-        <glowColor>(98,196,206,0)</glowColor>
-      </li>
-      <li Class="HollowPawns.CompProperties_SoulJar" />
     </comps>
   </ThingDef>
 

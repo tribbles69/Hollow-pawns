@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Carrion (4.1) ===================== -->
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HP_CarrionBale</defName>
+    <label>carrion bale</label>
+    <description>Bodies, human and animal, bound tight with wire and tar into a block you can build with. It smells exactly as you'd expect.</description>
+    <graphicData>
+      <texPath>Things/Item/HP_CarrionBale</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>1</MarketValue>
+      <Mass>8</Mass>
+      <Flammability>1.2</Flammability>
+      <Beauty>-10</Beauty>
+      <DeteriorationRate>2</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- Bind carrion: any adult human or animal corpse into bales. Never children. -->
+  <RecipeDef>
+    <defName>HP_BindCarrion</defName>
+    <label>bind carrion</label>
+    <description>Bind a corpse into carrion bales for building. Never children.</description>
+    <jobString>Binding carrion.</jobString>
+    <workAmount>800</workAmount>
+    <workSpeedStat>ButcheryFleshSpeed</workSpeedStat>
+    <workSkill>Cooking</workSkill>
+    <effectWorking>ButcherFlesh</effectWorking>
+    <soundWorking>Recipe_ButcherCorpseFlesh</soundWorking>
+    <recipeUsers>
+      <li>TableButcher</li>
+      <li>ButcherSpot</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>CorpsesHumanlike</li>
+            <li>CorpsesAnimal</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>CorpsesHumanlike</li>
+        <li>CorpsesAnimal</li>
+      </categories>
+      <specialFiltersToDisallow>
+        <li>HP_AllowChildCorpses</li>
+      </specialFiltersToDisallow>
+    </fixedIngredientFilter>
+    <defaultIngredientFilter>
+      <categories>
+        <li>CorpsesHumanlike</li>
+        <li>CorpsesAnimal</li>
+      </categories>
+      <specialFiltersToDisallow>
+        <li>AllowCorpsesColonist</li>
+        <li>HP_AllowEnsouled</li>
+      </specialFiltersToDisallow>
+    </defaultIngredientFilter>
+    <products>
+      <HP_CarrionBale>2</HP_CarrionBale>
+    </products>
+  </RecipeDef>
+
+  <!-- Carrion wall: an outdoor wall of bound corpses. Rots (MapComponent_EndlessWar samples walls:
+       ~1% hit points a day above freezing, frozen walls don't rot) and leaks rot stink. Burns well. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_CarrionWall</defName>
+    <label>carrion wall</label>
+    <description>A wall of bound corpses. Cheap, quick, and horrible: it rots slowly above freezing, leaks rot stink, burns well and makes everyone near it miserable. Frozen, it keeps.</description>
+    <graphicData>
+      <texPath>Things/Building/HP_CarrionWall</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <uiIconPath>Things/Building/HP_CarrionWall</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <blockLight>true</blockLight>
+    <castEdgeShadows>true</castEdgeShadows>
+    <fillPercent>1</fillPercent>
+    <coversFloor>true</coversFloor>
+    <holdsRoof>true</holdsRoof>
+    <rotatable>false</rotatable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <canOverlapZones>false</canOverlapZones>
+    <fertility>0</fertility>
+    <staticSunShadowHeight>1.0</staticSunShadowHeight>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <designationCategory>Structure</designationCategory>
+    <tickerType>Never</tickerType>
+    <statBases>
+      <MaxHitPoints>220</MaxHitPoints>
+      <WorkToBuild>200</WorkToBuild>
+      <Flammability>1.4</Flammability>
+      <Beauty>-12</Beauty>
+    </statBases>
+    <costList>
+      <HP_CarrionBale>2</HP_CarrionBale>
+    </costList>
+    <building>
+      <isInert>true</isInert>
+      <isWall>true</isWall>
+      <ai_chillDestination>false</ai_chillDestination>
+    </building>
+  </ThingDef>
+
+  <!-- ===================== Reanimated husks (4.6) ===================== -->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_ReanimationSlab</defName>
+    <label>reanimation slab</label>
+    <description>A powered slab that drives a soulless body back to its feet as a husk: the same body and gear, on your side, slow and clumsy, with no needs but food and rest, and only a few days before it collapses. Takes soulless adult human corpses only.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Things/Building/HP_ReanimationSlab</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,1)</drawSize>
+    </graphicData>
+    <size>(2,1)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.4</fillPercent>
+    <rotatable>false</rotatable>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <designationCategory>Production</designationCategory>
+    <researchPrerequisites>
+      <li>HP_Reanimation</li>
+    </researchPrerequisites>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+    <costList>
+      <Steel>120</Steel>
+      <ComponentIndustrial>3</ComponentIndustrial>
+      <HP_SoulEssence>10</HP_SoulEssence>
+    </costList>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <WorkToBuild>4000</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <Beauty>-10</Beauty>
+    </statBases>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>300</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Breakdownable" />
+    </comps>
+  </ThingDef>
+
+  <RecipeDef>
+    <defName>HP_ReanimateHusk</defName>
+    <label>reanimate husk</label>
+    <description>Raise a soulless adult human corpse as a husk on your side.</description>
+    <workerClass>HollowPawns.RecipeWorker_Reanimate</workerClass>
+    <jobString>Reanimating a husk.</jobString>
+    <workAmount>2000</workAmount>
+    <workSpeedStat>MedicalOperationSpeed</workSpeedStat>
+    <workSkill>Medicine</workSkill>
+    <effectWorking>Surgery</effectWorking>
+    <soundWorking>Recipe_Surgery</soundWorking>
+    <recipeUsers>
+      <li>HP_ReanimationSlab</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter><categories><li>CorpsesHumanlike</li></categories></filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter><thingDefs><li>Steel</li></thingDefs></filter>
+        <count>25</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories><li>CorpsesHumanlike</li></categories>
+      <thingDefs><li>Steel</li></thingDefs>
+      <specialFiltersToDisallow>
+        <li>HP_AllowEnsouled</li>
+        <li>HP_AllowChildCorpses</li>
+      </specialFiltersToDisallow>
+    </fixedIngredientFilter>
+    <defaultIngredientFilter>
+      <categories><li>CorpsesHumanlike</li></categories>
+      <thingDefs><li>Steel</li></thingDefs>
+      <specialFiltersToDisallow>
+        <li>AllowCorpsesColonist</li>
+      </specialFiltersToDisallow>
+    </defaultIngredientFilter>
+  </RecipeDef>
+
+  <WorkGiverDef>
+    <defName>HP_DoBillsReanimationSlab</defName>
+    <label>work at the reanimation slab</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Doctor</workType>
+    <priorityInType>30</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HP_ReanimationSlab</li>
+    </fixedBillGiverDefs>
+    <verb>reanimate at</verb>
+    <gerund>reanimating at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <!-- The husk condition: no soul (SoulUtility.IsSoulless), only food and rest needs, no pain, bad
+       stats, hauling, firefighting and fighting only, and a few days before it collapses. -->
+  <HediffDef>
+    <defName>HP_ReanimatedHusk</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>reanimated husk</label>
+    <description>A soulless body driven back to its feet. Slow, clumsy, feels nothing, needs only food and rest, and won't last long.</description>
+    <defaultLabelColor>(0.6, 0.6, 0.55)</defaultLabelColor>
+    <isBad>false</isBad>
+    <initialSeverity>0.01</initialSeverity>
+    <lethalSeverity>1</lethalSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>0.25</severityPerDay>
+        <showDaysToRecover>false</showDaysToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <painFactor>0</painFactor>
+        <disabledWorkTags>ManualSkilled, Intellectual, Social, Artistic, Crafting, Cooking, Mining, PlantWork, Caring, Animals, Constructing, Cleaning</disabledWorkTags>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.30</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.20</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.75</minSeverity>
+        <label>failing</label>
+        <painFactor>0</painFactor>
+        <disabledWorkTags>ManualSkilled, Intellectual, Social, Artistic, Crafting, Cooking, Mining, PlantWork, Caring, Animals, Constructing, Cleaning</disabledWorkTags>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.45</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.35</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Stand guard (4.26): drafted at a post, hunger at a trickle, no tiredness. -->
+  <HediffDef>
+    <defName>HP_StandingGuard</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>standing guard</label>
+    <description>Holding a post. Hunger slows to a trickle and they don't tire.</description>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+        <hungerRateFactor>0.1</hungerRateFactor>
+        <restFallFactor>0</restFallFactor>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ResearchProjectDef>
+    <defName>HP_Reanimation</defName>
+    <label>reanimation</label>
+    <description>Drive soulless bodies back to their feet as husks: emergency soldiers that won't last.</description>
+    <baseCost>1200</baseCost>
+    <techLevel>Industrial</techLevel>
+    <prerequisites>
+      <li>HP_SoulExtraction</li>
+    </prerequisites>
+    <researchViewX>11.00</researchViewX>
+    <researchViewY>6.10</researchViewY>
+  </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>HP_IndustrialHarvest</defName>
+    <label>industrial harvest</label>
+    <description>Machines for the endless war: a corpse grinder that turns the dead into bales, essence, meat and leather, and a line forge that turns out cheap conscript kit with nobody working it.</description>
+    <baseCost>1600</baseCost>
+    <techLevel>Industrial</techLevel>
+    <prerequisites>
+      <li>HP_SoulExtraction</li>
+      <li>Machining</li>
+    </prerequisites>
+    <researchViewX>12.00</researchViewX>
+    <researchViewY>5.50</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- ===================== Corpse grinder (4.31) ===================== -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_CorpseGrinder</defName>
+    <label>corpse grinder</label>
+    <description>A powered hopper that grinds corpses left next to it into carrion bales, a little soul essence, meat and leather. No worker needed: make a stockpile beside it and haulers will feed it. Takes animals too; never children. The whole body goes, so no husk. It vents corruption heavily: the dirtiest way there is to take a soul.</description>
+    <thingClass>HollowPawns.Building_CorpseGrinder</thingClass>
+    <graphicData>
+      <texPath>Things/Building/HP_CorpseGrinder</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <size>(3,3)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.8</fillPercent>
+    <blockWind>true</blockWind>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <tickerType>Rare</tickerType>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
+    <designationCategory>Production</designationCategory>
+    <researchPrerequisites>
+      <li>HP_IndustrialHarvest</li>
+    </researchPrerequisites>
+    <costList>
+      <Steel>200</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+    </costList>
+    <statBases>
+      <MaxHitPoints>400</MaxHitPoints>
+      <WorkToBuild>8000</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <Beauty>-60</Beauty>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>600</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Breakdownable" />
+    </comps>
+  </ThingDef>
+
+  <!-- ===================== Line forge (4.24) ===================== -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_LineForge</defName>
+    <label>line forge</label>
+    <description>A powered production line that stamps out cheap conscript kit from steel and components left next to it: no worker, no essence. Choose rifles, armour or full kits. Deliberately rubbish gear for arming thralls between waves.</description>
+    <thingClass>HollowPawns.Building_LineForge</thingClass>
+    <graphicData>
+      <texPath>Things/Building/HP_LineForge</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,2)</drawSize>
+    </graphicData>
+    <size>(4,2)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.7</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <tickerType>Rare</tickerType>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <designationCategory>Production</designationCategory>
+    <researchPrerequisites>
+      <li>HP_IndustrialHarvest</li>
+    </researchPrerequisites>
+    <costList>
+      <Steel>250</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <statBases>
+      <MaxHitPoints>350</MaxHitPoints>
+      <WorkToBuild>7000</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <Beauty>-15</Beauty>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>500</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Breakdownable" />
+    </comps>
+  </ThingDef>
+
+  <!-- Conscript kit: fixed, rubbish, near worthless, no quality. Vanilla textures. -->
+  <ThingDef ParentName="BaseGun">
+    <defName>HP_ConscriptRifle</defName>
+    <label>conscript rifle</label>
+    <description>A cheap stamped rifle with a bayonet lug. Inaccurate and short-ranged, but it fires, and the bayonet makes it a spear when they reach the wall.</description>
+    <graphicData>
+      <texPath>Things/Item/Equipment/WeaponRanged/BoltActionRifle</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(150,145,135)</color>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <techLevel>Industrial</techLevel>
+    <tradeability>Sellable</tradeability>
+    <weaponTags Inherit="False">
+      <li>HP_Conscript</li>
+    </weaponTags>
+    <tradeTags Inherit="False" />
+    <statBases>
+      <MarketValue>15</MarketValue>
+      <Mass>3.2</Mass>
+      <AccuracyTouch>0.50</AccuracyTouch>
+      <AccuracyShort>0.55</AccuracyShort>
+      <AccuracyMedium>0.45</AccuracyMedium>
+      <AccuracyLong>0.30</AccuracyLong>
+      <RangedWeapon_Cooldown>1.8</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_BoltActionRifle</defaultProjectile>
+        <warmupTime>1.6</warmupTime>
+        <range>26</range>
+        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+      <li>
+        <label>bayonet</label>
+        <capacities>
+          <li>Stab</li>
+        </capacities>
+        <power>13</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelBase">
+    <defName>HP_ConscriptHelmet</defName>
+    <label>conscript helmet</label>
+    <description>A stamped steel pot. Better than nothing, barely.</description>
+    <techLevel>Industrial</techLevel>
+    <graphicData>
+      <texPath>Things/Pawn/Humanlike/Apparel/SimpleHelmet/SimpleHelmet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(110,110,100)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>5</MarketValue>
+      <Mass>1.5</Mass>
+      <Flammability>0</Flammability>
+      <ArmorRating_Sharp>0.25</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.12</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.1</ArmorRating_Heat>
+      <EquipDelay>1</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>Headgear</li>
+    </thingCategories>
+    <tradeTags Inherit="False" />
+    <generateAllowChance>0</generateAllowChance>
+    <apparel>
+      <bodyPartGroups>
+        <li>UpperHead</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Things/Pawn/Humanlike/Apparel/SimpleHelmet/SimpleHelmet</wornGraphicPath>
+      <layers>
+        <li>Overhead</li>
+      </layers>
+      <tags>
+        <li>HP_Conscript</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <colorGenerator Class="ColorGenerator_Single">
+      <color>(110,110,100)</color>
+    </colorGenerator>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelBase">
+    <defName>HP_ConscriptVest</defName>
+    <label>conscript vest</label>
+    <description>Stamped steel plates sewn into canvas. It stops a knife, sometimes.</description>
+    <techLevel>Industrial</techLevel>
+    <graphicData>
+      <texPath>Things/Pawn/Humanlike/Apparel/FlakVest/FlakVest</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(110,110,100)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>120</MaxHitPoints>
+      <MarketValue>8</MarketValue>
+      <Mass>3.5</Mass>
+      <Flammability>0.4</Flammability>
+      <ArmorRating_Sharp>0.35</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.15</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.1</ArmorRating_Heat>
+      <EquipDelay>2</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.05</MoveSpeed>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <tradeTags Inherit="False" />
+    <generateAllowChance>0</generateAllowChance>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Things/Pawn/Humanlike/Apparel/FlakVest/FlakVest</wornGraphicPath>
+      <layers>
+        <li>Middle</li>
+      </layers>
+      <tags>
+        <li>HP_Conscript</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <colorGenerator Class="ColorGenerator_Single">
+      <color>(110,110,100)</color>
+    </colorGenerator>
+  </ThingDef>
+
+</Defs>

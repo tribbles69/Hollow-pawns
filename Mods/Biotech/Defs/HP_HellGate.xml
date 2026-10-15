@@ -45,7 +45,9 @@
     </graphicData>
     <size>(3,3)</size>
     <altitudeLayer>Building</altitudeLayer>
-    <passability>Impassable</passability>
+    <!-- Walk-through (slowly), like the wound it is: an impassable building under full height is a config error. -->
+    <passability>PassThroughOnly</passability>
+    <pathCost>60</pathCost>
     <fillPercent>0.8</fillPercent>
     <blockWind>true</blockWind>
     <castEdgeShadows>true</castEdgeShadows>
