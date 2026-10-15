@@ -17,6 +17,10 @@
     <weaponTags Inherit="False">
       <li>HP_SoulWeapon</li>
     </weaponTags>
+    <!-- Own trade tag, so ordinary arms dealers never stock soul guns; only the soul broker does. -->
+    <tradeTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </tradeTags>
     <statBases>
       <WorkToMake>32000</WorkToMake>
       <Mass>1.4</Mass>
@@ -107,6 +111,10 @@
     <weaponTags Inherit="False">
       <li>HP_SoulWeapon</li>
     </weaponTags>
+    <!-- Own trade tag, so ordinary arms dealers never stock soul guns; only the soul broker does. -->
+    <tradeTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </tradeTags>
     <statBases>
       <WorkToMake>36500</WorkToMake>
       <Mass>2.8</Mass>
@@ -198,6 +206,10 @@
     <weaponTags Inherit="False">
       <li>HP_SoulWeapon</li>
     </weaponTags>
+    <!-- Own trade tag, so ordinary arms dealers never stock soul guns; only the soul broker does. -->
+    <tradeTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </tradeTags>
     <statBases>
       <WorkToMake>39500</WorkToMake>
       <Mass>3.4</Mass>
@@ -289,6 +301,10 @@
     <weaponTags Inherit="False">
       <li>HP_SoulWeapon</li>
     </weaponTags>
+    <!-- Own trade tag, so ordinary arms dealers never stock soul guns; only the soul broker does. -->
+    <tradeTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </tradeTags>
     <statBases>
       <WorkToMake>41000</WorkToMake>
       <Mass>3.6</Mass>
@@ -379,6 +395,10 @@
     <weaponTags Inherit="False">
       <li>HP_SoulWeapon</li>
     </weaponTags>
+    <!-- Own trade tag, so ordinary arms dealers never stock soul guns; only the soul broker does. -->
+    <tradeTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </tradeTags>
     <statBases>
       <WorkToMake>47000</WorkToMake>
       <Mass>6.5</Mass>
@@ -469,6 +489,10 @@
     <weaponTags Inherit="False">
       <li>HP_SoulWeapon</li>
     </weaponTags>
+    <!-- Own trade tag, so ordinary arms dealers never stock soul guns; only the soul broker does. -->
+    <tradeTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </tradeTags>
     <statBases>
       <WorkToMake>47000</WorkToMake>
       <Mass>9.0</Mass>
@@ -560,6 +584,10 @@
     <weaponTags Inherit="False">
       <li>HP_SoulWeapon</li>
     </weaponTags>
+    <!-- Own trade tag, so ordinary arms dealers never stock soul guns; only the soul broker does. -->
+    <tradeTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </tradeTags>
     <statBases>
       <WorkToMake>38000</WorkToMake>
       <Mass>3.5</Mass>

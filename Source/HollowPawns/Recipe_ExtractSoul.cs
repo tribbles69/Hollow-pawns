@@ -10,17 +10,25 @@ namespace HollowPawns
     /// </summary>
     public class Recipe_ExtractSoul : Recipe_Surgery
     {
+        /// <summary>True for bottle soul: the soul goes into a named soul jar instead of loose essence.</summary>
+        protected virtual bool Bottle => false;
+
         public override IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
         {
-            BodyPartRecord soul = SoulUtility.GetSoul(pawn);
-            if (soul != null)
+            if (SoulUtility.CanExtract(pawn))
             {
-                yield return soul;
+                yield return SoulUtility.GetSoul(pawn);
             }
         }
 
         public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
         {
+            if (SoulUtility.IsSoulLocked(pawn))
+            {
+                // Locked after the bill was queued and the doctor had already started.
+                Messages.Message(pawn.LabelShort + " is Soul-Locked: extraction stopped.", pawn, MessageTypeDefOf.NeutralEvent, false);
+                return;
+            }
             if (billDoer != null)
             {
                 if (CheckSurgeryFail(billDoer, pawn, ingredients, part, bill))
@@ -32,12 +40,26 @@ namespace HollowPawns
 
             bool violation = IsViolationOnPawn(pawn, part, Faction.OfPlayer);
 
-            SoulUtility.ReapLiving(pawn);
+            if (Bottle && billDoer != null)
+            {
+                // Recorded while the victim is still alive, so the tale has their name and face.
+                TaleRecorder.RecordTale(HP_DefOf.HP_BottledSoul, billDoer, pawn);
+            }
+            SoulUtility.ReapLiving(pawn, null, Bottle);
 
             if (violation && billDoer != null)
             {
                 ReportViolation(pawn, billDoer, pawn.HomeFaction, -70);
             }
         }
+    }
+
+    /// <summary>
+    /// Bottle soul: the same surgery, but the soul is kept whole in a soul jar that remembers
+    /// who it was. Smash the jar later for the same essence, so bottling never costs anything.
+    /// </summary>
+    public class Recipe_BottleSoul : Recipe_ExtractSoul
+    {
+        protected override bool Bottle => true;
     }
 }

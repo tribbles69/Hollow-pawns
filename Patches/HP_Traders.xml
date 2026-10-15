@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Soul broker caravans travel with the Outlander factions. Patched on the abstract parent,
+       before inheritance, so both civil and rough Outlanders get it. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/FactionDef[@Name="OutlanderFactionBase"]/caravanTraderKinds</xpath>
+    <value>
+      <li>HP_Caravan_Outlander_SoulBroker</li>
+    </value>
+  </Operation>
+
+</Patch>

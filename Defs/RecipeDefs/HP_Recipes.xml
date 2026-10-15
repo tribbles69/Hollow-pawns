@@ -24,11 +24,36 @@
     <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
   </RecipeDef>
 
-  <!-- Crucible: harvest the lingering soul from a human corpse. -->
+  <!-- Surgery: bottle the soul whole in a named soul jar. The same surgery as extract soul
+       (Recipe_BottleSoul shares its worker), but the soul is kept, not rendered. -->
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>HP_BottleSoul</defName>
+    <label>bottle soul</label>
+    <description>Draw the soul out of a living patient and seal it, whole, in a soul jar that remembers who it was. The patient will die. Smash the jar later for the same 12 soul essence extraction would give.</description>
+    <workerClass>HollowPawns.Recipe_BottleSoul</workerClass>
+    <jobString>Bottling soul.</jobString>
+    <workAmount>3500</workAmount>
+    <isViolation>true</isViolation>
+    <targetsBodyPart>true</targetsBodyPart>
+    <appliedOnFixedBodyParts>
+      <li>HP_Soul</li>
+    </appliedOnFixedBodyParts>
+    <skillRequirements>
+      <Medicine>6</Medicine>
+    </skillRequirements>
+    <recipeUsers>
+      <li>Human</li>
+    </recipeUsers>
+    <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
+  </RecipeDef>
+
+  <!-- Crucible: harvest the lingering soul from a human corpse. The corpse isn't destroyed:
+       the worker marks its soul taken and leaves the husk for haulers. -->
   <RecipeDef>
     <defName>HP_HarvestCorpseSoul</defName>
     <label>harvest soul from corpse</label>
-    <description>Draw the lingering soul out of a human corpse and bind it as essence. The husk crumbles to nothing. Corpses whose soul has already been taken are useless.</description>
+    <description>Draw the lingering soul out of a human corpse and bind it as essence: 8 from a fresh corpse, 5 from a rotting one, 2 from a desiccated one. The soulless husk is left behind. Corpses whose soul has already been taken are useless here.</description>
+    <workerClass>HollowPawns.RecipeWorker_HarvestCorpseSoul</workerClass>
     <jobString>Harvesting soul.</jobString>
     <workAmount>1500</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -63,8 +88,44 @@
         <li>AllowCorpsesColonist</li>
       </specialFiltersToDisallow>
     </defaultIngredientFilter>
+    <!-- No fixed products: RecipeWorker_HarvestCorpseSoul drops 8 essence from a fresh corpse,
+         5 from a rotting one, 2 from a desiccated one (SoulUtility.DeadSoulYield). -->
+    <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
+  </RecipeDef>
+
+  <!-- Crucible: purge corrupted essence into clean. Twice the essence, but the worker may be
+       cursed for it (RecipeWorker_PurgeCorruption, 33% per batch). -->
+  <RecipeDef>
+    <defName>HP_PurgeCorruption</defName>
+    <label>purge corrupted essence</label>
+    <description>Burn the corruption out of demon essence. Each corrupted phial gives two clean ones, but the work is dangerous: whoever does it may be cursed.</description>
+    <workerClass>HollowPawns.RecipeWorker_PurgeCorruption</workerClass>
+    <jobString>Purging corrupted essence.</jobString>
+    <workAmount>1200</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <effectWorking>Cremate</effectWorking>
+    <soundWorking>Recipe_Cremate</soundWorking>
+    <recipeUsers>
+      <li>HP_SoulCrucible</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_CorruptedEssence</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HP_CorruptedEssence</li>
+      </thingDefs>
+    </fixedIngredientFilter>
     <products>
-      <HP_SoulEssence>8</HP_SoulEssence>
+      <HP_SoulEssence>10</HP_SoulEssence>
     </products>
     <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
   </RecipeDef>

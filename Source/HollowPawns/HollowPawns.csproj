@@ -14,6 +14,8 @@
   <ItemGroup>
     <!-- RimWorld reference assemblies, so this builds without a RimWorld install. -->
     <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.*" ExcludeAssets="runtime" />
+    <!-- Harmony comes from the Harmony mod (brrainz.harmony) at runtime, so never ship 0Harmony.dll. -->
+    <PackageReference Include="Lib.Harmony" Version="2.3.3" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
   </ItemGroup>
 

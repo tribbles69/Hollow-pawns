@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Demons: a Biotech xenotype. Everything about them is vanilla genes except the corrupted
+       soul, which SoulUtility.IsCorrupted keys off: their souls become corrupted essence, and their
+       hits can curse (CurseUtility). Only loads with Biotech (LoadFolders.xml). -->
+
+  <GeneDef>
+    <defName>HP_CorruptedSoul</defName>
+    <label>corrupted soul</label>
+    <description>Carriers of this gene have a soul twisted by something older than humanity. Taken from them, it becomes corrupted essence rather than clean. Their blows can carry a curse.</description>
+    <iconPath>UI/Icons/HP_CorruptedSoul</iconPath>
+    <displayOrderInCategory>900</displayOrderInCategory>
+    <biostatCpx>2</biostatCpx>
+    <biostatMet>1</biostatMet>
+    <!-- Never in genepacks or random gene sets: you get it by being a demon. -->
+    <canGenerateInGeneSet>false</canGenerateInGeneSet>
+    <selectionWeight>0</selectionWeight>
+  </GeneDef>
+
+  <XenotypeDef>
+    <defName>HP_Demon</defName>
+    <label>demon</label>
+    <description>Horned, red-skinned and hard to kill, demons come up out of the hell gates with corrupted souls and a hunger for everyone else's. Nobody agrees on whether they were ever human. They are hyper-aggressive, shrug off fire and punishment, and hit hard up close. Their blows can leave a curse behind.\n\nTake a demon's soul and you get corrupted essence: stronger than clean, and dangerous to handle.</description>
+    <descriptionShort>Horned, red, robust and fire-resistant, demons are hyper-aggressive brawlers whose blows can curse. Their souls are corrupted.</descriptionShort>
+    <iconPath>UI/Icons/HP_Demon</iconPath>
+    <inheritable>true</inheritable>
+    <combatPowerFactor>1.25</combatPowerFactor>
+    <nameMaker>NamerPersonImpid</nameMaker>
+    <chanceToUseNameMaker>1</chanceToUseNameMaker>
+    <genes>
+      <li>HP_CorruptedSoul</li>
+      <li>Skin_DeepRed</li>
+      <li>Eyes_Red</li>
+      <li>Headbone_CenterHorn</li>
+      <li>Ears_Pointed</li>
+      <li>Tail_Smooth</li>
+      <li>FireResistant</li>
+      <li>Robust</li>
+      <li>Aggression_HyperAggressive</li>
+      <li>MeleeDamage_Strong</li>
+      <li>Pain_Reduced</li>
+    </genes>
+  </XenotypeDef>
+
+</Defs>

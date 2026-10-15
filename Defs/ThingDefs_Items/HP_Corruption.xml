@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Corrupted essence: what a demon's soul becomes. Stronger than clean essence (purges into two),
+       but handling it is dangerous: purging can curse the worker, and like clean essence it is volatile
+       (bigger bursts). Lives in the always-loaded folder so saves keep it even if Biotech is removed. -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HP_CorruptedEssence</defName>
+    <label>corrupted essence</label>
+    <description>The bound remnant of a demon's soul: dark, hot, and restless in its phial. It is stronger than clean essence, and nothing good comes of handling it. Purge it at a soul crucible to get clean essence out of it, twice over, if you can stand the risk.\n\nVolatile, more so than clean essence. Spread your stock.</description>
+    <graphicData>
+      <texPath>Things/Item/HP_CorruptedEssence</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <resourceReadoutPriority>Middle</resourceReadoutPriority>
+    <statBases>
+      <MaxHitPoints>30</MaxHitPoints>
+      <MarketValue>20</MarketValue>
+      <Mass>0.05</Mass>
+      <Flammability>0.6</Flammability>
+      <DeteriorationRate>0</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <tradeTags>
+      <li>HP_CorruptedEssence</li>
+    </tradeTags>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>2</explosiveRadius>
+        <explosiveDamageType>HP_SoulBurst</explosiveDamageType>
+        <explosiveExpandPerStackcount>0.04</explosiveExpandPerStackcount>
+        <startWickOnDamageTaken>
+          <li>Flame</li>
+        </startWickOnDamageTaken>
+        <startWickHitPointsPercent>0.6</startWickHitPointsPercent>
+        <wickTicks>40~100</wickTicks>
+        <extraInspectStringKey>HP_VolatileInspect</extraInspectStringKey>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Cursed idol: demon loot. A strong charm that hollows whoever wears it, for as long as they do.
+       Utility (belt) layer, no worn graphic. Not craftable: taken from demons, or bought from the broker. -->
+  <ThingDef ParentName="ApparelBase">
+    <defName>HP_CursedIdol</defName>
+    <label>cursed idol</label>
+    <description>A small idol of black bone and soulsteel wire, worn at the belt. It sharpens the hand and the eye of whoever carries it, and it feeds on them while it does. The wearer is hollowed for as long as they keep it.</description>
+    <techLevel>Medieval</techLevel>
+    <graphicData>
+      <texPath>Things/Item/Equipment/HP_CursedIdol</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.8</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <Mass>0.4</Mass>
+      <Flammability>0</Flammability>
+      <MarketValue>450</MarketValue>
+      <EquipDelay>1</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <ShootingAccuracyPawn>4</ShootingAccuracyPawn>
+      <MeleeHitChance>4</MeleeHitChance>
+      <PsychicSensitivity>0.2</PsychicSensitivity>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>ApparelUtility</li>
+    </thingCategories>
+    <tradeTags>
+      <li>HP_CursedIdol</li>
+    </tradeTags>
+    <generateAllowChance>0</generateAllowChance>
+    <apparel>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <tags>
+        <li>HP_Demonic</li>
+      </tags>
+      <countsAsClothingForNudity>false</countsAsClothingForNudity>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <careIfDamaged>false</careIfDamaged>
+    </apparel>
+    <comps>
+      <li Class="CompProperties_CauseHediff_Apparel">
+        <hediff>HP_Curse_Hollowed</hediff>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

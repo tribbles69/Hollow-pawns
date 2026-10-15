@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- Matches corpses with no soul left (already extracted, or a race with no soul part).
-       The crucible's fixed filter disallows these so pawns never haul a husk to it. -->
+  <!-- Ensouled / soulless: a pair, like vanilla's fresh / rotten. Both show on any humanlike
+       corpse filter (stockpiles, graves, bills), so haulers can send full corpses to the crucible
+       and husks elsewhere. The crucible's fixed filter disallows soulless, so pawns never haul a
+       husk to it. Children and races with no soul count as soulless: they are never harvested. -->
+  <SpecialThingFilterDef>
+    <defName>HP_AllowEnsouled</defName>
+    <label>allow ensouled</label>
+    <description>Allow corpses whose soul is still in them.</description>
+    <parentCategory>CorpsesHumanlike</parentCategory>
+    <workerClass>HollowPawns.SpecialThingFilterWorker_Ensouled</workerClass>
+    <allowedByDefault>true</allowedByDefault>
+    <configurable>true</configurable>
+  </SpecialThingFilterDef>
+
   <SpecialThingFilterDef>
     <defName>HP_AllowSoulless</defName>
     <label>allow soulless</label>
-    <description>Allow corpses whose soul has already been taken.</description>
+    <description>Allow corpses with no soul: husks whose soul was taken, children, and races with no soul.</description>
     <parentCategory>CorpsesHumanlike</parentCategory>
     <workerClass>HollowPawns.SpecialThingFilterWorker_Soulless</workerClass>
-    <configurable>false</configurable>
+    <allowedByDefault>true</allowedByDefault>
+    <configurable>true</configurable>
   </SpecialThingFilterDef>
 
 </Defs>

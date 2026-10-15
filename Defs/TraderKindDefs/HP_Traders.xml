@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- The soul broker: buys and sells essence, soulsteel, soul weapons, soul drugs and soul jars,
+       at a markup ("Expensive"). Never pawns. Soul weapons and drugs carry their own trade tags
+       (HP_SoulWeapon, HP_SoulDrug), so ordinary traders never stock them. -->
+
+  <TraderKindDef>
+    <defName>HP_Orbital_SoulBroker</defName>
+    <label>soul broker</label>
+    <orbital>true</orbital>
+    <commonality>0.6</commonality>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>1500~3000</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HP_SoulEssence</thingDef>
+        <countRange>40~120</countRange>
+        <price>Expensive</price>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HP_Soulsteel</thingDef>
+        <countRange>50~150</countRange>
+        <price>Expensive</price>
+      </li>
+      <li Class="StockGenerator_Tag">
+        <tradeTag>HP_SoulWeapon</tradeTag>
+        <thingDefCountRange>2~4</thingDefCountRange>
+        <countRange>1~1</countRange>
+        <price>Expensive</price>
+      </li>
+      <li Class="StockGenerator_Tag">
+        <tradeTag>HP_SoulDrug</tradeTag>
+        <thingDefCountRange>1~2</thingDefCountRange>
+        <countRange>3~8</countRange>
+        <price>Expensive</price>
+      </li>
+      <li Class="StockGenerator_Tag">
+        <tradeTag>HP_CursedIdol</tradeTag>
+        <thingDefCountRange>0~1</thingDefCountRange>
+        <countRange>1~1</countRange>
+        <price>Expensive</price>
+      </li>
+      <li Class="StockGenerator_BuyTradeTag">
+        <tag>HP_CorruptedEssence</tag>
+      </li>
+      <!-- Jars are bought, never sold: every one in the world was bottled by someone. -->
+      <li Class="StockGenerator_BuyTradeTag">
+        <tag>HP_SoulJar</tag>
+      </li>
+    </stockGenerators>
+  </TraderKindDef>
+
+  <!-- Outlander caravan variant (added to the Outlander factions in Patches/HP_Traders.xml).
+       Smaller stock; no soulsteel weapons on the road. -->
+  <TraderKindDef>
+    <defName>HP_Caravan_Outlander_SoulBroker</defName>
+    <label>soul broker</label>
+    <commonality>0.5</commonality>
+    <stockGenerators>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>Silver</thingDef>
+        <countRange>600~1200</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HP_SoulEssence</thingDef>
+        <countRange>20~60</countRange>
+        <price>Expensive</price>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HP_Soulsteel</thingDef>
+        <countRange>20~60</countRange>
+        <price>Expensive</price>
+      </li>
+      <li Class="StockGenerator_Tag">
+        <tradeTag>HP_SoulDrug</tradeTag>
+        <thingDefCountRange>1~2</thingDefCountRange>
+        <countRange>2~5</countRange>
+        <price>Expensive</price>
+      </li>
+      <li Class="StockGenerator_BuyTradeTag">
+        <tag>HP_SoulWeapon</tag>
+      </li>
+      <li Class="StockGenerator_BuyTradeTag">
+        <tag>HP_SoulJar</tag>
+      </li>
+    </stockGenerators>
+  </TraderKindDef>
+
+</Defs>

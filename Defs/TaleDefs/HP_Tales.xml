@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Recorded when a soul is bottled, so sculptors can carve it. Recorded by Recipe_BottleSoul
+       while the victim is still alive. Modelled on vanilla's ExecutedPrisoner. -->
+  <TaleDef>
+    <defName>HP_BottledSoul</defName>
+    <label>soul bottled</label>
+    <taleClass>Tale_DoublePawn</taleClass>
+    <type>Volatile</type>
+    <firstPawnSymbol>BOTTLER</firstPawnSymbol>
+    <secondPawnSymbol>VICTIM</secondPawnSymbol>
+    <baseInterest>6</baseInterest>
+    <rulePack>
+      <rulesStrings>
+        <li>tale_noun->[BOTTLER_nameDef] bottling the soul of [VICTIM_nameDef]</li>
+        <li>tale_noun->the soul of [VICTIM_nameDef] being sealed in glass by [BOTTLER_nameDef]</li>
+        <li>tale_noun->the bottling of [VICTIM_nameDef]</li>
+        <li>image->[BOTTLER_nameFull] drawing the soul out of [VICTIM_nameFull] [circumstance_group]</li>
+        <li>image->[BOTTLER_nameFull] sealing the soul of [VICTIM_nameFull] in a glass jar [circumstance_group]</li>
+        <li>image->[VICTIM_nameFull] on the operating table as [BOTTLER_nameFull] lifts a glowing jar [circumstance_group]</li>
+        <li>circumstance_phrase->as [VICTIM_pronoun] goes still</li>
+        <li>circumstance_phrase->as the jar begins to glow</li>
+        <li>circumstance_phrase->with steady, practised hands</li>
+        <li>circumstance_phrase->with a look of utter indifference</li>
+        <li>circumstance_phrase->while whispering a prayer</li>
+        <li>circumstance_phrase->with obvious pleasure</li>
+        <li>desc_sentence->[VICTIM_nameDef]'s face is turned towards the jar.</li>
+        <li>desc_sentence->Something pale moves inside the glass.</li>
+        <li>desc_sentence->[BOTTLER_nameDef] does not look at [VICTIM_nameDef]'s eyes.</li>
+        <li>desc_sentence->A shelf of other jars glows in the background.</li>
+      </rulesStrings>
+    </rulePack>
+  </TaleDef>
+
+</Defs>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- A raid that is always demons (IncidentWorker_DemonRaid). Fired by the hell gate and the
+       Hell Unbound storyteller. baseChance 0 so other storytellers never pick it on their own;
+       demons still raid like any permanent enemy through the normal enemy raid. -->
+  <IncidentDef>
+    <defName>HP_DemonWave</defName>
+    <label>demon wave</label>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>HollowPawns.IncidentWorker_DemonRaid</workerClass>
+    <baseChance>0</baseChance>
+    <category>ThreatBig</category>
+    <pointsScaleable>true</pointsScaleable>
+    <tale>Raid</tale>
+    <ignoreRecentSelectionWeighting>true</ignoreRecentSelectionWeighting>
+  </IncidentDef>
+
+  <ResearchProjectDef>
+    <defName>HP_HellGate</defName>
+    <label>hell gate</label>
+    <description>Use soulsteel and essence to tear a hole through to wherever the demons come from, and hold it open on purpose. A dangerous way to farm corrupted souls.</description>
+    <baseCost>2000</baseCost>
+    <techLevel>Industrial</techLevel>
+    <prerequisites>
+      <li>HP_SoulWeaponry</li>
+    </prerequisites>
+    <researchViewX>9.00</researchViewX>
+    <researchViewY>6.10</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- The hell gate (Building_HellGate): open it and a demon raid comes through every 3 days.
+       Rare tick only, and does nothing while closed. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_HellGate</defName>
+    <label>hell gate</label>
+    <description>A ring of soulsteel around a wound in the world. Open it, and every few days demons come through it looking for souls. Close it, and it goes quiet. It is the most reliable source of corrupted essence there is, for anyone who can survive it.</description>
+    <thingClass>HollowPawns.Building_HellGate</thingClass>
+    <graphicData>
+      <texPath>Things/Building/HP_HellGate</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <size>(3,3)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.8</fillPercent>
+    <blockWind>true</blockWind>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <tickerType>Rare</tickerType>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <designationCategory>Misc</designationCategory>
+    <researchPrerequisites>
+      <li>HP_HellGate</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <statBases>
+      <MaxHitPoints>1200</MaxHitPoints>
+      <WorkToBuild>14000</WorkToBuild>
+      <Flammability>0</Flammability>
+      <Beauty>-40</Beauty>
+    </statBases>
+    <costList>
+      <HP_Soulsteel>150</HP_Soulsteel>
+      <HP_SoulEssence>40</HP_SoulEssence>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>7</glowRadius>
+        <glowColor>(220,60,40,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

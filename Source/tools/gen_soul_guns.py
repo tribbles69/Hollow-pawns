@@ -127,6 +127,10 @@ def vanilla():
     <weaponTags Inherit="False">
       <li>HP_SoulWeapon</li>
     </weaponTags>
+    <!-- Own trade tag, so ordinary arms dealers never stock soul guns; only the soul broker does. -->
+    <tradeTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </tradeTags>
     <statBases>
       <WorkToMake>{20000 + g['steel'] * 300}</WorkToMake>
       <Mass>{g['mass']}</Mass>

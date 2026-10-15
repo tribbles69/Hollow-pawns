@@ -5,7 +5,9 @@
   <ThingDef ParentName="ResourceBase">
     <defName>HP_SoulEssence</defName>
     <label>soul essence</label>
-    <description>The bound remnant of a human soul, a faintly warm, faintly humming vapour held in a glass phial. It burns without consuming anything, and it binds into metal. Nobody who works with it for long sleeps well.</description>
+    <description>The bound remnant of a human soul, a faintly warm, faintly humming vapour held in a glass phial. It burns without consuming anything, and it binds into metal. Nobody who works with it for long sleeps well.
+
+Volatile. Fire or a heavy blow sets a stack off in a burst of loose souls that drops everyone nearby, and bigger stacks burst wider. Spread your stock.</description>
     <graphicData>
       <texPath>Things/Item/HP_SoulEssence</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -17,12 +19,28 @@
       <MaxHitPoints>40</MaxHitPoints>
       <MarketValue>12</MarketValue>
       <Mass>0.05</Mass>
-      <Flammability>0</Flammability>
+      <!-- Not 0, or fire could never reach it and set it off. -->
+      <Flammability>0.4</Flammability>
       <DeteriorationRate>0</DeteriorationRate>
     </statBases>
     <thingCategories>
       <li>Manufactured</li>
     </thingCategories>
+    <comps>
+      <!-- Volatile stockpiles: chemfuel's pattern. A full stack of 75 bursts about 3.8 cells wide.
+           Only runs when the stack is set off, never per tick. -->
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>1.5</explosiveRadius>
+        <explosiveDamageType>HP_SoulBurst</explosiveDamageType>
+        <explosiveExpandPerStackcount>0.03</explosiveExpandPerStackcount>
+        <startWickOnDamageTaken>
+          <li>Flame</li>
+        </startWickOnDamageTaken>
+        <startWickHitPointsPercent>0.5</startWickHitPointsPercent>
+        <wickTicks>70~150</wickTicks>
+        <extraInspectStringKey>HP_VolatileInspect</extraInspectStringKey>
+      </li>
+    </comps>
   </ThingDef>
 
   <!-- Soulsteel: plasteel with a soul bound into it. Sits one tier above plasteel. -->

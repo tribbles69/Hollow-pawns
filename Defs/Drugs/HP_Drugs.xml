@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ================== Soulfire ==================
+       Overcharges a pawn with burned essence: fast, sharp, no pain. Then a hard crash.
+       One hediff does both: severity runs from 1 to 0 over 12 hours; the last quarter is the crash.
+       Highly addictive; withdrawal is "soul hunger". Modelled on vanilla go-juice. -->
+
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>HP_Soulfire</defName>
+    <label>soulfire</label>
+    <description>Soul essence burned down into an injectable fire. For a few hours the user moves faster, thinks sharper and feels no pain at all. Then the fire goes out, and the crash is hard.\n\nSoulfire is viciously addictive. Its withdrawal is called soul hunger, and the people who suffer it look at the living differently.</description>
+    <descriptionHyperlinks>
+      <HediffDef>HP_SoulfireHigh</HediffDef>
+      <HediffDef>HP_SoulfireAddiction</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Drug/HP_Soulfire</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>700</WorkToMake>
+      <MarketValue>45</MarketValue>
+      <Mass>0.1</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <tradeTags>
+      <li>HP_SoulDrug</li>
+    </tradeTags>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.30</joy>
+      <drugCategory>Hard</drugCategory>
+      <foodType>Processed, Fluid</foodType>
+      <baseIngestTicks>80</baseIngestTicks>
+      <ingestSound>Ingest_Inject</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Inject {0}</ingestCommandString>
+      <ingestReportString>Injecting {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <chairSearchRadius>0</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HP_SoulfireHigh</hediffDef>
+          <severity>1.0</severity>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisites>
+        <li>HP_SoulExtraction</li>
+        <li>DrugProduction</li>
+      </researchPrerequisites>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+      <soundWorking>Recipe_Drug</soundWorking>
+      <displayPriority>1600</displayPriority>
+    </recipeMaker>
+    <costList>
+      <HP_SoulEssence>2</HP_SoulEssence>
+      <Neutroamine>1</Neutroamine>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>HP_Soulfire</chemical>
+        <!-- Go-juice is 0.026: soulfire hooks people roughly three times as fast. -->
+        <addictiveness>0.08</addictiveness>
+        <existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <isCombatEnhancingDrug>true</isCombatEnhancingDrug>
+        <listOrder>210</listOrder>
+        <overdoseSeverityOffset>0.18~0.35</overdoseSeverityOffset>
+        <largeOverdoseChance>0.005</largeOverdoseChance>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>HP_SoulfireHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>soulfire</label>
+    <labelNoun>a soulfire high</labelNoun>
+    <description>Burned soul essence in the blood. Faster, sharper and painless while it burns; a hard crash when it goes out.</description>
+    <defaultLabelColor>(0.47, 0.86, 0.9)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <!-- 12 hours in all: about 9 hours burning, then 3 hours of crash. -->
+        <severityPerDay>-2</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>crashing</label>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.30</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.30</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.20</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <RestFallRateFactor>0.5</RestFallRateFactor>
+        </statOffsets>
+      </li>
+      <li>
+        <minSeverity>0.25</minSeverity>
+        <label>burning</label>
+        <painFactor>0</painFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.15</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.40</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>0.10</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>HP_SoulfireHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>HP_SoulfireHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>soulfire crash</label>
+        <description>The fire's gone out. Everything is grey and heavy and I can't remember why I wanted to move.</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+      <li>
+        <label>burning with soulfire</label>
+        <description>Somebody else's soul is burning in my veins, and it feels incredible.</description>
+        <baseMoodEffect>8</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ChemicalDef>
+    <defName>HP_Soulfire</defName>
+    <label>soulfire</label>
+    <addictionHediff>HP_SoulfireAddiction</addictionHediff>
+    <geneOverdoseChanceFactorResist>0.5</geneOverdoseChanceFactorResist>
+    <geneOverdoseChanceFactorImmune>0</geneOverdoseChanceFactorImmune>
+  </ChemicalDef>
+
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>HP_Chemical_Soulfire</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>soulfire</label>
+    <description>Because of a soulfire addiction, this person needs regular doses to keep the soul hunger away.</description>
+    <fallPerDay>0.333</fallPerDay>
+    <listPriority>45</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>HP_SoulfireAddiction</defName>
+    <label>soulfire addiction</label>
+    <description>A chemical addiction to soulfire. The body has learned to run on burned souls and no longer wants to run on its own.\n\nWithout regular doses, soul hunger sets in. Extended abstinence will eventually break the addiction.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <chemicalNeed>HP_Chemical_Soulfire</chemicalNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.04</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>soul hunger</label>
+        <painFactor>2</painFactor>
+        <hungerRateFactorOffset>0.5</hungerRateFactorOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.30</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugExtreme</mentalState>
+            <mtbDays>30</mtbDays>
+          </li>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>20</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>HP_SoulfireWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>HP_SoulfireAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>soul hunger</label>
+        <description>I'm hollow. Every person I look at, I can feel what's inside them, and I want it.</description>
+        <baseMoodEffect>-25</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- ================== Borrowed time ==================
+       For a day the user can't die of their injuries: they go down instead (HediffDef.preventsDeath,
+       which vanilla checks in Pawn_HealthTracker.ShouldBeDead). Each dose ages them a year.
+       Death is only deferred: if the wounds are still lethal when it wears off, they die then. -->
+
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>HP_BorrowedTime</defName>
+    <label>borrowed time</label>
+    <description>A dose of bound essence that props the user's own soul in place. For a day, no wound can kill them: they fall instead, and stay alive.\n\nThe time is borrowed from their own life. Each dose ages the user a year. And it is only borrowed: if their wounds are still lethal when it wears off, they die.</description>
+    <descriptionHyperlinks>
+      <HediffDef>HP_BorrowedTime</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Drug/HP_BorrowedTime</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>1200</WorkToMake>
+      <MarketValue>90</MarketValue>
+      <Mass>0.1</Mass>
+    </statBases>
+    <techLevel>Industrial</techLevel>
+    <tradeTags>
+      <li>HP_SoulDrug</li>
+    </tradeTags>
+    <ingestible>
+      <drugCategory>Medical</drugCategory>
+      <foodType>Processed, Fluid</foodType>
+      <baseIngestTicks>80</baseIngestTicks>
+      <ingestSound>Ingest_Inject</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Inject {0}</ingestCommandString>
+      <ingestReportString>Injecting {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <chairSearchRadius>0</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HP_BorrowedTime</hediffDef>
+          <severity>1.0</severity>
+        </li>
+        <li Class="HollowPawns.IngestionOutcomeDoer_AgeYears">
+          <years>1</years>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisites>
+        <li>HP_SoulExtraction</li>
+        <li>DrugProduction</li>
+      </researchPrerequisites>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+      <soundWorking>Recipe_Drug</soundWorking>
+      <displayPriority>1610</displayPriority>
+    </recipeMaker>
+    <costList>
+      <HP_SoulEssence>4</HP_SoulEssence>
+      <Neutroamine>2</Neutroamine>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <listOrder>211</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>HP_BorrowedTime</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>borrowed time</label>
+    <description>Bound essence holds this person's soul in place. No wound can kill them while it lasts: they fall instead. If the wounds are still lethal when it wears off, they die.</description>
+    <defaultLabelColor>(0.47, 0.86, 0.9)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <preventsDeath>true</preventsDeath>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>holding</label>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>

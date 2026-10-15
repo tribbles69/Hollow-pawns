@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- The demon host: a permanent enemy built like vanilla's pirates (raids, AI, world bases),
+       every member a demon. Existing saves get it added on load (GameComponent_Demons). -->
+  <FactionDef ParentName="FactionBase">
+    <defName>HP_Demons</defName>
+    <label>demon host</label>
+    <description>Demons, come up through the hell gates in warbands that answer to whoever is strongest. They want souls. They take them from the living, and they do not trade, parley or forget.\n\nThey fight with whatever they have stolen, and prefer to finish things up close.</description>
+    <pawnSingular>demon</pawnSingular>
+    <pawnsPlural>demons</pawnsPlural>
+    <listOrderPriority>9</listOrderPriority>
+    <settlementGenerationWeight>0.5</settlementGenerationWeight>
+    <requiredCountAtGameStart>1</requiredCountAtGameStart>
+    <canSiege>false</canSiege>
+    <canStageAttacks>true</canStageAttacks>
+    <leaderTitle>arch-demon</leaderTitle>
+    <factionIconPath>World/HP_DemonFaction</factionIconPath>
+    <factionNameMaker>NamerFactionPirate</factionNameMaker>
+    <settlementNameMaker>NamerSettlementPirate</settlementNameMaker>
+    <colorSpectrum>
+      <li>(0.55, 0.05, 0.05)</li>
+      <li>(0.85, 0.25, 0.1)</li>
+    </colorSpectrum>
+    <permanentEnemy>true</permanentEnemy>
+    <techLevel>Industrial</techLevel>
+    <allowedCultures><li>Kriminul</li></allowedCultures>
+    <requiredMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Supremacist</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Raider</li>
+    </requiredMemes>
+    <allowedMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">PainIsVirtue</li>
+    </allowedMemes>
+    <structureMemeWeights>
+      <Structure_Ideological MayRequire="Ludeon.RimWorld.Ideology">1</Structure_Ideological>
+    </structureMemeWeights>
+    <xenotypeSet>
+      <xenotypeChances>
+        <HP_Demon>1</HP_Demon>
+      </xenotypeChances>
+    </xenotypeSet>
+    <backstoryFilters>
+      <li>
+        <categories>
+          <li>Pirate</li>
+        </categories>
+      </li>
+    </backstoryFilters>
+    <allowedArrivalTemperatureRange>-40~60</allowedArrivalTemperatureRange>
+    <raidLootMaker>HP_DemonRaidLootMaker</raidLootMaker>
+    <maxPawnCostPerTotalPointsCurve>
+      <points>
+        <li>(0,35)</li>
+        <li>(70, 50)</li>
+        <li>(700, 100)</li>
+        <li>(1300, 150)</li>
+        <li>(100000, 10000)</li>
+      </points>
+    </maxPawnCostPerTotalPointsCurve>
+    <pawnGroupMakers>
+      <li>
+        <!-- Warband: mostly melee, some guns. -->
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <HP_DemonThrall>10</HP_DemonThrall>
+          <HP_DemonReaver>6</HP_DemonReaver>
+          <HP_DemonRavager>5</HP_DemonRavager>
+          <HP_DemonBrute>3</HP_DemonBrute>
+          <HP_DemonLord>2</HP_DemonLord>
+        </options>
+      </li>
+      <li>
+        <!-- Pure melee rush. -->
+        <kindDef>Combat</kindDef>
+        <commonality>40</commonality>
+        <options>
+          <HP_DemonThrall>10</HP_DemonThrall>
+          <HP_DemonRavager>8</HP_DemonRavager>
+          <HP_DemonLord>2</HP_DemonLord>
+        </options>
+      </li>
+      <li>
+        <kindDef>Settlement</kindDef>
+        <options>
+          <HP_DemonThrall>10</HP_DemonThrall>
+          <HP_DemonReaver>10</HP_DemonReaver>
+          <HP_DemonRavager>5</HP_DemonRavager>
+          <HP_DemonBrute>5</HP_DemonBrute>
+          <HP_DemonLord>5</HP_DemonLord>
+        </options>
+      </li>
+    </pawnGroupMakers>
+    <settlementTexturePath>World/WorldObjects/DefaultSettlement</settlementTexturePath>
+    <maxConfigurableAtWorldCreation>9999</maxConfigurableAtWorldCreation>
+    <configurationListOrderPriority>61</configurationListOrderPriority>
+  </FactionDef>
+
+  <!-- What demons carry: corrupted essence, the odd cursed idol, and what they stole. -->
+  <ThingSetMakerDef>
+    <defName>HP_DemonRaidLootMaker</defName>
+    <root Class="ThingSetMaker_MarketValue">
+      <fixedParams>
+        <filter>
+          <thingDefs>
+            <li>Silver</li>
+            <li>HP_CorruptedEssence</li>
+            <li>HP_CursedIdol</li>
+            <li>MedicineIndustrial</li>
+            <li>Yayo</li>
+            <li>GoJuice</li>
+          </thingDefs>
+        </filter>
+      </fixedParams>
+    </root>
+  </ThingSetMakerDef>
+
+  <!-- Demon kinds inherit vanilla raider gear and stats; they only change faction, label and power. -->
+
+  <PawnKindDef ParentName="ThrasherBase">
+    <defName>HP_DemonThrall</defName>
+    <label>demon thrall</label>
+    <defaultFactionDef>HP_Demons</defaultFactionDef>
+    <combatPower>60</combatPower>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="PirateKindBase">
+    <defName>HP_DemonReaver</defName>
+    <label>demon reaver</label>
+    <defaultFactionDef>HP_Demons</defaultFactionDef>
+    <combatPower>80</combatPower>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="MercenarySlasherBase">
+    <defName>HP_DemonRavager</defName>
+    <label>demon ravager</label>
+    <defaultFactionDef>HP_Demons</defaultFactionDef>
+    <combatPower>165</combatPower>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="MercenaryHeavyBase">
+    <defName>HP_DemonBrute</defName>
+    <label>demon brute</label>
+    <defaultFactionDef>HP_Demons</defaultFactionDef>
+    <combatPower>165</combatPower>
+  </PawnKindDef>
+
+  <!-- The arch-demon leads, and always wears a cursed idol. -->
+  <PawnKindDef ParentName="MercenaryEliteTierBase">
+    <defName>HP_DemonLord</defName>
+    <label>arch-demon</label>
+    <labelPlural>arch-demons</labelPlural>
+    <defaultFactionDef>HP_Demons</defaultFactionDef>
+    <factionLeader>true</factionLeader>
+    <combatPower>175</combatPower>
+    <apparelRequired>
+      <li>HP_CursedIdol</li>
+    </apparelRequired>
+  </PawnKindDef>
+
+</Defs>

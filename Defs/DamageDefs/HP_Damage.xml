@@ -53,4 +53,37 @@
     </additionalHediffs>
   </DamageDef>
 
+  <!-- Soul burst: what a stack of essence or a broken soul generator lets go of. Not a weapon:
+       it barely bruises and ignores armour, but it slams soul shock into everyone caught in it,
+       so they drop alive. Used by volatile essence stacks and the generator's breakdown vent. -->
+  <DamageDef>
+    <defName>HP_SoulBurst</defName>
+    <label>soul burst</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <isExplosive>true</isExplosive>
+    <makesAnimalsFlee>true</makesAnimalsFlee>
+    <deathMessage>{0} was consumed by a burst of loose souls.</deathMessage>
+    <hediff>Bruise</hediff>
+    <impactSoundType>Blunt</impactSoundType>
+    <!-- No armorCategory: armour doesn't stop a soul. -->
+    <defaultDamage>6</defaultDamage>
+    <defaultStoppingPower>0.5</defaultStoppingPower>
+    <defaultArmorPenetration>0</defaultArmorPenetration>
+    <buildingDamageFactorImpassable>0.25</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>0.25</buildingDamageFactorPassable>
+    <plantDamageFactor>0.25</plantDamageFactor>
+    <explosionCellFleck>BlastDry</explosionCellFleck>
+    <explosionColorCenter>(0.55, 0.95, 1.0)</explosionColorCenter>
+    <explosionColorEdge>(0.3, 0.6, 0.7)</explosionColorEdge>
+    <soundExplosion>Explosion_Stun</soundExplosion>
+    <additionalHediffs>
+      <li>
+        <hediff>HP_SoulShock</hediff>
+        <!-- 6 damage = 0.9 shock: one burst puts an unprotected pawn down, alive. -->
+        <severityPerDamageDealt>0.15</severityPerDamageDealt>
+      </li>
+    </additionalHediffs>
+  </DamageDef>
+
 </Defs>

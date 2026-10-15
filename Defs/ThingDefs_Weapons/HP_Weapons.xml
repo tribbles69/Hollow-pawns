@@ -17,6 +17,10 @@
     <weaponTags Inherit="False">
       <li>HP_SoulWeapon</li>
     </weaponTags>
+    <!-- Own trade tag, so ordinary arms dealers never stock it; only the soul broker does. -->
+    <tradeTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </tradeTags>
     <costList>
       <HP_Soulsteel>90</HP_Soulsteel>
       <HP_SoulEssence>20</HP_SoulEssence>
