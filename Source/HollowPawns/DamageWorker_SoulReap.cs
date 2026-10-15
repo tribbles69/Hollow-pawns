@@ -38,11 +38,13 @@ namespace HollowPawns
                 return 0f;
             }
             int melee = reaper.skills?.GetSkill(SkillDefOf.Melee)?.Level ?? 0;
-            float chance = melee * ChancePerMeleeLevel;
+            // Gear: the reaper's shroud adds to the chance, a bone fetish on the target cuts it.
+            float chance = melee * ChancePerMeleeLevel + reaper.GetStatValue(HP_StatDefOf.HP_ReapPower);
             if (target.Downed)
             {
                 chance *= DownedMultiplier;
             }
+            chance *= 1f - Mathf.Clamp01(target.GetStatValue(HP_StatDefOf.HP_ReapWard));
             return Mathf.Clamp01(chance);
         }
     }

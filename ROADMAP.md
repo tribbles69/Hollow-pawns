@@ -48,6 +48,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Blood debts (4.18) | Killers of colonists carry a blood debt (kept as world pawns if they escape). Torment prisoner mode (pain, soul shock, Avenging for loved ones, kind colonists disturbed, goodwill hit). Vengeance effigy cast from a debtor's corpse; wailing effigy from the *Effigy* fate, screaming at night, at passers-by and at raids (soul shock, panic). Placeholder scream sound. Not yet: Ideology precept reactions, vengeance TaleDef. |
 | Scenarios (4.33) | The Coven (altar, shackled captive, corrupted ground), Endless War (Biotech: thralls, forge, grinder, generator, frequent raids) and the Escapee (lattice holding a loved one, hunted). Custom scenario parts for buildings, captives, corrupted ground, thralls and the lattice. Not yet: the Inquisitors and the Gravedigger, precepts. |
 | Longevity (4.10) | Fountain of youth (essence bath, 1-2 years, chance to cure a chronic condition, five-day cooldown) and soul cradle (spacer casket, three-day powered cycle on 30 essence: 5-8 years, all chronic conditions, one part regrown). |
+| Unique armour (4.12) | Reliquary armour (two essence charges that each cancel a death and leave the wearer downed for a day; recharged at the crucible; made with a filled vessel, so it is soul-bound) and the reaper's shroud (+5% reap chance through a new stat). |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -175,6 +176,7 @@ Mostly XML (vanilla drug system handles highs, tolerance and addiction).
 - **Borrowed time:** for a day the pawn can't die from injuries (downed instead), but each use ages them a year.
 
 ### 4.12 Unique armour
+**Built in v0.8.** Decided while building: reap chance is two stats (*reap chance* on the reaper, *reap ward* on the target) so gear moves it like any gear bonus; the armour is a stand-alone piece for now and can become the spacer heavy chest in 4.22.
 - **Reliquary armour:** soulsteel set with an essence reservoir. When a hit would kill the wearer, it burns stored essence to cancel the death and leave them downed; then it needs refilling. Small C#, only checked on a lethal hit.
 - **Reaper's shroud:** hooded cloak that raises the scythe's reap chance; stacks with Melee skill.
 

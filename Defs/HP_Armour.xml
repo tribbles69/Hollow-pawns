@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Unique armour (4.12) =====================
+       Reliquary armour (cancels a death per essence charge; Armour.cs) and the reaper's shroud (raises
+       the scythe's reap chance through the HP_ReapPower stat). The bone fetish that lowers it is in
+       HP_SoulGear.xml (4.13). -->
+
+  <StatDef>
+    <defName>HP_ReapPower</defName>
+    <label>reap chance</label>
+    <description>Added to the chance that a hit with the reaper's scythe tears the target's soul out (on top of 0.5% per Melee level).</description>
+    <category>PawnCombat</category>
+    <defaultBaseValue>0</defaultBaseValue>
+    <minValue>0</minValue>
+    <toStringStyle>PercentOne</toStringStyle>
+    <hideAtValue>0</hideAtValue>
+    <showOnAnimals>false</showOnAnimals>
+    <displayPriorityInCategory>3000</displayPriorityInCategory>
+  </StatDef>
+
+  <StatDef>
+    <defName>HP_ReapWard</defName>
+    <label>reap ward</label>
+    <description>How much less likely this person's soul is to be torn out by a reaper.</description>
+    <category>PawnCombat</category>
+    <defaultBaseValue>0</defaultBaseValue>
+    <minValue>0</minValue>
+    <maxValue>0.9</maxValue>
+    <toStringStyle>PercentZero</toStringStyle>
+    <hideAtValue>0</hideAtValue>
+    <showOnAnimals>false</showOnAnimals>
+    <displayPriorityInCategory>3001</displayPriorityInCategory>
+  </StatDef>
+
+  <HediffDef>
+    <defName>HP_ReliquaryWard</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>held back from death</label>
+    <description>Their reliquary armour burned a charge of essence to hold them at the edge of death. They're down, and they have about a day. If what would have killed them is still there when it fades, it will.</description>
+    <defaultLabelColor>(0.5, 0.85, 1)</defaultLabelColor>
+    <isBad>false</isBad>
+    <preventsDeath>true</preventsDeath>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>60000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThingDef ParentName="ApparelBase">
+    <defName>HP_ReliquaryArmour</defName>
+    <label>reliquary armour</label>
+    <description>A full suit of soulsteel plate with a soul sealed into the breastplate and two reservoirs of essence along the spine. When a blow would kill the wearer, the armour burns a charge to hold them at the edge of death: they fall, but they have a day to be saved. Recharge it at the soul crucible.\n\nThe soul that goes into it stays: the armour is soul-bound, and the wearer gets that soul's gift.</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Things/Pawn/Humanlike/Apparel/PowerArmor/PowerArmor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(70,82,96)</color>
+    </graphicData>
+    <statBases>
+      <WorkToMake>60000</WorkToMake>
+      <MaxHitPoints>320</MaxHitPoints>
+      <Mass>13</Mass>
+      <Flammability>0.2</Flammability>
+      <ArmorRating_Sharp>0.95</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.42</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.5</ArmorRating_Heat>
+      <Insulation_Cold>40</Insulation_Cold>
+      <Insulation_Heat>8</Insulation_Heat>
+      <EquipDelay>14</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.3</MoveSpeed>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>ApparelArmor</li>
+    </thingCategories>
+    <tradeTags>
+      <li>HiTechArmor</li>
+      <li>Armor</li>
+    </tradeTags>
+    <costList>
+      <HP_Soulsteel>120</HP_Soulsteel>
+      <ComponentSpacer>2</ComponentSpacer>
+    </costList>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Shoulders</li>
+        <li>Arms</li>
+        <li>Legs</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Things/Pawn/Humanlike/Apparel/PowerArmor/PowerArmor</wornGraphicPath>
+      <layers>
+        <li>Middle</li>
+        <li>Shell</li>
+      </layers>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+      <useDeflectMetalEffect>true</useDeflectMetalEffect>
+      <soundWear>Wear_PowerArmor</soundWear>
+      <soundRemove>Remove_PowerArmor</soundRemove>
+      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
+    </apparel>
+    <generateCommonality>0</generateCommonality>
+    <comps>
+      <li Class="HollowPawns.CompProperties_ReliquaryArmour">
+        <maxCharges>2</maxCharges>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <RecipeDef>
+    <defName>HP_MakeReliquaryArmour</defName>
+    <label>make reliquary armour</label>
+    <description>Forge a suit of reliquary armour around a bound soul. The soul goes into the armour for good.</description>
+    <jobString>Making reliquary armour.</jobString>
+    <workAmount>60000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>UnfinishedTechArmor</unfinishedThingDef>
+    <researchPrerequisite>HP_SoulLattice</researchPrerequisite>
+    <skillRequirements>
+      <Crafting>8</Crafting>
+    </skillRequirements>
+    <recipeUsers>
+      <li>FabricationBench</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_Soulsteel</li>
+          </thingDefs>
+        </filter>
+        <count>120</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentSpacer</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_VesselUrn</li>
+            <li>HP_VesselCanister</li>
+            <li>HP_VesselLattice</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HP_Soulsteel</li>
+        <li>ComponentSpacer</li>
+        <li>HP_VesselUrn</li>
+        <li>HP_VesselCanister</li>
+        <li>HP_VesselLattice</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HP_ReliquaryArmour>1</HP_ReliquaryArmour>
+    </products>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HP_RechargeReliquaryArmour</defName>
+    <label>recharge reliquary armour</label>
+    <description>Refill a suit of reliquary armour's essence reservoirs.</description>
+    <jobString>Recharging reliquary armour.</jobString>
+    <workerClass>HollowPawns.RecipeWorker_RechargeReliquary</workerClass>
+    <workAmount>1500</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <effectWorking>Smelt</effectWorking>
+    <soundWorking>Recipe_Smelt</soundWorking>
+    <recipeUsers>
+      <li>HP_SoulCrucible</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_ReliquaryArmour</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_SoulEssence</li>
+          </thingDefs>
+        </filter>
+        <count>15</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HP_ReliquaryArmour</li>
+        <li>HP_SoulEssence</li>
+      </thingDefs>
+      <specialFiltersToDisallow>
+        <li>HP_FullReliquary</li>
+      </specialFiltersToDisallow>
+    </fixedIngredientFilter>
+  </RecipeDef>
+
+  <SpecialThingFilterDef>
+    <defName>HP_FullReliquary</defName>
+    <label>fully charged</label>
+    <description>Reliquary armour with every charge full.</description>
+    <parentCategory>ApparelArmor</parentCategory>
+    <workerClass>HollowPawns.SpecialThingFilterWorker_FullReliquary</workerClass>
+    <allowedByDefault>true</allowedByDefault>
+    <configurable>false</configurable>
+  </SpecialThingFilterDef>
+
+  <!-- The reaper's shroud: a black hooded duster that makes the scythe hungrier. -->
+  <ThingDef ParentName="ApparelMakeableBase">
+    <defName>HP_ReapersShroud</defName>
+    <label>reaper's shroud</label>
+    <description>A long black coat dipped in soul essence until the cloth drinks light. The scythe bites deeper in the hands of whoever wears it: +5% chance to tear a soul out on every blade hit, on top of the wielder's Melee skill.</description>
+    <techLevel>Medieval</techLevel>
+    <recipeMaker>
+      <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
+      <displayPriority>210</displayPriority>
+    </recipeMaker>
+    <graphicData>
+      <texPath>Things/Pawn/Humanlike/Apparel/Duster/Duster</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.9</drawSize>
+    </graphicData>
+    <costStuffCount>80</costStuffCount>
+    <costList>
+      <HP_SoulEssence>10</HP_SoulEssence>
+    </costList>
+    <stuffCategories>
+      <li>Fabric</li>
+      <li>Leathery</li>
+    </stuffCategories>
+    <thingCategories>
+      <li>ApparelMisc</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>180</MaxHitPoints>
+      <WorkToMake>12000</WorkToMake>
+      <Mass>2</Mass>
+      <StuffEffectMultiplierArmor>0.3</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>0.5</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0.6</StuffEffectMultiplierInsulation_Heat>
+      <EquipDelay>3</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <HP_ReapPower>0.05</HP_ReapPower>
+    </equippedStatOffsets>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Shoulders</li>
+        <li>Arms</li>
+        <li>Legs</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Things/Pawn/Humanlike/Apparel/Duster/Duster</wornGraphicPath>
+      <layers>
+        <li>Shell</li>
+      </layers>
+      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
+    </apparel>
+    <colorGenerator Class="ColorGenerator_Options">
+      <options>
+        <li>
+          <weight>10</weight>
+          <only>(0.12,0.12,0.14)</only>
+        </li>
+      </options>
+    </colorGenerator>
+    <generateCommonality>0</generateCommonality>
+  </ThingDef>
+
+</Defs>
