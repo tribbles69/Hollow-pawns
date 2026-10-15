@@ -323,7 +323,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HP_CorpseGrinder</defName>
     <label>corpse grinder</label>
-    <description>A powered hopper that grinds corpses left next to it into carrion bales, a little soul essence, meat and leather. No worker needed: make a stockpile beside it and haulers will feed it. Takes animals too; never children. The whole body goes, so no husk. It vents corruption heavily: the dirtiest way there is to take a soul.</description>
+    <description>A powered hopper that grinds corpses left next to it into carrion bales, a little soul essence, meat and leather. No worker needed: build corpse hoppers (or a stockpile) touching it and haulers will feed it. Takes animals too; never children. The whole body goes, so no husk. It vents corruption heavily: the dirtiest way there is to take a soul.</description>
     <thingClass>HollowPawns.Building_CorpseGrinder</thingClass>
     <graphicData>
       <texPath>Things/Building/HP_CorpseGrinder</texPath>
@@ -365,11 +365,124 @@
     </comps>
   </ThingDef>
 
+  <!-- ===================== Hoppers: haulers keep machines fed ===================== -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_MaterialHopper</defName>
+    <label>material hopper</label>
+    <description>Holds steel and components for the line forge. Build it touching the forge and haulers keep it topped up. Steel stacks to 75 a hopper, so a full kit (100 steel) needs two.</description>
+    <thingClass>Building_Storage</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Production/Hopper</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <color>(120,110,105)</color>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>42</pathCost>
+    <canOverlapZones>false</canOverlapZones>
+    <building>
+      <storageGroupTag>HP_MaterialHopper</storageGroupTag>
+      <blueprintClass>Blueprint_Storage</blueprintClass>
+      <fixedStorageSettings>
+        <priority>Important</priority>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <priority>Important</priority>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+    <inspectorTabs>
+      <li>ITab_Storage</li>
+    </inspectorTabs>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>true</rotatable>
+    <designationCategory>Production</designationCategory>
+    <researchPrerequisites>
+      <li>HP_IndustrialHarvest</li>
+    </researchPrerequisites>
+    <statBases>
+      <WorkToBuild>300</WorkToBuild>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <costList>
+      <Steel>15</Steel>
+    </costList>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_CorpseHopper</defName>
+    <label>corpse hopper</label>
+    <description>Holds one corpse for the corpse grinder. Build it touching the grinder and haulers bring the dead. Several hoppers keep it busy. Children are never ground, so take them out if one gets put in.</description>
+    <thingClass>Building_Storage</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Production/Hopper</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <color>(120,110,105)</color>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>42</pathCost>
+    <canOverlapZones>false</canOverlapZones>
+    <building>
+      <storageGroupTag>HP_CorpseHopper</storageGroupTag>
+      <blueprintClass>Blueprint_Storage</blueprintClass>
+      <fixedStorageSettings>
+        <priority>Important</priority>
+        <filter>
+          <categories>
+            <li>CorpsesHumanlike</li>
+            <li>CorpsesAnimal</li>
+          </categories>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <priority>Important</priority>
+        <filter>
+          <categories>
+            <li>CorpsesHumanlike</li>
+            <li>CorpsesAnimal</li>
+          </categories>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+    <inspectorTabs>
+      <li>ITab_Storage</li>
+    </inspectorTabs>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>true</rotatable>
+    <designationCategory>Production</designationCategory>
+    <researchPrerequisites>
+      <li>HP_IndustrialHarvest</li>
+    </researchPrerequisites>
+    <statBases>
+      <WorkToBuild>300</WorkToBuild>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <costList>
+      <Steel>15</Steel>
+    </costList>
+  </ThingDef>
+
   <!-- ===================== Line forge (4.24) ===================== -->
   <ThingDef ParentName="BuildingBase">
     <defName>HP_LineForge</defName>
     <label>line forge</label>
-    <description>A powered production line that stamps out cheap conscript kit from steel and components left next to it: no worker, no essence. Choose rifles, armour or full kits. Deliberately rubbish gear for arming thralls between waves.</description>
+    <description>A powered production line that stamps out cheap conscript kit from steel and components in material hoppers (or a stockpile) touching it: no worker, no essence. Choose rifles, armour or full kits. Deliberately rubbish gear for arming thralls between waves.</description>
     <thingClass>HollowPawns.Building_LineForge</thingClass>
     <graphicData>
       <texPath>Things/Building/HP_LineForge</texPath>

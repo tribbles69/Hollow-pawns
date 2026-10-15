@@ -589,7 +589,7 @@ namespace HollowPawns
             }
             else if (product != Product.Off)
             {
-                sb.Append(" (waiting for " + SteelFor(product) + " steel" + (ComponentsFor(product) > 0 ? " and a component" : "") + " next to it)");
+                sb.Append(" (waiting for " + SteelFor(product) + " steel" + (ComponentsFor(product) > 0 ? " and a component" : "") + " in hoppers next to it)");
             }
             return sb.ToString();
         }
