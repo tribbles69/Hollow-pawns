@@ -46,6 +46,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Reliquary, soul-bound items, shrines (4.35) | Reliquary case (Remembered thought for those who loved the soul), *bind soul into item* for any weapon or apparel (bonus by residue, size by grade, via a postfix on `StatWorker.StatOffsetFromGear`), bound shrine (consecrate or desecrate, fixed once bound) and essence shrine (fuelled, toggle). Shrines feed the corruption map pass. Not yet: shrines as ghost wards (with 4.8), soul-bound sculpture tales. |
 | Prisoner battery (4.7) | Casket-style generator: mark a prisoner *Battery*, a warden locks them in, 300-900 W by soul grade for five days, then a husk and some essence. Release early for soul shock. Rare tick only. |
 | Blood debts (4.18) | Killers of colonists carry a blood debt (kept as world pawns if they escape). Torment prisoner mode (pain, soul shock, Avenging for loved ones, kind colonists disturbed, goodwill hit). Vengeance effigy cast from a debtor's corpse; wailing effigy from the *Effigy* fate, screaming at night, at passers-by and at raids (soul shock, panic). Placeholder scream sound. Not yet: Ideology precept reactions, vengeance TaleDef. |
+| Scenarios (4.33) | The Coven (altar, shackled captive, corrupted ground), Endless War (Biotech: thralls, forge, grinder, generator, frequent raids) and the Escapee (lattice holding a loved one, hunted). Custom scenario parts for buildings, captives, corrupted ground, thralls and the lattice. Not yet: the Inquisitors and the Gravedigger, precepts. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -474,6 +475,7 @@ Optional patch for *The Profaned* (Botch_Job; Biotech xenotype of partly decayed
 - Source: [The Profaned on TOP-Mods](https://top-mods.com/mods/rimworld/factions/12268-the-profaned.html), [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/comments/3202008037).
 
 ### 4.33 Scenarios (decided 13 Oct 2026)
+**Built in v0.8 (three of five).** The Coven, Endless War and the Escapee. The Inquisitors wait for salt and fallen idols, the Gravedigger for ghosts (4.8); no precepts yet. Decided while building: the Coven's captive is shackled (downed) for two days rather than starting in a cell; the Escapee's loved one is a spouse, or a lover if the colonist is already married.
 Five small starts, each pointing at a different way to play.
 1. **The Inquisitors (purist):** three zealots, holy water, salt, the purist precept. They land near a fallen idol (4.28 event) already leaking corruption; destroying it is the first job.
 2. **The Coven (cult):** three cultists, a Bone Altar (4.27), one captive, the corruption-exalted precept. Start on corrupted ground, so no farming from day one: meat and leather only.

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Endless War (4.33) =====================
+       Needs thralls, so it lives with them under Mods/Biotech. Uses the scenario parts in
+       Defs/HP_Scenarios.xml. -->
+  <ScenarioDef ParentName="ScenarioBase">
+    <defName>HP_EndlessWar</defName>
+    <label>Endless War</label>
+    <description>Two overseers, three thralls, and the machines that make more of everything. The raids never stop, and neither does the line.</description>
+    <scenario>
+      <summary>Two overseers and three thralls with a line forge, a corpse grinder and a soul generator. Frequent raids. Hollow Pawns.</summary>
+      <parts>
+        <li Class="ScenPart_ConfigPage_ConfigureStartingPawns">
+          <def>ConfigPage_ConfigureStartingPawns</def>
+          <pawnCount>2</pawnCount>
+          <pawnChoiceCount>8</pawnChoiceCount>
+        </li>
+        <li Class="ScenPart_PlayerPawnsArriveMethod">
+          <def>PlayerPawnsArriveMethod</def>
+          <method>Standing</method>
+          <visible>false</visible>
+        </li>
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>Electricity</project>
+        </li>
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>HP_SoulExtraction</project>
+        </li>
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>HP_IndustrialHarvest</project>
+        </li>
+        <li Class="HollowPawns.ScenPart_HP_StartingThralls">
+          <def>HP_StartingThralls</def>
+          <count>3</count>
+        </li>
+        <li Class="HollowPawns.ScenPart_HP_StartingBuilding">
+          <def>HP_StartingBuilding</def>
+          <thingDef>HP_LineForge</thingDef>
+        </li>
+        <li Class="HollowPawns.ScenPart_HP_StartingBuilding">
+          <def>HP_StartingBuilding</def>
+          <thingDef>HP_CorpseGrinder</thingDef>
+        </li>
+        <li Class="HollowPawns.ScenPart_HP_StartingBuilding">
+          <def>HP_StartingBuilding</def>
+          <thingDef>HP_SoulGenerator</thingDef>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>HP_SoulEssence</thingDef>
+          <count>60</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>MealSurvivalPack</thingDef>
+          <count>60</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>MedicineIndustrial</thingDef>
+          <count>25</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>ComponentIndustrial</thingDef>
+          <count>25</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>HP_ConscriptRifle</thingDef>
+          <count>3</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Gun_Revolver</thingDef>
+          <count>2</count>
+        </li>
+        <li Class="ScenPart_ScatterThingsNearPlayerStart">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>Steel</thingDef>
+          <count>800</count>
+        </li>
+        <li Class="ScenPart_ScatterThingsNearPlayerStart">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>WoodLog</thingDef>
+          <count>300</count>
+        </li>
+        <!-- Frequent raids: you start partway into the loop. -->
+        <li Class="ScenPart_CreateIncident">
+          <def>CreateIncident</def>
+          <incident>RaidEnemy</incident>
+          <minDays>4</minDays>
+          <maxDays>7</maxDays>
+          <repeat>true</repeat>
+        </li>
+        <li Class="ScenPart_GameStartDialog">
+          <def>GameStartDialog</def>
+          <text>The front moved on and left you the machines. The forge still turns out rifles if you feed it steel. The grinder still turns the dead into feed. The thralls still obey.\n\nWire the generator to the machines and keep them running. They will come again in a few days, and then again.</text>
+          <closeSound>GameStartSting</closeSound>
+        </li>
+      </parts>
+    </scenario>
+  </ScenarioDef>
+
+</Defs>

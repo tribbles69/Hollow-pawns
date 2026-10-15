@@ -32,6 +32,7 @@ namespace HollowPawns
         public static HediffDef HP_RiteRestrained;
         public static HediffDef HP_ReanimatedHusk;
         public static HediffDef HP_StandingGuard;
+        public static HediffDef HP_Shackled;
         public static HediffDef HP_BloodDebt;
         public static HediffDef HP_Tormented;
         public static PrisonerInteractionModeDef HP_Torment;

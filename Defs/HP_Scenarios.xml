@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Scenarios (4.33) =====================
+       The Coven and the Escapee. Endless War needs thralls, so it lives in Mods/Biotech. The Inquisitors
+       and the Gravedigger wait for their features (salt and fallen idols; ghosts). The custom parts
+       (Scenarios.cs) run once at the start; nothing ticks. -->
+
+  <ScenPartDef>
+    <defName>HP_StartingBuilding</defName>
+    <label>start with building</label>
+    <scenPartClass>HollowPawns.ScenPart_HP_StartingBuilding</scenPartClass>
+    <category>StartingImportant</category>
+    <selectionWeight>0</selectionWeight>
+    <summaryPriority>304</summaryPriority>
+  </ScenPartDef>
+
+  <ScenPartDef>
+    <defName>HP_StartingPrisoners</defName>
+    <label>start with captives</label>
+    <scenPartClass>HollowPawns.ScenPart_HP_StartingPrisoners</scenPartClass>
+    <category>StartingImportant</category>
+    <selectionWeight>0</selectionWeight>
+    <summaryPriority>303</summaryPriority>
+  </ScenPartDef>
+
+  <ScenPartDef>
+    <defName>HP_CorruptedGround</defName>
+    <label>corrupted landing site</label>
+    <scenPartClass>HollowPawns.ScenPart_HP_CorruptedGround</scenPartClass>
+    <category>Rule</category>
+    <selectionWeight>0</selectionWeight>
+    <summaryPriority>362</summaryPriority>
+  </ScenPartDef>
+
+  <ScenPartDef>
+    <defName>HP_StartingThralls</defName>
+    <label>start with thralls</label>
+    <scenPartClass>HollowPawns.ScenPart_HP_StartingThralls</scenPartClass>
+    <category>StartingImportant</category>
+    <selectionWeight>0</selectionWeight>
+    <summaryPriority>302</summaryPriority>
+  </ScenPartDef>
+
+  <ScenPartDef>
+    <defName>HP_LovedOneLattice</defName>
+    <label>start with a loved one's soul</label>
+    <scenPartClass>HollowPawns.ScenPart_HP_LovedOneLattice</scenPartClass>
+    <category>StartingImportant</category>
+    <selectionWeight>0</selectionWeight>
+    <summaryPriority>301</summaryPriority>
+  </ScenPartDef>
+
+  <!-- Two days face-down in irons: long enough to build a cell. -->
+  <HediffDef>
+    <defName>HP_Shackled</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>shackled</label>
+    <description>Chained hand and foot. They aren't going anywhere until the irons come off.</description>
+    <defaultLabelColor>(0.75, 0.3, 0.35)</defaultLabelColor>
+    <isBad>true</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.5</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <setMax>0</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- ===================== The Coven ===================== -->
+  <ScenarioDef ParentName="ScenarioBase">
+    <defName>HP_Coven</defName>
+    <label>The Coven</label>
+    <description>Three cultists, a bone altar and a captive, on ground already sick with what you've done. Nothing will grow near the altar for a while: live on meat and leather, and on souls.</description>
+    <scenario>
+      <summary>Three cultists with a bone altar and a captive, on corrupted ground. Hollow Pawns.</summary>
+      <parts>
+        <li Class="ScenPart_ConfigPage_ConfigureStartingPawns">
+          <def>ConfigPage_ConfigureStartingPawns</def>
+          <pawnCount>3</pawnCount>
+          <pawnChoiceCount>8</pawnChoiceCount>
+        </li>
+        <li Class="ScenPart_PlayerPawnsArriveMethod">
+          <def>PlayerPawnsArriveMethod</def>
+          <method>Standing</method>
+          <visible>false</visible>
+        </li>
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>HP_SoulExtraction</project>
+        </li>
+        <li Class="HollowPawns.ScenPart_HP_StartingBuilding">
+          <def>HP_StartingBuilding</def>
+          <thingDef>HP_BoneAltar</thingDef>
+          <stuff>BlocksGranite</stuff>
+        </li>
+        <li Class="HollowPawns.ScenPart_HP_StartingPrisoners">
+          <def>HP_StartingPrisoners</def>
+          <count>1</count>
+        </li>
+        <li Class="HollowPawns.ScenPart_HP_CorruptedGround">
+          <def>HP_CorruptedGround</def>
+          <amount>140</amount>
+          <radius>20</radius>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Pemmican</thingDef>
+          <count>120</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>MedicineHerbal</thingDef>
+          <count>20</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>HP_VesselUrn_Empty</thingDef>
+          <count>2</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>MeleeWeapon_Knife</thingDef>
+          <stuff>Steel</stuff>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Bow_Short</thingDef>
+        </li>
+        <li Class="ScenPart_ScatterThingsNearPlayerStart">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>WoodLog</thingDef>
+          <count>400</count>
+        </li>
+        <li Class="ScenPart_ScatterThingsNearPlayerStart">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>Steel</thingDef>
+          <count>150</count>
+        </li>
+        <li Class="ScenPart_GameStartDialog">
+          <def>GameStartDialog</def>
+          <text>The village drove you out when they found the altar. You took it with you, stone by stone, and one of them besides.\n\nThe ground here was already rotten when you came. It will be worse by spring. Nothing green will grow near the altar now: hunt, and feed it.\n\nThe captive is in irons, but irons come off. Build a cell.</text>
+          <closeSound>GameStartSting</closeSound>
+        </li>
+      </parts>
+    </scenario>
+  </ScenarioDef>
+
+  <!-- ===================== The Escapee ===================== -->
+  <ScenarioDef ParentName="ScenarioBase">
+    <defName>HP_Escapee</defName>
+    <label>The Escapee</label>
+    <description>You got out of the soul press alive. The one you loved didn't, but you carried them out anyway, in a lattice. The people who ran the facility want both of you back.</description>
+    <scenario>
+      <summary>A lone survivor of a soul-press facility, carrying the soul of someone they loved, and hunted. Hollow Pawns.</summary>
+      <parts>
+        <li Class="ScenPart_ConfigPage_ConfigureStartingPawns">
+          <def>ConfigPage_ConfigureStartingPawns</def>
+          <pawnCount>1</pawnCount>
+          <pawnChoiceCount>8</pawnChoiceCount>
+        </li>
+        <li Class="ScenPart_PlayerPawnsArriveMethod">
+          <def>PlayerPawnsArriveMethod</def>
+          <method>DropPods</method>
+          <visible>false</visible>
+        </li>
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>HP_SoulExtraction</project>
+        </li>
+        <li Class="HollowPawns.ScenPart_HP_LovedOneLattice">
+          <def>HP_LovedOneLattice</def>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Silver</thingDef>
+          <count>600</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>MealSurvivalPack</thingDef>
+          <count>30</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>MedicineUltratech</thingDef>
+          <count>10</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>ComponentIndustrial</thingDef>
+          <count>15</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>HP_SoulEssence</thingDef>
+          <count>30</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>HP_Gun_Whisper</thingDef>
+        </li>
+        <li Class="ScenPart_ScatterThingsNearPlayerStart">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>Steel</thingDef>
+          <count>300</count>
+        </li>
+        <li Class="ScenPart_ScatterThingsNearPlayerStart">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>WoodLog</thingDef>
+          <count>250</count>
+        </li>
+        <!-- The facility's people keep coming. -->
+        <li Class="ScenPart_CreateIncident">
+          <def>CreateIncident</def>
+          <incident>RaidEnemy</incident>
+          <minDays>8</minDays>
+          <maxDays>14</maxDays>
+          <repeat>true</repeat>
+        </li>
+        <li Class="ScenPart_GameStartDialog">
+          <def>GameStartDialog</def>
+          <text>The press took them first. You heard it from the next cell. When the power failed you ran, and you took the lattice off the rack on the way out, because their name was on the label.\n\nThey are in there. Not alive, but not gone. You can keep them, or you can spend them.\n\nThe facility's people know where the pod came down.</text>
+          <closeSound>GameStartSting</closeSound>
+        </li>
+      </parts>
+    </scenario>
+  </ScenarioDef>
+
+</Defs>

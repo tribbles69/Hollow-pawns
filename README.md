@@ -130,6 +130,15 @@ When an enemy kills one of your colonists, the killer carries a **blood debt** n
 
 The scream is a generated placeholder (`Sounds/HP/EffigyWail.wav`, made by `Source/tools/gen_sounds.py`); drop a real recording over it with the same name.
 
+### Scenarios
+| Scenario | Start |
+|---|---|
+| **The Coven** | Three cultists, a granite **bone altar** already built, one **captive** in irons (shackled for two days: build a cell), two empty urns, *Soul extraction* researched, and the ground for 20 cells around **corrupted**. Pemmican, a knife, a bow. |
+| **Endless War** (Biotech) | Two overseers and three **thralls**, a **line forge**, a **corpse grinder** and a **soul generator** with 60 essence (wire them up), three conscript rifles. *Electricity*, *Soul extraction* and *Industrial harvest* researched. A raid every 4 to 7 days. |
+| **The Escapee** | One survivor in a drop pod with a **soul lattice** holding their spouse (or lover), who loved them back: put it in a reliquary and they're *Remembered*. A Whisper soul pistol, 30 essence, *Soul extraction* researched. A raid every 8 to 14 days. |
+
+The Inquisitors and the Gravedigger wait for salt, fallen idols and ghosts. The precepts (purist, corruption-exalted) don't exist yet.
+
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
 - **Soul guns fire beams.** Like CE's own lasers: one shared **soul charge** ammo (100 from 6 soulsteel + 4 essence, so about 200 shots per corpse), and each gun maps it to its own beam with its own damage and penetration, plus a one-cell soul blast on impact.
@@ -223,6 +232,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Wailing effigy: mark the debtor *Effigy* (option only appears for debtors), rite at the altar: a minified *wailing effigy (Vex)* drops. Place it: friend gets +10 nearby, others *dread*. Wait for 1am: it screams (sound, text, -3 for others nearby). Trigger a raid: it screams and some raiders flee. Shatter: essence and corruption.
 - [ ] Vengeance effigy: kill a debtor without taking the soul, bring the corpse and 25 soulsteel to a sculptor's table: the bill only accepts that corpse; the effigy names the victim; avengers get *avenged*.
 - [ ] Blood debt survives escape: let a debtor flee the map, save, reload, check `Find.WorldPawns` (dev) still has them.
+- [ ] Scenarios: start each of the three. Coven: altar placed near the start, captive lying shackled (can't move, two days), corruption overlay shows a blot around the start. Endless War: three thralls arrive with the colonists, forge, grinder and generator placed, raids come every few days. Escapee: the lattice is labelled with a name, the colonist's social tab shows a dead spouse, a reliquary gives them *remembered*.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
@@ -231,6 +241,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - v0.8, unverified until tested in game: adding the soul-bound comp to every weapon and apparel def at startup (`SoulBoundInjector`); the bind bill handing back the same item (the item is despawned inside `GenRecipe.MakeRecipeProducts` and skipped by `ConsumeIngredient`); the bound shrine's storage filter being cleared after binding; `Building_Storage` subclasses with `maxItemsInCell` 1 as single-vessel holders.
 - v0.8, unverified until tested in game: the prisoner battery as a `Building_Casket` subclass holding a prisoner (whether they stay a prisoner and come back out right, and whether `CompPowerPlant.DesiredPowerOutput` updated only on rare tick is enough for the power net).
 - v0.8, unverified until tested in game: blood debts (the `Pawn.Kill` prefix/postfix pair seeing the instigator, the postfix on the private `WorldPawnGC.GetCriticalPawnReason` keeping escaped debtors, a non-exclusive `PrisonerInteractionModeDef` showing up as a checkbox next to vanilla's, `MakeRecipeProducts` minifying the effigy before my postfix sees it, `AudioGrain_Clip` loading a mod wav from `Sounds/`, effigies' `CompTickRare` running on a minified-then-placed `Building_Art`).
+- v0.8, unverified until tested in game: scenario parts (`MapGenerator.PlayerStartSpot` being set when `GenerateIntoMap` runs, vanilla's internal `ScenPart_CreateIncident` loading from XML with its private `minDays`/`maxDays`/`repeat`, a pawn killed as a world pawn inside `PlayerStartingThings`, a downed prisoner set by `Moving` `setMax` 0 staying a prisoner on the ground).
 - v0.7, unverified until tested in game: the rite job (carrying a restrained prisoner and laying them on the altar cell; vanilla `Toils_Haul.StartCarryThing` on a pawn), `Building_CloneVat` re-implementing `IBillGiver.CurrentlyUsableForBills` (vanilla's isn't virtual), `ResurrectionUtility.TryResurrect` on rotted husks, the corruption overlay (`CellBoolDrawer`) and its toggle among the play settings, `DataExposeUtility.LookByteArray` for the corruption grid, thralls generated with a forced xenotype that has `canGenerateAsCombatant` false, CE armour values for the conscript vest and helmet (set by eye below CE's steel flak vest).
 - v0.6, unverified until tested in game: adding a faction to an existing save with `FactionGenerator.NewGeneratedFaction` (it will have no world bases in that save, and Ideology must give it an ideoligion); the storyteller firing an incident whose `baseChance` is 0 through an on/off cycle; demon pawn kinds inheriting from non-abstract vanilla kinds (`ThrasherBase`, `PirateKindBase`, `MercenaryHeavyBase`); `CompProperties_CauseHediff_Apparel` with no body part.
 - v0.5, unverified until tested in game: `HediffDef.preventsDeath` (no vanilla XML uses it; the game code reads it in `ShouldBeDead`/`CheckForStateChange`), the soul jar surviving minify and save/load, and the soul broker caravan patch on the abstract `OutlanderFactionBase`.
