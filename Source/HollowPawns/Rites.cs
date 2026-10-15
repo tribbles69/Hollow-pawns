@@ -15,6 +15,10 @@ namespace HollowPawns
         Render,
         /// <summary>The whole soul into a vessel: named, graded, kept.</summary>
         Bind,
+        /// <summary>Locked in a prisoner battery and drained for power (4.7).</summary>
+        Battery,
+        /// <summary>A blood debtor's living soul bound into a wailing effigy (4.18).</summary>
+        Effigy,
     }
 
     public class CompProperties_SoulRite : CompProperties
@@ -115,7 +119,7 @@ namespace HollowPawns
 
         public override bool ShouldSkip(Pawn pawn, bool forced = false)
         {
-            return !pawn.Map.mapPawns.PrisonersOfColonySpawned.Any(SoulUtility.IsMarked);
+            return !pawn.Map.mapPawns.PrisonersOfColonySpawned.Any(p => Rites.IsRiteFate(SoulUtility.GetFate(p)));
         }
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false) => MakeJob(pawn, t, forced) != null;
@@ -132,7 +136,7 @@ namespace HollowPawns
             foreach (Pawn victim in pawn.Map.mapPawns.PrisonersOfColonySpawned)
             {
                 SoulFate fate = SoulUtility.GetFate(victim);
-                if (fate == SoulFate.None || !SoulUtility.CanMark(victim)
+                if (!Rites.IsRiteFate(fate) || !SoulUtility.CanMark(victim)
                     || !pawn.CanReserveAndReach(victim, PathEndMode.Touch, Danger.Deadly, 1, -1, null, forced))
                 {
                     continue;
@@ -158,6 +162,9 @@ namespace HollowPawns
 
     public static class Rites
     {
+        /// <summary>Fates the altar and press carry out. A battery has its own warden job.</summary>
+        public static bool IsRiteFate(SoulFate f) => f == SoulFate.Render || f == SoulFate.Bind || f == SoulFate.Effigy;
+
         /// <summary>The highest-tier empty vessel the pawn can reach and reserve.</summary>
         public static Thing BestEmptyVessel(Pawn pawn, bool forced)
         {
@@ -210,13 +217,17 @@ namespace HollowPawns
                 TaleRecorder.RecordTale(HP_DefOf.HP_SoulBound, warden, victim);
                 GenPlace.TryPlaceThing(filled, building.InteractionCell, map, ThingPlaceMode.Near);
             }
+            else if (fate == SoulFate.Effigy)
+            {
+                GenPlace.TryPlaceThing(Effigies.MakeWailing(warden, victim, grade), building.InteractionCell, map, ThingPlaceMode.Near);
+            }
             else
             {
                 SoulUtility.DropEssence(building.InteractionCell, map, SoulGrades.RenderYield(grade), essence);
             }
 
             Messages.Message(warden.LabelShort + " took the " + grade.Label() + " soul of " + victim.LabelShort
-                + (fate == SoulFate.Bind ? " and bound it." : " and rendered it.") + (botched ? " The rite was botched." : ""),
+                + (fate == SoulFate.Bind ? " and bound it." : fate == SoulFate.Effigy ? " and sealed it, screaming, into an effigy." : " and rendered it.") + (botched ? " The rite was botched." : ""),
                 new TargetInfo(cell, map), MessageTypeDefOf.NeutralEvent);
 
             Corruption.Spill(cell, map, props.corruption, props.corruptionRadius);

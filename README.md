@@ -114,6 +114,22 @@ Taking and spending souls stains the ground and the people who do it. Toggle the
 
 Shrines work inside the corruption map pass (a few sampled cells each time), so they cost almost nothing.
 
+### Prisoner battery
+| Thing | What it does |
+|---|---|
+| **Prisoner battery** (Power, after Soul extraction) | A sealed 2x1 casket. Mark a prisoner *Battery* and a warden locks them in. Like cryptosleep they need nothing while inside. Makes 300 W from a wretched soul up to 900 W from an exalted one for five days, then the prisoner dies as a husk and drops half a render's worth of essence. Leaks a little corruption each day. *Release* lets them out alive but badly soul-shocked. Their faction takes it hard. |
+
+### Blood debts
+When an enemy kills one of your colonists, the killer carries a **blood debt** naming who they killed (it shows on their inspect pane and health tab). If they escape they are kept as a world pawn and can come back, still marked. Down them; don't kill them.
+
+| Thing | What it does |
+|---|---|
+| **Torment** (prisoner interaction) | A warden gives the prisoner a session at most twice a day: rising pain (*tormented*, fades slowly), soul shock, and -15 goodwill with their faction. Anyone who loved someone the prisoner killed gets **Avenging** (+4, stacks to 5); kind colonists get *prisoner tormented* (-5). Works on any prisoner, but only debtors have avengers. |
+| **Vengeance effigy** (sculptor's table, 25 soulsteel and the debtor's corpse, soul still in it) | Art. *A soulsteel figure of Vex, cut down on ... for the murder of Jeb.* Avengers get **Avenged** (+8 when cast) and *effigy of the killer* (+5) whenever they see it. |
+| **Wailing effigy** (Reaper's Mark: *Effigy*, debtors only) | At an altar or press their living soul is sealed into a soulsteel figure, quality from the warden's Artistic skill. Avengers who see it get +10; everyone else gets *dread* (-4). It **screams** once a night, sometimes when someone walks past, and always when a raid arrives: enemies within 20 cells (30 for a raid) take soul shock and a quarter break and run; colonists nearby who aren't avengers get -3. **Shatter** it for twice a smashed vessel's essence and a burst of corruption. |
+
+The scream is a generated placeholder (`Sounds/HP/EffigyWail.wav`, made by `Source/tools/gen_sounds.py`); drop a real recording over it with the same name.
+
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
 - **Soul guns fire beams.** Like CE's own lasers: one shared **soul charge** ammo (100 from 6 soulsteel + 4 essence, so about 200 shots per corpse), and each gun maps it to its own beam with its own damage and penetration, plus a one-cell soul blast on impact.
@@ -202,12 +218,19 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Bind soul into item: at the crucible, bind a vessel with a Shooting residue into a rifle: label says *soul-bound*, hover names the soul and the bonus, and the wielder's shooting accuracy shows the extra line from gear. Try a piece of apparel and a modded weapon too. Destroy a bound item with a dev tool: message and corruption. The bill never offers an already bound item.
 - [ ] Bound shrine: build one on corrupted ground, leave it consecrated, let a vessel be hauled in: the vessel disappears, the shrine is renamed *shrine of ...*, the overlay shows the corruption fading around it over a few days. Build a desecrated one elsewhere: corruption grows. Break one: a burst of the opposite.
 - [ ] Essence shrine: refuel with essence, toggle cleansing / spreading, watch the overlay; with no fuel it stops.
+- [ ] Prisoner battery: build one, mark a prisoner *Battery*: a warden carries them over and locks them in; the power tab shows 300-900 W by grade; inspect counts down five days. DEV *drain now*: they come out dead, essence drops. Try *Release* on another: alive, soul shock. Unpowered net and flick off behave like any generator.
+- [ ] Blood debts: let a raider kill a colonist (dev: damage until dead): the killer gets *blood debt (Jeb)* and a message; inspect shows it. Capture them. Set *Torment*: a warden runs a session, pain and soul shock rise, the victim's friend gets *avenging*, a kind colonist is disturbed, goodwill drops. Twice a day at most.
+- [ ] Wailing effigy: mark the debtor *Effigy* (option only appears for debtors), rite at the altar: a minified *wailing effigy (Vex)* drops. Place it: friend gets +10 nearby, others *dread*. Wait for 1am: it screams (sound, text, -3 for others nearby). Trigger a raid: it screams and some raiders flee. Shatter: essence and corruption.
+- [ ] Vengeance effigy: kill a debtor without taking the soul, bring the corpse and 25 soulsteel to a sculptor's table: the bill only accepts that corpse; the effigy names the victim; avengers get *avenged*.
+- [ ] Blood debt survives escape: let a debtor flee the map, save, reload, check `Find.WorldPawns` (dev) still has them.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
 - Research positions were checked against Core, Ideology and Biotech only. Royalty, Anomaly or Odyssey might put something at (7, 5.5) or (8, 5.5) on the Main tab.
 
 - v0.8, unverified until tested in game: adding the soul-bound comp to every weapon and apparel def at startup (`SoulBoundInjector`); the bind bill handing back the same item (the item is despawned inside `GenRecipe.MakeRecipeProducts` and skipped by `ConsumeIngredient`); the bound shrine's storage filter being cleared after binding; `Building_Storage` subclasses with `maxItemsInCell` 1 as single-vessel holders.
+- v0.8, unverified until tested in game: the prisoner battery as a `Building_Casket` subclass holding a prisoner (whether they stay a prisoner and come back out right, and whether `CompPowerPlant.DesiredPowerOutput` updated only on rare tick is enough for the power net).
+- v0.8, unverified until tested in game: blood debts (the `Pawn.Kill` prefix/postfix pair seeing the instigator, the postfix on the private `WorldPawnGC.GetCriticalPawnReason` keeping escaped debtors, a non-exclusive `PrisonerInteractionModeDef` showing up as a checkbox next to vanilla's, `MakeRecipeProducts` minifying the effigy before my postfix sees it, `AudioGrain_Clip` loading a mod wav from `Sounds/`, effigies' `CompTickRare` running on a minified-then-placed `Building_Art`).
 - v0.7, unverified until tested in game: the rite job (carrying a restrained prisoner and laying them on the altar cell; vanilla `Toils_Haul.StartCarryThing` on a pawn), `Building_CloneVat` re-implementing `IBillGiver.CurrentlyUsableForBills` (vanilla's isn't virtual), `ResurrectionUtility.TryResurrect` on rotted husks, the corruption overlay (`CellBoolDrawer`) and its toggle among the play settings, `DataExposeUtility.LookByteArray` for the corruption grid, thralls generated with a forced xenotype that has `canGenerateAsCombatant` false, CE armour values for the conscript vest and helmet (set by eye below CE's steel flak vest).
 - v0.6, unverified until tested in game: adding a faction to an existing save with `FactionGenerator.NewGeneratedFaction` (it will have no world bases in that save, and Ideology must give it an ideoligion); the storyteller firing an incident whose `baseChance` is 0 through an on/off cycle; demon pawn kinds inheriting from non-abstract vanilla kinds (`ThrasherBase`, `PirateKindBase`, `MercenaryHeavyBase`); `CompProperties_CauseHediff_Apparel` with no body part.
 - v0.5, unverified until tested in game: `HediffDef.preventsDeath` (no vanilla XML uses it; the game code reads it in `ShouldBeDead`/`CheckForStateChange`), the soul jar surviving minify and save/load, and the soul broker caravan patch on the abstract `OutlanderFactionBase`.

@@ -21,6 +21,8 @@ namespace HollowPawns
         public static DamageDef HP_SoulBurst;
         public static TaleDef HP_SoulBound;
         public static JobDef HP_PerformSoulRite;
+        public static JobDef HP_LoadSoulBattery;
+        public static HediffDef HP_SoulShock;
         public static JobDef HP_CleanseCorruption;
         public static DesignationDef HP_Cleanse;
         public static ThingDef HP_HolyWater;
@@ -30,6 +32,16 @@ namespace HollowPawns
         public static HediffDef HP_RiteRestrained;
         public static HediffDef HP_ReanimatedHusk;
         public static HediffDef HP_StandingGuard;
+        public static HediffDef HP_BloodDebt;
+        public static HediffDef HP_Tormented;
+        public static PrisonerInteractionModeDef HP_Torment;
+        public static JobDef HP_TormentPrisoner;
+        public static ThoughtDef HP_Avenging;
+        public static ThoughtDef HP_AvengedMemory;
+        public static ThoughtDef HP_TormentDisturbed;
+        public static ThoughtDef HP_HeardEffigyScream;
+        public static ThingDef HP_WailingEffigy;
+        public static SoundDef HP_EffigyWail;
 
         // Biotech-only (Mods/Biotech). Null without Biotech; every use checks.
         [MayRequireBiotech] public static GeneDef HP_CorruptedSoul;

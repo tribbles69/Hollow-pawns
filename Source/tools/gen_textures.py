@@ -494,6 +494,49 @@ def essence_shrine():
     ]
 
 
+def prisoner_battery():
+    """2x1 steel casket with a window: a figure lying inside, soul light leaking out."""
+    body = union(circle(76, 64, 10), rrect(130, 64, 46, 12, 8))
+    return [
+        ("glow", 128, 64, 90, CYAN, 0.35),
+        (rrect(128, 66, 120, 50, 10), METAL_DARK, 1.0),
+        (rrect(128, 64, 108, 38, 8), METAL, 1.0),
+        (rrect(124, 64, 86, 26, 6), (40, 60, 66), 1.0),
+        (body, CYAN, 0.55),
+        (rrect(224, 64, 12, 34, 4), METAL_DARK, 1.0),
+        (circle(224, 50, 4), CYAN_PALE, 1.0),
+        (circle(224, 64, 4), CYAN, 1.0),
+        (circle(224, 78, 4), CYAN, 0.5),
+        (rrect(128, 112, 112, 3, 1), (40, 44, 50), 1.0),
+    ]
+
+
+def effigy(wailing):
+    """A kneeling soulsteel figure on a plinth; the wailing one has its head thrown back, mouth open."""
+    steel = (70, 82, 96)
+    figure = union(
+        circle(64, 34 if not wailing else 30, 13),
+        poly([(46, 50), (82, 50), (88, 86), (40, 86)]),
+        rrect(64, 92, 30, 10, 6),
+        poly([(46, 54), (34, 74), (40, 78), (52, 62)]),
+        poly([(82, 54), (94, 74), (88, 78), (76, 62)]),
+    )
+    layers = [
+        (rrect(64, 112, 40, 12, 3), METAL_DARK, 1.0),
+        (figure, steel, 1.0),
+    ]
+    if wailing:
+        layers = [("glow", 64, 40, 50, CYAN, 0.45)] + layers + [
+            (circle(58, 28, 2.5), CYAN_PALE, 1.0),
+            (circle(70, 28, 2.5), CYAN_PALE, 1.0),
+            (rrect(64, 38, 4, 6, 3), CYAN_PALE, 1.0),
+            (rrect(64, 68, 6, 14, 3), CYAN, 0.6),
+        ]
+    else:
+        layers += [(rrect(64, 70, 18, 3, 1), (120, 40, 40), 0.9)]
+    return layers
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
@@ -531,3 +574,7 @@ if __name__ == "__main__":
     write_png(os.path.join(b, "HP_Reliquary.png"), render(128, reliquary()))
     write_png(os.path.join(b, "HP_BoundShrine.png"), render(128, bound_shrine()))
     write_png(os.path.join(b, "HP_EssenceShrine.png"), render(128, essence_shrine()))
+    # v0.8: prisoner battery, blood debts
+    write_png(os.path.join(b, "HP_PrisonerBattery.png"), render(256, prisoner_battery(), 128))
+    write_png(os.path.join(b, "HP_VengeanceEffigy.png"), render(128, effigy(False)))
+    write_png(os.path.join(b, "HP_WailingEffigy.png"), render(128, effigy(True)))

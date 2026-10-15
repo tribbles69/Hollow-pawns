@@ -44,6 +44,8 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Corruption core (4.28) | `MapComponent_Corruption`: a byte per cell; spills from rites, crucible, generator exhaust, soul blasts/bursts, broken vessels, demon auras and demon corpses; 200 sampled cells per 250 ticks for spread (above 80), withering (above 120) and fire cleansing; above 160 souls come out corrupted. Pawn corruption hediff (4 stages, curse at the top). Holy water (order + drink), purgation surgery. Overlay toggle in the play settings. Hell gate needs average 100 to open. |
 | Endless war (4.1, 4.5, 4.6, 4.24, 4.26, 4.31) | Thralls and clone vats (Biotech), reanimated husks (slab), stand guard, carrion bales and walls, corpse grinder, line forge with conscript rifle, helmet and vest. Soulless pawns keep only food and rest needs (Harmony on `ShouldHaveNeed`) and never chat. |
 | Reliquary, soul-bound items, shrines (4.35) | Reliquary case (Remembered thought for those who loved the soul), *bind soul into item* for any weapon or apparel (bonus by residue, size by grade, via a postfix on `StatWorker.StatOffsetFromGear`), bound shrine (consecrate or desecrate, fixed once bound) and essence shrine (fuelled, toggle). Shrines feed the corruption map pass. Not yet: shrines as ghost wards (with 4.8), soul-bound sculpture tales. |
+| Prisoner battery (4.7) | Casket-style generator: mark a prisoner *Battery*, a warden locks them in, 300-900 W by soul grade for five days, then a husk and some essence. Release early for soul shock. Rare tick only. |
+| Blood debts (4.18) | Killers of colonists carry a blood debt (kept as world pawns if they escape). Torment prisoner mode (pain, soul shock, Avenging for loved ones, kind colonists disturbed, goodwill hit). Vengeance effigy cast from a debtor's corpse; wailing effigy from the *Effigy* fate, screaming at night, at passers-by and at raids (soul shock, panic). Placeholder scream sound. Not yet: Ideology precept reactions, vengeance TaleDef. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -119,6 +121,7 @@ Emergency meat shields. Chosen over true Biotech mechs, because true mechs must 
 - C# to spawn/resurrect from the bill.
 
 ### 4.7 Prisoner battery
+**Built in v0.8.** Decided while building: a new fate on the Reaper's Mark (*Battery*) rather than a bill; the drain is five days whatever the grade, and grade sets the wattage.
 A casket-style pod (like a cryptosleep casket). Lock a prisoner in: it generates power while slowly draining their soul. When the soul runs out they die and drop essence. Adults only. Small C# on top of vanilla's casket.
 
 ### 4.8 Ghosts (reworked 13 Oct 2026)
@@ -202,6 +205,7 @@ A second option at the extract-soul surgery: **render** the soul into 12 essence
 - Mutiny clause: if playtests show everyone smashes their jars, cut the decoration and keep only the named Tale. (The blood-debt line below gives jars a stronger reason to exist.)
 
 ### 4.18 Blood debts: revenge on whoever killed your colonists
+**Built in v0.8.** Decided while building: the debt is a hediff on the killer (not a WorldComponent), so it travels with them; the wailing effigy is a fate on the Reaper's Mark, taken by the rite; the vengeance effigy is cast at the sculptor's table from 25 soulsteel and the corpse; avengers are worked out when the colonist dies (the same family, lover or good-opinion test as the reliquary).
 **1. The blood debt.** When an enemy kills a colonist, record it: the killer gets a visible **"Blood debt"** mark naming who they killed. Event-driven (hook on colonist death with a pawn instigator); store debts in a WorldComponent so they persist if the killer escapes.
 - Escaped killers are world pawns and can return in later raids, still marked. Seeing the mark in combat tells you to down them, not kill them.
 

@@ -22,11 +22,13 @@ namespace HollowPawns
             SoulFate fate = SoulUtility.GetFate(pawn);
             var cmd = new Command_Action
             {
-                defaultLabel = fate == SoulFate.Render ? "Marked: render" : fate == SoulFate.Bind ? "Marked: bind" : "Mark soul",
-                defaultDesc = "Mark this prisoner for a Bone Altar or Soul Press. Wardens bring them there and take the soul.\n\n"
-                    + "Render: plain soul essence, more for a better soul. Who they were is lost.\n"
-                    + "Bind: the whole soul goes into an empty vessel (urn, canister or lattice), named and graded. "
-                    + "Needs an empty vessel.\n\nEither way, they die.",
+                defaultLabel = FateLabel(fate),
+                defaultDesc = "Mark this prisoner. Wardens carry it out.\n\n"
+                    + "Render: at a Bone Altar or Soul Press, plain soul essence, more for a better soul. Who they were is lost.\n"
+                    + "Bind: at an altar or press, the whole soul goes into an empty vessel (urn, canister or lattice), named and graded. "
+                    + "Needs an empty vessel.\n"
+                    + "Battery: locked in a prisoner battery and drained for power over days, then they die and leave essence.\n"
+                    + "Effigy (blood debtors only): at an altar or press, their living soul is bound into a wailing effigy.\n\nEvery fate ends in death.",
                 icon = MarkIcon,
                 action = () =>
                 {
@@ -34,7 +36,12 @@ namespace HollowPawns
                     {
                         new FloatMenuOption("Render (essence)", () => SoulUtility.SetFate(pawn, SoulFate.Render)),
                         new FloatMenuOption("Bind (into a vessel)", () => SoulUtility.SetFate(pawn, SoulFate.Bind)),
+                        new FloatMenuOption("Battery (drain for power)", () => SoulUtility.SetFate(pawn, SoulFate.Battery)),
                     };
+                    if (BloodDebts.IsDebtor(pawn))
+                    {
+                        options.Add(new FloatMenuOption("Effigy (bind into a wailing effigy)", () => SoulUtility.SetFate(pawn, SoulFate.Effigy)));
+                    }
                     if (SoulUtility.IsMarked(pawn))
                     {
                         options.Add(new FloatMenuOption("Clear mark", () => SoulUtility.ClearFate(pawn)));
@@ -47,6 +54,18 @@ namespace HollowPawns
                 cmd.Disable("Soul-Locked.");
             }
             return cmd;
+        }
+
+        private static string FateLabel(SoulFate fate)
+        {
+            switch (fate)
+            {
+                case SoulFate.Render: return "Marked: render";
+                case SoulFate.Bind: return "Marked: bind";
+                case SoulFate.Battery: return "Marked: battery";
+                case SoulFate.Effigy: return "Marked: effigy";
+                default: return "Mark soul";
+            }
         }
 
         /// <summary>The Soul-Lock toggle: the safety catch.</summary>

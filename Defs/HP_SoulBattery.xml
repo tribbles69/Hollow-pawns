@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Prisoner battery (4.7) =====================
+       A casket for one living prisoner (Building_SoulBattery). Mark a prisoner "battery" and a warden
+       locks them in; nothing inside ticks (like cryptosleep), so they need no food. It makes 300-900 W
+       by soul grade for 5 days, then they die as a husk and leave essence. Rare tick on the battery. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_PrisonerBattery</defName>
+    <label>prisoner battery</label>
+    <description>A sealed steel casket that holds a living prisoner and draws their soul out as power, a thread at a time. A better soul burns brighter: 300 W from a wretched one, up to 900 W from an exalted one. After five days there is nothing left: they die, and what remains of the soul drops as essence.\n\nMark a prisoner "battery" and a warden will lock them in. They can be released early, alive but badly shaken. It leaks a little corruption every day it runs.</description>
+    <thingClass>HollowPawns.Building_SoulBattery</thingClass>
+    <graphicData>
+      <texPath>Things/Building/HP_PrisonerBattery</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,1)</drawSize>
+    </graphicData>
+    <size>(2,1)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>42</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <tickerType>Rare</tickerType>
+    <designationCategory>Power</designationCategory>
+    <researchPrerequisites>
+      <li>HP_SoulExtraction</li>
+    </researchPrerequisites>
+    <costList>
+      <Steel>120</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <HP_SoulEssence>10</HP_SoulEssence>
+    </costList>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>4000</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <Beauty>-10</Beauty>
+    </statBases>
+    <building>
+      <isPlayerEjectable>false</isPlayerEjectable>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+    </building>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>HollowPawns.CompPowerPlant_SoulBattery</compClass>
+        <basePowerConsumption>-900</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(120,220,230,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <JobDef>
+    <defName>HP_LoadSoulBattery</defName>
+    <driverClass>HollowPawns.JobDriver_LoadSoulBattery</driverClass>
+    <reportString>locking TargetA into the prisoner battery.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <WorkGiverDef>
+    <defName>HP_LoadSoulBattery</defName>
+    <label>lock prisoners into batteries</label>
+    <giverClass>HollowPawns.WorkGiver_LoadSoulBattery</giverClass>
+    <workType>Warden</workType>
+    <priorityInType>58</priorityInType>
+    <verb>lock</verb>
+    <gerund>locking</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+</Defs>

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Blood debts (4.18) =====================
+       An enemy who kills a colonist carries a blood debt (Patch_Pawn_Kill_BloodDebt). Capture them and
+       you can torment them, carve their corpse into a vengeance effigy, or seal their living soul into a
+       wailing effigy (the "effigy" fate on the Reaper's Mark). Code in BloodDebts.cs. -->
+
+  <HediffDef>
+    <defName>HP_BloodDebt</defName>
+    <label>blood debt</label>
+    <description>This one killed someone of your colony. Those who loved the dead remember the face.</description>
+    <hediffClass>HollowPawns.Hediff_BloodDebt</hediffClass>
+    <defaultLabelColor>(0.75, 0.2, 0.2)</defaultLabelColor>
+    <isBad>false</isBad>
+    <everCurableByItem>false</everCurableByItem>
+    <keepOnBodyPartRestoration>true</keepOnBodyPartRestoration>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>HP_Tormented</defName>
+    <label>tormented</label>
+    <description>Repeated, deliberate pain. It fades slowly between sessions.</description>
+    <hediffClass>HollowPawns.Hediff_Tormented</hediffClass>
+    <defaultLabelColor>(0.8, 0.35, 0.35)</defaultLabelColor>
+    <isBad>true</isBad>
+    <initialSeverity>0.15</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.1</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>bruised</label>
+        <painOffset>0.1</painOffset>
+      </li>
+      <li>
+        <minSeverity>0.35</minSeverity>
+        <label>broken</label>
+        <painOffset>0.25</painOffset>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.1</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.7</minSeverity>
+        <label>ruined</label>
+        <painOffset>0.4</painOffset>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.25</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <PrisonerInteractionModeDef>
+    <defName>HP_Torment</defName>
+    <label>torment</label>
+    <listOrder>30</listOrder>
+    <description>A warden will torment this prisoner, at most twice a day. Anyone who loved someone they killed takes grim comfort in it; kind colonists are disturbed. Their faction will not forgive it.</description>
+    <mustBeAwake>false</mustBeAwake>
+    <isNonExclusiveInteraction>true</isNonExclusiveInteraction>
+  </PrisonerInteractionModeDef>
+
+  <JobDef>
+    <defName>HP_TormentPrisoner</defName>
+    <driverClass>HollowPawns.JobDriver_Torment</driverClass>
+    <reportString>tormenting TargetA.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <WorkGiverDef>
+    <defName>HP_TormentPrisoner</defName>
+    <label>torment prisoners</label>
+    <giverClass>HollowPawns.WorkGiver_Warden_Torment</giverClass>
+    <workType>Warden</workType>
+    <priorityInType>55</priorityInType>
+    <verb>torment</verb>
+    <gerund>tormenting</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <!-- ===================== Thoughts ===================== -->
+
+  <ThoughtDef>
+    <defName>HP_Avenging</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>2</durationDays>
+    <stackLimit>5</stackLimit>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>avenging</label>
+        <description>The one who killed them is suffering. Good.</description>
+        <baseMoodEffect>4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_AvengedMemory</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>10</durationDays>
+    <stackLimit>1</stackLimit>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>avenged</label>
+        <description>The debt is paid. Their killer is nothing but a statue now.</description>
+        <baseMoodEffect>8</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_TormentDisturbed</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>2</durationDays>
+    <stackLimit>3</stackLimit>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>prisoner tormented</label>
+        <description>We are torturing a prisoner. Whatever they did, this is wrong.</description>
+        <baseMoodEffect>-5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_HeardEffigyScream</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>1</durationDays>
+    <stackLimit>3</stackLimit>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>heard the effigy scream</label>
+        <description>That sound came out of a statue. There is someone still in there.</description>
+        <baseMoodEffect>-3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_Avenged</defName>
+    <workerClass>HollowPawns.ThoughtWorker_Avenged</workerClass>
+    <validWhileDespawned>false</validWhileDespawned>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>effigy of the killer</label>
+        <description>There they stand, the one who killed someone I loved, cut down and carved for all to see.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+      <li>
+        <label>the killer screams</label>
+        <description>The one who killed someone I loved is sealed in that effigy, alive, forever. I hope it hurts.</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_EffigyDread</defName>
+    <workerClass>HollowPawns.ThoughtWorker_EffigyDread</workerClass>
+    <validWhileDespawned>false</validWhileDespawned>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>wailing effigy nearby</label>
+        <description>It's watching. It's awake in there.</description>
+        <baseMoodEffect>-4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- ===================== Effigies ===================== -->
+
+  <ThingDef Name="HP_EffigyBase" ParentName="ArtBuildingBase" Abstract="True">
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsArt</li>
+    </thingCategories>
+    <size>(1,1)</size>
+    <fillPercent>0.4</fillPercent>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <Mass>12</Mass>
+      <Flammability>0</Flammability>
+      <SellPriceFactor>0.5</SellPriceFactor>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Art">
+        <nameMaker>NamerArtSculpture</nameMaker>
+        <descriptionMaker>ArtDescription_Sculpture</descriptionMaker>
+        <canBeEnjoyedAsArt>true</canBeEnjoyedAsArt>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HP_EffigyBase">
+    <defName>HP_VengeanceEffigy</defName>
+    <label>vengeance effigy</label>
+    <description>A soulsteel figure cast around the corpse of someone who killed one of your own, posed in defeat. Those who loved the dead are comforted to see it.</description>
+    <graphicData>
+      <texPath>Things/Building/HP_VengeanceEffigy</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <Beauty>15</Beauty>
+      <WorkToMake>12000</WorkToMake>
+    </statBases>
+    <costList>
+      <HP_Soulsteel>25</HP_Soulsteel>
+    </costList>
+    <comps>
+      <li Class="HollowPawns.CompProperties_Effigy" />
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HP_EffigyBase">
+    <defName>HP_WailingEffigy</defName>
+    <label>wailing effigy</label>
+    <description>A soulsteel figure with a living soul sealed inside: the soul of someone who killed one of your own. Those who loved the dead are deeply comforted to see it. Everyone else hates being near it. It screams at night, sometimes when someone walks past, and always when raiders come; enemies who hear it may break and run.\n\nIt can be shattered to release the soul as essence.</description>
+    <graphicData>
+      <texPath>Things/Building/HP_WailingEffigy</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <tickerType>Rare</tickerType>
+    <statBases>
+      <Beauty>-5</Beauty>
+      <WorkToMake>12000</WorkToMake>
+    </statBases>
+    <comps>
+      <li Class="HollowPawns.CompProperties_Effigy">
+        <wailing>true</wailing>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>2.5</glowRadius>
+        <glowColor>(150,170,230,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <RecipeDef>
+    <defName>HP_CarveVengeanceEffigy</defName>
+    <label>cast vengeance effigy</label>
+    <description>Cast soulsteel around the corpse of someone who carried a blood debt. Their soul must still be in the body.</description>
+    <jobString>Casting a vengeance effigy.</jobString>
+    <workAmount>12000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Artistic</workSkill>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Sculpt</soundWorking>
+    <unfinishedThingDef>UnfinishedSculpture</unfinishedThingDef>
+    <recipeUsers>
+      <li>TableSculpting</li>
+    </recipeUsers>
+    <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>CorpsesHumanlike</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_Soulsteel</li>
+          </thingDefs>
+        </filter>
+        <count>25</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>CorpsesHumanlike</li>
+      </categories>
+      <thingDefs>
+        <li>HP_Soulsteel</li>
+      </thingDefs>
+      <specialFiltersToDisallow>
+        <li>HP_NotDebtorCorpse</li>
+      </specialFiltersToDisallow>
+    </fixedIngredientFilter>
+    <products>
+      <HP_VengeanceEffigy>1</HP_VengeanceEffigy>
+    </products>
+  </RecipeDef>
+
+  <SpecialThingFilterDef>
+    <defName>HP_NotDebtorCorpse</defName>
+    <label>not a blood debtor</label>
+    <description>Corpses that carried no blood debt, or whose soul is gone.</description>
+    <parentCategory>CorpsesHumanlike</parentCategory>
+    <workerClass>HollowPawns.SpecialThingFilterWorker_NotDebtorCorpse</workerClass>
+    <allowedByDefault>false</allowedByDefault>
+    <configurable>false</configurable>
+  </SpecialThingFilterDef>
+
+  <!-- Placeholder: a generated wail (Sounds/HP/EffigyWail.wav). Replace with a real recording. -->
+  <SoundDef>
+    <defName>HP_EffigyWail</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>HP/EffigyWail</clipPath>
+          </li>
+        </grains>
+        <volumeRange>40~50</volumeRange>
+        <pitchRange>0.85~1.1</pitchRange>
+        <distRange>20~60</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+</Defs>
