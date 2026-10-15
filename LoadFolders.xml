@@ -2,10 +2,12 @@
 <loadFolders>
   <!-- Everything at the root always loads. The Combat Extended folder (soul ammo,
        CE weapon and material patches) only loads when CE is active. The Biotech folder
-       (demons, the hell gate, Hell Unbound) only loads with Biotech. -->
+       (demons, the hell gate, Hell Unbound) only loads with Biotech. The VEF folder
+       (soul pipes and vats) only loads with Vanilla Expanded Framework. -->
   <v1.6>
     <li>/</li>
     <li IfModActive="CETeam.CombatExtended">Mods/CombatExtended</li>
     <li IfModActive="Ludeon.RimWorld.Biotech">Mods/Biotech</li>
+    <li IfModActive="OskarPotocki.VanillaFactionsExpanded.Core">Mods/VEF</li>
   </v1.6>
 </loadFolders>

@@ -607,6 +607,46 @@ def soul_arrows():
     return [("glow", 64, 30, 30, CYAN, 0.35)] + layers
 
 
+def soul_vat():
+    """2x2 squat vat from above: steel rim, glass lid, essence inside."""
+    return [
+        ("glow", 128, 128, 110, CYAN, 0.3),
+        (circle(128, 132, 112), METAL_DARK, 1.0),
+        (circle(128, 128, 104), METAL, 1.0),
+        (circle(128, 128, 84), (40, 60, 66), 1.0),
+        (circle(128, 128, 76), CYAN, 0.6),
+        (ring(128, 128, 50, 3), CYAN_PALE, 0.5),
+        (union(*[rrect(128 + dx, 128, 3, 86, 1) for dx in (-40, 0, 40)]), METAL_DARK, 0.9),
+        (union(*[circle(128 + 96 * c, 128 + 96 * s_, 7) for c, s_ in ((1, 0), (-1, 0), (0, 1), (0, -1))]), METAL_DARK, 1.0),
+    ]
+
+
+def soul_valve():
+    """Valve wheel on a short pipe."""
+    return [
+        (rrect(64, 64, 60, 12, 3), (120, 220, 230), 0.7),
+        (circle(64, 64, 26), METAL_DARK, 1.0),
+        (ring(64, 64, 22, 5), METAL, 1.0),
+        (union(rrect(64, 64, 20, 3, 1), rrect(64, 64, 3, 20, 1)), METAL, 1.0),
+        (circle(64, 64, 6), CYAN, 1.0),
+    ]
+
+
+def soul_basin(drain):
+    """Tap or drain: a square steel basin; the drain has a grate, the tap a spout."""
+    layers = [
+        (rrect(64, 66, 52, 50, 8), METAL_DARK, 1.0),
+        (rrect(64, 64, 44, 42, 6), METAL, 1.0),
+        (rrect(64, 64, 34, 32, 4), (40, 60, 66), 1.0),
+        (rrect(64, 64, 30, 28, 3), CYAN, 0.45),
+    ]
+    if drain:
+        layers.append((union(*[rrect(64, 46 + k * 9, 30, 1.8, 1) for k in range(5)]), METAL_DARK, 1.0))
+    else:
+        layers += [(rrect(64, 22, 8, 14, 3), METAL_DARK, 1.0), (circle(64, 40, 5), CYAN_PALE, 1.0)]
+    return layers
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
@@ -653,3 +693,8 @@ if __name__ == "__main__":
     write_png(os.path.join(i, "Equipment", "HP_BoneFetish.png"), render(128, bone_fetish()))
     write_png(os.path.join(i, "Equipment", "HP_WraithLantern.png"), render(128, wraith_lantern()))
     write_png(os.path.join(i, "HP_SoulArrow.png"), render(128, soul_arrows()))
+    # VEF soul pipes (Mods/VEF)
+    write_png(os.path.join(b, "HP_SoulVat.png"), render(256, soul_vat()))
+    write_png(os.path.join(b, "HP_SoulValve.png"), render(128, soul_valve()))
+    write_png(os.path.join(b, "HP_SoulTap.png"), render(128, soul_basin(False)))
+    write_png(os.path.join(b, "HP_SoulDrain.png"), render(128, soul_basin(True)))

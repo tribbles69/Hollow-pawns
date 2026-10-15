@@ -158,6 +158,19 @@ The Inquisitors and the Gravedigger wait for salt, fallen idols and ghosts. The 
 | **Bone fetish** (crafting spot or tailoring bench; wood and 3 essence) | Worn at the throat (neck, skin layer). **Halves** a reaper's chance against the wearer (a new *reap ward* stat). |
 | **Wraith lantern** (smithy, research *Soul extraction*; 30 steel and 15 essence) | Worn on the belt. **Unshutter lantern**: every enemy within 9 cells in line of sight takes soul shock, and about half break and run. Once a day. |
 
+### Soul pipes (only with Vanilla Expanded Framework)
+If VEF is loaded, a **Soul pipes** build tab appears (research *Industrial harvest*). All on VEF's pipe system, nothing new in C#.
+
+| Thing | What it does |
+|---|---|
+| **Soul pipe** | Carries essence. Any building on the network that burns essence as fuel (soul generator, essence shrine, fountain of youth, soul cradle) **tops itself up** from it. |
+| **Essence drain** | Haulers bring essence; it goes into the pipes. |
+| **Soul vat** (2x2) | Holds 500 essence. *Draw essence* gives 25 as a stack. If it's wrecked it vents a soul burst sized by what's in it. |
+| **Essence tap** | Fills with stacks from the network for haulers. |
+| **Soul valve** | Shuts the flow. |
+
+No soulsteel processor: VEF's processor can't make soulsteel the way the crucible does. The pipes borrow vanilla's power conduit art, tinted.
+
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
 - **Soul guns fire beams.** Like CE's own lasers: one shared **soul charge** ammo (100 from 6 soulsteel + 4 essence, so about 200 shots per corpse), and each gun maps it to its own beam with its own damage and penetration, plus a one-cell soul blast on impact.
@@ -258,6 +271,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Reaper's shroud: wear it with the scythe: the stats panel shows reap chance +5%; reaps come noticeably more often.
 - [ ] Soul bow: shoot a raider a few times: soul shock appears in their health tab. Under CE: the bow's ammo list shows soul arrows next to stone, steel and plasteel; the soul arrow bill is at the crafting spot and smithy.
 - [ ] Bone fetish: wear it: stats show reap ward 50%. Wraith lantern: wear it in a fight, press *Unshutter*: message counts who fled, button greys out for a day.
+- [ ] Soul pipes (with VEF): the *Soul pipes* tab appears after *Industrial harvest*. Drain to vat to soul generator: essence hauled to the drain fills the vat, the generator refuels itself. *Draw essence* on the vat drops 25. A tap fills with stacks. Shut a valve: the far side stops filling. Without VEF: no tab, no errors.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
@@ -270,6 +284,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - v0.8, unverified until tested in game: setting `AgeBiologicalTicks` directly (and `ResetAgeReversalDemand` with Ideology), `Pawn_HealthTracker.RestorePart` on a missing part, a pawn entering a `Building_Casket` subclass through my own job (copied from vanilla's cryptosleep job), the soul cradle's position on the research tab.
 - v0.8, unverified until tested in game: a `Pawn.Kill` prefix returning false (and whether anything else calls `Kill` past `ShouldBeDead` while the ward is up), `preventsDeath` on a hediff with a `Consciousness` cap, new `StatDef`s picking up apparel `equippedStatOffsets` on pawns.
 - v0.8, unverified until tested in game: `graphicData` `color` tinting borrowed vanilla textures (soul bow, reliquary armour, soul arrow projectile), a `OnSkin`/`Neck` apparel piece fitting with every vanilla outfit, CE's `AmmoArrowBase` with its trade tags replaced, and `CompGetWornGizmosExtra` showing the lantern button.
+- v0.8, unverified until tested in game: the VEF soul pipes (VEF's `PipeSystem` field names are copied from Vanilla Chemfuel Expanded, not checked against VEF's code; `Custom3` link flag shared with some other mod; `UI/Designators/Deconstruct` as the deconstruct icon; `CompProperties_ExplosiveContent` with `HP_SoulBurst`; tinting the vanilla conduit atlas).
 - v0.7, unverified until tested in game: the rite job (carrying a restrained prisoner and laying them on the altar cell; vanilla `Toils_Haul.StartCarryThing` on a pawn), `Building_CloneVat` re-implementing `IBillGiver.CurrentlyUsableForBills` (vanilla's isn't virtual), `ResurrectionUtility.TryResurrect` on rotted husks, the corruption overlay (`CellBoolDrawer`) and its toggle among the play settings, `DataExposeUtility.LookByteArray` for the corruption grid, thralls generated with a forced xenotype that has `canGenerateAsCombatant` false, CE armour values for the conscript vest and helmet (set by eye below CE's steel flak vest).
 - v0.6, unverified until tested in game: adding a faction to an existing save with `FactionGenerator.NewGeneratedFaction` (it will have no world bases in that save, and Ideology must give it an ideoligion); the storyteller firing an incident whose `baseChance` is 0 through an on/off cycle; demon pawn kinds inheriting from non-abstract vanilla kinds (`ThrasherBase`, `PirateKindBase`, `MercenaryHeavyBase`); `CompProperties_CauseHediff_Apparel` with no body part.
 - v0.5, unverified until tested in game: `HediffDef.preventsDeath` (no vanilla XML uses it; the game code reads it in `ShouldBeDead`/`CheckForStateChange`), the soul jar surviving minify and save/load, and the soul broker caravan patch on the abstract `OutlanderFactionBase`.

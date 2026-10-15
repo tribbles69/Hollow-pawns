@@ -50,6 +50,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Longevity (4.10) | Fountain of youth (essence bath, 1-2 years, chance to cure a chronic condition, five-day cooldown) and soul cradle (spacer casket, three-day powered cycle on 30 essence: 5-8 years, all chronic conditions, one part regrown). |
 | Unique armour (4.12) | Reliquary armour (two essence charges that each cancel a death and leave the wearer downed for a day; recharged at the crucible; made with a filled vessel, so it is soul-bound) and the reaper's shroud (+5% reap chance through a new stat). |
 | Lower-tech soul gear (4.13) | Soul bow (soul shock on every hit; CE soul arrows in its own ammo set), bone fetish (halves reap chance against the wearer) and wraith lantern (once a day: soul shock and panic on enemies within 9 cells). Not yet: javelins. |
+| Soul pipes (4.14) | Optional `Mods/VEF` folder, loaded only with Vanilla Expanded Framework: soul pipe, valve, drain, vat (vents a soul burst when wrecked), tap. Auto-refuels anything that burns essence. XML only. No soulsteel processor. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -187,6 +188,7 @@ Mostly XML (vanilla drug system handles highs, tolerance and addiction).
 - Medieval: soulsteel blades already work via stuff. Unique: a **wraith lantern**, a carried light that frightens nearby enemies into fleeing (vanilla flee mechanic).
 
 ### 4.14 Soul vats and pipes
+**Built in v0.8.** Decided while building: optional, not a hard dependency (only loads with VEF); no soulsteel processor (VEF's processor can't do it); the vat vents a soul burst instead of exploding in fire.
 Like Dubwise's Rimefeller / Dubs Bad Hygiene. Use the **Vanilla Expanded Framework PipeSystem** (hard dependency on VEF): Thing to resource (extractor), Resource storage (vats), Resource to power (generator by pipe), Resource processor (soulsteel), Refill building with pipes (weapons or turrets). Writing a pipe network from scratch would be the biggest C# job in the mod: don't.
 
 ### 4.15 Soul-eating xenotype (left for later)

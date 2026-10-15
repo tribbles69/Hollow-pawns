@@ -4,4 +4,10 @@
   <!-- Shown on soul essence stacks (CompProperties_Explosive.extraInspectStringKey). -->
   <HP_VolatileInspect>Volatile: spread your stock.</HP_VolatileInspect>
 
+  <!-- Soul pipes (Mods/VEF, only with Vanilla Expanded Framework). -->
+  <HP_SoulValve>Toggle essence flow</HP_SoulValve>
+  <HP_SoulValveDesc>Open or shut the valve. A shut valve splits the soul pipe network in two.</HP_SoulValveDesc>
+  <HP_ExtractEssence>Draw essence</HP_ExtractEssence>
+  <HP_ExtractEssenceDesc>Draw 25 essence out of the vat as a stack.</HP_ExtractEssenceDesc>
+
 </LanguageData>
