@@ -413,6 +413,10 @@ namespace HollowPawns
             return null;
         }
 
+        /// <summary>Bales from one body: two for a human, by body size for animals (1 to 6). A bale renders to 46 meat.</summary>
+        public static int CarrionBalesFor(Pawn inner) =>
+            inner.RaceProps.Humanlike ? 2 : Mathf.Clamp(Mathf.RoundToInt(inner.BodySize * 2f), 1, 6);
+
         public static bool Grindable(Corpse corpse)
         {
             Pawn p = corpse.InnerPawn;
@@ -433,7 +437,7 @@ namespace HollowPawns
                 SoulUtility.DropEssence(output, map, EssencePerSoul, SoulUtility.EssenceDefAt(inner, Position, map));
             }
             Thing bale = ThingMaker.MakeThing(HP_DefOf.HP_CarrionBale);
-            bale.stackCount = inner.RaceProps.Humanlike ? 2 : Mathf.Clamp(Mathf.RoundToInt(inner.BodySize * 2f), 1, 6);
+            bale.stackCount = CarrionBalesFor(inner);
             GenPlace.TryPlaceThing(bale, output, map, ThingPlaceMode.Near);
             foreach (Thing product in corpse.ButcherProducts(null, 0.6f).ToList())
             {
@@ -441,6 +445,24 @@ namespace HollowPawns
             }
             corpse.Destroy();
             Corruption.Spill(Position, map, 60, 4.9f);
+        }
+    }
+
+    /// <summary>Bind carrion yields bales by body size (as the grinder does), not a flat two, so small animals can't be turned into a human's worth of meat.</summary>
+    [HarmonyPatch(typeof(GenRecipe), nameof(GenRecipe.MakeRecipeProducts))]
+    public static class Patch_GenRecipe_BindCarrion
+    {
+        public static IEnumerable<Thing> Postfix(IEnumerable<Thing> __result, RecipeDef recipeDef, List<Thing> ingredients)
+        {
+            Pawn inner = recipeDef == HP_DefOf.HP_BindCarrion ? ingredients?.OfType<Corpse>().FirstOrDefault()?.InnerPawn : null;
+            foreach (Thing t in __result)
+            {
+                if (inner != null && t.def == HP_DefOf.HP_CarrionBale)
+                {
+                    t.stackCount = Building_CorpseGrinder.CarrionBalesFor(inner);
+                }
+                yield return t;
+            }
         }
     }
 

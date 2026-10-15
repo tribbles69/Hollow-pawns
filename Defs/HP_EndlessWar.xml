@@ -6,7 +6,7 @@
   <ThingDef ParentName="ResourceBase">
     <defName>HP_CarrionBale</defName>
     <label>carrion bale</label>
-    <description>Bodies, human and animal, bound tight with wire and tar into a block you can build with. It smells exactly as you'd expect.</description>
+    <description>Bodies, human and animal, bound tight with wire and tar into a block you can build with, render back into meat, or feed a clone vat. It smells exactly as you'd expect.</description>
     <graphicData>
       <texPath>Things/Item/HP_CarrionBale</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -29,7 +29,7 @@
   <RecipeDef>
     <defName>HP_BindCarrion</defName>
     <label>bind carrion</label>
-    <description>Bind a corpse into carrion bales for building. Never children.</description>
+    <description>Bind a corpse into carrion bales for building or food: two from a human, more or fewer by body size. Never children.</description>
     <jobString>Binding carrion.</jobString>
     <workAmount>800</workAmount>
     <workSpeedStat>ButcheryFleshSpeed</workSpeedStat>
@@ -70,8 +70,45 @@
         <li>HP_AllowEnsouled</li>
       </specialFiltersToDisallow>
     </defaultIngredientFilter>
+    <!-- Placeholder count: Patch_GenRecipe_BindCarrion sets it from the corpse's body size, as the grinder does. -->
     <products>
       <HP_CarrionBale>2</HP_CarrionBale>
+    </products>
+  </RecipeDef>
+
+  <!-- Render carrion: a bale back into meat. A human corpse yields about 92 meat unbutchered and binds
+       into 2 bales, so a bale is worth 46. Human meat, whatever went into it. -->
+  <RecipeDef>
+    <defName>HP_RenderCarrion</defName>
+    <label>render carrion</label>
+    <description>Cut a carrion bale back into meat. It's human meat, whatever went into the bale.</description>
+    <jobString>Rendering carrion.</jobString>
+    <workAmount>400</workAmount>
+    <workSpeedStat>ButcheryFleshSpeed</workSpeedStat>
+    <workSkill>Cooking</workSkill>
+    <effectWorking>ButcherFlesh</effectWorking>
+    <soundWorking>Recipe_ButcherCorpseFlesh</soundWorking>
+    <recipeUsers>
+      <li>TableButcher</li>
+      <li>ButcherSpot</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_CarrionBale</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HP_CarrionBale</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Meat_Human>46</Meat_Human>
     </products>
   </RecipeDef>
 

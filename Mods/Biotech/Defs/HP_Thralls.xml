@@ -222,6 +222,43 @@
     </fixedIngredientFilter>
   </RecipeDef>
 
+  <RecipeDef>
+    <defName>HP_StartThrallCarrion</defName>
+    <label>start thrall culture (carrion)</label>
+    <description>Seed the vat with carrion bales, steel and essence. It grows a thrall over three days.</description>
+    <workerClass>HollowPawns.RecipeWorker_StartThrall</workerClass>
+    <jobString>Starting a thrall culture.</jobString>
+    <workAmount>1500</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <recipeUsers>
+      <li>HP_CloneVat</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter><thingDefs><li>HP_CarrionBale</li></thingDefs></filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter><thingDefs><li>Steel</li></thingDefs></filter>
+        <count>25</count>
+      </li>
+      <li>
+        <filter><thingDefs><li>HP_SoulEssence</li></thingDefs></filter>
+        <count>5</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HP_CarrionBale</li>
+        <li>Steel</li>
+        <li>HP_SoulEssence</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+  </RecipeDef>
+
   <WorkGiverDef>
     <defName>HP_DoBillsCloneVat</defName>
     <label>tend the clone vats</label>
