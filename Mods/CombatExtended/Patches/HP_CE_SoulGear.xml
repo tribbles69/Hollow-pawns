@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Soul bow: CE's recurve bow numbers (Patches/Core/ThingDefs_Misc/Weapons_RangedNeolithic.xml),
+       with its own ammo set so it can fire soul arrows. -->
+  <Operation Class="CombatExtended.PatchOperationMakeGunCECompatible">
+    <defName>HP_SoulBow</defName>
+    <statBases>
+      <SightsEfficiency>0.8</SightsEfficiency>
+      <ShotSpread>1</ShotSpread>
+      <SwayFactor>2</SwayFactor>
+      <Bulk>4.00</Bulk>
+      <RangedWeapon_Cooldown>1</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <WoodLog>25</WoodLog>
+      <HP_SoulEssence>5</HP_SoulEssence>
+    </costList>
+    <Properties>
+      <verbClass>CombatExtended.Verb_ShootCE</verbClass>
+      <hasStandardCommand>true</hasStandardCommand>
+      <defaultProjectile>HP_Projectile_StreamlinedArrow_Soul</defaultProjectile>
+      <warmupTime>1.2</warmupTime>
+      <range>22</range>
+      <soundCast>Bow_Recurve</soundCast>
+    </Properties>
+    <AmmoUser>
+      <ammoSet>HP_AmmoSet_SoulBow</ammoSet>
+      <AmmoGenPerMagOverride>5</AmmoGenPerMagOverride>
+    </AmmoUser>
+    <FireModes />
+    <weaponTags>
+      <li>CE_Bow</li>
+    </weaponTags>
+    <researchPrerequisite>RecurveBow</researchPrerequisite>
+    <AllowWithRunAndGun>false</AllowWithRunAndGun>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="HP_SoulBow"]/tools</xpath>
+    <value>
+      <tools>
+        <li Class="CombatExtended.ToolCE">
+          <label>limb</label>
+          <capacities>
+            <li>Blunt</li>
+          </capacities>
+          <power>7</power>
+          <cooldownTime>1.6</cooldownTime>
+          <armorPenetrationBlunt>0.65</armorPenetrationBlunt>
+        </li>
+      </tools>
+    </value>
+  </Operation>
+
+  <!-- Fetish and lantern: small carried things. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HP_BoneFetish"]/statBases</xpath>
+    <value>
+      <Bulk>0.5</Bulk>
+      <WornBulk>0</WornBulk>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HP_WraithLantern"]/statBases</xpath>
+    <value>
+      <Bulk>3</Bulk>
+      <WornBulk>1</WornBulk>
+    </value>
+  </Operation>
+
+</Patch>

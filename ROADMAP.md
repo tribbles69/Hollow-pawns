@@ -49,6 +49,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Scenarios (4.33) | The Coven (altar, shackled captive, corrupted ground), Endless War (Biotech: thralls, forge, grinder, generator, frequent raids) and the Escapee (lattice holding a loved one, hunted). Custom scenario parts for buildings, captives, corrupted ground, thralls and the lattice. Not yet: the Inquisitors and the Gravedigger, precepts. |
 | Longevity (4.10) | Fountain of youth (essence bath, 1-2 years, chance to cure a chronic condition, five-day cooldown) and soul cradle (spacer casket, three-day powered cycle on 30 essence: 5-8 years, all chronic conditions, one part regrown). |
 | Unique armour (4.12) | Reliquary armour (two essence charges that each cancel a death and leave the wearer downed for a day; recharged at the crucible; made with a filled vessel, so it is soul-bound) and the reaper's shroud (+5% reap chance through a new stat). |
+| Lower-tech soul gear (4.13) | Soul bow (soul shock on every hit; CE soul arrows in its own ammo set), bone fetish (halves reap chance against the wearer) and wraith lantern (once a day: soul shock and panic on enemies within 9 cells). Not yet: javelins. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -181,6 +182,7 @@ Mostly XML (vanilla drug system handles highs, tolerance and addiction).
 - **Reaper's shroud:** hooded cloak that raises the scythe's reap chance; stacks with Melee skill.
 
 ### 4.13 Lower-tech soul weapons (to brainstorm further)
+**Built in v0.8.** Decided while building: javelins left out (vanilla has none to copy); the lantern is a worn-gizmo button rather than a reloadable verb; under CE the soul bow fires ordinary arrows too, and only soul arrows shock.
 - Neolithic: soul-dipped arrows and javelins (vanilla bows have no ammo, so a soulsteel bow; under CE a real arrow type). A bone fetish charm that makes the wearer harder to reap.
 - Medieval: soulsteel blades already work via stuff. Unique: a **wraith lantern**, a carried light that frightens nearby enemies into fleeing (vanilla flee mechanic).
 

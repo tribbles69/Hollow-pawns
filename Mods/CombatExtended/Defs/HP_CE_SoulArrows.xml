@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Soul arrows for the soul bow under CE (4.13). Built like CE's own venom arrows
+       (Defs/Ammo/Neolithic/Arrows.xml): a streamlined arrow with its own damage def. The soul bow's
+       ammo set takes the ordinary streamlined arrows too. -->
+
+  <CombatExtended.AmmoCategoryDef>
+    <defName>HP_SoulArrow</defName>
+    <label>soul arrow</label>
+    <labelShort>soul</labelShort>
+    <description>The arrow head is steel, dipped in soul essence. Hits leave soul shock on top of the wound.</description>
+    <advanced>true</advanced>
+  </CombatExtended.AmmoCategoryDef>
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="AmmoArrowBase">
+    <defName>HP_Ammo_Arrow_Soul</defName>
+    <label>arrow (soul)</label>
+    <description>A steel-headed arrow dipped in soul essence. Hits leave soul shock on top of the wound.</description>
+    <graphicData>
+      <texPath>Things/Item/HP_SoulArrow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <tradeTags Inherit="False">
+      <li>CE_PreIndustrialAmmo</li>
+    </tradeTags>
+    <ammoClass>HP_SoulArrow</ammoClass>
+    <generateAllowChance>0</generateAllowChance>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseStreamlinedArrowProjectile">
+    <defName>HP_Projectile_StreamlinedArrow_Soul</defName>
+    <label>streamlined arrow (soul)</label>
+    <graphicData>
+      <texPath>Things/Projectile/Arrows/Arrow_Steel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(150,230,240)</color>
+    </graphicData>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <damageDef>HP_SoulArrow</damageDef>
+      <damageAmountBase>9</damageAmountBase>
+      <armorPenetrationSharp>1.0</armorPenetrationSharp>
+      <armorPenetrationBlunt>5.9</armorPenetrationBlunt>
+      <preExplosionSpawnChance>0.6</preExplosionSpawnChance>
+      <preExplosionSpawnThingDef>Ammo_Arrow_Steel</preExplosionSpawnThingDef>
+    </projectile>
+  </ThingDef>
+
+  <CombatExtended.AmmoSetDef>
+    <defName>HP_AmmoSet_SoulBow</defName>
+    <label>arrows</label>
+    <ammoTypes>
+      <HP_Ammo_Arrow_Soul>HP_Projectile_StreamlinedArrow_Soul</HP_Ammo_Arrow_Soul>
+      <Ammo_Arrow_Stone>Projectile_StreamlinedArrow_Stone</Ammo_Arrow_Stone>
+      <Ammo_Arrow_Steel>Projectile_StreamlinedArrow_Steel</Ammo_Arrow_Steel>
+      <Ammo_Arrow_Plasteel>Projectile_StreamlinedArrow_Plasteel</Ammo_Arrow_Plasteel>
+    </ammoTypes>
+  </CombatExtended.AmmoSetDef>
+
+  <RecipeDef ParentName="AmmoRecipeNeolithicBase">
+    <defName>HP_MakeAmmo_Arrow_Soul</defName>
+    <label>make soul arrows x10</label>
+    <description>Craft 10 soul arrows.</description>
+    <jobString>Making soul arrows.</jobString>
+    <workAmount>600</workAmount>
+    <recipeUsers>
+      <li>CraftingSpot</li>
+      <li>FueledSmithy</li>
+      <li>ElectricSmithy</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_SoulEssence</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>WoodLog</li>
+        <li>Steel</li>
+        <li>HP_SoulEssence</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HP_Ammo_Arrow_Soul>10</HP_Ammo_Arrow_Soul>
+    </products>
+  </RecipeDef>
+
+</Defs>

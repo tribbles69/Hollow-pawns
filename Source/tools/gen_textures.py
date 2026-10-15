@@ -565,6 +565,48 @@ def soul_cradle():
     ]
 
 
+def bone_fetish():
+    """Finger bones on a cord around a knot of hair."""
+    bone, hair = (225, 215, 190), (70, 50, 40)
+    cord = ring(64, 50, 34, 3)
+    bones = union(*[rrect(64 + dx, 86 + abs(dx) * 0.2, 4, 14, 4) for dx in (-18, -9, 0, 9, 18)])
+    return [
+        (intersect(cord, rrect(64, 74, 40, 30, 0)), (110, 80, 55), 1.0),
+        (bones, bone, 1.0),
+        (circle(64, 76, 10), hair, 1.0),
+        (circle(64, 76, 4), CYAN, 0.8),
+    ]
+
+
+def wraith_lantern():
+    """Iron lantern, shutters half open, a pale flame."""
+    return [
+        ("glow", 64, 72, 44, CYAN, 0.45),
+        (ring(64, 22, 10, 3), METAL_DARK, 1.0),
+        (rrect(64, 36, 22, 6, 2), METAL_DARK, 1.0),
+        (rrect(64, 72, 24, 32, 4), METAL, 1.0),
+        (rrect(64, 72, 16, 26, 3), (40, 60, 66), 1.0),
+        (union(circle(64, 78, 9), poly([(56, 76), (72, 76), (64, 56)])), CYAN, 0.9),
+        (circle(64, 78, 4), CYAN_PALE, 1.0),
+        (rrect(48, 72, 3, 30, 1), METAL_DARK, 1.0),
+        (rrect(80, 72, 3, 30, 1), METAL_DARK, 1.0),
+        (rrect(64, 108, 26, 5, 2), METAL_DARK, 1.0),
+    ]
+
+
+def soul_arrows():
+    """A small bundle of arrows with glowing heads."""
+    layers = []
+    for k, dx in enumerate((-14, 0, 14)):
+        x = 64 + dx
+        layers += [
+            (poly([(x - 2, 104), (x + 2, 104), (x + 2 + dx * 0.4, 34), (x - 2 + dx * 0.4, 34)]), (150, 115, 75), 1.0),
+            (poly([(x - 7 + dx * 0.4, 36), (x + 7 + dx * 0.4, 36), (x + dx * 0.4, 18)]), CYAN, 1.0),
+            (poly([(x - 6, 112), (x + 6, 112), (x + 2, 98), (x - 2, 98)]), (200, 200, 205), 1.0),
+        ]
+    return [("glow", 64, 30, 30, CYAN, 0.35)] + layers
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
@@ -608,3 +650,6 @@ if __name__ == "__main__":
     write_png(os.path.join(b, "HP_WailingEffigy.png"), render(128, effigy(True)))
     write_png(os.path.join(b, "HP_FountainOfYouth.png"), render(256, fountain_of_youth()))
     write_png(os.path.join(b, "HP_SoulCradle.png"), render(128, soul_cradle(), 256))
+    write_png(os.path.join(i, "Equipment", "HP_BoneFetish.png"), render(128, bone_fetish()))
+    write_png(os.path.join(i, "Equipment", "HP_WraithLantern.png"), render(128, wraith_lantern()))
+    write_png(os.path.join(i, "HP_SoulArrow.png"), render(128, soul_arrows()))
