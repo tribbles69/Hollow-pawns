@@ -116,6 +116,10 @@ namespace HollowPawns
             {
                 BloodDebts.Record(killer, __instance, __state);
             }
+            if (__instance.Dead)
+            {
+                Profaned.OnPawnDied(__instance);
+            }
         }
     }
 

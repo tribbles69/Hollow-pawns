@@ -33,6 +33,7 @@ namespace HollowPawns
         public static HediffDef HP_ReanimatedHusk;
         public static HediffDef HP_StandingGuard;
         public static HediffDef HP_Shackled;
+        public static HediffDef HP_SoulShard;
         public static HediffDef HP_FaceTaken;
         public static ThingDef HP_FaceMask;
         public static ThoughtDef HP_FaceFlayed;

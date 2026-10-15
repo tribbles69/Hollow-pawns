@@ -91,7 +91,8 @@ namespace HollowPawns
         /// essence instead of clean. Always false without Biotech.
         /// </summary>
         public static bool IsCorrupted(Pawn pawn) =>
-            HP_DefOf.HP_CorruptedSoul != null && pawn?.genes != null && pawn.genes.HasActiveGene(HP_DefOf.HP_CorruptedSoul);
+            (HP_DefOf.HP_CorruptedSoul != null && pawn?.genes != null && pawn.genes.HasActiveGene(HP_DefOf.HP_CorruptedSoul))
+            || Profaned.IsProfaned(pawn) || Profaned.ShardOf(pawn) != null;
 
         /// <summary>The essence this pawn's soul turns into: corrupted for demons, clean for everyone else.</summary>
         public static ThingDef EssenceDefFor(Pawn pawn) => IsCorrupted(pawn) ? HP_DefOf.HP_CorruptedEssence : HP_DefOf.HP_SoulEssence;

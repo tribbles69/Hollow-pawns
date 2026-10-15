@@ -53,6 +53,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Soul pipes (4.14) | Optional `Mods/VEF` folder, loaded only with Vanilla Expanded Framework: soul pipe, valve, drain, vat (vents a soul burst when wrecked), tap. Auto-refuels anything that burns essence. XML only. No soulsteel processor. |
 | Full-kit apparel sets (4.22) | `gen_apparel_sets.py`: six sets (gravecloth, ossuary plate, mourner's kit, soulsteel kit, wraithweave, reliquary kit) built from vanilla originals, checked clash-free and complete against the game's Human body with and without CE; CE adds webbing, backpack and shield per set and mirrors CE's patches. Full-kit hediff on wearing every piece. Art borrowed and tinted. |
 | Flayed faces (4.23) | Take-face butcher bill (corpse marked, not used up) and flay-face surgery (violation, lasting scar and mood). Named masks with social thoughts, a horror for whoever loved the face, and Avenged for blood-debt avengers. |
+| The Profaned (4.32) | No hard dependency: genes looked up by name, revival patched by hand only if its type exists. Profaned souls count as corrupted; Cursebearers plant wretched soul shards (caster's residue) in what they raise; a dead Cursebearer collapses everything it raised. Not yet: Profaned blood and bones as cult inputs. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -476,6 +477,7 @@ Bulk, automated, crude. The industrial-scale answer to a pile of raid corpses; t
 - The loop it closes: raid → grinder → bales into walls, essence into ammo, line forge arms the thralls → next raid.
 
 ### 4.32 Compatibility: The Profaned
+**Built in v0.8.** Checked against the mod's own 1.6 files: revival runs through `Profaned.Utility_Profaned.BestowCurse`, the undead gene is `BotchJob_UndeadPsysiology`, the Cursebearer gene `BotchJob_Cursebearer`. Decided while building: no `Mods/Profaned` folder needed (all C#, nothing loads without it); the collapse kills the raised again rather than just weakening them.
 Optional patch for *The Profaned* (Botch_Job; Biotech xenotype of partly decayed undead humans, hostile faction, Cursebearers who raise the dead, its own soul gems, wraiths and corrupted blood). Lives in `Mods/Profaned/`, loaded only when that mod is active via `LoadFolders.xml`, like the CE folder. Does nothing without it.
 - **Profaned have souls, corrupted ones (decided 13 Oct 2026).** `SoulUtility` treats them as ensouled adults: they can be rendered or bound. Their essence comes out as **corrupted essence** (4.3) and they're comfortable on corrupted ground (4.28). A ready-made cult-side faction and a natural enemy for purist runs.
 - **Cursebearers share their soul.** Raising a husk doesn't bring the dead person back; their soul is gone. The Cursebearer plants a shard of its own corrupted soul in the empty body (like reimplanting a xenogerm in Biotech). So the rule holds: the risen body has a soul, just not its own.

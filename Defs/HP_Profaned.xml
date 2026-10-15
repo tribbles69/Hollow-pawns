@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Compatibility with The Profaned (4.32). Only ever given when that mod's Cursebearers raise the
+       dead (Profaned.cs patches its revival by hand, only if it's loaded); harmless otherwise. -->
+  <HediffDef>
+    <defName>HP_SoulShard</defName>
+    <hediffClass>HollowPawns.Hediff_SoulShard</hediffClass>
+    <label>soul shard</label>
+    <description>This body's own soul is long gone. What moves it is a splinter of the soul of the Cursebearer who raised it: a wretched, corrupted thing. If that Cursebearer dies, the splinter goes out, and so does this.</description>
+    <defaultLabelColor>(0.6, 0.4, 0.7)</defaultLabelColor>
+    <isBad>false</isBad>
+    <everCurableByItem>false</everCurableByItem>
+  </HediffDef>
+
+</Defs>

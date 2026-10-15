@@ -39,6 +39,11 @@ namespace HollowPawns
         /// </summary>
         public static SoulGrade Of(Pawn pawn)
         {
+            // A Cursebearer's shard is always a wretched soul (4.32).
+            if (Profaned.ShardOf(pawn) != null)
+            {
+                return SoulGrade.Wretched;
+            }
             if (pawn?.skills == null)
             {
                 return SoulGrade.Common;
@@ -94,6 +99,11 @@ namespace HollowPawns
         /// </summary>
         public static string ResidueOf(Pawn pawn)
         {
+            Hediff_SoulShard shard = Profaned.ShardOf(pawn);
+            if (shard != null)
+            {
+                return shard.residue;
+            }
             var traits = pawn.story?.traits?.allTraits;
             if (traits != null && traits.Count > 0 && Rand.Chance(0.5f))
             {
