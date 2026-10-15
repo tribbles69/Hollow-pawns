@@ -102,7 +102,7 @@ Taking and spending souls stains the ground and the people who do it. Toggle the
 | **Stand guard** (button on thralls and husks) | Drafted in place, hunger at a tenth, no tiredness. They stand down on their own when hungry. |
 | **Carrion** | *Bind carrion* at a butcher table or spot turns an adult human or animal corpse (never a child) into carrion bales: 2 from a human, 1 to 6 from animals by body size (the grinder uses the same rule). *Render carrion* turns a bale back into 46 human meat (a human corpse unbutchered is about 92), and a clone vat can start a thrall from 2 bales instead of 60 meat. **Carrion walls** (Structure, 2 bales) rot about 1% a day above freezing, leak rot stink, burn well and look awful. |
 | **Corpse grinder** (3x3, 600W; research *Industrial harvest*) | Grinds corpses left next to it (make a stockpile there): carrion bales, 4 essence from an adult human soul, meat and leather. No worker, no husk, never children, heavy corruption. One corpse per 1000 ticks while powered. |
-| **Line forge** (4x2, 500W; research *Industrial harvest*) | Turns steel and components left next to it into conscript kit, no worker: a conscript rifle (bayonet, poor accuracy, 5.56 under CE), conscript helmet and vest, or the full kit. Near-worthless, no quality. |
+| **Line forge** (4x2, 500W; research *Industrial harvest*) | Turns steel and components left next to it into conscript kit, no worker: a conscript rifle (bayonet, poor accuracy, 5.56 under CE), conscript helmet and vest, or the full kit. Near-worthless, no quality. A *Stop at* setting pauses it once that many of each piece are lying around the colony. |
 
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
@@ -184,6 +184,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Bind carrion at the butcher table, build carrion walls: they lose hit points slowly when warm and leak rot stink; frozen ones don't.
 - [ ] Corpse grinder: stockpile corpses next to it, power it: bales, meat, leather and a little essence appear at its front, corpses vanish one at a time, heavy corruption. A child corpse is left alone.
 - [ ] Line forge: choose *full conscript kit*, drop 100 steel and a component next to it: after a while a conscript rifle, helmet and vest appear. Under CE the rifle takes 5.56.
+- [ ] Line forge *Stop at 5*: it pauses (inspect says *paused*) once 5 of each piece are on the map, and starts again when colonists equip some.
 - [ ] With CE: compare a soulsteel and a plasteel armour piece; make soul charges and check each soul gun fires cyan beams with blasts; soul-charge some 5.56 and load it into an assault rifle.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)

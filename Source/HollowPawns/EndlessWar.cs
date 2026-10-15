@@ -485,6 +485,9 @@ namespace HollowPawns
 
         private Product product = Product.Off;
         private int workLeft = -1;
+        /// <summary>Stop starting new pieces once this many of each item lie on the map (0 = no limit). Worn or carried kit isn't counted.</summary>
+        private int stopAt = 0;
+        private static readonly int[] StopAtOptions = { 0, 5, 10, 20, 30, 50, 100 };
 
         private static int SteelFor(Product p) => p == Product.Rifle ? 40 : p == Product.Armour ? 60 : p == Product.FullKit ? 100 : 0;
         private static int ComponentsFor(Product p) => p == Product.Rifle || p == Product.FullKit ? 1 : 0;
@@ -500,7 +503,7 @@ namespace HollowPawns
             }
             if (workLeft < 0)
             {
-                if (!TryTakeMaterials(SteelFor(product), ComponentsFor(product)))
+                if (StockFull() || !TryTakeMaterials(SteelFor(product), ComponentsFor(product)))
                 {
                     return;
                 }
@@ -513,6 +516,24 @@ namespace HollowPawns
                 Produce();
             }
         }
+
+        private IEnumerable<ThingDef> Items(Product p)
+        {
+            if (p == Product.Rifle || p == Product.FullKit)
+            {
+                yield return HP_DefOf.HP_ConscriptRifle;
+            }
+            if (p == Product.Armour || p == Product.FullKit)
+            {
+                yield return HP_DefOf.HP_ConscriptHelmet;
+                yield return HP_DefOf.HP_ConscriptVest;
+            }
+        }
+
+        /// <summary>Fewest of any item this product makes lying spawned on the map (stockpiles and shelves included).</summary>
+        private int OnHand() => Items(product).Select(d => Map.listerThings.ThingsOfDef(d).Count).DefaultIfEmpty(0).Min();
+
+        private bool StockFull() => stopAt > 0 && OnHand() >= stopAt;
 
         private bool TryTakeMaterials(int steel, int components)
         {
@@ -558,17 +579,7 @@ namespace HollowPawns
 
         private void Produce()
         {
-            var items = new List<ThingDef>();
-            if (product == Product.Rifle || product == Product.FullKit)
-            {
-                items.Add(HP_DefOf.HP_ConscriptRifle);
-            }
-            if (product == Product.Armour || product == Product.FullKit)
-            {
-                items.Add(HP_DefOf.HP_ConscriptHelmet);
-                items.Add(HP_DefOf.HP_ConscriptVest);
-            }
-            foreach (ThingDef def in items)
+            foreach (ThingDef def in Items(product))
             {
                 GenPlace.TryPlaceThing(ThingMaker.MakeThing(def), InteractionCell, Map, ThingPlaceMode.Near);
             }
@@ -598,7 +609,17 @@ namespace HollowPawns
                     new FloatMenuOption(ProductLabel(Product.Off), () => { product = Product.Off; workLeft = -1; }),
                 })),
             };
+            yield return new Command_Action
+            {
+                defaultLabel = "Stop at: " + StopAtLabel(stopAt),
+                defaultDesc = "Pause once this many of each piece it makes are lying around the colony (stockpiles and shelves count; kit being worn or carried doesn't). It starts again when the stock drops below.",
+                icon = ContentFinder<Texture2D>.Get("Things/Building/HP_LineForge"),
+                action = () => Find.WindowStack.Add(new FloatMenu(StopAtOptions
+                    .Select(n => new FloatMenuOption(StopAtLabel(n), () => stopAt = n)).ToList())),
+            };
         }
+
+        private static string StopAtLabel(int n) => n == 0 ? "no limit" : n.ToString();
 
         private static string ProductLabel(Product p) =>
             p == Product.Rifle ? "conscript rifle" : p == Product.Armour ? "conscript armour" : p == Product.FullKit ? "full conscript kit" : "nothing";
@@ -611,9 +632,17 @@ namespace HollowPawns
                 sb.AppendLine();
             }
             sb.Append("Making: " + ProductLabel(product));
+            if (stopAt > 0)
+            {
+                sb.Append(", stop at " + stopAt);
+            }
             if (workLeft > 0)
             {
                 sb.Append(" (" + workLeft.ToStringTicksToPeriod() + " left)");
+            }
+            else if (product != Product.Off && Spawned && StockFull())
+            {
+                sb.Append(" (paused: " + OnHand() + " on hand)");
             }
             else if (product != Product.Off)
             {
@@ -627,6 +656,7 @@ namespace HollowPawns
             base.ExposeData();
             Scribe_Values.Look(ref product, "product", Product.Off);
             Scribe_Values.Look(ref workLeft, "workLeft", -1);
+            Scribe_Values.Look(ref stopAt, "stopAt", 0);
         }
     }
 }
