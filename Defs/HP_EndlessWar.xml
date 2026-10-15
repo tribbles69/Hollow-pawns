@@ -381,6 +381,9 @@
     <fillPercent>0.5</fillPercent>
     <pathCost>42</pathCost>
     <canOverlapZones>false</canOverlapZones>
+    <surfaceType>Item</surfaceType>
+    <uiIconPath>Things/Building/Production/Hopper_MenuIcon</uiIconPath>
+    <uiIconScale>0.85</uiIconScale>
     <building>
       <storageGroupTag>HP_MaterialHopper</storageGroupTag>
       <blueprintClass>Blueprint_Storage</blueprintClass>
@@ -437,6 +440,9 @@
     <fillPercent>0.5</fillPercent>
     <pathCost>42</pathCost>
     <canOverlapZones>false</canOverlapZones>
+    <surfaceType>Item</surfaceType>
+    <uiIconPath>Things/Building/Production/Hopper_MenuIcon</uiIconPath>
+    <uiIconScale>0.85</uiIconScale>
     <building>
       <storageGroupTag>HP_CorpseHopper</storageGroupTag>
       <blueprintClass>Blueprint_Storage</blueprintClass>
