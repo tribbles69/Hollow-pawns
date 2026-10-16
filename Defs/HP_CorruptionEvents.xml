@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Corruption events (4.28) =====================
+       How corruption reaches a purist colony that never touches a soul. Code in CorruptionEvents.cs. -->
+
+  <GameConditionDef>
+    <defName>HP_BlackRain</defName>
+    <conditionClass>HollowPawns.GameCondition_BlackRain</conditionClass>
+    <label>black rain</label>
+    <description>Dark, oily rain is falling in patches across the map. Wherever it lands unroofed, the ground is corrupted; anyone standing in it picks up a little soul corruption.</description>
+    <descriptionFuture>black rain will fall in patches around [map_definite] for [gameConditionDuration_duration], corrupting the ground it lands on</descriptionFuture>
+    <endMessage>The black rain has stopped. What it left on the ground hasn't.</endMessage>
+    <letterText>Black rain is falling: dark, oily, and wrong. Wherever it lands it corrupts the ground, and anyone caught in it outdoors picks up a little soul corruption.\n\nIt falls in patches; check the corruption overlay. Fire and holy water clean the ground.</letterText>
+    <letterDef>NegativeEvent</letterDef>
+    <canBePermanent>false</canBePermanent>
+    <allowUnderground>false</allowUnderground>
+  </GameConditionDef>
+
+  <IncidentDef>
+    <defName>HP_BlackRain</defName>
+    <label>black rain</label>
+    <category>Misc</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>IncidentWorker_MakeGameCondition</workerClass>
+    <gameCondition>HP_BlackRain</gameCondition>
+    <letterLabel>Black rain</letterLabel>
+    <letterDef>NegativeEvent</letterDef>
+    <baseChance>0.4</baseChance>
+    <earliestDay>20</earliestDay>
+    <minRefireDays>30</minRefireDays>
+    <durationDays>0.5~1.5</durationDays>
+  </IncidentDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_FallenIdol</defName>
+    <label>fallen idol</label>
+    <description>A blackened idol that fell from the sky, still warm, carved with faces that weren't there a moment ago. It leaks corruption into the ground around it and won't stop until it's destroyed.\n\nSmash it and the souls in it burst out in a wave that leaves everyone near it soul-shocked. Claim and deconstruct it and it's quieter, but the ground underneath is fouled.</description>
+    <thingClass>HollowPawns.Building_FallenIdol</thingClass>
+    <graphicData>
+      <texPath>Things/Building/HP_FallenIdol</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.6,1.6)</drawSize>
+    </graphicData>
+    <size>(1,1)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <WorkToBuild>3000</WorkToBuild>
+      <Flammability>0</Flammability>
+      <Beauty>-30</Beauty>
+    </statBases>
+    <costList>
+      <HP_CorruptedEssence>20</HP_CorruptedEssence>
+    </costList>
+    <building>
+      <claimable>true</claimable>
+      <destroySound>BuildingDestroyed_Stone_Big</destroySound>
+    </building>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(180,60,90,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <IncidentDef>
+    <defName>HP_FallenIdol</defName>
+    <label>fallen idol</label>
+    <category>Misc</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>HollowPawns.IncidentWorker_FallenIdol</workerClass>
+    <baseChance>0.4</baseChance>
+    <earliestDay>15</earliestDay>
+    <minRefireDays>20</minRefireDays>
+    <letterLabel>Fallen idol</letterLabel>
+    <letterText>Something came down from the sky: a blackened idol, carved with faces. It is leaking corruption into the ground around it, and will keep doing so until it's destroyed.\n\nDraft colonists and attack it (it bursts with loose souls when it breaks, so keep clear), or claim it and deconstruct it.</letterText>
+  </IncidentDef>
+
+</Defs>

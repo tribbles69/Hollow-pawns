@@ -212,6 +212,16 @@ A corpse of an adult who still has their soul, left lying for about a day, rolls
 - **Warding:** ghosts can't enter the reach of a consecrated bound shrine or a lit, cleansing essence shrine, and won't hunt anyone standing in it.
 - Dev tools: *Hollow Pawns → Raise lingering ghost / Raise wrathful ghost*, then click a corpse.
 
+### Corruption events
+How corruption reaches a colony that never touches a soul.
+
+| Event | What happens |
+|---|---|
+| **Black rain** (from day 20; lasts half a day to a day and a half) | Dark sky, rain, and 3 to 5 patches of the map (15 to 25 cells across) get corrupted wherever the rain lands unroofed, up to 140. Colonists caught outside in a patch pick up a little soul corruption each hour. |
+| **Fallen idol** (from day 15) | Comes down like a meteorite. Leaks corruption within about 8 cells until destroyed. **Smash it** (draft and attack; it bursts in a soul burst, so stand back) or **claim and deconstruct** it (quieter, fouls the ground under it). Either way it leaves corrupted essence. |
+
+Fire and holy water clean up after both, as usual.
+
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
 - **Soul guns fire beams.** Like CE's own lasers: one shared **soul charge** ammo (100 from 6 soulsteel + 4 essence, so about 200 shots per corpse), and each gun maps it to its own beam with its own damage and penetration, plus a one-cell soul blast on impact.
@@ -320,6 +330,8 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Ghosts (dev tool *Raise lingering ghost* on a raider's corpse): a letter, a translucent *ghost of X* drifting near the body; mood *ghost nearby*. Bury the body: it fades with a message.
 - [ ] Wrathful ghost (dev tool): it drifts through a wall to a colonist, touches them: *grave chill* rises, armour doesn't matter. Shoot it with a normal rifle: nothing. Hit it with a soul gun or the scythe: it takes damage and leaves no corpse when killed. Drink holy water: chill drops. Put a consecrated shrine near: the ghost won't come in. Render the corpse at the altar: it fades.
 - [ ] Mod settings: *Hollow Pawns* shows the ghost chance slider.
+- [ ] Black rain (dev: *Execute incident → black rain*): the sky darkens, it rains, the corruption overlay shows a few blots growing over the day, a colonist left outside in one picks up soul corruption. Under a roof: nothing.
+- [ ] Fallen idol (dev: *Execute incident → fallen idol*): a meteorite-style impact, a letter, corruption spreads around it on the overlay. Attack it: it breaks in a soul burst and drops corrupted essence. Another one: claim, deconstruct: no burst, a stain under it.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
@@ -338,6 +350,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - v0.8, unverified until tested in game: the flayed face's worn head art (three facings, EyeCover drawn over helmets), a `Thought_SituationalSocial` worker on every pair of pawns, `AddDirect` of a hediff on a corpse's head, `wearPerDay` on a mask.
 - v0.8, unverified until tested in game: the Profaned patch (checked against its 1.6 `Profaned.dll`: `Utility_Profaned.BestowCurse(Pawn caster, Pawn recipient, RevivalCurseExtension)` and the genes `BotchJob_UndeadPsysiology` and `BotchJob_Cursebearer`; not yet seen running), `RestorePart` on the soul part of a freshly revived husk.
 - v0.8, unverified until tested in game: ghosts (an animal-race pawn with its own think tree, moved by setting `Position` cell by cell through walls; `ManhunterPermanent` only to make the wrathful one count as hostile; the `Transparent` shader with a tinted `Graphic_Multi`; a one-part body tagged with every capacity source; `PreApplyDamage` postfix absorbing most damage; the corpse removed in a `Kill` postfix). Colonists still auto-target ghosts with weapons that can't hurt them (no target filter yet).
+- v0.8, unverified until tested in game: black rain's `SkyTarget` colours and forcing the `Rain` weather from `Init`; `DoCellSteadyEffects` being called for a custom game condition; the fallen idol riding a `MeteoriteIncoming` skyfaller (a 1x1 building as contents) and being claimable.
 - v0.7, unverified until tested in game: the rite job (carrying a restrained prisoner and laying them on the altar cell; vanilla `Toils_Haul.StartCarryThing` on a pawn), `Building_CloneVat` re-implementing `IBillGiver.CurrentlyUsableForBills` (vanilla's isn't virtual), `ResurrectionUtility.TryResurrect` on rotted husks, the corruption overlay (`CellBoolDrawer`) and its toggle among the play settings, `DataExposeUtility.LookByteArray` for the corruption grid, thralls generated with a forced xenotype that has `canGenerateAsCombatant` false, CE armour values for the conscript vest and helmet (set by eye below CE's steel flak vest).
 - v0.6, unverified until tested in game: adding a faction to an existing save with `FactionGenerator.NewGeneratedFaction` (it will have no world bases in that save, and Ideology must give it an ideoligion); the storyteller firing an incident whose `baseChance` is 0 through an on/off cycle; demon pawn kinds inheriting from non-abstract vanilla kinds (`ThrasherBase`, `PirateKindBase`, `MercenaryHeavyBase`); `CompProperties_CauseHediff_Apparel` with no body part.
 - v0.5, unverified until tested in game: `HediffDef.preventsDeath` (no vanilla XML uses it; the game code reads it in `ShouldBeDead`/`CheckForStateChange`), the soul jar surviving minify and save/load, and the soul broker caravan patch on the abstract `OutlanderFactionBase`.

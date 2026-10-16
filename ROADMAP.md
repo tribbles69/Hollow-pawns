@@ -55,6 +55,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Flayed faces (4.23) | Take-face butcher bill (corpse marked, not used up) and flay-face surgery (violation, lasting scar and mood). Named masks with social thoughts, a horror for whoever loved the face, and Avenged for blood-debt avengers. |
 | The Profaned (4.32) | No hard dependency: genes looked up by name, revival patched by hand only if its type exists. Profaned souls count as corrupted; Cursebearers plant wretched soul shards (caster's residue) in what they raise; a dead Cursebearer collapses everything it raised. Not yet: Profaned blood and bones as cult inputs. |
 | Ghosts (4.8) | One 1% roll (mod setting) per neglected ensouled corpse, in the corruption corpse pass. Lingering (drifts, cold spot, dread) or wrathful (corrupted ground or corpse; hunts souls through walls inside its tether with grave chill, armour-ignoring, lethal). Ends when the body is rendered, bound, ground, burned, buried or taken away. Only soul weapons, soulsteel or the scythe, and fire hurt it. Shrines ward. Not yet: target filtering, true bullet pass-through, salt lines, smoother drift art. |
+| Corruption events (4.28) | Black rain (a game condition; taints 3-5 patches through vanilla's steady cell sampling, corrupts pawns caught outside) and the fallen idol (meteorite-style; leaks corruption on the map pass until smashed, with a soul burst, or claimed and deconstructed). |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -365,6 +366,7 @@ The extract-soul surgery is a stopgap: it's convenient, but taking a soul deserv
 **Order:** altar first (players hit it earliest), then the press. Remove the surgery in the same release the altar ships, so there's never a gap with no way to extract.
 
 ### 4.28 Corruption: the backbone
+**Events built in v0.8:** black rain and the fallen idol. Still not built from this section: cursed loot, corrupted weapons, the cleansing rite, Ideology precepts, cult-side benefits, zealot raids, the purist mood penalty.
 **Core built in v0.7** (see Built). Decided while building: ground corruption never decays by itself, it only creeps (moved, not created) or is purified; pawn corruption fades slowly (-0.02 a day); the altar spills more per cell, the press less over a wider area. Not yet: events (black rain, fallen idol), corrupted weapons, the cleansing rite, shrines, Ideology precepts, cult-side benefits, zealot raids.
 Works like Biotech pollution, but its own system. Taking and spending souls stains the ground and the people who do it. **Bad on a purist run, a resource on a demon-cult run.** Aaron's idea (13 Oct 2026); it replaces the global "soul tally" meter the pirate council pitched, because corruption is visible on the map, so cause and effect stay clear.
 

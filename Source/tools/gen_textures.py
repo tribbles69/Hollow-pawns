@@ -723,6 +723,22 @@ def ghost(facing):
     ] + eyes
 
 
+def fallen_idol():
+    """A blackened, tilted idol half sunk in a scorched crater, faces glowing red."""
+    char, ember = (40, 34, 38), (200, 60, 90)
+    figure = poly([(48, 112), (54, 40), (64, 20), (76, 38), (84, 110)])
+    return [
+        ("glow", 64, 70, 60, ember, 0.35),
+        (circle(64, 104, 46), (55, 45, 45), 0.8),
+        (figure, char, 1.0),
+        (circle(66, 40, 5), ember, 1.0),
+        (circle(62, 66, 5), ember, 0.9),
+        (circle(68, 90, 4), ember, 0.8),
+        (rrect(64, 54, 14, 2, 1), (90, 70, 75), 1.0),
+        (rrect(64, 78, 16, 2, 1), (90, 70, 75), 1.0),
+    ]
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
@@ -784,3 +800,5 @@ if __name__ == "__main__":
     # Ghosts (4.8): one pale figure, tinted per kind by the pawn kind (Graphic_Multi, Transparent).
     for facing in ("north", "east", "south"):
         write_png(os.path.join(t, "Pawn", "HP_Ghost", "HP_Ghost_" + facing + ".png"), render(128, ghost(facing)))
+    # Corruption events (4.28)
+    write_png(os.path.join(b, "HP_FallenIdol.png"), render(128, fallen_idol()))
