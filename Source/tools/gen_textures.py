@@ -739,6 +739,15 @@ def fallen_idol():
     ]
 
 
+def soul_wisp():
+    """A soft white blob with a brighter core; the fleck tints it."""
+    return [
+        ("glow", 32, 32, 30, (255, 255, 255), 0.8),
+        (circle(32, 32, 9), (255, 255, 255), 0.7),
+        (circle(32, 32, 4), (255, 255, 255), 1.0),
+    ]
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
@@ -802,3 +811,5 @@ if __name__ == "__main__":
         write_png(os.path.join(t, "Pawn", "HP_Ghost", "HP_Ghost_" + facing + ".png"), render(128, ghost(facing)))
     # Corruption events (4.28)
     write_png(os.path.join(b, "HP_FallenIdol.png"), render(128, fallen_idol()))
+    # Rite wisps (4.27)
+    write_png(os.path.join(t, "Mote", "HP_SoulWisp.png"), render(64, soul_wisp()))

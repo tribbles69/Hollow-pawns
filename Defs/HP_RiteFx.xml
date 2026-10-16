@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Rite effects (4.27) =====================
+       Wisps thrown while an altar or press works (RiteFx in Rites.cs), and two placeholder sounds
+       made by Source/tools/gen_sounds.py. Replace Sounds/HP/RiteStart.wav and SoulRelease.wav with
+       real recordings, same names. -->
+
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>HP_SoulWisp</defName>
+    <graphicData>
+      <texPath>Things/Mote/HP_SoulWisp</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <color>(150,230,240,200)</color>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.3</fadeInTime>
+    <solidTime>1.6</solidTime>
+    <fadeOutTime>1.6</fadeOutTime>
+    <growthRate>-0.1</growthRate>
+  </FleckDef>
+
+  <SoundDef>
+    <defName>HP_RiteStart</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>HP/RiteStart</clipPath>
+          </li>
+        </grains>
+        <volumeRange>25~30</volumeRange>
+        <pitchRange>0.9~1.05</pitchRange>
+        <distRange>15~45</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>HP_SoulRelease</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>HP/SoulRelease</clipPath>
+          </li>
+        </grains>
+        <volumeRange>30~38</volumeRange>
+        <pitchRange>0.9~1.1</pitchRange>
+        <distRange>15~50</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+</Defs>

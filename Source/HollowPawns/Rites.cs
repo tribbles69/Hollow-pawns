@@ -4,6 +4,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 
 namespace HollowPawns
 {
@@ -47,6 +48,12 @@ namespace HollowPawns
         /// </summary>
         public bool autonomous;
 
+        /// <summary>Wisps: torn out unevenly (altar) or drawn up in a steady stream (press).</summary>
+        public bool steadyStream;
+
+        /// <summary>Each rite done here makes raids a little heavier for a while (the press, 4.27).</summary>
+        public bool drawsAttention;
+
         public CompProperties_SoulRite()
         {
             compClass = typeof(CompSoulRite);
@@ -79,6 +86,7 @@ namespace HollowPawns
         /// <summary>The warden's part is done: the press takes it from here.</summary>
         public void Load(Pawn warden, Pawn v, Thing emptyVessel)
         {
+            HP_DefOf.HP_RiteStart?.PlayOneShot(new TargetInfo(parent.Position, parent.Map));
             victim = v;
             vessel = emptyVessel;
             loadedBy = warden;
@@ -130,6 +138,7 @@ namespace HollowPawns
             {
                 return;
             }
+            RiteFx.Wisps(victim, parent, Props.steadyStream);
             ticksLeft -= Mathf.RoundToInt(GenTicks.TickRareInterval * Staffing.Factor);
             if (ticksLeft > 0)
             {
@@ -139,6 +148,11 @@ namespace HollowPawns
             Pawn worker = Staffing.Operator ?? (loadedBy != null && !loadedBy.Destroyed ? loadedBy : null);
             Thing ves = vessel != null && !vessel.Destroyed ? vessel : null;
             Clear();
+            RiteFx.Release(parent, Props.steadyStream);
+            if (Props.drawsAttention)
+            {
+                PressAttention.Add(parent.Map);
+            }
             Rites.Complete(worker, v, parent, ves);
         }
 
@@ -487,6 +501,117 @@ namespace HollowPawns
             if (__result != null && t is Verse.Pawn p && p.Spawned && Rites.BeingPressed(p, p.Map))
             {
                 __result = null;
+            }
+        }
+    }
+
+    /// <summary>
+    /// The rite's look (4.27): wisps thrown on the building's rare tick while a rite runs, a flash when
+    /// the soul comes free. Flecks are batch-drawn by vanilla, so this costs next to nothing.
+    /// </summary>
+    public static class RiteFx
+    {
+        public static void Wisps(Pawn victim, Thing building, bool steady)
+        {
+            Map map = building.Map;
+            Vector3 from = victim.DrawPos;
+            Vector3 to = building.TrueCenter();
+            float angle = (to - from).AngleFlat();
+            int n = steady ? 6 : Rand.RangeInclusive(2, 6);
+            for (int i = 0; i < n; i++)
+            {
+                Vector3 at = Vector3.Lerp(from, to, steady ? i / (float)n : Rand.Value * 0.6f) + new Vector3(Rand.Range(-0.2f, 0.2f), 0f, Rand.Range(-0.2f, 0.2f));
+                FleckCreationData data = FleckMaker.GetDataStatic(at, map, HP_DefOf.HP_SoulWisp, steady ? 0.7f : Rand.Range(0.5f, 1.1f));
+                data.velocityAngle = angle + (steady ? Rand.Range(-6f, 6f) : Rand.Range(-45f, 45f));
+                data.velocitySpeed = steady ? 0.45f : Rand.Range(0.2f, 0.8f);
+                data.rotationRate = Rand.Range(-40f, 40f);
+                map.flecks.CreateFleck(data);
+            }
+            if (!steady && Rand.Chance(0.4f))
+            {
+                FleckMaker.ThrowMicroSparks(to, map);
+            }
+        }
+
+        public static void Release(Thing building, bool steady)
+        {
+            Map map = building.Map;
+            Vector3 c = building.TrueCenter();
+            FleckMaker.Static(c, map, FleckDefOf.PsycastAreaEffect, steady ? 2.5f : 3.5f);
+            if (!steady)
+            {
+                FleckMaker.ThrowFireGlow(c, map, 2.5f);
+                FleckMaker.ThrowHeatGlow(building.Position, map, 2f);
+            }
+            HP_DefOf.HP_SoulRelease?.PlayOneShot(new TargetInfo(building.Position, map));
+        }
+    }
+
+    /// <summary>
+    /// The press draws attention (4.27): each rite done there adds to it, it halves every five days,
+    /// and raids on that map get up to 30% more points while it's high. One number per map; read only
+    /// when a raid is sized.
+    /// </summary>
+    public class MapComponent_PressAttention : MapComponent
+    {
+        public float attention;
+        public int lastTick;
+
+        public MapComponent_PressAttention(Map map) : base(map)
+        {
+        }
+
+        public float Current
+        {
+            get
+            {
+                int now = Find.TickManager.TicksGame;
+                float days = (now - lastTick) / (float)GenDate.TicksPerDay;
+                attention *= Mathf.Pow(0.5f, days / 5f);
+                lastTick = now;
+                return attention;
+            }
+        }
+
+        public override void ExposeData()
+        {
+            Scribe_Values.Look(ref attention, "attention");
+            Scribe_Values.Look(ref lastTick, "lastTick");
+        }
+    }
+
+    public static class PressAttention
+    {
+        public static void Add(Map map)
+        {
+            MapComponent_PressAttention c = map?.GetComponent<MapComponent_PressAttention>();
+            if (c == null)
+            {
+                return;
+            }
+            bool first = c.Current < 0.5f;
+            c.attention += 1f;
+            if (first)
+            {
+                Messages.Message("The soul press's hum carries a long way. Raids will come heavier while it keeps running.", MessageTypeDefOf.CautionInput);
+            }
+        }
+
+        public static float Factor(Map map)
+        {
+            MapComponent_PressAttention c = map?.GetComponent<MapComponent_PressAttention>();
+            return c == null ? 1f : 1f + Mathf.Min(c.Current * 0.03f, 0.3f);
+        }
+    }
+
+    [HarmonyLib.HarmonyPatch(typeof(StorytellerUtility), nameof(StorytellerUtility.DefaultThreatPointsNow))]
+    public static class Patch_DefaultThreatPointsNow_PressAttention
+    {
+        public static void Postfix(IIncidentTarget target, ref float __result)
+        {
+            if (target is Map map && map.IsPlayerHome)
+            {
+                __result *= PressAttention.Factor(map);
             }
         }
     }

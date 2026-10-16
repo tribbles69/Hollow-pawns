@@ -106,6 +106,8 @@
         <corruptionRadius>6.9</corruptionRadius>
         <effecter>Smelt</effecter>
         <autonomous>true</autonomous>
+        <steadyStream>true</steadyStream>
+        <drawsAttention>true</drawsAttention>
       </li>
       <li Class="CompProperties_Glower">
         <glowRadius>4</glowRadius>

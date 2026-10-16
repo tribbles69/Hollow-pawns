@@ -58,6 +58,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Corruption events (4.28) | Black rain (a game condition; taints 3-5 patches through vanilla's steady cell sampling, corrupts pawns caught outside) and the fallen idol (meteorite-style; leaks corruption on the map pass until smashed, with a soul burst, or claimed and deconstructed). |
 | Curse ritual (4.2) | *Curse* prisoner mode: the prisoner is cursed and carries it home when released or escaped; their faction's next raid arrives cursed. Also CE soul great arrows and soul javelins. |
 | Conscript kit (4.24) | Full slot-filling conscript kit from the apparel generator (fatigues, greatcoat, belt, goggles around the existing vest and helmet; forge-only, no bench recipe). The forge's full kit makes all of it plus the rifle (140 steel). A *Conscript kit* outfit policy in every game, and *Kit out thralls* on the forge. |
+| Extraction polish (4.27) | Wisps while a rite runs (torn out in fits at the altar, a steady stream at the press), a flare and a release tone at the end, a drone at the start (placeholder sounds in `Sounds/HP`). The press draws attention: each rite adds to it, raids get up to +30% points, halving every five days. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -344,6 +345,7 @@ Goal: Aaron wants a big base full of thralls. Thralls must cost far less than co
 **Benchmark, don't guess:** use Dubs Performance Analyzer. Spawn 20 colonists and 20 thralls on a test map doing the same thing (idle, hauling, fighting, standing guard, racked) and compare per-pawn cost. Record results here. Worth a write-up for the RimWorld performance community.
 
 ### 4.27 Extraction buildings and animated extraction
+**Polish built in v0.8:** wisp flecks thrown on the building's rare tick (no effecter to tick), flare on release, placeholder `RiteStart` and `SoulRelease` sounds for Aaron to replace, and press attention (raid points). Ideology: witnesses' reactions follow the corruption precepts (4.28) rather than a full ritual. Not done: render-node shudder and the hollow overlay.
 **Built in v0.7** (see Built). Not yet: Ideology ritual integration, custom flecks/render-node animation and Aaron's sounds (vanilla effecters and the surgery sound stand in), the press drawing attention.
 The extract-soul surgery is a stopgap: it's convenient, but taking a soul deserves a proper place to do it. Two tiers, from cult to industry. **Decided: the surgery will be removed once these buildings exist.** Anything that currently hangs off the surgery (soul jar bottling in 4.17, Reaper's Mark queueing in 4.21) moves to the buildings.
 
