@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== The soul eater (4.15) =====================
+       A xenotype that lives on souls, built like the sanguophage: a resource gene (soul hunger)
+       that drains daily, a touch ability that drains a whole soul (and kills: Aaron's call), and one
+       that devours essence for a poorer meal. At zero the eater starves. SoulEater.cs. -->
+
+  <GeneDef>
+    <defName>HP_SoulHunger</defName>
+    <label>soul hunger</label>
+    <description>Carriers live on souls. They hold a reserve of stolen soul that drains away every day and must be refilled: by draining a living soul (which kills the victim) or, less well, by devouring soul essence.\n\nIf the reserve runs dry, the carrier's own soul starts to give out.</description>
+    <geneClass>HollowPawns.Gene_SoulHunger</geneClass>
+    <resourceGizmoType>GeneGizmo_ResourceHemogen</resourceGizmoType>
+    <resourceLabel>stolen soul</resourceLabel>
+    <resourceGizmoThresholds>
+      <li>0.25</li>
+      <li>0.5</li>
+      <li>0.75</li>
+    </resourceGizmoThresholds>
+    <showGizmoOnWorldView>true</showGizmoOnWorldView>
+    <showGizmoWhenDrafted>true</showGizmoWhenDrafted>
+    <resourceDescription>A reserve of stolen soul. It drains away every day.\n\nRefill it by draining someone's soul (they die) or by devouring soul essence. If it reaches zero, {PAWN_nameDef} starts to starve, and will die of it in a couple of days.</resourceDescription>
+    <iconPath>UI/Icons/Genes/HP_SoulHunger</iconPath>
+    <selectionWeight>0</selectionWeight>
+    <displayCategory>Miscellaneous</displayCategory>
+    <resourceLossPerDay>0.12</resourceLossPerDay>
+    <minAgeActive>13</minAgeActive>
+    <abilities>
+      <li>HP_SoulDrain</li>
+      <li>HP_DevourEssence</li>
+    </abilities>
+    <descriptionHyperlinks>
+      <AbilityDef>HP_SoulDrain</AbilityDef>
+      <AbilityDef>HP_DevourEssence</AbilityDef>
+    </descriptionHyperlinks>
+    <biostatCpx>3</biostatCpx>
+    <biostatMet>2</biostatMet>
+  </GeneDef>
+
+  <AbilityDef ParentName="AbilityTouchBase">
+    <defName>HP_SoulDrain</defName>
+    <label>soul drain</label>
+    <description>Lay hands on a living adult and pull their whole soul out and in. It feeds the soul hunger a great deal, more for a better soul. The victim dies.</description>
+    <iconPath>UI/Icons/Genes/HP_SoulHunger</iconPath>
+    <displayOrder>110</displayOrder>
+    <hostile>true</hostile>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <stunTargetWhileCasting>true</stunTargetWhileCasting>
+    <verbProperties>
+      <verbClass>Verb_CastAbilityTouch</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <range>-1</range>
+      <warmupTime>3</warmupTime>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetBuildings>false</canTargetBuildings>
+        <canTargetMechs>false</canTargetMechs>
+        <canTargetAnimals>false</canTargetAnimals>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="HollowPawns.CompProperties_AbilitySoulDrain">
+        <baseGain>0.3</baseGain>
+        <gainPerGrade>0.08</gainPerGrade>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef ParentName="AbilityTouchBase">
+    <defName>HP_DevourEssence</defName>
+    <label>devour essence</label>
+    <description>Eat up to five soul essence from a stack within reach. A thin meal, but nobody has to die for it. Corrupted essence feeds the same and corrupts the eater.</description>
+    <iconPath>Things/Item/HP_SoulEssence</iconPath>
+    <displayOrder>111</displayOrder>
+    <hostile>false</hostile>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <verbProperties>
+      <verbClass>Verb_CastAbilityTouch</verbClass>
+      <drawAimPie>false</drawAimPie>
+      <range>-1</range>
+      <warmupTime>1</warmupTime>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetPawns>false</canTargetPawns>
+        <canTargetBuildings>false</canTargetBuildings>
+        <canTargetItems>true</canTargetItems>
+        <mapObjectTargetsMustBeAutoAttackable>false</mapObjectTargetsMustBeAutoAttackable>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="HollowPawns.CompProperties_AbilityDevourEssence">
+        <maxEssence>5</maxEssence>
+        <gainPerEssence>0.06</gainPerEssence>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <HediffDef>
+    <defName>HP_SoulStarved</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>soul starvation</label>
+    <description>A soul eater with nothing left to eat. Their own soul is giving out.</description>
+    <defaultLabelColor>(0.5, 0.75, 0.85)</defaultLabelColor>
+    <isBad>true</isBad>
+    <lethalSeverity>1</lethalSeverity>
+    <stages>
+      <li>
+        <label>hungry</label>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.1</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.4</minSeverity>
+        <label>ravenous</label>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.25</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.2</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.75</minSeverity>
+        <label>hollowing out</label>
+        <lifeThreatening>true</lifeThreatening>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.45</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <XenotypeDef>
+    <defName>HP_SoulEater</defName>
+    <label>soul eater</label>
+    <description>Soul eaters were made, or made themselves, to live on what other people are. They do not age and feel little pain, but they must keep feeding: a soul drained whole every few days, or a steady diet of essence.</description>
+    <descriptionShort>Ageless people who live on stolen souls. Draining a soul kills.</descriptionShort>
+    <iconPath>UI/Icons/Genes/HP_SoulHunger</iconPath>
+    <inheritable>true</inheritable>
+    <combatPowerFactor>1.2</combatPowerFactor>
+    <genes>
+      <li>HP_SoulHunger</li>
+      <li>Ageless</li>
+      <li>Pain_Reduced</li>
+      <li>Superclotting</li>
+    </genes>
+  </XenotypeDef>
+
+</Defs>

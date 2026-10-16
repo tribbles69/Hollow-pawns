@@ -63,6 +63,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Demon raids and sieges (4.34) | Rift portals and burrowing (demon-only arrival modes), the Great Rift (waves every 18 hours for three days, a keeper to kill or a cleansing rite to seal it, a crater if left), sieges for demons and zealots. |
 | Thrall performance (4.26) | Lean think tree for thralls (mod setting), muster spots, thrall racks (six in suspended animation, release on raid), a benchmark spawner. Hauling area: use vanilla allowed areas. |
 | Trenches (4.25) | Our own, no dependency (Frontline isn't installed; VFE Security's are off): a dug floor, ~55% all-round cover in vanilla except from within three cells, head-and-shoulders only under CE, and the AI rates trench cells as cover. |
+| Soul eater (4.15) | Biotech xenotype: soul hunger resource gene (drains daily), soul drain (takes the whole soul, kills; more for a better grade), devour essence, soul starvation at zero. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -206,6 +207,7 @@ Mostly XML (vanilla drug system handles highs, tolerance and addiction).
 Like Dubwise's Rimefeller / Dubs Bad Hygiene. Use the **Vanilla Expanded Framework PipeSystem** (hard dependency on VEF): Thing to resource (extractor), Resource storage (vats), Resource to power (generator by pipe), Resource processor (soulsteel), Refill building with pipes (weapons or turrets). Writing a pipe network from scratch would be the biggest C# job in the mod: don't.
 
 ### 4.15 Soul-eating xenotype (left for later)
+**Built in v0.8.** Decided by Aaron: a drain takes the whole soul and kills (no partial drain). Essence can be devoured for a thin meal so a colony can keep one without murder.
 Sanguophage-style, eats souls. Needs Biotech.
 - Gene and xenotype defs: XML. A **soul hunger** resource bar like hemogen: small C# gene class modelled on vanilla hemogen (check VEF's genes module first). Eating soul essence tops it up (small ingestion hook). A soul-drain ability like the bloodfeed bite.
 - Design clash to resolve: a full drain kills (no soul = death), so a pure version must keep hunting. Suggested middle ground: a drain takes part of the soul, which slowly regrows; only a full drain kills. Gives a prisoner-farming loop and a reason not to get greedy.

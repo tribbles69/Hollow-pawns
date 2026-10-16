@@ -791,6 +791,15 @@ def thrall_rack():
     return layers
 
 
+def soul_hunger_icon():
+    """An open mouth with a wisp going in."""
+    return [
+        (union(circle(64, 72, 30), rrect(64, 60, 30, 16, 10)), (255, 255, 255), 1.0),
+        (rrect(64, 76, 18, 10, 9), (30, 30, 30), 1.0),
+        (union(circle(64, 34, 9), poly([(58, 38), (70, 38), (64, 72)])), CYAN, 1.0),
+    ]
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
@@ -862,3 +871,5 @@ if __name__ == "__main__":
     # Thrall performance (4.26)
     write_png(os.path.join(b, "HP_ThrallMuster.png"), render(128, thrall_muster()))
     write_png(os.path.join(b, "HP_ThrallRack.png"), render(384, thrall_rack(), 128))
+    # Soul eater (4.15)
+    write_png(os.path.join(ui, "Icons", "Genes", "HP_SoulHunger.png"), render(128, soul_hunger_icon()))
