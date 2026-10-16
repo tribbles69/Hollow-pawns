@@ -46,6 +46,27 @@
     </projectile>
   </ThingDef>
 
+  <!-- Short-bow soul arrow: CE's steel short-bow arrow (Projectile_Arrow_Steel) with the soul damage.
+       Patches/HP_CE_SoulGear.xml adds it to CE's short-bow ammo set, and the streamlined one to the
+       recurve set, so any bow using those sets (vanilla's or another mod's) can shoot soul arrows. -->
+  <ThingDef ParentName="BaseArrowProjectile">
+    <defName>HP_Projectile_Arrow_Soul</defName>
+    <label>arrow (soul)</label>
+    <graphicData>
+      <texPath>Things/Projectile/Arrows/Arrow_Steel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(150,230,240)</color>
+    </graphicData>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <damageDef>HP_SoulArrow</damageDef>
+      <damageAmountBase>7</damageAmountBase>
+      <armorPenetrationSharp>0.5</armorPenetrationSharp>
+      <armorPenetrationBlunt>3.02</armorPenetrationBlunt>
+      <preExplosionSpawnChance>0.666</preExplosionSpawnChance>
+      <preExplosionSpawnThingDef>Ammo_Arrow_Steel</preExplosionSpawnThingDef>
+    </projectile>
+  </ThingDef>
+
   <CombatExtended.AmmoSetDef>
     <defName>HP_AmmoSet_SoulBow</defName>
     <label>arrows</label>

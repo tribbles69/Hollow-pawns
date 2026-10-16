@@ -53,6 +53,21 @@
     </value>
   </Operation>
 
+  <!-- Soul arrows for every bow, not just the soul bow: added to CE's short-bow and recurve ammo
+       sets (the greatbow takes great arrows, as in CE). -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/CombatExtended.AmmoSetDef[defName="AmmoSet_Arrow"]/ammoTypes</xpath>
+    <value>
+      <HP_Ammo_Arrow_Soul>HP_Projectile_Arrow_Soul</HP_Ammo_Arrow_Soul>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/CombatExtended.AmmoSetDef[defName="AmmoSet_StreamlinedArrow"]/ammoTypes</xpath>
+    <value>
+      <HP_Ammo_Arrow_Soul>HP_Projectile_StreamlinedArrow_Soul</HP_Ammo_Arrow_Soul>
+    </value>
+  </Operation>
+
   <!-- Fetish and lantern: small carried things. -->
   <Operation Class="PatchOperationAdd">
     <xpath>Defs/ThingDef[defName="HP_BoneFetish"]/statBases</xpath>
