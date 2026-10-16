@@ -15,6 +15,8 @@
     <bleedRate>0</bleedRate>
     <skinCovered>false</skinCovered>
     <solid>false</solid>
+    <!-- Ghosts never get cold (comfy to -273), but every body needs one frostbite-capable part. -->
+    <frostbiteVulnerability>0.01</frostbiteVulnerability>
     <canSuggestAmputation>false</canSuggestAmputation>
     <tags>
       <li>ConsciousnessSource</li>

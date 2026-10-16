@@ -172,6 +172,7 @@
     <label>purifier</label>
     <defaultFactionDef>HP_Zealots</defaultFactionDef>
     <combatPower>90</combatPower>
+    <initialResistanceRange>14~22</initialResistanceRange>
     <weaponTags Inherit="False">
       <li>GrenadeFlame</li>
     </weaponTags>
@@ -189,6 +190,7 @@
     <label>inquisitor</label>
     <defaultFactionDef>HP_Zealots</defaultFactionDef>
     <combatPower>180</combatPower>
+    <initialResistanceRange>22~32</initialResistanceRange>
     <factionLeader>true</factionLeader>
   </PawnKindDef>
 

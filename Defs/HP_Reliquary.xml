@@ -38,9 +38,6 @@
     </statBases>
     <designationCategory>Furniture</designationCategory>
     <minifiedDef>MinifiedThing</minifiedDef>
-    <thingCategories>
-      <li>BuildingsFurniture</li>
-    </thingCategories>
     <surfaceType>Item</surfaceType>
     <inspectorTabs>
       <li>ITab_Storage</li>
@@ -182,6 +179,7 @@
     <comps>
       <li Class="CompProperties_Refuelable">
         <fuelConsumptionRate>0</fuelConsumptionRate>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
         <fuelCapacity>30</fuelCapacity>
         <fuelLabel>Essence</fuelLabel>
         <fuelFilter>

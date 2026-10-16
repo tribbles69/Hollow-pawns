@@ -39,6 +39,7 @@
     <comps>
       <li Class="CompProperties_Refuelable">
         <fuelConsumptionRate>0</fuelConsumptionRate>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
         <fuelCapacity>25</fuelCapacity>
         <fuelLabel>Essence</fuelLabel>
         <fuelFilter>
@@ -128,6 +129,7 @@
       <li Class="CompProperties_Flickable" />
       <li Class="CompProperties_Refuelable">
         <fuelConsumptionRate>0</fuelConsumptionRate>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
         <fuelCapacity>60</fuelCapacity>
         <fuelLabel>Essence</fuelLabel>
         <fuelFilter>

@@ -71,6 +71,7 @@
 
   <ThingDef ParentName="ApparelBase">
     <defName>HP_FaceMask</defName>
+    <smeltable>false</smeltable>
     <label>flayed face</label>
     <description>A human face, cut away, cured and stitched to a leather backing so it can be worn. It keeps the name of whoever it belonged to. Slaves find it hard to look at; most people find the wearer hard to like. Psychopaths and the bloodlusty think it's a fine trophy.\n\nFaces taken from the living cure better than faces taken from the dead. Like any leather, it wears out.</description>
     <techLevel>Neolithic</techLevel>

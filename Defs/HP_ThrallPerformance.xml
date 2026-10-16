@@ -156,6 +156,8 @@
     <altitudeLayer>Building</altitudeLayer>
     <passability>Impassable</passability>
     <fillPercent>0.6</fillPercent>
+    <!-- Deliberate: chest-high cover you can't walk through. -->
+    <disableImpassableShotOverConfigError>true</disableImpassableShotOverConfigError>
     <castEdgeShadows>true</castEdgeShadows>
     <rotatable>false</rotatable>
     <hasInteractionCell>true</hasInteractionCell>

@@ -47,7 +47,7 @@ def eyes(label, desc, tech, color, cost=None, offsets=None, parent="ApparelMakea
     return {"kind": "custom", "id": "Eyes", "label": label, "desc": desc, "parent": parent, "tech": tech,
             "layers": ["EyeCover"], "groups": ["Eyes"], "tex": "Things/Item/Equipment/HP_KitGoggles", "worn": None,
             "stuff": None, "costStuff": 0, "cost": cost or {"Leather_Plain": 10, "HP_SoulEssence": 1},
-            "stats": {"MaxHitPoints": 60, "WorkToMake": 2000, "Mass": 0.2, "EquipDelay": 1},
+            "stats": {"MaxHitPoints": 60, "WorkToMake": 2000, "Mass": 0.2, "ArmorRating_Sharp": 0.04, "ArmorRating_Blunt": 0.02, "EquipDelay": 1},
             "offsets": offsets or {"AimingDelayFactor": -0.05}, "color": color}
 
 
@@ -74,7 +74,7 @@ SETS = [
          "parent": "ApparelBase", "tech": "Industrial", "layers": ["OnSkin"], "groups": ["Torso", "Shoulders", "Arms", "Legs"],
          "tex": "Things/Pawn/Humanlike/Apparel/ShirtBasic/ShirtBasic", "worn": "Things/Pawn/Humanlike/Apparel/ShirtBasic/ShirtBasic",
          "stuff": None, "costStuff": 0, "cost": {"Steel": 10},
-         "stats": {"MaxHitPoints": 80, "Mass": 0.6, "MarketValue": 3, "Insulation_Cold": 6, "Insulation_Heat": 2, "EquipDelay": 1.5},
+         "stats": {"MaxHitPoints": 80, "Mass": 0.6, "MarketValue": 3, "ArmorRating_Sharp": 0.03, "ArmorRating_Blunt": 0.02, "Insulation_Cold": 6, "Insulation_Heat": 2, "EquipDelay": 1.5},
          "offsets": {}, "color": (0.45, 0.46, 0.44)},
         external("HP_ConscriptVest"),
         {"kind": "custom", "id": "Greatcoat", "label": "conscript greatcoat",
@@ -91,14 +91,14 @@ SETS = [
          "parent": "ApparelBase", "tech": "Industrial", "layers": ["Belt"], "groups": ["Waist"],
          "tex": "Things/Item/Equipment/HP_KitBelt", "worn": None,
          "stuff": None, "costStuff": 0, "cost": {"Steel": 4},
-         "stats": {"MaxHitPoints": 60, "Mass": 0.3, "MarketValue": 1, "EquipDelay": 1},
+         "stats": {"MaxHitPoints": 60, "Mass": 0.3, "MarketValue": 1, "ArmorRating_Sharp": 0.02, "ArmorRating_Blunt": 0.02, "EquipDelay": 1},
          "offsets": {}, "color": (0.40, 0.40, 0.36)},
         {"kind": "custom", "id": "Eyes", "label": "conscript goggles",
          "desc": "Scratched goggles on an elastic strap. Part of the conscript kit.",
          "parent": "ApparelBase", "tech": "Industrial", "layers": ["EyeCover"], "groups": ["Eyes"],
          "tex": "Things/Item/Equipment/HP_KitGoggles", "worn": None,
          "stuff": None, "costStuff": 0, "cost": {"Steel": 3},
-         "stats": {"MaxHitPoints": 40, "Mass": 0.2, "MarketValue": 1, "EquipDelay": 1},
+         "stats": {"MaxHitPoints": 40, "Mass": 0.2, "MarketValue": 1, "ArmorRating_Sharp": 0.04, "ArmorRating_Blunt": 0.02, "EquipDelay": 1},
          "offsets": {}, "color": (0.40, 0.40, 0.36)},
     ], "ce": []},
     {"id": "Gravecloth", "label": "gravecloth", "tier": "medieval light", "pieces": [
@@ -464,6 +464,9 @@ def build_custom(s, p):
     cl = sub(t, "costList")
     for k, v in p["cost"].items():
         sub(cl, k, v)
+    if not p["stuff"] and not any(p["stats"].get(a, 0) > 0 for a in ARMOUR_STATS[:3]):
+        # Combat Extended logs an error every time a stuffless piece with no armour at all is hit.
+        raise SystemExit("%s has no stuff and no armour stat: give it a token ArmorRating_Sharp" % p["id"])
     sb = sub(t, "statBases")
     for k, v in p["stats"].items():
         sub(sb, k, v)
