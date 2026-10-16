@@ -240,6 +240,14 @@ How your colony feels about corruption, and what comes for it.
 | **Zealot raids** | Once 400+ cells of your map are badly corrupted (80+), zealots may come: flagellants, purifiers with molotovs, gunners and an inquisitor. They cleanse the ground they walk on. They never come for a clean colony. |
 | **Cursed loot** | The cursed idol now turns up with exotic traders and in quest rewards. |
 
+### Demon raids and sieges (Biotech)
+| Arrival | What happens |
+|---|---|
+| **Rift portals** | Two to four tears open around the colony and the warband steps out of them, each leaving a stain of corruption. |
+| **Burrowing** | The ground cracks open, on the most corrupted ground near the colony if there is any, and they crawl out in one place. |
+| **The Great Rift** (from day 40) | A hole torn in the world near the colony. It rots the ground around it and sends out a demon wave every 18 hours for three days, then burns out into a crater of corruption. A **rift keeper** guards it: kill the keeper, or finish a **cleansing rite** within reach, and it closes at once with far less damage. |
+| **Sieges** | Demons and zealots can now dig in with mortars like any vanilla siege. |
+
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
 - **Soul guns fire beams.** Like CE's own lasers: one shared **soul charge** ammo (100 from 6 soulsteel + 4 essence, so about 200 shots per corpse), and each gun maps it to its own beam with its own damage and penetration, plus a one-cell soul blast on impact.
@@ -359,6 +367,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Precepts (Ideology): make an ideoligion with *corruption: exalted*: colonists like corrupted ground, get +3 when a soul is taken, *attuned* on corrupted ground. *Abhorrent*: -6/-12 on corrupted ground, -12 for whoever took a soul.
 - [ ] Attuned without Ideology: dev-give a colonist 60% soul corruption, walk them onto corrupted ground: *attuned to corruption*, no ground mood penalty.
 - [ ] Zealots: corrupt a big area (dev: add corruption) and fire *zealot raid*: they come with molotovs; where they walk, the overlay clears. On a clean map the incident can't fire.
+- [ ] Demon raids (Biotech): dev-fire a demon raid a few times: some arrive through rift portals (flashes, stains) or burrow up through corrupted ground. Fire *Great Rift*: the rift, a keeper beside it, a wave a couple of hours later. Kill the keeper: it closes. Another rift: perform a cleansing rite next to it: it closes. Let one run three days: a crater of corruption.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
@@ -381,6 +390,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - v0.8, unverified until tested in game: the curse ritual's `Pawn.ExitMap` prefix (released and escaping prisoners both go through it?) and the `Pawn.SpawnSetup` postfix cursing arriving raiders; CE soul javelins copied from CE's pila (a weapon that is also ammo).
 - v0.8, unverified until tested in game: rite wisps (`FleckMaker.GetDataStatic` with a velocity, a `MoteGlow` fleck parented to `FleckBase_Thrown`), and the press attention postfix on `StorytellerUtility.DefaultThreatPointsNow`.
 - v0.8, unverified until tested in game: zealots as a hidden permanent-enemy faction raiding through their own incident (and being added to old saves), `GrenadierBase` with `weaponTags Inherit="False"` giving molotov throwers, precepts recorded through `HistoryEventsManager.RecordEvent` with and without a doer, the `PostApplyDamage` postfix for corrupting hits.
+- v0.8, unverified until tested in game: demon arrival modes added to vanilla's `ImmediateAttack` strategy (and refused for other factions through `CanUseWith`), the Great Rift sending waves through `HP_DemonWave` with a forced arrival mode and spawn centre, the keeper's `LordJob_DefendPoint`, a faction-owned undestroyable building, demons and zealots now able to siege.
 - v0.7, unverified until tested in game: the rite job (carrying a restrained prisoner and laying them on the altar cell; vanilla `Toils_Haul.StartCarryThing` on a pawn), `Building_CloneVat` re-implementing `IBillGiver.CurrentlyUsableForBills` (vanilla's isn't virtual), `ResurrectionUtility.TryResurrect` on rotted husks, the corruption overlay (`CellBoolDrawer`) and its toggle among the play settings, `DataExposeUtility.LookByteArray` for the corruption grid, thralls generated with a forced xenotype that has `canGenerateAsCombatant` false, CE armour values for the conscript vest and helmet (set by eye below CE's steel flak vest).
 - v0.6, unverified until tested in game: adding a faction to an existing save with `FactionGenerator.NewGeneratedFaction` (it will have no world bases in that save, and Ideology must give it an ideoligion); the storyteller firing an incident whose `baseChance` is 0 through an on/off cycle; demon pawn kinds inheriting from non-abstract vanilla kinds (`ThrasherBase`, `PirateKindBase`, `MercenaryHeavyBase`); `CompProperties_CauseHediff_Apparel` with no body part.
 - v0.5, unverified until tested in game: `HediffDef.preventsDeath` (no vanilla XML uses it; the game code reads it in `ShouldBeDead`/`CheckForStateChange`), the soul jar surviving minify and save/load, and the soul broker caravan patch on the abstract `OutlanderFactionBase`.

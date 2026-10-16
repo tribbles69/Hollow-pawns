@@ -90,7 +90,7 @@
     <hidden>true</hidden>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
     <settlementGenerationWeight>0</settlementGenerationWeight>
-    <canSiege>false</canSiege>
+    <canSiege>true</canSiege>
     <canStageAttacks>true</canStageAttacks>
     <leaderTitle>inquisitor</leaderTitle>
     <factionIconPath>World/HP_ZealotFaction</factionIconPath>

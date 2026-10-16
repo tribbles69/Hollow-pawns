@@ -60,6 +60,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Conscript kit (4.24) | Full slot-filling conscript kit from the apparel generator (fatigues, greatcoat, belt, goggles around the existing vest and helmet; forge-only, no bench recipe). The forge's full kit makes all of it plus the rifle (140 steel). A *Conscript kit* outfit policy in every game, and *Kit out thralls* on the forge. |
 | Extraction polish (4.27) | Wisps while a rite runs (torn out in fits at the altar, a steady stream at the press), a flare and a release tone at the end, a drone at the start (placeholder sounds in `Sounds/HP`). The press draws attention: each rite adds to it, raids get up to +30% points, halving every five days. |
 | Corruption, the rest (4.28) | Cleansing rite (5 holy water, scours ~7 cells, eases pawns, lays ghosts to rest), Ideology precepts (abhorrent / disliked / exalted; `Mods/Ideology`), attuned cult perk without DLC, corrupting hits (demons, Profaned, corrupted-soul weapons), zealot raids for badly corrupted maps (purifying aura), cursed idol in trade and rewards. |
+| Demon raids and sieges (4.34) | Rift portals and burrowing (demon-only arrival modes), the Great Rift (waves every 18 hours for three days, a keeper to kill or a cleansing rite to seal it, a crater if left), sieges for demons and zealots. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -511,6 +512,7 @@ Five small starts, each pointing at a different way to play.
 - Build: `ScenarioDef`s are XML. Starting buildings, captives and corrupted ground need small custom scenario parts (C#). The Escapee's starting lattice needs a pre-filled vessel with a generated name and relationship to the colonist.
 
 ### 4.34 Demon raids and sieges (decided 13 Oct 2026)
+**Built in v0.8.** Decided while building: the Great Rift is its own incident (from day 40), not an arrival mode; burrowing picks the most corrupted of 60 sampled cells near the colony; sieges reuse vanilla's siege (canSiege on).
 Arrival modes for demons (4.3) and, mirrored, zealots (4.28):
 - **Standard:** walk in from the map edge.
 - **Rift portals (the drop-pod version):** small portals tear open in or around the base; demons step out. Each leaves a scorch of corruption.

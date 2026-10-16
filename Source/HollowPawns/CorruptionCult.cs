@@ -204,6 +204,14 @@ namespace HollowPawns
                     p.health.RemoveHediff(chill);
                 }
             }
+            // A Great Rift within reach is sealed (4.34).
+            foreach (Building_GreatRift rift in map.listerThings.AllThings.OfType<Building_GreatRift>().ToList())
+            {
+                if (rift.Spawned && rift.Position.InHorDistOf(c, Radius + 2f))
+                {
+                    rift.Close("a cleansing rite sealed it", false);
+                }
+            }
             FleckMaker.Static(c.ToVector3Shifted(), map, FleckDefOf.PsycastAreaEffect, Radius);
             CorruptionCult.Record(HP_DefOf.HP_CleansingRiteDone, priest);
             Messages.Message(priest.LabelShort + " finished a cleansing rite." + (ghosts > 0 ? " A ghost was laid to rest." : ""), new TargetInfo(c, map), MessageTypeDefOf.PositiveEvent);

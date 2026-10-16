@@ -759,6 +759,18 @@ def zealot_faction():
     ]
 
 
+def great_rift():
+    """A ragged black tear with a red-hot rim, seen from above."""
+    tear = poly([(40, 60), (70, 30), (90, 58), (110, 66), (86, 96), (60, 110), (30, 92), (22, 74)])
+    inner = poly([(50, 64), (70, 44), (84, 62), (96, 68), (80, 88), (60, 98), (40, 86), (34, 74)])
+    return [
+        ("glow", 64, 68, 62, (200, 50, 70), 0.6),
+        (tear, (150, 30, 45), 1.0),
+        (inner, (10, 5, 10), 1.0),
+        (circle(66, 70, 8), (60, 10, 25), 0.9),
+    ]
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
@@ -825,3 +837,5 @@ if __name__ == "__main__":
     # Rite wisps (4.27)
     write_png(os.path.join(t, "Mote", "HP_SoulWisp.png"), render(64, soul_wisp()))
     write_png(os.path.join(tx, "World", "HP_ZealotFaction.png"), render(128, zealot_faction()))
+    # Demon raids (4.34)
+    write_png(os.path.join(b, "HP_GreatRift.png"), render(128, great_rift()))

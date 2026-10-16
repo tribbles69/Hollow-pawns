@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Demon arrival modes (4.34): offered by vanilla's immediate-attack strategy; their workers
+       refuse any faction but the demons. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/RaidStrategyDef[defName="ImmediateAttack"]/arriveModes</xpath>
+    <value>
+      <li>HP_RiftPortals</li>
+      <li>HP_Burrow</li>
+    </value>
+  </Operation>
+
+
+</Patch>

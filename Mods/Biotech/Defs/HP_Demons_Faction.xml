@@ -12,7 +12,8 @@
     <listOrderPriority>9</listOrderPriority>
     <settlementGenerationWeight>0.5</settlementGenerationWeight>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
-    <canSiege>false</canSiege>
+    <!-- Sieges (4.34): demons dig in with mortars too. -->
+    <canSiege>true</canSiege>
     <canStageAttacks>true</canStageAttacks>
     <leaderTitle>arch-demon</leaderTitle>
     <factionIconPath>World/HP_DemonFaction</factionIconPath>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Demon raids and sieges (4.34) =====================
+       Two arrival modes only demons can use (added to vanilla's immediate-attack strategy in
+       Patches/HP_DemonRaids.xml), the rift-emerge mode the Great Rift uses, and the Great Rift
+       itself. Sieges: demons and zealots both have canSiege on. Code in DemonRaids.cs. -->
+
+  <PawnsArrivalModeDef>
+    <defName>HP_RiftPortals</defName>
+    <workerClass>HollowPawns.PawnsArrivalModeWorker_RiftPortals</workerClass>
+    <layerWhitelist>
+      <li>Surface</li>
+    </layerWhitelist>
+    <selectionWeightCurve>
+      <points>
+        <li>(200, 0.5)</li>
+        <li>(1000, 2.5)</li>
+      </points>
+    </selectionWeightCurve>
+    <pointsFactorCurve>
+      <points>
+        <li>0, 0.6</li>
+        <li>5000, 0.45</li>
+      </points>
+    </pointsFactorCurve>
+    <textEnemy>Rifts have torn open around you, and a warband of {0} from {1} is stepping out of them!</textEnemy>
+    <textFriendly>Rifts have torn open and friendly {0} from {1} are stepping out!</textFriendly>
+    <textWillArrive>{0_pawnsPluralDef} will step out of rifts torn open around you.</textWillArrive>
+  </PawnsArrivalModeDef>
+
+  <PawnsArrivalModeDef>
+    <defName>HP_Burrow</defName>
+    <workerClass>HollowPawns.PawnsArrivalModeWorker_Burrow</workerClass>
+    <layerWhitelist>
+      <li>Surface</li>
+    </layerWhitelist>
+    <selectionWeightCurve>
+      <points>
+        <li>(200, 1)</li>
+        <li>(1000, 2)</li>
+      </points>
+    </selectionWeightCurve>
+    <pointsFactorCurve>
+      <points>
+        <li>0, 0.75</li>
+        <li>5000, 0.6</li>
+      </points>
+    </pointsFactorCurve>
+    <textEnemy>The ground has cracked open and {0} from {1} are crawling out of it!</textEnemy>
+    <textFriendly>The ground has cracked open and friendly {0} from {1} are crawling out!</textFriendly>
+    <textWillArrive>{0_pawnsPluralDef} will crawl up out of the ground, where it's most corrupted.</textWillArrive>
+  </PawnsArrivalModeDef>
+
+  <PawnsArrivalModeDef>
+    <defName>HP_RiftEmerge</defName>
+    <workerClass>HollowPawns.PawnsArrivalModeWorker_RiftEmerge</workerClass>
+    <layerWhitelist>
+      <li>Surface</li>
+    </layerWhitelist>
+    <selectionWeightCurve>
+      <points>
+        <li>(0, 0)</li>
+      </points>
+    </selectionWeightCurve>
+    <textEnemy>A wave of {0} from {1} is pouring out of the Great Rift!</textEnemy>
+    <textFriendly>Friendly {0} from {1} are coming out of the Great Rift.</textFriendly>
+    <textWillArrive>{0_pawnsPluralDef} will pour out of the Great Rift.</textWillArrive>
+  </PawnsArrivalModeDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_GreatRift</defName>
+    <label>Great Rift</label>
+    <description>A hole torn in the world, wide enough to walk through. Demons pour out of it in waves, and the ground around it rots. It will burn itself out in three days and leave a crater of corruption.\n\nKill its rift keeper, or perform a cleansing rite beside it, and it closes now, with far less damage.</description>
+    <thingClass>HollowPawns.Building_GreatRift</thingClass>
+    <graphicData>
+      <texPath>Things/Building/HP_GreatRift</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3.5,3.5)</drawSize>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <size>(1,1)</size>
+    <altitudeLayer>FloorEmplacement</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>100</pathCost>
+    <useHitPoints>false</useHitPoints>
+    <rotatable>false</rotatable>
+    <tickerType>Rare</tickerType>
+    <destroyable>false</destroyable>
+    <selectable>true</selectable>
+    <statBases>
+      <Flammability>0</Flammability>
+      <Beauty>-60</Beauty>
+    </statBases>
+    <building>
+      <claimable>false</claimable>
+      <deconstructible>false</deconstructible>
+      <isTargetable>false</isTargetable>
+    </building>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(200,50,70,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <IncidentDef>
+    <defName>HP_GreatRift</defName>
+    <label>Great Rift</label>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>HollowPawns.IncidentWorker_GreatRift</workerClass>
+    <baseChance>0.6</baseChance>
+    <category>ThreatBig</category>
+    <earliestDay>40</earliestDay>
+    <minRefireDays>40</minRefireDays>
+    <letterLabel>Great Rift</letterLabel>
+    <letterText>A Great Rift has torn open near the colony. Demon waves will pour out of it every 18 hours for three days, and the ground around it is rotting.\n\nIts rift keeper stands guard beside it. Kill the keeper, or perform a cleansing rite within reach, and the rift closes now. Leave it, and it burns out into a crater of corruption.</letterText>
+  </IncidentDef>
+
+</Defs>
