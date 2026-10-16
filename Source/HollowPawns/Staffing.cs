@@ -56,6 +56,13 @@ namespace HollowPawns
             : "Worked by " + Operator.LabelShort + ": x" + Factor.ToString("0.0") + " speed.";
     }
 
+    public static class StaffingUtility
+    {
+        /// <summary>The building itself, or a comp on it (the soul press's rite comp).</summary>
+        public static IStaffable Of(Thing t) =>
+            t as IStaffable ?? (t as ThingWithComps)?.AllComps.OfType<IStaffable>().FirstOrDefault();
+    }
+
     /// <summary>Names the machine a staffing work giver sends pawns to.</summary>
     public class StaffingExtension : DefModExtension
     {
@@ -72,11 +79,12 @@ namespace HollowPawns
             Building == null ? Enumerable.Empty<Thing>() : pawn.Map.listerBuildings.AllBuildingsColonistOfDef(Building).Cast<Thing>();
 
         public override bool ShouldSkip(Pawn pawn, bool forced = false) =>
-            Building == null || !pawn.Map.listerBuildings.AllBuildingsColonistOfDef(Building).Any(b => b is IStaffable s && s.WantsOperator);
+            Building == null || !pawn.Map.listerBuildings.AllBuildingsColonistOfDef(Building).Any(b => StaffingUtility.Of(b)?.WantsOperator == true);
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
-            return t is IStaffable s && s.WantsOperator && s.Staffing.Operator == null && !t.IsForbidden(pawn) && !t.IsBurning()
+            IStaffable s = StaffingUtility.Of(t);
+            return s != null && s.WantsOperator && s.Staffing.Operator == null && !t.IsForbidden(pawn) && !t.IsBurning()
                 && pawn.CanReserveAndReach(t, PathEndMode.InteractionCell, Danger.Some, 1, -1, null, forced);
         }
 
@@ -89,7 +97,7 @@ namespace HollowPawns
         /// <summary>Half an hour, then back to the job list, so real hauling never waits long.</summary>
         private const int Shift = GenDate.TicksPerHour / 2;
 
-        private IStaffable Machine => job.GetTarget(TargetIndex.A).Thing as IStaffable;
+        private IStaffable Machine => StaffingUtility.Of(job.GetTarget(TargetIndex.A).Thing);
 
         public override bool TryMakePreToilReservations(bool errorOnFailed) => pawn.Reserve(job.targetA, job, 1, -1, null, errorOnFailed);
 

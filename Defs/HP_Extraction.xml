@@ -3,7 +3,8 @@
 
   <!-- ===================== Extraction buildings (4.27) =====================
        Mark a prisoner (render or bind); a warden restrains them, carries them here and performs the
-       rite (JobDriver_SoulRite). Neither building ticks. Replaces the old surgeries. -->
+       rite (JobDriver_SoulRite). The press is load-and-leave: the warden straps them in and goes, and the
+       press finishes the rite on its own rare tick (CompSoulRite), faster when staffed. Replaces the old surgeries. -->
 
   <!-- Bone Altar: early, unpowered, no research. Slow and risky: 1 in 4 rites botched (a grade
        worse), witnesses are disturbed, and it spills heavy corruption close by. -->
@@ -56,7 +57,8 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HP_SoulPress</defName>
     <label>soul press</label>
-    <description>A soulsteel frame that holds a prisoner in a field and draws the soul up in a steady pale stream. Faster and cleaner than any altar: souls come out a grade better and never damaged. It vents a thin haze of corruption over a wide area.\n\nMark a prisoner to be rendered or bound; wardens bring them here.</description>
+    <description>A soulsteel frame that holds a prisoner in a field and draws the soul up in a steady pale stream. Faster and cleaner than any altar: souls come out a grade better and never damaged. It vents a thin haze of corruption over a wide area.\n\nMark a prisoner to be rendered or bound; a warden straps them in and leaves, and the press does the rest. Someone working it (haulers and thralls too) makes it faster.</description>
+    <tickerType>Rare</tickerType>
     <graphicData>
       <texPath>Things/Building/HP_SoulPress</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -101,6 +103,7 @@
         <corruption>50</corruption>
         <corruptionRadius>6.9</corruptionRadius>
         <effecter>Smelt</effecter>
+        <autonomous>true</autonomous>
       </li>
       <li Class="CompProperties_Glower">
         <glowRadius>4</glowRadius>

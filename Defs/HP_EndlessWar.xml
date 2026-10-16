@@ -767,4 +767,22 @@
     </modExtensions>
   </WorkGiverDef>
 
+  <WorkGiverDef>
+    <defName>HP_StaffSoulPress</defName>
+    <label>work the soul press</label>
+    <giverClass>HollowPawns.WorkGiver_StaffMachine</giverClass>
+    <workType>Hauling</workType>
+    <priorityInType>1</priorityInType>
+    <verb>work</verb>
+    <gerund>working</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <modExtensions>
+      <li Class="HollowPawns.StaffingExtension">
+        <building>HP_SoulPress</building>
+      </li>
+    </modExtensions>
+  </WorkGiverDef>
+
 </Defs>

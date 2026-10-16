@@ -41,16 +41,119 @@ namespace HollowPawns
 
         public EffecterDef effecter;
 
+        /// <summary>
+        /// Load and leave (the soul press): the warden straps the victim in and goes; the building runs
+        /// the rite itself on its rare tick, faster when staffed. Needs tickerType Rare on the def.
+        /// </summary>
+        public bool autonomous;
+
         public CompProperties_SoulRite()
         {
             compClass = typeof(CompSoulRite);
         }
     }
 
-    /// <summary>The Bone Altar and the Soul Press (4.27). Holds no state; the warden's job does the work.</summary>
-    public class CompSoulRite : ThingComp
+    /// <summary>
+    /// The Bone Altar and the Soul Press (4.27). At the altar the warden's job does the whole rite. The
+    /// press is load-and-leave: it holds the strapped-in victim and runs the rite on its own rare tick,
+    /// faster with someone working it (Staffing.cs).
+    /// </summary>
+    public class CompSoulRite : ThingComp, IStaffable
     {
         public CompProperties_SoulRite Props => (CompProperties_SoulRite)props;
+
+        private Pawn victim;
+        private Thing vessel;
+        private Pawn loadedBy;
+        private int ticksLeft = -1;
+
+        public Staffing Staffing { get; } = new Staffing(SkillDefOf.Medicine);
+
+        /// <summary>A victim is strapped in and the rite is under way (autonomous buildings only).</summary>
+        public bool Busy => victim != null;
+
+        public bool Holds(Pawn p) => p != null && victim == p;
+
+        public bool WantsOperator => Busy && Usable;
+
+        /// <summary>The warden's part is done: the press takes it from here.</summary>
+        public void Load(Pawn warden, Pawn v, Thing emptyVessel)
+        {
+            victim = v;
+            vessel = emptyVessel;
+            loadedBy = warden;
+            ticksLeft = Props.riteTicks;
+        }
+
+        private void Clear()
+        {
+            victim = null;
+            vessel = null;
+            loadedBy = null;
+            ticksLeft = -1;
+        }
+
+        private void Abandon(string why)
+        {
+            Messages.Message("The " + parent.LabelShort + " stopped: " + why, parent, MessageTypeDefOf.NeutralEvent);
+            Clear();
+        }
+
+        public override void CompTickRare()
+        {
+            if (!Busy)
+            {
+                return;
+            }
+            if (victim.Destroyed || victim.Dead || !victim.Spawned || victim.Map != parent.Map
+                || !victim.Position.InHorDistOf(parent.Position, 1.5f))
+            {
+                Abandon("the prisoner is no longer in it.");
+                return;
+            }
+            if (!Rites.IsRiteFate(SoulUtility.GetFate(victim)) || !SoulUtility.CanExtract(victim))
+            {
+                Abandon(victim.LabelShort + "'s mark was cleared.");
+                return;
+            }
+            // Keep them strapped down for as long as it takes (the restraint fades over a day on its own).
+            Hediff r = victim.health.hediffSet.GetFirstHediffOfDef(HP_DefOf.HP_RiteRestrained);
+            if (r == null)
+            {
+                victim.health.AddHediff(HP_DefOf.HP_RiteRestrained);
+            }
+            else
+            {
+                r.Severity = 1f;
+            }
+            if (!Usable)
+            {
+                return;
+            }
+            ticksLeft -= Mathf.RoundToInt(GenTicks.TickRareInterval * Staffing.Factor);
+            if (ticksLeft > 0)
+            {
+                return;
+            }
+            Pawn v = victim;
+            Pawn worker = Staffing.Operator ?? (loadedBy != null && !loadedBy.Destroyed ? loadedBy : null);
+            Thing ves = vessel != null && !vessel.Destroyed ? vessel : null;
+            Clear();
+            Rites.Complete(worker, v, parent, ves);
+        }
+
+        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
+        {
+            Clear();
+        }
+
+        public override void PostExposeData()
+        {
+            Scribe_References.Look(ref victim, "victim");
+            Scribe_References.Look(ref vessel, "vessel");
+            Scribe_References.Look(ref loadedBy, "loadedBy");
+            Scribe_Values.Look(ref ticksLeft, "ticksLeft", -1);
+        }
 
         public bool Usable
         {
@@ -97,7 +200,14 @@ namespace HollowPawns
         public override string CompInspectStringExtra()
         {
             int marked = parent.Map.mapPawns.PrisonersOfColonySpawned.Count(SoulUtility.IsMarked);
-            return marked > 0 ? marked + " prisoner" + (marked == 1 ? "" : "s") + " marked. Wardens will bring them." : null;
+            string line = marked > 0 ? marked + " prisoner" + (marked == 1 ? "" : "s") + " marked. Wardens will bring them." : null;
+            if (Busy)
+            {
+                string run = "Taking the soul of " + victim.LabelShort + ": " + Mathf.Max(0, ticksLeft).ToStringTicksToPeriod() + " left"
+                    + (Usable ? "." : " (paused, no power).") + "\n" + Staffing.InspectLine();
+                line = line == null ? run : run + "\n" + line;
+            }
+            return line;
         }
     }
 
@@ -129,14 +239,14 @@ namespace HollowPawns
         private static Job MakeJob(Pawn pawn, Thing t, bool forced)
         {
             CompSoulRite rite = t.TryGetComp<CompSoulRite>();
-            if (rite == null || !rite.Usable || t.IsForbidden(pawn) || !pawn.CanReserveAndReach(t, PathEndMode.InteractionCell, Danger.Deadly, 1, -1, null, forced))
+            if (rite == null || !rite.Usable || rite.Busy || t.IsForbidden(pawn) || !pawn.CanReserveAndReach(t, PathEndMode.InteractionCell, Danger.Deadly, 1, -1, null, forced))
             {
                 return null;
             }
             foreach (Pawn victim in pawn.Map.mapPawns.PrisonersOfColonySpawned)
             {
                 SoulFate fate = SoulUtility.GetFate(victim);
-                if (!Rites.IsRiteFate(fate) || !SoulUtility.CanMark(victim)
+                if (!Rites.IsRiteFate(fate) || !SoulUtility.CanMark(victim) || Rites.BeingPressed(victim, pawn.Map)
                     || !pawn.CanReserveAndReach(victim, PathEndMode.Touch, Danger.Deadly, 1, -1, null, forced))
                 {
                     continue;
@@ -165,6 +275,10 @@ namespace HollowPawns
         /// <summary>Fates the altar and press carry out. A battery has its own warden job.</summary>
         public static bool IsRiteFate(SoulFate f) => f == SoulFate.Render || f == SoulFate.Bind || f == SoulFate.Effigy;
 
+        /// <summary>Already strapped into a press and being worked on.</summary>
+        public static bool BeingPressed(Pawn victim, Map map) =>
+            map.listerBuildings.allBuildingsColonist.Any(b => b.TryGetComp<CompSoulRite>()?.Holds(victim) == true);
+
         /// <summary>The highest-tier empty vessel the pawn can reach and reserve.</summary>
         public static Thing BestEmptyVessel(Pawn pawn, bool forced)
         {
@@ -184,7 +298,10 @@ namespace HollowPawns
             return best;
         }
 
-        /// <summary>The end of the rite: take the soul, render or bind it, and kill the victim.</summary>
+        /// <summary>
+        /// The end of the rite: take the soul, render or bind it, and kill the victim. warden is whoever
+        /// worked it; null when a press finished on its own with nobody left to credit.
+        /// </summary>
         public static void Complete(Pawn warden, Pawn victim, Thing building, Thing emptyVessel)
         {
             CompSoulRite rite = building.TryGetComp<CompSoulRite>();
@@ -214,7 +331,10 @@ namespace HollowPawns
                 {
                     emptyVessel.Destroy();
                 }
-                TaleRecorder.RecordTale(HP_DefOf.HP_SoulBound, warden, victim);
+                if (warden != null)
+                {
+                    TaleRecorder.RecordTale(HP_DefOf.HP_SoulBound, warden, victim);
+                }
                 GenPlace.TryPlaceThing(filled, building.InteractionCell, map, ThingPlaceMode.Near);
             }
             else if (fate == SoulFate.Effigy)
@@ -226,7 +346,7 @@ namespace HollowPawns
                 SoulUtility.DropEssence(building.InteractionCell, map, SoulGrades.RenderYield(grade), essence);
             }
 
-            Messages.Message(warden.LabelShort + " took the " + grade.Label() + " soul of " + victim.LabelShort
+            Messages.Message((warden != null ? warden.LabelShort : "The " + building.LabelShort) + " took the " + grade.Label() + " soul of " + victim.LabelShort
                 + (fate == SoulFate.Bind ? " and bound it." : fate == SoulFate.Effigy ? " and sealed it, screaming, into an effigy." : " and rendered it.") + (botched ? " The rite was botched." : ""),
                 new TargetInfo(cell, map), MessageTypeDefOf.NeutralEvent);
 
@@ -315,8 +435,22 @@ namespace HollowPawns
             lay.initAction = () => pawn.carryTracker.TryDropCarriedThing(Building.Position, ThingPlaceMode.Direct, out Thing _);
             yield return lay;
 
-            // The rite.
+            // Load and leave: the press runs the rite itself.
             CompProperties_SoulRite props = Building.TryGetComp<CompSoulRite>().Props;
+            if (props.autonomous)
+            {
+                Toil load = ToilMaker.MakeToil("HP_LoadPress");
+                load.initAction = () =>
+                {
+                    Thing vessel = job.targetC.IsValid ? job.targetC.Thing : null;
+                    Building.TryGetComp<CompSoulRite>().Load(pawn, Victim, vessel);
+                };
+                load.defaultCompleteMode = ToilCompleteMode.Instant;
+                yield return load;
+                yield break;
+            }
+
+            // The rite.
             Toil perform = Toils_General.Wait(props.riteTicks, TargetIndex.B);
             perform.FailOn(() => Victim.Position != Building.Position && !Victim.Position.InHorDistOf(Building.Position, 1.5f));
             perform.WithProgressBarToilDelay(TargetIndex.B);
@@ -335,6 +469,25 @@ namespace HollowPawns
             };
             finish.defaultCompleteMode = ToilCompleteMode.Instant;
             yield return finish;
+        }
+    }
+}
+
+namespace HollowPawns
+{
+    /// <summary>
+    /// A prisoner strapped into a press is downed, and wardens carry downed prisoners to bed, which
+    /// would pull them out mid-rite. Leave them where they are.
+    /// </summary>
+    [HarmonyLib.HarmonyPatch(typeof(RimWorld.WorkGiver_Warden_TakeToBed), nameof(RimWorld.WorkGiver_Warden_TakeToBed.JobOnThing))]
+    public static class Patch_TakeToBed_SoulPress
+    {
+        public static void Postfix(Verse.Thing t, ref Verse.AI.Job __result)
+        {
+            if (__result != null && t is Verse.Pawn p && p.Spawned && Rites.BeingPressed(p, p.Map))
+            {
+                __result = null;
+            }
         }
     }
 }

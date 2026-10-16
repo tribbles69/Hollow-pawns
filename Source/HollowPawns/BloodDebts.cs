@@ -420,7 +420,7 @@ namespace HollowPawns
             BoundSoul soul = BoundSoul.From(victim, grade);
             soul.lovedBy = debt?.avengers?.ToList() ?? new List<int>();
             effigy.TryGetComp<CompEffigy>()?.Fill(soul, debt?.victims);
-            effigy.TryGetComp<CompQuality>()?.SetQuality(QualityUtility.GenerateQualityCreatedByPawn(warden, SkillDefOf.Artistic), ArtGenerationContext.Colony);
+            effigy.TryGetComp<CompQuality>()?.SetQuality((warden != null ? QualityUtility.GenerateQualityCreatedByPawn(warden, SkillDefOf.Artistic) : QualityCategory.Normal), ArtGenerationContext.Colony);
             foreach (Pawn avenger in BloodDebts.AvengersOnMap(debt, victim.MapHeld))
             {
                 avenger.needs?.mood?.thoughts?.memories?.TryGainMemory(HP_DefOf.HP_AvengedMemory);
