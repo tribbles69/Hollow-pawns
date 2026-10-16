@@ -89,6 +89,8 @@ namespace HollowPawns
         [MayRequireBiotech] public static HediffDef HP_ThrallDecay;
         [MayRequireBiotech] public static FactionDef HP_Demons;
         [MayRequireBiotech] public static IncidentDef HP_DemonWave;
+        [MayRequireBiotech] public static HediffDef HP_CoreDark;
+        [MayRequireBiotech] public static JobDef HP_FeedDreadnought;
         [MayRequireBiotech] public static HediffDef HP_SoulStarved;
         [MayRequireBiotech] public static PawnsArrivalModeDef HP_RiftEmerge;
         [MayRequireBiotech] public static ThingDef HP_GreatRift;

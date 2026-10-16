@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Soul dreadnought (4.9) =====================
+       A superheavy mech grown at the large gestator around a filled soul lattice. Built on vanilla's
+       centurion (body, shield, turret, art), tinted as a placeholder until it has its own art. Runs on
+       essence (a soul core burning ~8 a day, fed by haulers), not mech energy. Dreadnought.cs. -->
+
+  <ThingDef ParentName="MechCenturion">
+    <defName>HP_Dreadnought</defName>
+    <label>soul dreadnought</label>
+    <description>An ultraheavy war mech grown around a bound soul. The soul is its core: it runs on essence, not power, burning about eight a day, and goes dark if the core runs dry. Haulers keep it fed. It carries a shield bubble and a point-defence turret, and the soul inside makes it a little harder to stop.</description>
+    <statBases>
+      <EnergyShieldEnergyMax>4</EnergyShieldEnergyMax>
+      <ArmorRating_Sharp>1.1</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.6</ArmorRating_Blunt>
+    </statBases>
+    <comps>
+      <li Class="HollowPawns.CompProperties_DreadnoughtCore">
+        <capacity>60</capacity>
+        <burnPerDay>8</burnPerDay>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <PawnKindDef ParentName="MechCenturionKind">
+    <defName>HP_Dreadnought</defName>
+    <label>soul dreadnought</label>
+    <race>HP_Dreadnought</race>
+    <combatPower>320</combatPower>
+    <lifeStages Inherit="False">
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Mechanoid/Centurion</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Centurion</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <color>(140,175,195)</color>
+          <drawSize>2.7</drawSize>
+          <shadowData>
+            <volume>(0.6, 0.8, 0.6)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Mechanoid/CenturionAncient</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Centurion</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <color>(140,175,195)</color>
+          <drawSize>2.7</drawSize>
+          <shadowData>
+            <volume>(0.6, 0.8, 0.6)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+
+  <RecipeDef ParentName="SuperHeavyMechanoidRecipe">
+    <defName>HP_GestateDreadnought</defName>
+    <label>gestate soul dreadnought</label>
+    <description>Gestate a soul dreadnought around a filled soul lattice. The soul becomes its core.</description>
+    <researchPrerequisites>
+      <li>HP_SoulLattice</li>
+    </researchPrerequisites>
+    <products>
+      <HP_Dreadnought>1</HP_Dreadnought>
+    </products>
+    <descriptionHyperlinks>
+      <ThingDef>HP_Dreadnought</ThingDef>
+    </descriptionHyperlinks>
+    <ingredients Inherit="False">
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_Soulsteel</li>
+          </thingDefs>
+        </filter>
+        <count>250</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Plasteel</li>
+          </thingDefs>
+        </filter>
+        <count>100</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentSpacer</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_SoulEssence</li>
+          </thingDefs>
+        </filter>
+        <count>60</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_VesselLattice</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+  </RecipeDef>
+
+  <HediffDef>
+    <defName>HP_CoreDark</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>soul core dark</label>
+    <description>The dreadnought's soul core has burned out. It's shut down until someone feeds it essence.</description>
+    <defaultLabelColor>(0.5, 0.6, 0.7)</defaultLabelColor>
+    <isBad>true</isBad>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <JobDef>
+    <defName>HP_FeedDreadnought</defName>
+    <driverClass>HollowPawns.JobDriver_FeedDreadnought</driverClass>
+    <reportString>feeding TargetA's soul core.</reportString>
+  </JobDef>
+
+  <WorkGiverDef>
+    <defName>HP_FeedDreadnought</defName>
+    <label>feed soul dreadnoughts</label>
+    <giverClass>HollowPawns.WorkGiver_FeedDreadnought</giverClass>
+    <workType>Hauling</workType>
+    <priorityInType>60</priorityInType>
+    <verb>feed</verb>
+    <gerund>feeding</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+</Defs>

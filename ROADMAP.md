@@ -64,6 +64,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Thrall performance (4.26) | Lean think tree for thralls (mod setting), muster spots, thrall racks (six in suspended animation, release on raid), a benchmark spawner. Hauling area: use vanilla allowed areas. |
 | Trenches (4.25) | Our own, no dependency (Frontline isn't installed; VFE Security's are off): a dug floor, ~55% all-round cover in vanilla except from within three cells, head-and-shoulders only under CE, and the AI rates trench cells as cover. |
 | Soul eater (4.15) | Biotech xenotype: soul hunger resource gene (drains daily), soul drain (takes the whole soul, kills; more for a better grade), devour essence, soul starvation at zero. |
+| Soul dreadnoughts (4.9) | Superheavy mech on the centurion's body and art (tinted placeholder), gestated around a filled soul lattice; runs on a soul core of essence (60, ~8 a day) fed by haulers, no mech energy; shuts down when dry. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -179,6 +180,7 @@ A ghost is a soul still clinging to its body. Ghosts are **rare and local**: tie
 **Art:** a translucent pawn-style graphic (all facings); lingering and wrathful can share it with a tint.
 
 ### 4.9 Soul dreadnoughts
+**Built in v0.8 with placeholder art** (Aaron's call): the centurion's sprites, tinted. Decided while building: the soul core is the filled soul lattice in the recipe; the dreadnought skips the mech energy need entirely and burns essence instead, topped up by haulers.
 Huge Biotech-style mechs grown at the gestator from soulsteel and essence. They run on essence instead of power; possibly need a soul core made from a captured prisoner. Code is moderate; **the real cost is art** (all directions).
 
 ### 4.10 Longevity

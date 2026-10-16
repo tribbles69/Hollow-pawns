@@ -270,6 +270,9 @@ A xenotype that lives on souls, built like the sanguophage: ageless, little pain
 
 At zero the eater starves (*soul starvation*) and dies in about two days unless fed.
 
+### Soul dreadnoughts (Biotech)
+**Gestate soul dreadnought** at the large mech gestator (research *Ultra mechtech* and *Soul lattice*): 250 soulsteel, 100 plasteel, 2 advanced components, 60 essence and a **filled soul lattice** as its core. A centurion-class war mech (shield bubble, point-defence turret, tougher armour) that runs on **essence, not mech energy**: its soul core holds 60 and burns about 8 a day. Haulers bring it essence when it's under half; if it runs dry it shuts down until fed. Placeholder art: the centurion, tinted.
+
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
 - **Soul guns fire beams.** Like CE's own lasers: one shared **soul charge** ammo (100 from 6 soulsteel + 4 essence, so about 200 shots per corpse), and each gun maps it to its own beam with its own damage and penetration, plus a one-cell soul blast on impact.
@@ -393,6 +396,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Thralls (Biotech): place a muster spot: idle thralls walk there and stand. Build a thrall rack: *Rack idle thralls*: up to six climb in (inspect counts them); dev-fire a raid: they step out drafted. Mod settings: *Lean thrall brain* toggles; with it off they wander like colonists.
 - [ ] Trenches: dig a line, draft a colonist into it, have a raider shoot at them from range: the hit chance tooltip shows cover. Shoot from right next to it: no trench bonus. Under CE: the pawn's collision box (dev: draw CE collision) shrinks to head height in the trench.
 - [ ] Soul eater (Biotech): dev-spawn a pawn with the *soul eater* xenotype: a stolen-soul bar on its gizmos, draining. *Devour essence* on an essence stack: bar rises, stack shrinks. *Soul drain* on a prisoner: they die, bar jumps. Let the bar hit zero: *soul starvation* creeps up.
+- [ ] Dreadnought (Biotech, dev: research all): add the gestate bill at a large gestator with a filled lattice: out comes a soul dreadnought with no energy bar; inspect shows the soul core. Dev-drain it (wait) under half: a hauler brings essence. Let it run dry: *soul core dark*, it shuts down; feed it: it wakes.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
@@ -419,6 +423,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - v0.8, unverified until tested in game: the lean thrall think tree swapped in through a `Pawn_Thinker.MainThinkTree` getter postfix (vanilla caches subtree lookups per tree, so watch for errors about missing nodes), thralls held in a `Building_Casket` subclass with several pawns at once.
 - v0.8, unverified until tested in game: trenches (a `FloorBase` terrain with no affordances on diggable ground; the `CoverUtility.CalculateOverallBlockChance` and `TotalSurroundingCoverScore` postfixes; CE's private `CollisionVertical.CalculateHeightRange` patched by hand with ref params for its outs).
 - v0.8, unverified until tested in game: the soul eater's `Gene_Resource` subclass drawn with `GeneGizmo_ResourceHemogen` (it casts to `Gene_Hemogen` for the pack icon and should just skip it for ours), a touch ability targeting an item (`canTargetItems`).
+- v0.8, unverified until tested in game: the soul dreadnought inheriting from vanilla's centurion (`MechCenturion` / `MechCenturionKind`) with a tinted `CutoutWithOverlay` graphic, mech AI coping with no `MechEnergy` need, gestation picking our pawn kind from the race.
 - v0.7, unverified until tested in game: the rite job (carrying a restrained prisoner and laying them on the altar cell; vanilla `Toils_Haul.StartCarryThing` on a pawn), `Building_CloneVat` re-implementing `IBillGiver.CurrentlyUsableForBills` (vanilla's isn't virtual), `ResurrectionUtility.TryResurrect` on rotted husks, the corruption overlay (`CellBoolDrawer`) and its toggle among the play settings, `DataExposeUtility.LookByteArray` for the corruption grid, thralls generated with a forced xenotype that has `canGenerateAsCombatant` false, CE armour values for the conscript vest and helmet (set by eye below CE's steel flak vest).
 - v0.6, unverified until tested in game: adding a faction to an existing save with `FactionGenerator.NewGeneratedFaction` (it will have no world bases in that save, and Ideology must give it an ideoligion); the storyteller firing an incident whose `baseChance` is 0 through an on/off cycle; demon pawn kinds inheriting from non-abstract vanilla kinds (`ThrasherBase`, `PirateKindBase`, `MercenaryHeavyBase`); `CompProperties_CauseHediff_Apparel` with no body part.
 - v0.5, unverified until tested in game: `HediffDef.preventsDeath` (no vanilla XML uses it; the game code reads it in `ShouldBeDead`/`CheckForStateChange`), the soul jar surviving minify and save/load, and the soul broker caravan patch on the abstract `OutlanderFactionBase`.
