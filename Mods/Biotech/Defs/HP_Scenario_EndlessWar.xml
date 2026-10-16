@@ -9,12 +9,76 @@
     <label>Endless War</label>
     <description>Two overseers, three thralls, and the machines that make more of everything. The raids never stop, and neither does the line.</description>
     <scenario>
-      <summary>Two overseers and three thralls with a line forge, a corpse grinder and a soul generator. Frequent raids. Hollow Pawns.</summary>
+      <summary>Two overseers and three thralls in a steel bunker with a line forge, a corpse grinder and a soul generator. Frequent raids. Hollow Pawns.</summary>
       <parts>
         <li Class="ScenPart_ConfigPage_ConfigureStartingPawns">
           <def>ConfigPage_ConfigureStartingPawns</def>
           <pawnCount>2</pawnCount>
           <pawnChoiceCount>8</pawnChoiceCount>
+        </li>
+        <!-- Before the arrival part, so the colonists land inside it. -->
+        <li Class="HollowPawns.ScenPart_HP_Structure">
+          <def>HP_Structure</def>
+          <label>a steel bunker housing the war machines, behind a trench and a sandbag line</label>
+          <layout>
+            <li>#############</li>
+            <li>#,,,,,,,,,,,#</li>
+            <li>#,,,,,,M,,,,#</li>
+            <li>#,F,,,,,,,E,#</li>
+            <li>#,,,,,,,,,,,#</li>
+            <li>#,,,,,,,,,,,#</li>
+            <li>######D######</li>
+            <li>.............</li>
+            <li>~~~~~~~~~~~~~</li>
+            <li>SSSSS...SSSSS</li>
+          </layout>
+          <legend>
+            <li>
+              <key>#</key>
+              <thing>Wall</thing>
+              <stuff>Steel</stuff>
+              <roof>true</roof>
+            </li>
+            <li>
+              <key>D</key>
+              <thing>Door</thing>
+              <stuff>Steel</stuff>
+              <terrain>Concrete</terrain>
+              <roof>true</roof>
+            </li>
+            <li>
+              <key>,</key>
+              <terrain>Concrete</terrain>
+              <roof>true</roof>
+            </li>
+            <li>
+              <key>F</key>
+              <thing>HP_LineForge</thing>
+              <terrain>Concrete</terrain>
+              <roof>true</roof>
+            </li>
+            <li>
+              <key>M</key>
+              <thing>HP_CorpseGrinder</thing>
+              <terrain>Concrete</terrain>
+              <roof>true</roof>
+            </li>
+            <li>
+              <key>E</key>
+              <thing>HP_SoulGenerator</thing>
+              <terrain>Concrete</terrain>
+              <roof>true</roof>
+            </li>
+            <li>
+              <key>~</key>
+              <terrain>HP_Trench</terrain>
+            </li>
+            <li>
+              <key>S</key>
+              <thing>Sandbags</thing>
+              <stuff>Steel</stuff>
+            </li>
+          </legend>
         </li>
         <li Class="ScenPart_PlayerPawnsArriveMethod">
           <def>PlayerPawnsArriveMethod</def>
@@ -36,18 +100,6 @@
         <li Class="HollowPawns.ScenPart_HP_StartingThralls">
           <def>HP_StartingThralls</def>
           <count>3</count>
-        </li>
-        <li Class="HollowPawns.ScenPart_HP_StartingBuilding">
-          <def>HP_StartingBuilding</def>
-          <thingDef>HP_LineForge</thingDef>
-        </li>
-        <li Class="HollowPawns.ScenPart_HP_StartingBuilding">
-          <def>HP_StartingBuilding</def>
-          <thingDef>HP_CorpseGrinder</thingDef>
-        </li>
-        <li Class="HollowPawns.ScenPart_HP_StartingBuilding">
-          <def>HP_StartingBuilding</def>
-          <thingDef>HP_SoulGenerator</thingDef>
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>

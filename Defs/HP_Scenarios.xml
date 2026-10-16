@@ -7,6 +7,15 @@
        (Scenarios.cs) run once at the start; nothing ticks. -->
 
   <ScenPartDef>
+    <defName>HP_Structure</defName>
+    <label>start in a structure</label>
+    <scenPartClass>HollowPawns.ScenPart_HP_Structure</scenPartClass>
+    <category>StartingImportant</category>
+    <selectionWeight>0</selectionWeight>
+    <summaryPriority>305</summaryPriority>
+  </ScenPartDef>
+
+  <ScenPartDef>
     <defName>HP_StartingBuilding</defName>
     <label>start with building</label>
     <scenPartClass>HollowPawns.ScenPart_HP_StartingBuilding</scenPartClass>
@@ -91,7 +100,7 @@
   <ScenarioDef ParentName="ScenarioBase">
     <defName>HP_Coven</defName>
     <label>The Coven</label>
-    <description>Three cultists, a bone altar and a captive, on ground already sick with what you've done. Nothing will grow near the altar for a while: live on meat and leather, and on souls.</description>
+    <description>Three cultists, a granite chapel round a bone altar and a captive, on ground already sick with what you've done. Nothing will grow near the altar for a while: live on meat and leather, and on souls.</description>
     <scenario>
       <summary>Three cultists with a bone altar and a captive, on corrupted ground. Hollow Pawns.</summary>
       <parts>
@@ -99,6 +108,55 @@
           <def>ConfigPage_ConfigureStartingPawns</def>
           <pawnCount>3</pawnCount>
           <pawnChoiceCount>8</pawnChoiceCount>
+        </li>
+        <!-- Before the arrival part, so the colonists land inside it. -->
+        <li Class="HollowPawns.ScenPart_HP_Structure">
+          <def>HP_Structure</def>
+          <label>a granite chapel, with the altar inside and a cell for the captive</label>
+          <layout>
+            <li>###########</li>
+            <li>#,,,,,#,,,#</li>
+            <li>#,,A,,#,P,#</li>
+            <li>#,,,,,#,,,#</li>
+            <li>#,,,,,##D##</li>
+            <li>#,,,,,,,,,#</li>
+            <li>#,,,,,,,,,#</li>
+            <li>####D######</li>
+          </layout>
+          <legend>
+            <li>
+              <key>#</key>
+              <thing>Wall</thing>
+              <stuff>BlocksGranite</stuff>
+              <roof>true</roof>
+            </li>
+            <li>
+              <key>D</key>
+              <thing>Door</thing>
+              <stuff>BlocksGranite</stuff>
+              <terrain>FlagstoneGranite</terrain>
+              <roof>true</roof>
+            </li>
+            <li>
+              <key>,</key>
+              <terrain>FlagstoneGranite</terrain>
+              <roof>true</roof>
+            </li>
+            <li>
+              <key>A</key>
+              <thing>HP_BoneAltar</thing>
+              <stuff>BlocksGranite</stuff>
+              <terrain>FlagstoneGranite</terrain>
+              <roof>true</roof>
+            </li>
+            <li>
+              <key>P</key>
+              <thing>SleepingSpot</thing>
+              <terrain>FlagstoneGranite</terrain>
+              <roof>true</roof>
+              <forPrisoners>true</forPrisoners>
+            </li>
+          </legend>
         </li>
         <li Class="ScenPart_PlayerPawnsArriveMethod">
           <def>PlayerPawnsArriveMethod</def>
@@ -108,11 +166,6 @@
         <li Class="ScenPart_StartingResearch">
           <def>StartingResearch</def>
           <project>HP_SoulExtraction</project>
-        </li>
-        <li Class="HollowPawns.ScenPart_HP_StartingBuilding">
-          <def>HP_StartingBuilding</def>
-          <thingDef>HP_BoneAltar</thingDef>
-          <stuff>BlocksGranite</stuff>
         </li>
         <li Class="HollowPawns.ScenPart_HP_StartingPrisoners">
           <def>HP_StartingPrisoners</def>
@@ -159,7 +212,7 @@
         </li>
         <li Class="ScenPart_GameStartDialog">
           <def>GameStartDialog</def>
-          <text>The village drove you out when they found the altar. You took it with you, stone by stone, and one of them besides.\n\nThe ground here was already rotten when you came. It will be worse by spring. Nothing green will grow near the altar now: hunt, and feed it.\n\nThe captive is in irons, but irons come off. Build a cell.</text>
+          <text>The village drove you out when they found the altar. You took it with you, stone by stone, and one of them besides.\n\nThe ground here was already rotten when you came. It will be worse by spring. Nothing green will grow near the altar now: hunt, and feed it.\n\nThe captive is in irons, but irons come off. There is a cell in the chapel: carry them to it.</text>
           <closeSound>GameStartSting</closeSound>
         </li>
       </parts>
@@ -178,6 +231,48 @@
           <def>ConfigPage_ConfigureStartingPawns</def>
           <pawnCount>1</pawnCount>
           <pawnChoiceCount>8</pawnChoiceCount>
+        </li>
+        <!-- Before the arrival part, so the colonists land inside it. -->
+        <li Class="HollowPawns.ScenPart_HP_Structure">
+          <def>HP_Structure</def>
+          <label>an undertaker's hut beside three empty graves</label>
+          <layout>
+            <li>#####........</li>
+            <li>#,,,#........</li>
+            <li>#S,,#.G.G.G..</li>
+            <li>#,,,D........</li>
+            <li>#####........</li>
+          </layout>
+          <legend>
+            <li>
+              <key>#</key>
+              <thing>Wall</thing>
+              <stuff>WoodLog</stuff>
+              <roof>true</roof>
+            </li>
+            <li>
+              <key>D</key>
+              <thing>Door</thing>
+              <stuff>WoodLog</stuff>
+              <terrain>WoodPlankFloor</terrain>
+              <roof>true</roof>
+            </li>
+            <li>
+              <key>,</key>
+              <terrain>WoodPlankFloor</terrain>
+              <roof>true</roof>
+            </li>
+            <li>
+              <key>S</key>
+              <thing>SleepingSpot</thing>
+              <terrain>WoodPlankFloor</terrain>
+              <roof>true</roof>
+            </li>
+            <li>
+              <key>G</key>
+              <thing>Grave</thing>
+            </li>
+          </legend>
         </li>
         <li Class="ScenPart_PlayerPawnsArriveMethod">
           <def>PlayerPawnsArriveMethod</def>
