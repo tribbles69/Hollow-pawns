@@ -20,7 +20,7 @@
     <pathCost>50</pathCost>
     <fillPercent>0.4</fillPercent>
     <castEdgeShadows>true</castEdgeShadows>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,-1)</interactionCellOffset>
     <stuffCategories>
@@ -93,7 +93,7 @@
       <drawSize>(1,2)</drawSize>
     </graphicData>
     <size>(1,2)</size>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
     <pathCost>42</pathCost>

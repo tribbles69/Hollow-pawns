@@ -24,7 +24,7 @@
     <pathCost>40</pathCost>
     <fillPercent>0.4</fillPercent>
     <castEdgeShadows>true</castEdgeShadows>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,-1)</interactionCellOffset>
     <designationCategory>Production</designationCategory>
@@ -72,7 +72,7 @@
     <pathCost>50</pathCost>
     <fillPercent>0.5</fillPercent>
     <castEdgeShadows>true</castEdgeShadows>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,-2)</interactionCellOffset>
     <designationCategory>Production</designationCategory>

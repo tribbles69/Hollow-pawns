@@ -675,7 +675,7 @@ namespace HollowPawns
             yield return new Command_Action
             {
                 defaultLabel = "Kit out thralls",
-                defaultDesc = "Put every thrall on this map on the Conscript kit outfit, so they dress themselves in conscript kit, and send any thrall without a weapon to pick up a conscript rifle.",
+                defaultDesc = "Put every thrall on this map on the Conscript kit outfit, so they dress themselves in conscript kit, and send every thrall not already carrying a conscript rifle to swap for one (they drop what they had).",
                 icon = ContentFinder<Texture2D>.Get("Things/Building/HP_LineForge"),
                 action = () => ConscriptKit.KitOutThralls(Map),
             };
@@ -778,7 +778,8 @@ namespace HollowPawns
                     p.outfits.CurrentApparelPolicy = policy;
                     dressed++;
                 }
-                if (p.equipment?.Primary == null && !p.Downed && !p.Drafted)
+                // Whatever they came with (vat-grown thralls arrive with a random gun) goes for a conscript rifle; Equip drops the old one.
+                if (p.equipment != null && p.equipment.Primary?.def != HP_DefOf.HP_ConscriptRifle && !p.Downed && !p.Drafted)
                 {
                     Thing rifle = GenClosest.ClosestThingReachable(p.Position, map, ThingRequest.ForDef(HP_DefOf.HP_ConscriptRifle), PathEndMode.ClosestTouch,
                         TraverseParms.For(p), 9999f, t => !t.IsForbidden(p) && p.CanReserve(t));

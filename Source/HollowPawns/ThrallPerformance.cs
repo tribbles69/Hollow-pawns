@@ -144,6 +144,59 @@ namespace HollowPawns
             };
         }
 
+        public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn selPawn)
+        {
+            foreach (FloatMenuOption o in base.GetFloatMenuOptions(selPawn))
+            {
+                yield return o;
+            }
+            FloatMenuOption mine = EnterOption(new List<Pawn> { selPawn });
+            if (mine != null)
+            {
+                yield return mine;
+            }
+        }
+
+        public override IEnumerable<FloatMenuOption> GetMultiSelectFloatMenuOptions(IEnumerable<Pawn> selPawns)
+        {
+            foreach (FloatMenuOption o in base.GetMultiSelectFloatMenuOptions(selPawns))
+            {
+                yield return o;
+            }
+            FloatMenuOption mine = EnterOption(selPawns.ToList());
+            if (mine != null)
+            {
+                yield return mine;
+            }
+        }
+
+        /// <summary>"Climb into the rack" for whichever of these are thralls, as many as there's room for.</summary>
+        private FloatMenuOption EnterOption(List<Pawn> pawns)
+        {
+            List<Pawn> thralls = pawns.Where(p => p != null && Thralls.IsThrall(p)).ToList();
+            if (thralls.Count == 0)
+            {
+                return null;
+            }
+            if (Count >= Capacity)
+            {
+                return new FloatMenuOption("Climb into thrall rack (full)", null);
+            }
+            List<Pawn> able = thralls.Where(p => !p.Downed && p.CanReach(this, PathEndMode.InteractionCell, Danger.Deadly)).Take(Capacity - Count).ToList();
+            if (able.Count == 0)
+            {
+                return new FloatMenuOption("Climb into thrall rack (can't reach)", null);
+            }
+            string label = able.Count == 1 ? "Climb into thrall rack" : "Climb into thrall rack (" + able.Count + ")";
+            return new FloatMenuOption(label, () =>
+            {
+                foreach (Pawn p in able)
+                {
+                    p.jobs.TryTakeOrderedJob(JobMaker.MakeJob(HP_DefOf.HP_EnterThrallRack, this), JobTag.Misc);
+                }
+            });
+        }
+
         private void RackIdle()
         {
             int room = Capacity - Count, sent = 0;

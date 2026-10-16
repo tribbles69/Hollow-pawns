@@ -159,7 +159,7 @@
     <!-- Deliberate: chest-high cover you can't walk through. -->
     <disableImpassableShotOverConfigError>true</disableImpassableShotOverConfigError>
     <castEdgeShadows>true</castEdgeShadows>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,-1)</interactionCellOffset>
     <designationCategory>Misc</designationCategory>

@@ -172,7 +172,7 @@
     <passability>PassThroughOnly</passability>
     <pathCost>50</pathCost>
     <fillPercent>0.4</fillPercent>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,-1)</interactionCellOffset>
     <designationCategory>Production</designationCategory>
@@ -374,7 +374,7 @@
     <fillPercent>0.8</fillPercent>
     <blockWind>true</blockWind>
     <castEdgeShadows>true</castEdgeShadows>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <tickerType>Rare</tickerType>
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,-2)</interactionCellOffset>
@@ -538,7 +538,7 @@
     <pathCost>60</pathCost>
     <fillPercent>0.7</fillPercent>
     <castEdgeShadows>true</castEdgeShadows>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <tickerType>Rare</tickerType>
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,-1)</interactionCellOffset>

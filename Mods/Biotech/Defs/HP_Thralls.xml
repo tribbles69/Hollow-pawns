@@ -153,7 +153,7 @@
     <pathCost>60</pathCost>
     <fillPercent>0.8</fillPercent>
     <castEdgeShadows>true</castEdgeShadows>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <tickerType>Rare</tickerType>
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,-1)</interactionCellOffset>
