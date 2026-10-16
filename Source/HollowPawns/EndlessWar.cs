@@ -56,10 +56,15 @@ namespace HollowPawns
     /// <summary>
     /// The clone vat: a worker starts a culture (the bill eats meat, steel and essence quickly), then
     /// the vat grows it for a few days on its own and decants an adult thrall in basic gear. Rare tick
-    /// while growing; idle otherwise. Takes no new bill while it's growing.
+    /// while growing; idle otherwise. Takes no new bill while it's growing. Grows faster with someone
+    /// tending it (Staffing.cs, Medicine skill).
     /// </summary>
-    public class Building_CloneVat : Building_WorkTable, IBillGiver
+    public class Building_CloneVat : Building_WorkTable, IBillGiver, IStaffable
     {
+        public Staffing Staffing { get; } = new Staffing(SkillDefOf.Medicine);
+
+        public bool WantsOperator => Spawned && Growing && (GetComp<CompPowerTrader>()?.PowerOn ?? true);
+
         public const float GrowDays = 3f;
 
         private int growTicksLeft = -1;
@@ -89,7 +94,7 @@ namespace HollowPawns
             {
                 return;
             }
-            growTicksLeft -= GenTicks.TickRareInterval;
+            growTicksLeft -= Mathf.RoundToInt(GenTicks.TickRareInterval * Staffing.Factor);
             if (growTicksLeft <= 0)
             {
                 growTicksLeft = -1;
@@ -128,6 +133,8 @@ namespace HollowPawns
                     sb.AppendLine();
                 }
                 sb.Append("Growing a thrall: " + growTicksLeft.ToStringTicksToPeriod() + " left.");
+                sb.AppendLine();
+                sb.Append(Staffing.InspectLine());
             }
             return sb.ToString();
         }

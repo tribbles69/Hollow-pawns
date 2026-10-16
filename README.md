@@ -104,7 +104,7 @@ Taking and spending souls stains the ground and the people who do it. Toggle the
 | **Corpse grinder** (3x3, 600W; research *Industrial harvest*) | Grinds corpses left next to it (make a stockpile there): carrion bales, 4 essence from an adult human soul, meat and leather. No husk, never children, heavy corruption. One corpse per 1000 ticks while powered, faster when staffed (below). |
 | **Line forge** (4x2, 500W; research *Industrial harvest*) | Turns steel and components left next to it into conscript kit: a conscript rifle (bayonet, poor accuracy, 5.56 under CE), conscript helmet and vest, or the full kit. Near-worthless, no quality. A *Stop at* setting pauses it once that many of each piece are lying around the colony. Faster when staffed. |
 
-**Staffing.** The grinder and the forge run on their own, but a pawn working one speeds it up: x1.5 at skill 0 up to x3 at skill 20 (Cooking for the grinder, Crafting for the forge), times their global work speed. It's **hauling** work, so thralls can do it, and it comes last among hauling jobs, in half-hour shifts. Nobody is sent while the machine is unpowered or has nothing to do. Inspect shows who's working it and the speed.
+**Staffing.** The grinder, the forge and the clone vat (while growing) run on their own, but a pawn working one speeds it up: x1.5 at skill 0 up to x3 at skill 20 (Cooking for the grinder, Crafting for the forge, Medicine for the vat), times their global work speed. It's **hauling** work, so thralls can do it, and it comes last among hauling jobs, in half-hour shifts. Nobody is sent while the machine is unpowered or has nothing to do. Inspect shows who's working it and the speed.
 
 ### Reliquaries, soul-bound items and shrines
 | Thing | What it does |
@@ -279,7 +279,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Bind carrion at the butcher table, build carrion walls: they lose hit points slowly when warm and leak rot stink; frozen ones don't.
 - [ ] Corpse grinder: stockpile corpses next to it, power it: bales, meat, leather and a little essence appear at its front, corpses vanish one at a time, heavy corruption. A child corpse is left alone.
 - [ ] Line forge: choose *full conscript kit*, drop 100 steel and a component next to it: after a while a conscript rifle, helmet and vest appear. Under CE the rifle takes 5.56.
-- [ ] Staffing: a thrall with hauling on and nothing to carry walks to the grinder's front and works it; inspect says *Worked by Thrall 123: x1.5 speed* and corpses go faster. Turn the power off: they leave. Same at the forge with a colonist with good Crafting (higher speed).
+- [ ] Staffing: a thrall with hauling on and nothing to carry walks to the grinder's front and works it; inspect says *Worked by Thrall 123: x1.5 speed* and corpses go faster. Turn the power off: they leave. Same at the forge with a colonist with good Crafting (higher speed). Start a clone vat culture: once it's growing someone tends it and the days left drop faster.
 - [ ] Line forge *Stop at 5*: it pauses (inspect says *paused*) once 5 of each piece are on the map, and starts again when colonists equip some.
 - [ ] With CE: compare a soulsteel and a plasteel armour piece; make soul charges and check each soul gun fires cyan beams with blasts; soul-charge some 5.56 and load it into an assault rifle.
 
@@ -309,7 +309,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
 - Research positions were checked against Core, Ideology and Biotech only. Royalty, Anomaly or Odyssey might put something at (7, 5.5) or (8, 5.5) on the Main tab.
 
-- v0.8, unverified until tested in game: machine staffing (an interface-based work giver for the grinder and forge in the Hauling work type, the operator's speed read by the machine's rare tick).
+- v0.8, unverified until tested in game: machine staffing (an interface-based work giver for the grinder, forge and clone vat in the Hauling work type, the operator's speed read by the machine's rare tick).
 - v0.8, unverified until tested in game: adding the soul-bound comp to every weapon and apparel def at startup (`SoulBoundInjector`); the bind bill handing back the same item (the item is despawned inside `GenRecipe.MakeRecipeProducts` and skipped by `ConsumeIngredient`); the bound shrine's storage filter being cleared after binding; `Building_Storage` subclasses with `maxItemsInCell` 1 as single-vessel holders.
 - v0.8, unverified until tested in game: the prisoner battery as a `Building_Casket` subclass holding a prisoner (whether they stay a prisoner and come back out right, and whether `CompPowerPlant.DesiredPowerOutput` updated only on rare tick is enough for the power net).
 - v0.8, unverified until tested in game: blood debts (the `Pawn.Kill` prefix/postfix pair seeing the instigator, the postfix on the private `WorldPawnGC.GetCriticalPawnReason` keeping escaped debtors, a non-exclusive `PrisonerInteractionModeDef` showing up as a checkbox next to vanilla's, `MakeRecipeProducts` minifying the effigy before my postfix sees it, `AudioGrain_Clip` loading a mod wav from `Sounds/`, effigies' `CompTickRare` running on a minified-then-placed `Building_Art`).

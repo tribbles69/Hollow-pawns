@@ -275,4 +275,24 @@
     </requiredCapacities>
   </WorkGiverDef>
 
+  <!-- Staffing (Staffing.cs): the vat grows faster with someone tending it. Hauling work like the
+       grinder and forge, so thralls can tend the vat that makes more thralls; Medicine sets the speed. -->
+  <WorkGiverDef>
+    <defName>HP_StaffCloneVat</defName>
+    <label>tend the clone vat</label>
+    <giverClass>HollowPawns.WorkGiver_StaffMachine</giverClass>
+    <workType>Hauling</workType>
+    <priorityInType>1</priorityInType>
+    <verb>tend</verb>
+    <gerund>tending</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <modExtensions>
+      <li Class="HollowPawns.StaffingExtension">
+        <building>HP_CloneVat</building>
+      </li>
+    </modExtensions>
+  </WorkGiverDef>
+
 </Defs>
