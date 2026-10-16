@@ -130,18 +130,18 @@ namespace HollowPawns
         /// What can hurt a ghost: soul weapons, fire, and blades of soulsteel or the reaper's scythe.
         /// Everything else passes through.
         /// </summary>
-        public static bool CanHurt(DamageInfo dinfo)
+        public static bool CanHurt(DamageInfo dinfo) => CanHurt(dinfo.Def, dinfo.Instigator, dinfo.Def != null && !dinfo.Def.isRanged);
+
+        public static bool HurtsGhosts(DamageDef d) =>
+            d != null && (d == HP_DefOf.HP_SoulBlast || d == HP_DefOf.HP_SoulBurst || d == HP_DefOf.HP_SoulArrow || d == DamageDefOf.Flame || d == DamageDefOf.Burn);
+
+        public static bool CanHurt(DamageDef d, Thing instigator, bool melee)
         {
-            DamageDef d = dinfo.Def;
-            if (d == null)
-            {
-                return false;
-            }
-            if (d == HP_DefOf.HP_SoulBlast || d == HP_DefOf.HP_SoulBurst || d == HP_DefOf.HP_SoulArrow || d == DamageDefOf.Flame || d == DamageDefOf.Burn)
+            if (HurtsGhosts(d))
             {
                 return true;
             }
-            if (!d.isRanged && dinfo.Instigator is Pawn attacker)
+            if (melee && instigator is Pawn attacker)
             {
                 ThingWithComps weapon = attacker.equipment?.Primary;
                 if (weapon != null && (weapon.def == HP_DefOf.HP_ReaperScythe || weapon.Stuff == HP_DefOf.HP_Soulsteel))
@@ -150,6 +150,34 @@ namespace HollowPawns
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// Whether whatever this searcher would attack with can hurt a ghost. Reads the verb's projectile
+        /// (vanilla's and CE's launch verbs both have a Projectile property, CE's following the loaded ammo).
+        /// Unknown verbs count as able, so nothing is hidden by mistake.
+        /// </summary>
+        public static bool SearcherCanHurt(IAttackTargetSearcher searcher)
+        {
+            Verb verb = searcher?.CurrentEffectiveVerb;
+            if (verb == null)
+            {
+                return true;
+            }
+            if (verb.IsMeleeAttack)
+            {
+                return CanHurt(null, searcher.Thing, true);
+            }
+            ThingDef projectile = null;
+            try
+            {
+                projectile = Traverse.Create(verb).Property("Projectile").GetValue<ThingDef>();
+            }
+            catch
+            {
+                return true;
+            }
+            return projectile?.projectile == null || HurtsGhosts(projectile.projectile.damageDef);
         }
     }
 
@@ -382,6 +410,62 @@ namespace HollowPawns
             if (!absorbed && Ghosts.IsGhost(__instance) && !Ghosts.CanHurt(dinfo))
             {
                 absorbed = true;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Shooters and turrets don't pick a ghost as a target if their weapon can't hurt it (no wasted
+    /// ammo). The player can still order an attack by hand.
+    /// </summary>
+    [HarmonyPatch(typeof(Pawn), nameof(Pawn.ThreatDisabled))]
+    public static class Patch_Pawn_ThreatDisabled_Ghost
+    {
+        public static void Postfix(Pawn __instance, IAttackTargetSearcher disabledFor, ref bool __result)
+        {
+            if (!__result && disabledFor != null && Ghosts.IsGhost(__instance) && !Ghosts.SearcherCanHurt(disabledFor))
+            {
+                __result = true;
+            }
+        }
+    }
+
+    /// <summary>Vanilla projectiles that can't hurt a ghost fly straight through it, on to whatever's behind.</summary>
+    [HarmonyPatch(typeof(Projectile), "CanHit")]
+    public static class Patch_Projectile_CanHit_Ghost
+    {
+        public static void Postfix(Projectile __instance, Thing thing, ref bool __result)
+        {
+            if (__result && thing is Pawn p && Ghosts.IsGhost(p) && !Ghosts.HurtsGhosts(__instance.def.projectile?.damageDef))
+            {
+                __result = false;
+            }
+        }
+    }
+
+    /// <summary>The same for Combat Extended's 3D projectiles, patched by hand only when CE is loaded.</summary>
+    [StaticConstructorOnStartup]
+    public static class GhostPassThroughCE
+    {
+        static GhostPassThroughCE()
+        {
+            System.Type ce = AccessTools.TypeByName("CombatExtended.ProjectileCE");
+            var m = ce == null ? null : AccessTools.Method(ce, "CanCollideWith");
+            if (m != null)
+            {
+                new Harmony("aaronclews.hollowpawns.ghostce").Patch(m, postfix: new HarmonyMethod(typeof(GhostPassThroughCE), nameof(Postfix)));
+            }
+        }
+
+        public static void Postfix(Thing __instance, Thing thing, ref bool __result)
+        {
+            if (__result && thing is Pawn p && Ghosts.IsGhost(p))
+            {
+                DamageDef d = Traverse.Create(__instance).Property("DamageDef").GetValue<DamageDef>();
+                if (!Ghosts.HurtsGhosts(d))
+                {
+                    __result = false;
+                }
             }
         }
     }
