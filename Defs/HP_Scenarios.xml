@@ -2,8 +2,8 @@
 <Defs>
 
   <!-- ===================== Scenarios (4.33) =====================
-       The Coven and the Escapee. Endless War needs thralls, so it lives in Mods/Biotech. The Inquisitors
-       and the Gravedigger wait for their features (salt and fallen idols; ghosts). The custom parts
+       The Coven, the Gravedigger and the Escapee. Endless War needs thralls, so it lives in
+       Mods/Biotech. The Inquisitors wait for salt (the fallen idol is built). The custom parts
        (Scenarios.cs) run once at the start; nothing ticks. -->
 
   <ScenPartDef>
@@ -49,6 +49,15 @@
     <category>StartingImportant</category>
     <selectionWeight>0</selectionWeight>
     <summaryPriority>301</summaryPriority>
+  </ScenPartDef>
+
+  <ScenPartDef>
+    <defName>HP_Battlefield</defName>
+    <label>old battlefield</label>
+    <scenPartClass>HollowPawns.ScenPart_HP_Battlefield</scenPartClass>
+    <category>Rule</category>
+    <selectionWeight>0</selectionWeight>
+    <summaryPriority>363</summaryPriority>
   </ScenPartDef>
 
   <!-- Two days face-down in irons: long enough to build a cell. -->
@@ -151,6 +160,77 @@
         <li Class="ScenPart_GameStartDialog">
           <def>GameStartDialog</def>
           <text>The village drove you out when they found the altar. You took it with you, stone by stone, and one of them besides.\n\nThe ground here was already rotten when you came. It will be worse by spring. Nothing green will grow near the altar now: hunt, and feed it.\n\nThe captive is in irons, but irons come off. Build a cell.</text>
+          <closeSound>GameStartSting</closeSound>
+        </li>
+      </parts>
+    </scenario>
+  </ScenarioDef>
+
+  <!-- ===================== The Gravedigger ===================== -->
+  <ScenarioDef ParentName="ScenarioBase">
+    <defName>HP_Gravedigger</defName>
+    <label>The Gravedigger</label>
+    <description>One undertaker with a reaper's scythe, set down on an old battlefield that nobody buried. The dead are all still here, and they still have their souls. Some of them won't wait.</description>
+    <scenario>
+      <summary>A lone undertaker on an unburied battlefield. Every body is a ghost waiting to happen. Hollow Pawns.</summary>
+      <parts>
+        <li Class="ScenPart_ConfigPage_ConfigureStartingPawns">
+          <def>ConfigPage_ConfigureStartingPawns</def>
+          <pawnCount>1</pawnCount>
+          <pawnChoiceCount>8</pawnChoiceCount>
+        </li>
+        <li Class="ScenPart_PlayerPawnsArriveMethod">
+          <def>PlayerPawnsArriveMethod</def>
+          <method>Standing</method>
+          <visible>false</visible>
+        </li>
+        <li Class="HollowPawns.ScenPart_HP_Battlefield">
+          <def>HP_Battlefield</def>
+          <count>16</count>
+          <radius>26</radius>
+          <ghostChance>0.08</ghostChance>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>HP_ReaperScythe</thingDef>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>HP_HolyWater</thingDef>
+          <count>4</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>HP_VesselUrn_Empty</thingDef>
+          <count>2</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Pemmican</thingDef>
+          <count>60</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>MedicineHerbal</thingDef>
+          <count>10</count>
+        </li>
+        <li Class="ScenPart_ScatterThingsNearPlayerStart">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>WoodLog</thingDef>
+          <count>300</count>
+        </li>
+        <li Class="ScenPart_ScatterThingsNearPlayerStart">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>Steel</thingDef>
+          <count>100</count>
+        </li>
+        <li Class="ScenPart_GameStartDialog">
+          <def>GameStartDialog</def>
+          <text>They fought here and nobody came for the bodies. You were sent to bury them, or to do whatever else is done with the dead these days.
+
+The souls are still in them. Leave a body lying a day and it may get up. Bury it, burn it, or take its soul first.
+
+The scythe hurts what rises. Most things don't.</text>
           <closeSound>GameStartSting</closeSound>
         </li>
       </parts>

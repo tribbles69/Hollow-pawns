@@ -137,9 +137,10 @@ The scream is a generated placeholder (`Sounds/HP/EffigyWail.wav`, made by `Sour
 |---|---|
 | **The Coven** | Three cultists, a granite **bone altar** already built, one **captive** in irons (shackled for two days: build a cell), two empty urns, *Soul extraction* researched, and the ground for 20 cells around **corrupted**. Pemmican, a knife, a bow. |
 | **Endless War** (Biotech) | Two overseers and three **thralls**, a **line forge**, a **corpse grinder** and a **soul generator** with 60 essence (wire them up), three conscript rifles. *Electricity*, *Soul extraction* and *Industrial harvest* researched. A raid every 4 to 7 days. |
+| **The Gravedigger** | One undertaker with the **reaper's scythe**, 4 holy water and 2 empty urns, on an **old battlefield**: 16 enemy dead lying around the start, half still armed. Every body still has its soul, and while this scenario runs the ghost chance is **8%** per body (or your setting, if higher), so expect one or two to rise after the first day. Bury, burn or harvest them fast. |
 | **The Escapee** | One survivor in a drop pod with a **soul lattice** holding their spouse (or lover), who loved them back: put it in a reliquary and they're *Remembered*. A Whisper soul pistol, 30 essence, *Soul extraction* researched. A raid every 8 to 14 days. |
 
-The Inquisitors and the Gravedigger wait for salt, fallen idols and ghosts. The precepts (purist, corruption-exalted) don't exist yet.
+The Inquisitors wait for salt (the fallen idol is built). The precepts (purist, corruption-exalted) don't exist yet.
 
 ### Longevity
 | Thing | What it does |
@@ -316,7 +317,8 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Wailing effigy: mark the debtor *Effigy* (option only appears for debtors), rite at the altar: a minified *wailing effigy (Vex)* drops. Place it: friend gets +10 nearby, others *dread*. Wait for 1am: it screams (sound, text, -3 for others nearby). Trigger a raid: it screams and some raiders flee. Shatter: essence and corruption.
 - [ ] Vengeance effigy: kill a debtor without taking the soul, bring the corpse and 25 soulsteel to a sculptor's table: the bill only accepts that corpse; the effigy names the victim; avengers get *avenged*.
 - [ ] Blood debt survives escape: let a debtor flee the map, save, reload, check `Find.WorldPawns` (dev) still has them.
-- [ ] Scenarios: start each of the three. Coven: altar placed near the start, captive lying shackled (can't move, two days), corruption overlay shows a blot around the start. Endless War: three thralls arrive with the colonists, forge, grinder and generator placed, raids come every few days. Escapee: the lattice is labelled with a name, the colonist's social tab shows a dead spouse, a reliquary gives them *remembered*.
+- [ ] The Gravedigger: start it: about 16 corpses around the landing site, some armed; after a day one or two rise as ghosts (letters). The scythe hurts them.
+- [ ] Scenarios: start each of the three others. Coven: altar placed near the start, captive lying shackled (can't move, two days), corruption overlay shows a blot around the start. Endless War: three thralls arrive with the colonists, forge, grinder and generator placed, raids come every few days. Escapee: the lattice is labelled with a name, the colonist's social tab shows a dead spouse, a reliquary gives them *remembered*.
 - [ ] Fountain of youth: fuel it, right-click with an old colonist: they walk over, bathe, a message says how much younger; the health tab shows *bathed in the fountain* and a second bath is refused. A child or a husk gets a greyed-out option.
 - [ ] Soul cradle: research, build, power, fuel 30+; right-click a colonist with a bad back and a missing finger: they go in, inspect counts three days, DEV *finish cycle*: out younger, back fixed, finger back. Cut power mid-cycle: inspect says paused.
 - [ ] Reliquary armour: make one with a filled vessel: label shows *(2/2)* and *soul-bound*. Wear it, kill the wearer with dev damage: they go down, *held back from death*, label *(1/2)*. Tend them; the hediff fades after a day. Kill again twice: the second time with no charges they die. Recharge bill at the crucible ignores a full suit.

@@ -107,6 +107,56 @@ namespace HollowPawns
         }
     }
 
+    /// <summary>
+    /// An old battlefield (the Gravedigger): adult dead from enemy factions scattered around the start,
+    /// half of them stripped of their weapons. Every one still has its soul, so every one rolls for a
+    /// ghost after a day, at this scenario's higher chance.
+    /// </summary>
+    public class ScenPart_HP_Battlefield : ScenPart
+    {
+        public int count = 16;
+        public float radius = 26f;
+
+        /// <summary>Ghost chance per neglected corpse while this scenario runs (the mod setting if that's higher).</summary>
+        public float ghostChance = 0.08f;
+
+        public override string Summary(Scenario scen) => "The landing site is an old battlefield: " + count + " unburied dead, any of whom may rise.";
+
+        public override void PostMapGenerate(Map map)
+        {
+            if (Find.GameInitData == null)
+            {
+                return;
+            }
+            IntVec3 start = MapGenerator.PlayerStartSpot.IsValid ? MapGenerator.PlayerStartSpot : map.Center;
+            for (int i = 0; i < count; i++)
+            {
+                if (!CellFinder.TryFindRandomCellNear(start, map, Mathf.RoundToInt(radius), c => c.Standable(map) && !c.Roofed(map) && c.DistanceTo(start) > 6f, out IntVec3 cell))
+                {
+                    continue;
+                }
+                Faction enemy = Find.FactionManager.RandomEnemyFaction(allowHidden: false, allowDefeated: false, allowNonHumanlike: false);
+                PawnKindDef kind = enemy?.RandomPawnKind() ?? PawnKindDefOf.Villager;
+                Pawn p = PawnGenerator.GeneratePawn(new PawnGenerationRequest(kind, enemy, PawnGenerationContext.NonPlayer,
+                    forceGenerateNewPawn: true, developmentalStages: DevelopmentalStage.Adult));
+                GenSpawn.Spawn(p, cell, map);
+                if (Rand.Chance(0.5f))
+                {
+                    p.equipment?.DestroyAllEquipment();
+                }
+                p.Kill(null);
+            }
+        }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref count, "count", 16);
+            Scribe_Values.Look(ref radius, "radius", 26f);
+            Scribe_Values.Look(ref ghostChance, "ghostChance", 0.08f);
+        }
+    }
+
     /// <summary>The ground around the start is already corrupted: full strength in the middle, fading out.</summary>
     public class ScenPart_HP_CorruptedGround : ScenPart
     {

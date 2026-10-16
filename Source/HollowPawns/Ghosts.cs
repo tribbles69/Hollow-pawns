@@ -25,6 +25,17 @@ namespace HollowPawns
 
         public static bool IsGhost(Pawn p) => p?.def == HP_DefOf.HP_GhostRace;
 
+        /// <summary>The mod setting, or a scenario's own chance if it sets a higher one (the Gravedigger's battlefield).</summary>
+        public static float Chance
+        {
+            get
+            {
+                float c = HollowPawnsMod.Settings.ghostChance;
+                ScenPart_HP_Battlefield field = Find.Scenario?.AllParts.OfType<ScenPart_HP_Battlefield>().FirstOrDefault();
+                return field != null ? Mathf.Max(c, field.ghostChance) : c;
+            }
+        }
+
         /// <summary>The one roll a neglected, ensouled adult corpse gets. Called from the corruption corpse pass.</summary>
         public static void MaybeRise(Corpse corpse, MapComponent_Corruption c)
         {
@@ -43,7 +54,7 @@ namespace HollowPawns
                 return;
             }
             c.ghostRolled.Add(corpse.thingIDNumber);
-            if (Rand.Chance(HollowPawnsMod.Settings.ghostChance))
+            if (Rand.Chance(Chance))
             {
                 Raise(corpse, c);
             }
