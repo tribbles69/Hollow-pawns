@@ -45,7 +45,7 @@ namespace HollowPawns
         public override void SelectedUpdate()
         {
             GenUI.RenderMouseoverBracket();
-            Corruption.ShowOverlay = true;
+            Corruption.PeekOverlay();
         }
     }
 

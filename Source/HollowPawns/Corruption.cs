@@ -203,7 +203,7 @@ namespace HollowPawns
 
         public override void MapComponentUpdate()
         {
-            if (!Corruption.ShowOverlay || Find.CurrentMap != map)
+            if (!Corruption.OverlayVisible || Find.CurrentMap != map)
             {
                 return;
             }
@@ -249,6 +249,13 @@ namespace HollowPawns
     public static class Corruption
     {
         public static bool ShowOverlay;
+
+        /// <summary>Frame a corruption designator last asked to see the overlay; it shows while that one is selected only.</summary>
+        public static int PeekFrame = -1;
+
+        public static void PeekOverlay() => PeekFrame = UnityEngine.Time.frameCount;
+
+        public static bool OverlayVisible => ShowOverlay || UnityEngine.Time.frameCount - PeekFrame <= 1;
 
         public static MapComponent_Corruption For(Map map) => map?.GetComponent<MapComponent_Corruption>();
 

@@ -166,7 +166,7 @@ namespace HollowPawns
         public override void SelectedUpdate()
         {
             GenUI.RenderMouseoverBracket();
-            Corruption.ShowOverlay = true;
+            Corruption.PeekOverlay();
             IntVec3 c = UI.MouseCell();
             if (c.InBounds(Map))
             {
