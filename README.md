@@ -223,6 +223,11 @@ How corruption reaches a colony that never touches a soul.
 
 Fire and holy water clean up after both, as usual.
 
+### The curse ritual
+A **Curse** prisoner mode: a warden spends a while chanting over the prisoner. The prisoner gets a random curse and becomes a **curse carrier** for 20 days. Release them, or let them escape, and they take it home: the next raid their faction sends arrives with **every raider cursed** (for six hours after the first one turns up, so drop pods count too).
+
+Under CE there are also **soul great arrows** for the greatbow and **soul javelins** (thrown by hand or from an atlatl), both made at the crafting spot or smithy with a little essence. They shock like soul arrows and can hurt ghosts.
+
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
 - **Soul guns fire beams.** Like CE's own lasers: one shared **soul charge** ammo (100 from 6 soulsteel + 4 essence, so about 200 shots per corpse), and each gun maps it to its own beam with its own damage and penetration, plus a one-cell soul blast on impact.
@@ -334,6 +339,8 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Mod settings: *Hollow Pawns* shows the ghost chance slider.
 - [ ] Black rain (dev: *Execute incident → black rain*): the sky darkens, it rains, the corruption overlay shows a few blots growing over the day, a colonist left outside in one picks up soul corruption. Under a roof: nothing.
 - [ ] Fallen idol (dev: *Execute incident → fallen idol*): a meteorite-style impact, a letter, corruption spreads around it on the overlay. Attack it: it breaks in a soul burst and drops corrupted essence. Another one: claim, deconstruct: no burst, a stain under it.
+- [ ] Curse ritual: set a prisoner to *Curse*: a warden chants, the prisoner gets a curse and *curse carrier*. Release them: a message says they carry it home. Trigger a raid from that faction (dev): the raiders arrive cursed, with a message.
+- [ ] CE: the greatbow's ammo list has soul great arrows; the atlatl's has soul javelins; soul javelins can also be thrown by hand.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
@@ -353,6 +360,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - v0.8, unverified until tested in game: the Profaned patch (checked against its 1.6 `Profaned.dll`: `Utility_Profaned.BestowCurse(Pawn caster, Pawn recipient, RevivalCurseExtension)` and the genes `BotchJob_UndeadPsysiology` and `BotchJob_Cursebearer`; not yet seen running), `RestorePart` on the soul part of a freshly revived husk.
 - v0.8, unverified until tested in game: ghosts (an animal-race pawn with its own think tree, moved by setting `Position` cell by cell through walls; `ManhunterPermanent` only to make the wrathful one count as hostile; the `Transparent` shader with a tinted `Graphic_Multi`; a one-part body tagged with every capacity source; `PreApplyDamage` postfix absorbing most damage; the corpse removed in a `Kill` postfix). The ghost target filter (a `Pawn.ThreatDisabled` postfix reading the attacker's verb `Projectile` by reflection, so CE's ammo-aware verbs work too) and pass-through (`Projectile.CanHit`, and CE's `ProjectileCE.CanCollideWith` patched by hand).
 - v0.8, unverified until tested in game: black rain's `SkyTarget` colours and forcing the `Rain` weather from `Init`; `DoCellSteadyEffects` being called for a custom game condition; the fallen idol riding a `MeteoriteIncoming` skyfaller (a 1x1 building as contents) and being claimable.
+- v0.8, unverified until tested in game: the curse ritual's `Pawn.ExitMap` prefix (released and escaping prisoners both go through it?) and the `Pawn.SpawnSetup` postfix cursing arriving raiders; CE soul javelins copied from CE's pila (a weapon that is also ammo).
 - v0.7, unverified until tested in game: the rite job (carrying a restrained prisoner and laying them on the altar cell; vanilla `Toils_Haul.StartCarryThing` on a pawn), `Building_CloneVat` re-implementing `IBillGiver.CurrentlyUsableForBills` (vanilla's isn't virtual), `ResurrectionUtility.TryResurrect` on rotted husks, the corruption overlay (`CellBoolDrawer`) and its toggle among the play settings, `DataExposeUtility.LookByteArray` for the corruption grid, thralls generated with a forced xenotype that has `canGenerateAsCombatant` false, CE armour values for the conscript vest and helmet (set by eye below CE's steel flak vest).
 - v0.6, unverified until tested in game: adding a faction to an existing save with `FactionGenerator.NewGeneratedFaction` (it will have no world bases in that save, and Ideology must give it an ideoligion); the storyteller firing an incident whose `baseChance` is 0 through an on/off cycle; demon pawn kinds inheriting from non-abstract vanilla kinds (`ThrasherBase`, `PirateKindBase`, `MercenaryHeavyBase`); `CompProperties_CauseHediff_Apparel` with no body part.
 - v0.5, unverified until tested in game: `HediffDef.preventsDeath` (no vanilla XML uses it; the game code reads it in `ShouldBeDead`/`CheckForStateChange`), the soul jar surviving minify and save/load, and the soul broker caravan patch on the abstract `OutlanderFactionBase`.

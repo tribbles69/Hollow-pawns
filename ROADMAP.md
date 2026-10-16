@@ -56,6 +56,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | The Profaned (4.32) | No hard dependency: genes looked up by name, revival patched by hand only if its type exists. Profaned souls count as corrupted; Cursebearers plant wretched soul shards (caster's residue) in what they raise; a dead Cursebearer collapses everything it raised. Not yet: Profaned blood and bones as cult inputs. |
 | Ghosts (4.8) | One 1% roll (mod setting) per neglected ensouled corpse, in the corruption corpse pass. Lingering (drifts, cold spot, dread) or wrathful (corrupted ground or corpse; hunts souls through walls inside its tether with grave chill, armour-ignoring, lethal). Ends when the body is rendered, bound, ground, burned, buried or taken away. Only soul weapons, soulsteel or the scythe, and fire hurt it. Shrines ward. Target filtering and bullet pass-through (vanilla and CE) built too. Not yet: salt lines, smoother drift art. |
 | Corruption events (4.28) | Black rain (a game condition; taints 3-5 patches through vanilla's steady cell sampling, corrupts pawns caught outside) and the fallen idol (meteorite-style; leaks corruption on the map pass until smashed, with a soul burst, or claimed and deconstructed). |
+| Curse ritual (4.2) | *Curse* prisoner mode: the prisoner is cursed and carries it home when released or escaped; their faction's next raid arrives cursed. Also CE soul great arrows and soul javelins. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -89,6 +90,7 @@ Outdoor wall made from a pile of corpses, human and animal. Goes with the StarCr
   - ~~Husk change~~ **Decided (13 Oct 2026):** rendering a corpse at the crucible and binding a living pawn (4.30) both leave a **husk**: the body stays, marked soulless. Harvest the soul → reanimate, bale or take the face of the husk → nothing wasted. **Built for the crucible in v0.4** (`RecipeWorker_HarvestCorpseSoul`); binding comes with 4.30.
 
 ### 4.2 Curses
+**Curse ritual built in v0.8:** a prisoner interaction, not an ability; the point is to release them, so the curse reaches their faction's next raid.
 **Built in v0.6.** Decided: four curses, three rolled (fade in 4 days) and hollowed from the idol. The curse ritual on a prisoner is not built yet: still open.
 Debuff conditions: e.g. *Hollowed*, *Marked*, *Rotting luck*, *Soul-sick*.
 - Hediffs are pure XML.

@@ -34,6 +34,9 @@ namespace HollowPawns
         public static HediffDef HP_ReanimatedHusk;
         public static HediffDef HP_StandingGuard;
         public static HediffDef HP_Shackled;
+        public static PrisonerInteractionModeDef HP_Curse;
+        public static JobDef HP_CursePrisoner;
+        public static HediffDef HP_CurseCarrier;
         public static ThingDef HP_FallenIdol;
         public static ThingDef HP_GhostRace;
         public static PawnKindDef HP_GhostLingering;

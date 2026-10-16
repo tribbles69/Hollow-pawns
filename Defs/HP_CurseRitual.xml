@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== The curse ritual (4.2) =====================
+       Curse a prisoner, release them, and their faction's next raid comes cursed. CurseRitual.cs. -->
+
+  <PrisonerInteractionModeDef>
+    <defName>HP_Curse</defName>
+    <label>curse</label>
+    <listOrder>31</listOrder>
+    <description>A warden lays a curse on this prisoner: they suffer one curse themselves and carry a seed of it in their soul. Release them (or let them escape) and they take it home: the next raid their faction sends arrives with every raider cursed.</description>
+    <mustBeAwake>false</mustBeAwake>
+    <isNonExclusiveInteraction>true</isNonExclusiveInteraction>
+  </PrisonerInteractionModeDef>
+
+  <JobDef>
+    <defName>HP_CursePrisoner</defName>
+    <driverClass>HollowPawns.JobDriver_CursePrisoner</driverClass>
+    <reportString>cursing TargetA.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <WorkGiverDef>
+    <defName>HP_CursePrisoner</defName>
+    <label>curse prisoners</label>
+    <giverClass>HollowPawns.WorkGiver_Warden_Curse</giverClass>
+    <workType>Warden</workType>
+    <priorityInType>54</priorityInType>
+    <verb>curse</verb>
+    <gerund>cursing</gerund>
+    <requiredCapacities>
+      <li>Talking</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <HediffDef>
+    <defName>HP_CurseCarrier</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>curse carrier</label>
+    <description>A seed of a curse sits in this person's soul. When they go home, it goes with them, and it will find their people.</description>
+    <defaultLabelColor>(0.7, 0.3, 0.6)</defaultLabelColor>
+    <isBad>true</isBad>
+    <everCurableByItem>false</everCurableByItem>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>1200000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+  </HediffDef>
+
+</Defs>

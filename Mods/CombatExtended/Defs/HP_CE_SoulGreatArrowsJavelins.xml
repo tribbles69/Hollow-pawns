@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Soul great arrows (greatbow) =====================
+       CE's steel great arrow (Defs/Ammo/Neolithic/GreatArrows.xml) with the soul damage. Added to
+       AmmoSet_GreatArrow in Patches/HP_CE_SoulGreatArrowsJavelins.xml. -->
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="AmmoGreatArrowBase">
+    <defName>HP_Ammo_GreatArrow_Soul</defName>
+    <label>great arrow (soul)</label>
+    <description>A heavy steel-headed arrow dipped in soul essence, for a greatbow. Hits leave soul shock on top of the wound.</description>
+    <graphicData>
+      <texPath>Things/Item/HP_SoulArrow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>1.15</drawSize>
+    </graphicData>
+    <tradeTags Inherit="False">
+      <li>CE_PreIndustrialAmmo</li>
+    </tradeTags>
+    <ammoClass>HP_SoulArrow</ammoClass>
+    <generateAllowChance>0</generateAllowChance>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGreatArrowProjectile">
+    <defName>HP_Projectile_GreatArrow_Soul</defName>
+    <label>great arrow (soul)</label>
+    <graphicData>
+      <texPath>Things/Projectile/Arrows/Arrow_Steel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(150,230,240)</color>
+    </graphicData>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <damageDef>HP_SoulArrow</damageDef>
+      <damageAmountBase>10</damageAmountBase>
+      <armorPenetrationBlunt>3.18</armorPenetrationBlunt>
+      <armorPenetrationSharp>2</armorPenetrationSharp>
+      <preExplosionSpawnChance>0.6</preExplosionSpawnChance>
+      <preExplosionSpawnThingDef>Ammo_GreatArrow_Steel</preExplosionSpawnThingDef>
+    </projectile>
+  </ThingDef>
+
+  <RecipeDef ParentName="AmmoRecipeNeolithicBase">
+    <defName>HP_MakeAmmo_GreatArrow_Soul</defName>
+    <label>make soul great arrows x10</label>
+    <description>Craft 10 soul great arrows.</description>
+    <jobString>Making soul great arrows.</jobString>
+    <workAmount>500</workAmount>
+    <recipeUsers>
+      <li>CraftingSpot</li>
+      <li>FueledSmithy</li>
+      <li>ElectricSmithy</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_SoulEssence</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>WoodLog</li>
+        <li>Steel</li>
+        <li>HP_SoulEssence</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HP_Ammo_GreatArrow_Soul>10</HP_Ammo_GreatArrow_Soul>
+    </products>
+  </RecipeDef>
+
+  <!-- ===================== Soul javelins =====================
+       CE's pila (Defs/ThingDefs_Misc/Weapons_RangedNeolithic.xml): thrown by hand, or fired from an
+       atlatl through AmmoSet_Javelins (patched to take them). Soul arrow damage. -->
+  <CombatExtended.AmmoCategoryDef>
+    <defName>HP_SoulJavelin</defName>
+    <label>soul javelin</label>
+    <labelShort>soul</labelShort>
+    <description>A javelin dipped in soul essence. Hits leave soul shock on top of the wound.</description>
+    <advanced>true</advanced>
+  </CombatExtended.AmmoCategoryDef>
+
+  <ThingDef ParentName="BasePilumProjectile">
+    <defName>HP_SoulPilum_Thrown</defName>
+    <label>soul javelin (thrown)</label>
+    <graphicData>
+      <texPath>Things/Projectile/Neolithic/Pilum</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(150,230,240)</color>
+    </graphicData>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <damageDef>HP_SoulArrow</damageDef>
+      <damageAmountBase>14</damageAmountBase>
+      <speed>14</speed>
+      <armorPenetrationBlunt>6.54</armorPenetrationBlunt>
+      <armorPenetrationSharp>3</armorPenetrationSharp>
+      <preExplosionSpawnChance>0.75</preExplosionSpawnChance>
+      <preExplosionSpawnThingDef>Pila</preExplosionSpawnThingDef>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BasePilumProjectile">
+    <defName>HP_SoulPilum_Fired</defName>
+    <label>soul javelin (fired)</label>
+    <graphicData>
+      <texPath>Things/Projectile/Neolithic/Pilum</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(150,230,240)</color>
+    </graphicData>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <damageDef>HP_SoulArrow</damageDef>
+      <damageAmountBase>28</damageAmountBase>
+      <speed>30</speed>
+      <armorPenetrationBlunt>48.6</armorPenetrationBlunt>
+      <armorPenetrationSharp>9</armorPenetrationSharp>
+      <preExplosionSpawnChance>0.4</preExplosionSpawnChance>
+      <preExplosionSpawnThingDef>Pila</preExplosionSpawnThingDef>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="BaseWeaponAndAmmoNeolithic">
+    <defName>HP_SoulPila</defName>
+    <label>soul javelins</label>
+    <description>Throwing spears dipped in soul essence. Thrown by hand or from an atlatl; hits leave soul shock on top of the wound, and they can hurt a ghost. Spent ones are recovered as plain javelins.</description>
+    <graphicData>
+      <texPath>Things/Ammo/Neolithic/Pilum</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <onGroundRandomRotateAngle>0</onGroundRandomRotateAngle>
+      <color>(150,230,240)</color>
+    </graphicData>
+    <soundInteract>Interact_BeatFire</soundInteract>
+    <statBases>
+      <SightsEfficiency>1.0</SightsEfficiency>
+      <ShotSpread>1.5</ShotSpread>
+      <SwayFactor>2.5</SwayFactor>
+      <Bulk>4.25</Bulk>
+      <Mass>2.00</Mass>
+      <RangedWeapon_Cooldown>1</RangedWeapon_Cooldown>
+      <MeleeCounterParryBonus>0.36</MeleeCounterParryBonus>
+    </statBases>
+    <equippedStatOffsets>
+      <MeleeCritChance>0.17</MeleeCritChance>
+      <MeleeParryChance>0.5</MeleeParryChance>
+      <MeleeDodgeChance>0.57</MeleeDodgeChance>
+    </equippedStatOffsets>
+    <equippedAngleOffset>30</equippedAngleOffset>
+    <stackLimit>25</stackLimit>
+    <weaponTags>
+      <li>CE_OneHandedWeapon</li>
+    </weaponTags>
+    <weaponClasses>
+      <li>Ranged</li>
+    </weaponClasses>
+    <tradeability>Sellable</tradeability>
+    <verbs>
+      <li Class="CombatExtended.VerbPropertiesCE">
+        <verbClass>CombatExtended.Verb_ShootCEOneUse</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HP_SoulPilum_Thrown</defaultProjectile>
+        <warmupTime>0.8</warmupTime>
+        <range>9</range>
+      </li>
+    </verbs>
+    <tools>
+      <li Class="CombatExtended.ToolCE">
+        <label>shaft</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>5</power>
+        <cooldownTime>1.73</cooldownTime>
+        <armorPenetrationBlunt>1.44</armorPenetrationBlunt>
+        <linkedBodyPartsGroup>Shaft</linkedBodyPartsGroup>
+      </li>
+      <li Class="CombatExtended.ToolCE">
+        <label>point</label>
+        <capacities>
+          <li>Stab</li>
+        </capacities>
+        <power>12</power>
+        <cooldownTime>1.49</cooldownTime>
+        <chanceFactor>1.5</chanceFactor>
+        <armorPenetrationBlunt>1.44</armorPenetrationBlunt>
+        <armorPenetrationSharp>0.58</armorPenetrationSharp>
+        <linkedBodyPartsGroup>Point</linkedBodyPartsGroup>
+      </li>
+    </tools>
+    <ammoClass>HP_SoulJavelin</ammoClass>
+  </ThingDef>
+
+  <RecipeDef ParentName="AmmoRecipeNeolithicBase">
+    <defName>HP_MakeAmmo_SoulPilum</defName>
+    <label>make soul javelins x5</label>
+    <description>Craft 5 soul javelins.</description>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <skillRequirements>
+      <Crafting>3</Crafting>
+    </skillRequirements>
+    <recipeUsers>
+      <li>ElectricSmithy</li>
+      <li>FueledSmithy</li>
+      <li>CraftingSpot</li>
+    </recipeUsers>
+    <effectWorking>Smelt</effectWorking>
+    <unfinishedThingDef>UnfinishedAmmo</unfinishedThingDef>
+    <workAmount>2600</workAmount>
+    <jobString>Making soul javelins.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </filter>
+        <count>18</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>6</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_SoulEssence</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>WoodLog</li>
+        <li>Steel</li>
+        <li>HP_SoulEssence</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HP_SoulPila>5</HP_SoulPila>
+    </products>
+    <displayPriority>501</displayPriority>
+  </RecipeDef>
+
+</Defs>

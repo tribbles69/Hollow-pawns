@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Soul great arrows into the greatbow's set, soul javelins into the atlatl's. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/CombatExtended.AmmoSetDef[defName="AmmoSet_GreatArrow"]/ammoTypes</xpath>
+    <value>
+      <HP_Ammo_GreatArrow_Soul>HP_Projectile_GreatArrow_Soul</HP_Ammo_GreatArrow_Soul>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/CombatExtended.AmmoSetDef[defName="AmmoSet_Javelins"]/ammoTypes</xpath>
+    <value>
+      <HP_SoulPila>HP_SoulPilum_Fired</HP_SoulPila>
+    </value>
+  </Operation>
+
+</Patch>
