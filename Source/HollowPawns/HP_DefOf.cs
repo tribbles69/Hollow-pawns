@@ -22,6 +22,7 @@ namespace HollowPawns
         public static TaleDef HP_SoulBound;
         public static JobDef HP_PerformSoulRite;
         public static JobDef HP_LoadSoulBattery;
+        public static JobDef HP_StaffMachine;
         public static HediffDef HP_SoulShock;
         public static JobDef HP_CleanseCorruption;
         public static DesignationDef HP_Cleanse;

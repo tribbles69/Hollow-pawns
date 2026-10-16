@@ -363,24 +363,30 @@ namespace HollowPawns
     /// <summary>
     /// Pulls corpses from the cells around it (haulers fill a stockpile there) and grinds them: carrion
     /// bales, a little plain essence from adult human souls, meat and leather. No husk: the whole body
-    /// goes. Never children. Rare tick, one corpse per cycle, only while powered.
+    /// goes. Never children. Rare tick, one corpse per cycle, only while powered. Runs faster with
+    /// someone on cooking duty working it (Staffing.cs).
     /// </summary>
-    public class Building_CorpseGrinder : Building
+    public class Building_CorpseGrinder : Building, IStaffable
     {
         public const int TicksPerCorpse = 1000;
         public const int EssencePerSoul = 4;
 
         private int cooldown;
 
+        public Staffing Staffing { get; } = new Staffing(SkillDefOf.Cooking);
+
+        private bool Powered => GetComp<CompPowerTrader>()?.PowerOn ?? true;
+
+        public bool WantsOperator => Spawned && Powered && NextCorpse() != null;
+
         public override void TickRare()
         {
             base.TickRare();
-            CompPowerTrader power = GetComp<CompPowerTrader>();
-            if (power != null && !power.PowerOn)
+            if (!Powered)
             {
                 return;
             }
-            cooldown -= GenTicks.TickRareInterval;
+            cooldown -= Mathf.RoundToInt(GenTicks.TickRareInterval * Staffing.Factor);
             if (cooldown > 0)
             {
                 return;
@@ -452,6 +458,13 @@ namespace HollowPawns
             corpse.Destroy();
             Corruption.Spill(Position, map, 60, 4.9f);
         }
+
+        public override string GetInspectString()
+        {
+            string b = base.GetInspectString();
+            string line = Staffing.InspectLine();
+            return b.NullOrEmpty() ? line : b + "\n" + line;
+        }
     }
 
     /// <summary>Bind carrion yields bales by body size (as the grinder does), not a flat two, so small animals can't be turned into a human's worth of meat.</summary>
@@ -479,8 +492,16 @@ namespace HollowPawns
     /// essence. Pick what it makes; it pulls materials from adjacent cells and drops kit on its
     /// output cell. Rare tick, and only works while powered and fed.
     /// </summary>
-    public class Building_LineForge : Building
+    public class Building_LineForge : Building, IStaffable
     {
+        public Staffing Staffing { get; } = new Staffing(SkillDefOf.Crafting);
+
+        private bool Powered => GetComp<CompPowerTrader>()?.PowerOn ?? true;
+
+        /// <summary>Mid-piece, or ready to start one: an operator would speed it up.</summary>
+        public bool WantsOperator => Spawned && Powered && product != Product.Off
+            && (workLeft > 0 || (!StockFull() && HasMaterials(SteelFor(product), ComponentsFor(product))));
+
         public enum Product : byte { Off, Rifle, Armour, FullKit }
 
         private Product product = Product.Off;
@@ -509,7 +530,7 @@ namespace HollowPawns
                 }
                 workLeft = TicksFor(product);
             }
-            workLeft -= GenTicks.TickRareInterval;
+            workLeft -= Mathf.RoundToInt(GenTicks.TickRareInterval * Staffing.Factor);
             if (workLeft <= 0)
             {
                 workLeft = -1;
@@ -534,6 +555,24 @@ namespace HollowPawns
         private int OnHand() => Items(product).Select(d => Map.listerThings.ThingsOfDef(d).Count).DefaultIfEmpty(0).Min();
 
         private bool StockFull() => stopAt > 0 && OnHand() >= stopAt;
+
+        private bool HasMaterials(int steel, int components)
+        {
+            int haveSteel = 0, haveComp = 0;
+            foreach (IntVec3 c in GenAdj.CellsAdjacent8Way(this))
+            {
+                if (!c.InBounds(Map))
+                {
+                    continue;
+                }
+                foreach (Thing t in c.GetThingList(Map))
+                {
+                    if (t.def == ThingDefOf.Steel) haveSteel += t.stackCount;
+                    else if (t.def == ThingDefOf.ComponentIndustrial) haveComp += t.stackCount;
+                }
+            }
+            return haveSteel >= steel && haveComp >= components;
+        }
 
         private bool TryTakeMaterials(int steel, int components)
         {
@@ -647,6 +686,11 @@ namespace HollowPawns
             else if (product != Product.Off)
             {
                 sb.Append(" (waiting for " + SteelFor(product) + " steel" + (ComponentsFor(product) > 0 ? " and a component" : "") + " in hoppers next to it)");
+            }
+            if (product != Product.Off)
+            {
+                sb.AppendLine();
+                sb.Append(Staffing.InspectLine());
             }
             return sb.ToString();
         }

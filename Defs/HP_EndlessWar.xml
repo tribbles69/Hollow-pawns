@@ -721,4 +721,50 @@
     </colorGenerator>
   </ThingDef>
 
+  <!-- Staffing (Staffing.cs): the grinder and forge run alone, but faster with someone working them.
+       Hauling work, so thralls can do it (they can't cook or craft), and last in line behind every
+       vanilla hauling job. The operator's Cooking (grinder) or Crafting (forge) skill sets the speed. -->
+  <JobDef>
+    <defName>HP_StaffMachine</defName>
+    <driverClass>HollowPawns.JobDriver_StaffMachine</driverClass>
+    <reportString>working TargetA.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
+  <WorkGiverDef>
+    <defName>HP_StaffCorpseGrinder</defName>
+    <label>work the corpse grinder</label>
+    <giverClass>HollowPawns.WorkGiver_StaffMachine</giverClass>
+    <workType>Hauling</workType>
+    <priorityInType>1</priorityInType>
+    <verb>work</verb>
+    <gerund>working</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <modExtensions>
+      <li Class="HollowPawns.StaffingExtension">
+        <building>HP_CorpseGrinder</building>
+      </li>
+    </modExtensions>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>HP_StaffLineForge</defName>
+    <label>work the line forge</label>
+    <giverClass>HollowPawns.WorkGiver_StaffMachine</giverClass>
+    <workType>Hauling</workType>
+    <priorityInType>1</priorityInType>
+    <verb>work</verb>
+    <gerund>working</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <modExtensions>
+      <li Class="HollowPawns.StaffingExtension">
+        <building>HP_LineForge</building>
+      </li>
+    </modExtensions>
+  </WorkGiverDef>
+
 </Defs>
