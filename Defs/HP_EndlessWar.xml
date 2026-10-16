@@ -785,4 +785,22 @@
     </modExtensions>
   </WorkGiverDef>
 
+  <WorkGiverDef>
+    <defName>HP_StaffBoneAltar</defName>
+    <label>work the bone altar</label>
+    <giverClass>HollowPawns.WorkGiver_StaffMachine</giverClass>
+    <workType>Hauling</workType>
+    <priorityInType>1</priorityInType>
+    <verb>work</verb>
+    <gerund>working</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <modExtensions>
+      <li Class="HollowPawns.StaffingExtension">
+        <building>HP_BoneAltar</building>
+      </li>
+    </modExtensions>
+  </WorkGiverDef>
+
 </Defs>

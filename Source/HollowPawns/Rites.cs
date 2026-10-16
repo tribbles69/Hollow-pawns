@@ -54,9 +54,9 @@ namespace HollowPawns
     }
 
     /// <summary>
-    /// The Bone Altar and the Soul Press (4.27). At the altar the warden's job does the whole rite. The
-    /// press is load-and-leave: it holds the strapped-in victim and runs the rite on its own rare tick,
-    /// faster with someone working it (Staffing.cs).
+    /// The Bone Altar and the Soul Press (4.27). Both are load-and-leave: the warden straps the victim
+    /// in and goes, and the building runs the rite on its own rare tick, faster with someone working it
+    /// (Staffing.cs). A def without autonomous falls back to the warden doing the whole rite.
     /// </summary>
     public class CompSoulRite : ThingComp, IStaffable
     {
@@ -476,8 +476,8 @@ namespace HollowPawns
 namespace HollowPawns
 {
     /// <summary>
-    /// A prisoner strapped into a press is downed, and wardens carry downed prisoners to bed, which
-    /// would pull them out mid-rite. Leave them where they are.
+    /// A prisoner strapped into an altar or press is downed, and wardens carry downed prisoners to bed,
+    /// which would pull them out mid-rite. Leave them where they are.
     /// </summary>
     [HarmonyLib.HarmonyPatch(typeof(RimWorld.WorkGiver_Warden_TakeToBed), nameof(RimWorld.WorkGiver_Warden_TakeToBed.JobOnThing))]
     public static class Patch_TakeToBed_SoulPress

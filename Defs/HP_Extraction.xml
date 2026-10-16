@@ -3,15 +3,16 @@
 
   <!-- ===================== Extraction buildings (4.27) =====================
        Mark a prisoner (render or bind); a warden restrains them, carries them here and performs the
-       rite (JobDriver_SoulRite). The press is load-and-leave: the warden straps them in and goes, and the
-       press finishes the rite on its own rare tick (CompSoulRite), faster when staffed. Replaces the old surgeries. -->
+       rite (JobDriver_SoulRite). Both are load-and-leave: the warden straps them in and goes, and the
+       building finishes the rite on its own rare tick (CompSoulRite), faster when staffed. Replaces the old surgeries. -->
 
   <!-- Bone Altar: early, unpowered, no research. Slow and risky: 1 in 4 rites botched (a grade
        worse), witnesses are disturbed, and it spills heavy corruption close by. -->
   <ThingDef ParentName="BuildingBase">
     <defName>HP_BoneAltar</defName>
     <label>bone altar</label>
-    <description>A slab of stone with channels cut for blood. A prisoner is bound on it and the soul torn out by hand. Slow, crude and messy: the rite often damages the soul, anyone watching is disturbed, and the ground around it sours with corruption.\n\nMark a prisoner to be rendered or bound; wardens bring them here.</description>
+    <description>A slab of stone with channels cut for blood. A prisoner is bound on it and the soul torn out by hand. Slow, crude and messy: the rite often damages the soul, anyone watching is disturbed, and the ground around it sours with corruption.\n\nMark a prisoner to be rendered or bound; a warden binds them to the altar and leaves, and the altar does the rest. Someone working it (haulers and thralls too) makes it faster.</description>
+    <tickerType>Rare</tickerType>
     <graphicData>
       <texPath>Things/Building/HP_BoneAltar</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -39,6 +40,7 @@
     <comps>
       <li Class="HollowPawns.CompProperties_SoulRite">
         <riteTicks>4000</riteTicks>
+        <autonomous>true</autonomous>
         <botchChance>0.25</botchChance>
         <upsetsWitnesses>true</upsetsWitnesses>
         <corruption>120</corruption>
