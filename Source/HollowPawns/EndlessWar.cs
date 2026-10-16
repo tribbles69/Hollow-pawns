@@ -5,6 +5,7 @@ using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 
 namespace HollowPawns
 {
@@ -517,9 +518,9 @@ namespace HollowPawns
         private int stopAt = 0;
         private static readonly int[] StopAtOptions = { 0, 5, 10, 20, 30, 50, 100 };
 
-        private static int SteelFor(Product p) => p == Product.Rifle ? 40 : p == Product.Armour ? 60 : p == Product.FullKit ? 100 : 0;
+        private static int SteelFor(Product p) => p == Product.Rifle ? 40 : p == Product.Armour ? 60 : p == Product.FullKit ? 140 : 0;
         private static int ComponentsFor(Product p) => p == Product.Rifle || p == Product.FullKit ? 1 : 0;
-        private static int TicksFor(Product p) => p == Product.FullKit ? 5000 : 2500;
+        private static int TicksFor(Product p) => p == Product.FullKit ? 6000 : 2500;
 
         public override void TickRare()
         {
@@ -551,10 +552,18 @@ namespace HollowPawns
             {
                 yield return HP_DefOf.HP_ConscriptRifle;
             }
-            if (p == Product.Armour || p == Product.FullKit)
+            if (p == Product.Armour)
             {
                 yield return HP_DefOf.HP_ConscriptHelmet;
                 yield return HP_DefOf.HP_ConscriptVest;
+            }
+            if (p == Product.FullKit)
+            {
+                // Every piece of the conscript kit (4.22 generator), so a full kit fills every slot.
+                foreach (ThingDef d in ConscriptKit.Pieces)
+                {
+                    yield return d;
+                }
             }
         }
 
@@ -645,7 +654,7 @@ namespace HollowPawns
             {
                 defaultLabel = "Make: " + ProductLabel(product),
                 defaultDesc = "Choose what the line forge makes from the steel and components left next to it.\n\n"
-                    + "Rifle: 40 steel, 1 component.\nArmour (helmet and vest): 60 steel.\nFull kit (all three): 100 steel, 1 component.",
+                    + "Rifle: 40 steel, 1 component.\nArmour (helmet and vest): 60 steel.\nFull kit (rifle and the whole conscript kit: fatigues, vest, greatcoat, helmet, belt, goggles): 140 steel, 1 component.",
                 icon = ContentFinder<Texture2D>.Get("Things/Building/HP_LineForge"),
                 action = () => Find.WindowStack.Add(new FloatMenu(new List<FloatMenuOption>
                 {
@@ -662,6 +671,13 @@ namespace HollowPawns
                 icon = ContentFinder<Texture2D>.Get("Things/Building/HP_LineForge"),
                 action = () => Find.WindowStack.Add(new FloatMenu(StopAtOptions
                     .Select(n => new FloatMenuOption(StopAtLabel(n), () => stopAt = n)).ToList())),
+            };
+            yield return new Command_Action
+            {
+                defaultLabel = "Kit out thralls",
+                defaultDesc = "Put every thrall on this map on the Conscript kit outfit, so they dress themselves in conscript kit, and send any thrall without a weapon to pick up a conscript rifle.",
+                icon = ContentFinder<Texture2D>.Get("Things/Building/HP_LineForge"),
+                action = () => ConscriptKit.KitOutThralls(Map),
             };
         }
 
@@ -708,6 +724,86 @@ namespace HollowPawns
             Scribe_Values.Look(ref product, "product", Product.Off);
             Scribe_Values.Look(ref workLeft, "workLeft", -1);
             Scribe_Values.Look(ref stopAt, "stopAt", 0);
+        }
+    }
+
+    /// <summary>
+    /// The conscript kit (4.24): its pieces (read from the apparel-set extension the generator writes),
+    /// the Conscript kit outfit policy, and one-click kitting for thralls.
+    /// </summary>
+    public static class ConscriptKit
+    {
+        public const string Set = "Conscript";
+        public const string PolicyLabel = "Conscript kit";
+
+        public static IEnumerable<ThingDef> Pieces =>
+            ApparelSets.Required.TryGetValue(Set, out HashSet<ThingDef> defs) ? defs.OrderBy(d => d.defName) : Enumerable.Empty<ThingDef>();
+
+        /// <summary>Makes sure the outfit policy exists, allowing exactly the kit's pieces. Called on every game load.</summary>
+        public static ApparelPolicy EnsurePolicy()
+        {
+            OutfitDatabase db = Current.Game?.outfitDatabase;
+            if (db == null)
+            {
+                return null;
+            }
+            ApparelPolicy policy = db.AllOutfits.FirstOrDefault(o => o.label == PolicyLabel);
+            if (policy == null)
+            {
+                policy = db.MakeNewOutfit();
+                policy.label = PolicyLabel;
+                policy.filter.SetDisallowAll();
+                foreach (ThingDef d in Pieces)
+                {
+                    policy.filter.SetAllow(d, true);
+                }
+            }
+            return policy;
+        }
+
+        public static bool IsThrall(Pawn p) => p.Faction == Faction.OfPlayer && SoulUtility.IsSoulless(p) && p.RaceProps.Humanlike;
+
+        public static void KitOutThralls(Map map)
+        {
+            ApparelPolicy policy = EnsurePolicy();
+            int dressed = 0, armed = 0;
+            foreach (Pawn p in map.mapPawns.FreeColonistsSpawned.ToList())
+            {
+                if (!IsThrall(p) || p.outfits == null)
+                {
+                    continue;
+                }
+                if (policy != null)
+                {
+                    p.outfits.CurrentApparelPolicy = policy;
+                    dressed++;
+                }
+                if (p.equipment?.Primary == null && !p.Downed && !p.Drafted)
+                {
+                    Thing rifle = GenClosest.ClosestThingReachable(p.Position, map, ThingRequest.ForDef(HP_DefOf.HP_ConscriptRifle), PathEndMode.ClosestTouch,
+                        TraverseParms.For(p), 9999f, t => !t.IsForbidden(p) && p.CanReserve(t));
+                    if (rifle != null)
+                    {
+                        p.jobs.TryTakeOrderedJob(JobMaker.MakeJob(JobDefOf.Equip, rifle), JobTag.Misc);
+                        armed++;
+                    }
+                }
+            }
+            Messages.Message(dressed == 0 ? "No thralls here to kit out."
+                : dressed + " thrall" + (dressed == 1 ? "" : "s") + " put on the Conscript kit outfit; " + armed + " sent for a rifle.",
+                MessageTypeDefOf.TaskCompletion, false);
+        }
+    }
+
+    public class GameComponent_ConscriptKit : GameComponent
+    {
+        public GameComponent_ConscriptKit(Game game)
+        {
+        }
+
+        public override void FinalizeInit()
+        {
+            ConscriptKit.EnsurePolicy();
         }
     }
 }

@@ -57,6 +57,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Ghosts (4.8) | One 1% roll (mod setting) per neglected ensouled corpse, in the corruption corpse pass. Lingering (drifts, cold spot, dread) or wrathful (corrupted ground or corpse; hunts souls through walls inside its tether with grave chill, armour-ignoring, lethal). Ends when the body is rendered, bound, ground, burned, buried or taken away. Only soul weapons, soulsteel or the scythe, and fire hurt it. Shrines ward. Target filtering and bullet pass-through (vanilla and CE) built too. Not yet: salt lines, smoother drift art. |
 | Corruption events (4.28) | Black rain (a game condition; taints 3-5 patches through vanilla's steady cell sampling, corrupts pawns caught outside) and the fallen idol (meteorite-style; leaks corruption on the map pass until smashed, with a soul burst, or claimed and deconstructed). |
 | Curse ritual (4.2) | *Curse* prisoner mode: the prisoner is cursed and carries it home when released or escaped; their faction's next raid arrives cursed. Also CE soul great arrows and soul javelins. |
+| Conscript kit (4.24) | Full slot-filling conscript kit from the apparel generator (fatigues, greatcoat, belt, goggles around the existing vest and helmet; forge-only, no bench recipe). The forge's full kit makes all of it plus the rifle (140 steel). A *Conscript kit* outfit policy in every game, and *Kit out thralls* on the forge. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -301,6 +302,7 @@ Like Ideology's skull extraction, but the face, worn as a mask.
 - Build: one apparel def, a butcher bill and a surgery (C# workers), name storage shared with soul jars. Small worn art (face only).
 
 ### 4.24 Line forge: cheap conscript kit for the endless war
+**Finished in v0.8:** the full kit, the outfit policy (added on game load if missing) and one-click kitting (a forge button that puts every thrall on the policy and sends the unarmed for a rifle). The conscript kit is vanilla-only in the generator: under CE it's checked for clashes but gets no webbing, pack or shield.
 **Built in v0.7**, partly. Built: the machine (pick rifle / armour / full kit, pulls steel and components from adjacent cells, rare tick), conscript rifle with bayonet (CE: 5.56 and a ToolCE stab), conscript helmet and vest on vanilla textures. Not yet: the full slot-filling conscript set (needs the apparel set generator, 4.22), the outfit policy and one-click kitting.
 Arm ten thralls between waves without spending souls; save the expensive gear for real colonists.
 - **The line forge:** a 2x4 powered machine. **Steel, components and power only: no essence.** No pawn works it: materials are pulled from an input area next to it, finished kit is dropped on an output tile for haulers or thralls. Progress on the rare tick, and only while a bill has materials (no cost when idle).

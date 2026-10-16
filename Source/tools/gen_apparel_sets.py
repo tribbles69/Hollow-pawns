@@ -67,6 +67,40 @@ SOULSTEEL = (0.27, 0.32, 0.38)
 WRAITH = (0.22, 0.27, 0.32)
 
 SETS = [
+    {"id": "Conscript", "label": "conscript kit", "tier": "line forge", "vanillaOnly": True, "pieces": [
+        # Made only by the line forge (4.24): no bench recipe, no stuff, near-worthless.
+        {"kind": "custom", "id": "Fatigues", "label": "conscript fatigues",
+         "desc": "Coarse grey fatigues pressed out by the line forge. One size fits nobody. Part of the conscript kit.",
+         "parent": "ApparelBase", "tech": "Industrial", "layers": ["OnSkin"], "groups": ["Torso", "Shoulders", "Arms", "Legs"],
+         "tex": "Things/Pawn/Humanlike/Apparel/ShirtBasic/ShirtBasic", "worn": "Things/Pawn/Humanlike/Apparel/ShirtBasic/ShirtBasic",
+         "stuff": None, "costStuff": 0, "cost": {"Steel": 10},
+         "stats": {"MaxHitPoints": 80, "Mass": 0.6, "MarketValue": 3, "Insulation_Cold": 6, "Insulation_Heat": 2, "EquipDelay": 1.5},
+         "offsets": {}, "color": (0.45, 0.46, 0.44)},
+        external("HP_ConscriptVest"),
+        {"kind": "custom", "id": "Greatcoat", "label": "conscript greatcoat",
+         "desc": "A long, stiff coat with steel thread through it. It turns a little cold and very little else. Part of the conscript kit.",
+         "parent": "ApparelBase", "tech": "Industrial", "layers": ["Shell"], "groups": ["Torso", "Neck", "Shoulders", "Arms", "Legs"],
+         "tex": "Things/Pawn/Humanlike/Apparel/Duster/Duster", "worn": "Things/Pawn/Humanlike/Apparel/Duster/Duster",
+         "stuff": None, "costStuff": 0, "cost": {"Steel": 20},
+         "stats": {"MaxHitPoints": 120, "Mass": 1.8, "MarketValue": 4, "ArmorRating_Sharp": 0.12, "ArmorRating_Blunt": 0.06,
+                   "Insulation_Cold": 18, "EquipDelay": 2.5},
+         "offsets": {"MoveSpeed": -0.03}, "color": (0.35, 0.36, 0.34)},
+        external("HP_ConscriptHelmet"),
+        {"kind": "custom", "id": "Belt", "label": "conscript belt",
+         "desc": "A webbing belt with two empty pouches. Part of the conscript kit.",
+         "parent": "ApparelBase", "tech": "Industrial", "layers": ["Belt"], "groups": ["Waist"],
+         "tex": "Things/Item/Equipment/HP_KitBelt", "worn": None,
+         "stuff": None, "costStuff": 0, "cost": {"Steel": 4},
+         "stats": {"MaxHitPoints": 60, "Mass": 0.3, "MarketValue": 1, "EquipDelay": 1},
+         "offsets": {}, "color": (0.40, 0.40, 0.36)},
+        {"kind": "custom", "id": "Eyes", "label": "conscript goggles",
+         "desc": "Scratched goggles on an elastic strap. Part of the conscript kit.",
+         "parent": "ApparelBase", "tech": "Industrial", "layers": ["EyeCover"], "groups": ["Eyes"],
+         "tex": "Things/Item/Equipment/HP_KitGoggles", "worn": None,
+         "stuff": None, "costStuff": 0, "cost": {"Steel": 3},
+         "stats": {"MaxHitPoints": 40, "Mass": 0.2, "MarketValue": 1, "EquipDelay": 1},
+         "offsets": {}, "color": (0.40, 0.40, 0.36)},
+    ], "ce": []},
     {"id": "Gravecloth", "label": "gravecloth", "tier": "medieval light", "pieces": [
         copy_of("Tunic", "Apparel_CollarShirt", "gravecloth tunic", "A long-sleeved shirt of grave-wrapping cloth, the first layer of the gravecloth kit.", essence=1),
         copy_of("Leggings", "Apparel_Pants", "gravecloth leggings", "Wrapped leggings of grave-cloth. Part of the gravecloth kit.", essence=1),
@@ -570,7 +604,9 @@ def main():
             ce_state.append((p["label"],) + wear_info(el_ce))
         problems += check_set(s["label"], vanilla_state, parts, relevant, VANILLA_LAYERS)
         # Under CE some vanilla layers move (hats to OnHead), so CE only has to add its own three.
-        problems += check_set(s["label"] + " (CE)", ce_state, parts, relevant, CE_LAYERS + ["OnSkin", "Shell", "Belt"])
+        # A vanilla-only set (the conscript kit) is still checked for clashes under CE, but needs no CE pieces.
+        ce_needed = [] if s.get("vanillaOnly") else CE_LAYERS
+        problems += check_set(s["label"] + " (CE)", ce_state, parts, relevant, ce_needed + ["OnSkin", "Shell", "Belt"])
     if problems:
         print("Refusing to write:")
         for pr in problems:

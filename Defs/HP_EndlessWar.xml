@@ -669,6 +669,12 @@
     <colorGenerator Class="ColorGenerator_Single">
       <color>(110,110,100)</color>
     </colorGenerator>
+    <modExtensions>
+      <li Class="HollowPawns.ApparelSetExtension">
+        <set>Conscript</set>
+        <setLabel>conscript kit</setLabel>
+      </li>
+    </modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="ApparelBase">
@@ -719,6 +725,12 @@
     <colorGenerator Class="ColorGenerator_Single">
       <color>(110,110,100)</color>
     </colorGenerator>
+    <modExtensions>
+      <li Class="HollowPawns.ApparelSetExtension">
+        <set>Conscript</set>
+        <setLabel>conscript kit</setLabel>
+      </li>
+    </modExtensions>
   </ThingDef>
 
   <!-- Staffing (Staffing.cs): the grinder and forge run alone, but faster with someone working them.
