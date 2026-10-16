@@ -34,6 +34,14 @@ namespace HollowPawns
         public static HediffDef HP_ReanimatedHusk;
         public static HediffDef HP_StandingGuard;
         public static HediffDef HP_Shackled;
+        public static HediffDef HP_CorruptionAttuned;
+        public static DesignationDef HP_CleansingRite;
+        public static JobDef HP_PerformCleansingRite;
+        public static HistoryEventDef HP_CleansingRiteDone;
+        public static HistoryEventDef HP_SoulTaken;
+        public static HistoryEventDef HP_PrisonerTormented;
+        public static HistoryEventDef HP_FaceTakenEvent;
+        public static FactionDef HP_Zealots;
         public static FleckDef HP_SoulWisp;
         public static SoundDef HP_RiteStart;
         public static SoundDef HP_SoulRelease;

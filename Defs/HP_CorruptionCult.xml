@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Corruption: the rest of 4.28 =====================
+       Cult perks (no DLC), the cleansing rite, history events for the Ideology precepts
+       (Mods/Ideology), and the zealots: the mirror enemy for a corrupted colony. CorruptionCult.cs. -->
+
+  <!-- Cult perk without any DLC: an attuned pawn (exalted, or 50%+ soul corruption) standing on
+       corrupted ground. Refreshed by the corruption pawn pass; fades within a couple of hours off it. -->
+  <HediffDef>
+    <defName>HP_CorruptionAttuned</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>attuned to corruption</label>
+    <description>Standing on corrupted ground. For most people that's a misery; this one draws strength from it.</description>
+    <defaultLabelColor>(0.7, 0.4, 0.75)</defaultLabelColor>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-12</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <WorkSpeedGlobal>0.1</WorkSpeedGlobal>
+          <PainShockThreshold>0.1</PainShockThreshold>
+          <MentalBreakThreshold>-0.04</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- ===================== The cleansing rite ===================== -->
+  <DesignationDef>
+    <defName>HP_CleansingRite</defName>
+    <texturePath>UI/Designators/HP_Cleanse</texturePath>
+    <targetType>Cell</targetType>
+  </DesignationDef>
+
+  <JobDef>
+    <defName>HP_PerformCleansingRite</defName>
+    <driverClass>HollowPawns.JobDriver_CleansingRite</driverClass>
+    <reportString>performing a cleansing rite.</reportString>
+  </JobDef>
+
+  <WorkGiverDef>
+    <defName>HP_PerformCleansingRite</defName>
+    <label>perform cleansing rites</label>
+    <giverClass>HollowPawns.WorkGiver_CleansingRite</giverClass>
+    <workType>Cleaning</workType>
+    <priorityInType>45</priorityInType>
+    <verb>cleanse</verb>
+    <gerund>cleansing</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+      <li>Talking</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <!-- ===================== History events (for the precepts) ===================== -->
+  <HistoryEventDef>
+    <defName>HP_SoulTaken</defName>
+    <label>took a soul</label>
+  </HistoryEventDef>
+
+  <HistoryEventDef>
+    <defName>HP_PrisonerTormented</defName>
+    <label>tormented a prisoner</label>
+  </HistoryEventDef>
+
+  <HistoryEventDef>
+    <defName>HP_FaceTakenEvent</defName>
+    <label>took a face</label>
+  </HistoryEventDef>
+
+  <HistoryEventDef>
+    <defName>HP_CleansingRiteDone</defName>
+    <label>performed a cleansing rite</label>
+  </HistoryEventDef>
+
+  <!-- ===================== Zealots ===================== -->
+  <FactionDef ParentName="FactionBase">
+    <defName>HP_Zealots</defName>
+    <label>zealots</label>
+    <description>Purifiers who hunt down the places where souls are taken and corruption takes root. They come with fire and holy water, and they cleanse the ground they walk on. They have no settlements anyone knows of; they only appear when a colony has fouled enough of the earth to draw them.</description>
+    <pawnSingular>zealot</pawnSingular>
+    <pawnsPlural>zealots</pawnsPlural>
+    <hidden>true</hidden>
+    <requiredCountAtGameStart>1</requiredCountAtGameStart>
+    <settlementGenerationWeight>0</settlementGenerationWeight>
+    <canSiege>false</canSiege>
+    <canStageAttacks>true</canStageAttacks>
+    <leaderTitle>inquisitor</leaderTitle>
+    <factionIconPath>World/HP_ZealotFaction</factionIconPath>
+    <factionNameMaker>NamerFactionOutlander</factionNameMaker>
+    <settlementNameMaker>NamerSettlementOutlander</settlementNameMaker>
+    <colorSpectrum>
+      <li>(0.9, 0.85, 0.6)</li>
+      <li>(0.95, 0.7, 0.3)</li>
+    </colorSpectrum>
+    <permanentEnemy>true</permanentEnemy>
+    <techLevel>Industrial</techLevel>
+    <allowedCultures><li>Rustican</li></allowedCultures>
+    <backstoryFilters>
+      <li>
+        <categories>
+          <li>Outlander</li>
+        </categories>
+      </li>
+    </backstoryFilters>
+    <allowedArrivalTemperatureRange>-40~60</allowedArrivalTemperatureRange>
+    <raidLootMaker>HP_ZealotRaidLootMaker</raidLootMaker>
+    <maxPawnCostPerTotalPointsCurve>
+      <points>
+        <li>(0,35)</li>
+        <li>(70, 50)</li>
+        <li>(700, 100)</li>
+        <li>(1300, 150)</li>
+        <li>(100000, 10000)</li>
+      </points>
+    </maxPawnCostPerTotalPointsCurve>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <HP_ZealotFlagellant>8</HP_ZealotFlagellant>
+          <HP_ZealotPurifier>6</HP_ZealotPurifier>
+          <HP_ZealotGunner>8</HP_ZealotGunner>
+          <HP_Inquisitor>2</HP_Inquisitor>
+        </options>
+      </li>
+      <li>
+        <kindDef>Settlement</kindDef>
+        <options>
+          <HP_ZealotFlagellant>10</HP_ZealotFlagellant>
+          <HP_ZealotGunner>10</HP_ZealotGunner>
+          <HP_Inquisitor>3</HP_Inquisitor>
+        </options>
+      </li>
+    </pawnGroupMakers>
+    <settlementTexturePath>World/WorldObjects/DefaultSettlement</settlementTexturePath>
+    <maxConfigurableAtWorldCreation>1</maxConfigurableAtWorldCreation>
+  </FactionDef>
+
+  <ThingSetMakerDef>
+    <defName>HP_ZealotRaidLootMaker</defName>
+    <root Class="ThingSetMaker_MarketValue">
+      <fixedParams>
+        <filter>
+          <thingDefs>
+            <li>Silver</li>
+            <li>HP_HolyWater</li>
+            <li>MedicineHerbal</li>
+          </thingDefs>
+        </filter>
+      </fixedParams>
+    </root>
+  </ThingSetMakerDef>
+
+  <PawnKindDef ParentName="ThrasherBase">
+    <defName>HP_ZealotFlagellant</defName>
+    <label>flagellant</label>
+    <defaultFactionDef>HP_Zealots</defaultFactionDef>
+    <combatPower>60</combatPower>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="GrenadierBase">
+    <defName>HP_ZealotPurifier</defName>
+    <label>purifier</label>
+    <defaultFactionDef>HP_Zealots</defaultFactionDef>
+    <combatPower>90</combatPower>
+    <weaponTags Inherit="False">
+      <li>GrenadeFlame</li>
+    </weaponTags>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="PirateKindBase">
+    <defName>HP_ZealotGunner</defName>
+    <label>zealot</label>
+    <defaultFactionDef>HP_Zealots</defaultFactionDef>
+    <combatPower>80</combatPower>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="MercenaryEliteTierBase">
+    <defName>HP_Inquisitor</defName>
+    <label>inquisitor</label>
+    <defaultFactionDef>HP_Zealots</defaultFactionDef>
+    <combatPower>180</combatPower>
+    <factionLeader>true</factionLeader>
+  </PawnKindDef>
+
+  <IncidentDef>
+    <defName>HP_ZealotRaid</defName>
+    <label>zealot raid</label>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>HollowPawns.IncidentWorker_ZealotRaid</workerClass>
+    <baseChance>1.5</baseChance>
+    <category>ThreatBig</category>
+    <pointsScaleable>true</pointsScaleable>
+    <tale>Raid</tale>
+    <minRefireDays>12</minRefireDays>
+    <earliestDay>15</earliestDay>
+  </IncidentDef>
+
+</Defs>

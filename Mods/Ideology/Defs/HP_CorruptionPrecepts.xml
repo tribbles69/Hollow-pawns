@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Corruption precepts (4.28) =====================
+       Only loads with Ideology. Abhorrent and disliked are the purist side, exalted the cult side.
+       Exalted pawns are also "attuned" (CorruptionCult.cs): they draw strength from corrupted ground.
+       Events are recorded by the rites, torment, face-taking and the cleansing rite. -->
+
+  <IssueDef>
+    <defName>HP_Corruption</defName>
+    <label>corruption</label>
+    <iconPath>UI/Icons/HP_CorruptionOverlay</iconPath>
+  </IssueDef>
+
+  <!-- ===== Abhorrent ===== -->
+  <PreceptDef>
+    <defName>HP_Corruption_Abhorrent</defName>
+    <issue>HP_Corruption</issue>
+    <label>abhorrent</label>
+    <description>Taking souls and fouling the earth are the worst of sins. Corrupted ground is unbearable; every soul taken is a wound.</description>
+    <impact>Medium</impact>
+    <displayOrderInIssue>30</displayOrderInIssue>
+    <displayOrderInImpact>100</displayOrderInImpact>
+    <defaultSelectionWeight>1</defaultSelectionWeight>
+    <comps>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>HP_CorruptedGround_Abhorrent</thought>
+        <description>On corrupted ground</description>
+        <tooltipShowMoodRange>true</tooltipShowMoodRange>
+      </li>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>HP_SoulTaken</eventDef>
+        <thought>HP_TookSoul_Abhorrent</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>HP_SoulTaken</eventDef>
+        <thought>HP_SoulTaken_Know_Abhorrent</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>HP_PrisonerTormented</eventDef>
+        <thought>HP_Tormented_Know_Abhorrent</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>HP_FaceTakenEvent</eventDef>
+        <thought>HP_FaceTaken_Know_Abhorrent</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>HP_CleansingRiteDone</eventDef>
+        <thought>HP_Cleansed_Know_Purist</thought>
+      </li>
+    </comps>
+  </PreceptDef>
+
+  <!-- ===== Disliked ===== -->
+  <PreceptDef>
+    <defName>HP_Corruption_Disliked</defName>
+    <issue>HP_Corruption</issue>
+    <label>disliked</label>
+    <description>Souls are not to be harvested lightly, and corrupted ground is a sickness to be cured.</description>
+    <impact>Low</impact>
+    <displayOrderInIssue>20</displayOrderInIssue>
+    <displayOrderInImpact>100</displayOrderInImpact>
+    <defaultSelectionWeight>2</defaultSelectionWeight>
+    <comps>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>HP_CorruptedGround_Disliked</thought>
+        <description>On corrupted ground</description>
+        <tooltipShowMoodRange>true</tooltipShowMoodRange>
+      </li>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>HP_SoulTaken</eventDef>
+        <thought>HP_TookSoul_Disliked</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>HP_SoulTaken</eventDef>
+        <thought>HP_SoulTaken_Know_Disliked</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>HP_CleansingRiteDone</eventDef>
+        <thought>HP_Cleansed_Know_Purist</thought>
+      </li>
+    </comps>
+  </PreceptDef>
+
+  <!-- ===== Exalted ===== -->
+  <PreceptDef>
+    <defName>HP_Corruption_Exalted</defName>
+    <issue>HP_Corruption</issue>
+    <label>exalted</label>
+    <description>Souls are the only true currency, and corrupted earth is holy ground. Every soul taken feeds the faith.</description>
+    <impact>High</impact>
+    <displayOrderInIssue>10</displayOrderInIssue>
+    <displayOrderInImpact>100</displayOrderInImpact>
+    <defaultSelectionWeight>0.5</defaultSelectionWeight>
+    <comps>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>HP_CorruptedGround_Exalted</thought>
+        <description>On corrupted ground</description>
+        <tooltipShowMoodRange>true</tooltipShowMoodRange>
+      </li>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>HP_SoulTaken</eventDef>
+        <thought>HP_TookSoul_Exalted</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>HP_SoulTaken</eventDef>
+        <thought>HP_SoulTaken_Know_Exalted</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>HP_PrisonerTormented</eventDef>
+        <thought>HP_Tormented_Know_Exalted</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>HP_FaceTakenEvent</eventDef>
+        <thought>HP_FaceTaken_Know_Exalted</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>HP_CleansingRiteDone</eventDef>
+        <thought>HP_Cleansed_Know_Exalted</thought>
+      </li>
+    </comps>
+  </PreceptDef>
+
+  <!-- ===== Ground (situational; stage by how bad the ground is) ===== -->
+  <ThoughtDef>
+    <defName>HP_CorruptedGround_Abhorrent</defName>
+    <workerClass>HollowPawns.ThoughtWorker_Precept_CorruptedGround</workerClass>
+    <validWhileDespawned>false</validWhileDespawned>
+    <stages>
+      <li>
+        <label>on corrupted ground</label>
+        <description>This ground is fouled. Standing on it is an offence against everything I believe.</description>
+        <baseMoodEffect>-6</baseMoodEffect>
+      </li>
+      <li>
+        <label>on deeply corrupted ground</label>
+        <description>The earth here is rotten through. I can feel it in my soul.</description>
+        <baseMoodEffect>-12</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_CorruptedGround_Disliked</defName>
+    <workerClass>HollowPawns.ThoughtWorker_Precept_CorruptedGround</workerClass>
+    <validWhileDespawned>false</validWhileDespawned>
+    <stages>
+      <li>
+        <label>on corrupted ground</label>
+        <description>Something is wrong with this ground.</description>
+        <baseMoodEffect>-3</baseMoodEffect>
+      </li>
+      <li>
+        <label>on deeply corrupted ground</label>
+        <description>This ground is sick. I don't like being here.</description>
+        <baseMoodEffect>-6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_CorruptedGround_Exalted</defName>
+    <workerClass>HollowPawns.ThoughtWorker_Precept_CorruptedGround</workerClass>
+    <validWhileDespawned>false</validWhileDespawned>
+    <stages>
+      <li>
+        <label>on holy ground</label>
+        <description>The earth here has been fed. It feels like home.</description>
+        <baseMoodEffect>3</baseMoodEffect>
+      </li>
+      <li>
+        <label>on deeply holy ground</label>
+        <description>So much has been given to this ground. I can feel it giving back.</description>
+        <baseMoodEffect>6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- ===== Souls taken ===== -->
+  <ThoughtDef>
+    <defName>HP_TookSoul_Abhorrent</defName>
+    <durationDays>6</durationDays>
+    <stackLimit>3</stackLimit>
+    <stages>
+      <li>
+        <label>took a soul</label>
+        <description>I tore a soul out of a living person. What have I become?</description>
+        <baseMoodEffect>-12</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_SoulTaken_Know_Abhorrent</defName>
+    <durationDays>4</durationDays>
+    <stackLimit>5</stackLimit>
+    <stages>
+      <li>
+        <label>soul taken</label>
+        <description>We took someone's soul. We are damning ourselves.</description>
+        <baseMoodEffect>-4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_TookSoul_Disliked</defName>
+    <durationDays>4</durationDays>
+    <stackLimit>3</stackLimit>
+    <stages>
+      <li>
+        <label>took a soul</label>
+        <description>I took a soul. I don't feel good about it.</description>
+        <baseMoodEffect>-5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_SoulTaken_Know_Disliked</defName>
+    <durationDays>3</durationDays>
+    <stackLimit>5</stackLimit>
+    <stages>
+      <li>
+        <label>soul taken</label>
+        <description>We took someone's soul.</description>
+        <baseMoodEffect>-2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_TookSoul_Exalted</defName>
+    <durationDays>4</durationDays>
+    <stackLimit>3</stackLimit>
+    <stages>
+      <li>
+        <label>took a soul</label>
+        <description>I gave a soul to the faith with my own hands.</description>
+        <baseMoodEffect>6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_SoulTaken_Know_Exalted</defName>
+    <durationDays>3</durationDays>
+    <stackLimit>5</stackLimit>
+    <stages>
+      <li>
+        <label>soul taken</label>
+        <description>Another soul given. The faith grows.</description>
+        <baseMoodEffect>3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- ===== Torment and faces ===== -->
+  <ThoughtDef>
+    <defName>HP_Tormented_Know_Abhorrent</defName>
+    <durationDays>2</durationDays>
+    <stackLimit>3</stackLimit>
+    <stages>
+      <li>
+        <label>prisoner tormented</label>
+        <description>We are torturing a prisoner. This is evil.</description>
+        <baseMoodEffect>-4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_Tormented_Know_Exalted</defName>
+    <durationDays>2</durationDays>
+    <stackLimit>3</stackLimit>
+    <stages>
+      <li>
+        <label>prisoner tormented</label>
+        <description>The guilty suffer, and their suffering is offered up.</description>
+        <baseMoodEffect>2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_FaceTaken_Know_Abhorrent</defName>
+    <durationDays>3</durationDays>
+    <stackLimit>3</stackLimit>
+    <stages>
+      <li>
+        <label>face taken</label>
+        <description>Someone here cut a face off a person to wear it. Monstrous.</description>
+        <baseMoodEffect>-4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_FaceTaken_Know_Exalted</defName>
+    <durationDays>3</durationDays>
+    <stackLimit>3</stackLimit>
+    <stages>
+      <li>
+        <label>face taken</label>
+        <description>A new trophy for the faithful.</description>
+        <baseMoodEffect>2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- ===== Cleansing ===== -->
+  <ThoughtDef>
+    <defName>HP_Cleansed_Know_Purist</defName>
+    <durationDays>4</durationDays>
+    <stackLimit>3</stackLimit>
+    <stages>
+      <li>
+        <label>ground cleansed</label>
+        <description>A cleansing rite was performed. The earth is a little cleaner.</description>
+        <baseMoodEffect>4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HP_Cleansed_Know_Exalted</defName>
+    <durationDays>4</durationDays>
+    <stackLimit>3</stackLimit>
+    <stages>
+      <li>
+        <label>holy ground scoured</label>
+        <description>Someone burned away what the faith had built in the earth. Sacrilege.</description>
+        <baseMoodEffect>-4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

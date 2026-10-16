@@ -228,6 +228,18 @@ A **Curse** prisoner mode: a warden spends a while chanting over the prisoner. T
 
 Under CE there are also **soul great arrows** for the greatbow and **soul javelins** (thrown by hand or from an atlatl), both made at the crafting spot or smithy with a little essence. They shock like soul arrows and can hurt ghosts.
 
+### Purists and cultists
+How your colony feels about corruption, and what comes for it.
+
+| Thing | What it does |
+|---|---|
+| **Cleansing rite** (Orders tab, one spot) | A pawn on cleaning duty brings **5 holy water** and spends an hour there: corruption within about 7 cells is scoured away, everyone in it has soul corruption eased and grave chill lifted, and any **ghost** inside is laid to rest. |
+| **Corruption precepts** (Ideology) | A new issue: *abhorrent*, *disliked* or *exalted*. Abhorrent and disliked hate corrupted ground and soul-taking (stronger for abhorrent, who also mind torment and taken faces) and like cleansing rites. Exalted love it all: holy ground, souls given, torment, trophies, and hate cleansing rites. |
+| **Attuned** (no DLC needed) | A pawn who is exalted, or whose own soul corruption is 50%+, stops minding corrupted ground and, standing on it, gets +10% work speed, +10% pain threshold and steadier nerves. Purists (everyone else) still get the old ground mood penalty. |
+| **Corrupting hits** | Demons, Profaned and anyone wielding a weapon with a corrupted soul bound into it stain whoever they hit (soul corruption) and the ground under them. |
+| **Zealot raids** | Once 400+ cells of your map are badly corrupted (80+), zealots may come: flagellants, purifiers with molotovs, gunners and an inquisitor. They cleanse the ground they walk on. They never come for a clean colony. |
+| **Cursed loot** | The cursed idol now turns up with exotic traders and in quest rewards. |
+
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
 - **Soul guns fire beams.** Like CE's own lasers: one shared **soul charge** ammo (100 from 6 soulsteel + 4 essence, so about 200 shots per corpse), and each gun maps it to its own beam with its own damage and penetration, plus a one-cell soul blast on impact.
@@ -343,6 +355,10 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] CE: the greatbow's ammo list has soul great arrows; the atlatl's has soul javelins; soul javelins can also be thrown by hand.
 - [ ] Conscript kit: line forge on *full conscript kit* with 140 steel and a component next to it: out come a rifle, fatigues, vest, greatcoat, helmet, belt and goggles. The outfit list has a *Conscript kit* policy. *Kit out thralls* on the forge: thralls switch to that policy and dress themselves; unarmed ones walk to a conscript rifle and pick it up. A thrall in all six pieces gets *full kit*.
 - [ ] Rite effects: load a prisoner on the altar: a low drone, then pale wisps tearing out of them in fits, sparks; at the end a flame flare and a rising tone. On the press: a steady stream of wisps into the machine and a pale burst. After a few press rites a message says its hum carries; raids get heavier (up to +30%, halving every five days).
+- [ ] Cleansing rite: designate a spot (Orders → Cleansing rite; radius shown), have 5 holy water: a cleaner fetches it, chants an hour; the overlay clears around the spot; a ghost inside fades. With Ideology and a purist precept: *ground cleansed* +4.
+- [ ] Precepts (Ideology): make an ideoligion with *corruption: exalted*: colonists like corrupted ground, get +3 when a soul is taken, *attuned* on corrupted ground. *Abhorrent*: -6/-12 on corrupted ground, -12 for whoever took a soul.
+- [ ] Attuned without Ideology: dev-give a colonist 60% soul corruption, walk them onto corrupted ground: *attuned to corruption*, no ground mood penalty.
+- [ ] Zealots: corrupt a big area (dev: add corruption) and fire *zealot raid*: they come with molotovs; where they walk, the overlay clears. On a clean map the incident can't fire.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
@@ -364,6 +380,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - v0.8, unverified until tested in game: black rain's `SkyTarget` colours and forcing the `Rain` weather from `Init`; `DoCellSteadyEffects` being called for a custom game condition; the fallen idol riding a `MeteoriteIncoming` skyfaller (a 1x1 building as contents) and being claimable.
 - v0.8, unverified until tested in game: the curse ritual's `Pawn.ExitMap` prefix (released and escaping prisoners both go through it?) and the `Pawn.SpawnSetup` postfix cursing arriving raiders; CE soul javelins copied from CE's pila (a weapon that is also ammo).
 - v0.8, unverified until tested in game: rite wisps (`FleckMaker.GetDataStatic` with a velocity, a `MoteGlow` fleck parented to `FleckBase_Thrown`), and the press attention postfix on `StorytellerUtility.DefaultThreatPointsNow`.
+- v0.8, unverified until tested in game: zealots as a hidden permanent-enemy faction raiding through their own incident (and being added to old saves), `GrenadierBase` with `weaponTags Inherit="False"` giving molotov throwers, precepts recorded through `HistoryEventsManager.RecordEvent` with and without a doer, the `PostApplyDamage` postfix for corrupting hits.
 - v0.7, unverified until tested in game: the rite job (carrying a restrained prisoner and laying them on the altar cell; vanilla `Toils_Haul.StartCarryThing` on a pawn), `Building_CloneVat` re-implementing `IBillGiver.CurrentlyUsableForBills` (vanilla's isn't virtual), `ResurrectionUtility.TryResurrect` on rotted husks, the corruption overlay (`CellBoolDrawer`) and its toggle among the play settings, `DataExposeUtility.LookByteArray` for the corruption grid, thralls generated with a forced xenotype that has `canGenerateAsCombatant` false, CE armour values for the conscript vest and helmet (set by eye below CE's steel flak vest).
 - v0.6, unverified until tested in game: adding a faction to an existing save with `FactionGenerator.NewGeneratedFaction` (it will have no world bases in that save, and Ideology must give it an ideoligion); the storyteller firing an incident whose `baseChance` is 0 through an on/off cycle; demon pawn kinds inheriting from non-abstract vanilla kinds (`ThrasherBase`, `PirateKindBase`, `MercenaryHeavyBase`); `CompProperties_CauseHediff_Apparel` with no body part.
 - v0.5, unverified until tested in game: `HediffDef.preventsDeath` (no vanilla XML uses it; the game code reads it in `ShouldBeDead`/`CheckForStateChange`), the soul jar surviving minify and save/load, and the soul broker caravan patch on the abstract `OutlanderFactionBase`.

@@ -372,7 +372,7 @@ namespace HollowPawns
                 foreach (Pawn p in map.mapPawns.FreeColonistsSpawned)
                 {
                     if (p != warden && p.Position.InHorDistOf(cell, 12f) && GenSight.LineOfSight(p.Position, cell, map)
-                        && p.needs?.mood != null)
+                        && p.needs?.mood != null && !CorruptionCult.Attuned(p) && CorruptionCult.Stance(p) == CorruptionStance.None)
                     {
                         p.needs.mood.thoughts.memories.TryGainMemory(HP_DefOf.HP_WitnessedSoulRite);
                     }
@@ -385,6 +385,7 @@ namespace HollowPawns
                 home.TryAffectGoodwillWith(Faction.OfPlayer, -40, true, true, HistoryEventDefOf.MemberKilled);
             }
 
+            CorruptionCult.Record(HP_DefOf.HP_SoulTaken, warden);
             SoulUtility.ClearFate(victim);
             SoulUtility.TakeSoulAndKill(victim);
         }

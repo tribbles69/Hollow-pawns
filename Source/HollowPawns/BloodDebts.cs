@@ -188,6 +188,7 @@ namespace HollowPawns
             }
             h.Severity = Mathf.Min(1f, h.Severity + 0.15f);
             h.lastSessionTick = Find.TickManager.TicksGame;
+            CorruptionCult.Record(HP_DefOf.HP_PrisonerTormented, warden);
             HealthUtility.AdjustSeverity(prisoner, HP_DefOf.HP_SoulShock, 0.25f);
 
             Hediff_BloodDebt debt = BloodDebts.DebtOn(prisoner);

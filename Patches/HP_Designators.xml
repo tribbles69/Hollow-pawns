@@ -6,6 +6,7 @@
     <xpath>Defs/DesignationCategoryDef[defName="Orders"]/specialDesignatorClasses</xpath>
     <value>
       <li>HollowPawns.Designator_Cleanse</li>
+      <li>HollowPawns.Designator_CleansingRite</li>
     </value>
   </Operation>
 

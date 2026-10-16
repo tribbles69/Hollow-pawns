@@ -59,6 +59,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Curse ritual (4.2) | *Curse* prisoner mode: the prisoner is cursed and carries it home when released or escaped; their faction's next raid arrives cursed. Also CE soul great arrows and soul javelins. |
 | Conscript kit (4.24) | Full slot-filling conscript kit from the apparel generator (fatigues, greatcoat, belt, goggles around the existing vest and helmet; forge-only, no bench recipe). The forge's full kit makes all of it plus the rifle (140 steel). A *Conscript kit* outfit policy in every game, and *Kit out thralls* on the forge. |
 | Extraction polish (4.27) | Wisps while a rite runs (torn out in fits at the altar, a steady stream at the press), a flare and a release tone at the end, a drone at the start (placeholder sounds in `Sounds/HP`). The press draws attention: each rite adds to it, raids get up to +30% points, halving every five days. |
+| Corruption, the rest (4.28) | Cleansing rite (5 holy water, scours ~7 cells, eases pawns, lays ghosts to rest), Ideology precepts (abhorrent / disliked / exalted; `Mods/Ideology`), attuned cult perk without DLC, corrupting hits (demons, Profaned, corrupted-soul weapons), zealot raids for badly corrupted maps (purifying aura), cursed idol in trade and rewards. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -372,6 +373,7 @@ The extract-soul surgery is a stopgap: it's convenient, but taking a soul deserv
 **Order:** altar first (players hit it earliest), then the press. Remove the surgery in the same release the altar ships, so there's never a gap with no way to extract.
 
 ### 4.28 Corruption: the backbone
+**Rest built in v0.8:** cleansing rite (a designation and a cleaning job, not an Ideology ritual), precepts, the no-DLC attuned perk (exalted or 50%+ soul corruption), corrupting hits, zealot raids (hidden faction, own incident, only when 400+ cells are at 80+), and the cursed idol as cursed loot.
 **Events built in v0.8:** black rain and the fallen idol. Still not built from this section: cursed loot, corrupted weapons, the cleansing rite, Ideology precepts, cult-side benefits, zealot raids, the purist mood penalty.
 **Core built in v0.7** (see Built). Decided while building: ground corruption never decays by itself, it only creeps (moved, not created) or is purified; pawn corruption fades slowly (-0.02 a day); the altar spills more per cell, the press less over a wider area. Not yet: events (black rain, fallen idol), corrupted weapons, the cleansing rite, shrines, Ideology precepts, cult-side benefits, zealot raids.
 Works like Biotech pollution, but its own system. Taking and spending souls stains the ground and the people who do it. **Bad on a purist run, a resource on a demon-cult run.** Aaron's idea (13 Oct 2026); it replaces the global "soul tally" meter the pirate council pitched, because corruption is visible on the map, so cause and effect stay clear.

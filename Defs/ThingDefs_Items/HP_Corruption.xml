@@ -67,7 +67,12 @@
     </thingCategories>
     <tradeTags>
       <li>HP_CursedIdol</li>
+      <!-- Cursed loot (4.28): exotic traders carry it, and it turns up in quest rewards. -->
+      <li>ExoticMisc</li>
     </tradeTags>
+    <thingSetMakerTags>
+      <li>RewardStandardLowFreq</li>
+    </thingSetMakerTags>
     <generateAllowChance>0</generateAllowChance>
     <smeltable>false</smeltable>
     <apparel>

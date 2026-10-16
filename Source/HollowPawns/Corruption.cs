@@ -64,6 +64,21 @@ namespace HollowPawns
 
         public void Deregister(ICorruptionSource s) => sources.Remove(s);
 
+        /// <summary>How many cells are at or above a level. A full grid walk: only for rare checks (zealot raids).</summary>
+        public int CountAtLeast(byte level)
+        {
+            int n = 0;
+            byte[] g = Grid;
+            for (int i = 0; i < g.Length; i++)
+            {
+                if (g[i] >= level)
+                {
+                    n++;
+                }
+            }
+            return n;
+        }
+
         public override void MapComponentTick()
         {
             int tick = Find.TickManager.TicksGame;
@@ -134,6 +149,12 @@ namespace HollowPawns
                 {
                     continue;
                 }
+                if (Zealots.IsZealot(p))
+                {
+                    // Zealots purify the ground they walk on: the mirror of a demon's aura.
+                    Corruption.Spill(p.Position, map, -10, 1.9f);
+                    continue;
+                }
                 if (SoulUtility.IsCorrupted(p))
                 {
                     // Demons carry a corruption aura: they stain the ground they walk on.
@@ -148,6 +169,7 @@ namespace HollowPawns
                 {
                     Corruption.AddToPawn(p, v / 255f * 0.0015f);
                 }
+                CorruptionCult.AttunedPass(p, v);
                 Hediff h = p.health.hediffSet.GetFirstHediffOfDef(HP_DefOf.HP_SoulCorruption);
                 if (h != null && h.Severity >= 0.85f && Rand.MTBEventOccurs(4f, GenDate.TicksPerDay, GenTicks.TickRareInterval))
                 {
@@ -305,7 +327,10 @@ namespace HollowPawns
     {
         protected override ThoughtState CurrentStateInternal(Pawn p)
         {
-            if (!p.Spawned || SoulUtility.GetSoul(p) == null || SoulUtility.IsCorrupted(p))
+            // Pawns whose ideoligion has a corruption precept get that precept's thought instead;
+            // attuned pawns (cult-side) don't mind it at all.
+            if (!p.Spawned || SoulUtility.GetSoul(p) == null || SoulUtility.IsCorrupted(p)
+                || CorruptionCult.Stance(p) != CorruptionStance.None || CorruptionCult.Attuned(p))
             {
                 return ThoughtState.Inactive;
             }

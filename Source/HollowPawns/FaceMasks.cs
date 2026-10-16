@@ -67,6 +67,7 @@ namespace HollowPawns
             QualityCategory q = maker != null ? QualityUtility.GenerateQualityCreatedByPawn(maker, skill) : QualityCategory.Normal;
             q = victim.Dead ? (QualityCategory)Mathf.Min((int)q, (int)QualityCategory.Normal) : (QualityCategory)Mathf.Min((int)q + 1, (int)QualityCategory.Legendary);
             mask.TryGetComp<CompQuality>()?.SetQuality(q, ArtGenerationContext.Colony);
+            CorruptionCult.Record(HP_DefOf.HP_FaceTakenEvent, maker);
             return mask;
         }
 

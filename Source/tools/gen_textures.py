@@ -748,6 +748,17 @@ def soul_wisp():
     ]
 
 
+def zealot_faction():
+    """A white sun with a flame at its heart: the zealots."""
+    rays = union(*[poly([(64 + 50 * c, 64 + 50 * s_), (64 + 12 * s_, 64 - 12 * c), (64 - 12 * s_, 64 + 12 * c)])
+                   for c, s_ in ((1, 0), (-1, 0), (0, 1), (0, -1), (0.707, 0.707), (-0.707, 0.707), (0.707, -0.707), (-0.707, -0.707))])
+    return [
+        (rays, (255, 255, 255), 1.0),
+        (circle(64, 64, 24), (255, 255, 255), 1.0),
+        (union(circle(64, 70, 10), poly([(54, 70), (74, 70), (64, 46)])), (40, 40, 40), 1.0),
+    ]
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
@@ -813,3 +824,4 @@ if __name__ == "__main__":
     write_png(os.path.join(b, "HP_FallenIdol.png"), render(128, fallen_idol()))
     # Rite wisps (4.27)
     write_png(os.path.join(t, "Mote", "HP_SoulWisp.png"), render(64, soul_wisp()))
+    write_png(os.path.join(tx, "World", "HP_ZealotFaction.png"), render(128, zealot_faction()))
