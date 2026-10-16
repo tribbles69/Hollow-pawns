@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Trenches (4.25) =====================
+       A dug floor on diggable ground. Slow to cross and nothing can be built on it. Whoever stands in
+       it gets cover from every side (Trenches.cs): vanilla adds about 55% block chance unless the
+       shooter is within three cells; under CE only head and shoulders show. Remove it like any floor. -->
+  <TerrainDef ParentName="FloorBase">
+    <defName>HP_Trench</defName>
+    <label>trench</label>
+    <description>A narrow trench dug chest-deep into the earth. Anyone standing in it is hard to hit from a distance, from any direction, though an enemy on the lip can still shoot down into it. Slow to move along, and nothing can be built in it. Dig them where the line will hold, and back them with a carrion wall for a parapet.</description>
+    <texturePath>Terrain/Surfaces/Soil</texturePath>
+    <color>(70,58,48)</color>
+    <edgeType>Hard</edgeType>
+    <renderPrecedence>395</renderPrecedence>
+    <pathCost>14</pathCost>
+    <designationCategory>Structure</designationCategory>
+    <terrainAffordanceNeeded>Diggable</terrainAffordanceNeeded>
+    <affordances Inherit="False" />
+    <statBases>
+      <WorkToBuild>1200</WorkToBuild>
+      <Beauty>-2</Beauty>
+      <Cleanliness>-1</Cleanliness>
+    </statBases>
+    <constructEffect>ConstructDirt</constructEffect>
+    <uiIconPath>Terrain/Surfaces/Soil</uiIconPath>
+  </TerrainDef>
+
+</Defs>

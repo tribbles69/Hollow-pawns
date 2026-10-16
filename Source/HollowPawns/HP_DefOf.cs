@@ -34,6 +34,7 @@ namespace HollowPawns
         public static HediffDef HP_ReanimatedHusk;
         public static HediffDef HP_StandingGuard;
         public static HediffDef HP_Shackled;
+        public static TerrainDef HP_Trench;
         public static ThinkTreeDef HP_Thrall;
         public static ThingDef HP_ThrallMuster;
         public static JobDef HP_EnterThrallRack;

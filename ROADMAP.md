@@ -62,6 +62,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Corruption, the rest (4.28) | Cleansing rite (5 holy water, scours ~7 cells, eases pawns, lays ghosts to rest), Ideology precepts (abhorrent / disliked / exalted; `Mods/Ideology`), attuned cult perk without DLC, corrupting hits (demons, Profaned, corrupted-soul weapons), zealot raids for badly corrupted maps (purifying aura), cursed idol in trade and rewards. |
 | Demon raids and sieges (4.34) | Rift portals and burrowing (demon-only arrival modes), the Great Rift (waves every 18 hours for three days, a keeper to kill or a cleansing rite to seal it, a crater if left), sieges for demons and zealots. |
 | Thrall performance (4.26) | Lean think tree for thralls (mod setting), muster spots, thrall racks (six in suspended animation, release on raid), a benchmark spawner. Hauling area: use vanilla allowed areas. |
+| Trenches (4.25) | Our own, no dependency (Frontline isn't installed; VFE Security's are off): a dug floor, ~55% all-round cover in vanilla except from within three cells, head-and-shoulders only under CE, and the AI rates trench cells as cover. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -318,6 +319,7 @@ Arm ten thralls between waves without spending souls; save the expensive gear fo
 - The loop: clone vats grow the bodies (4.5), the line forge arms them, they hold the wall; real colonists keep the soulsteel.
 
 ### 4.25 Trenches
+**Built in v0.8.** Frontline – Trenches isn't installed and VFE Security is installed but off, so we built our own. Decided while building: under CE the trench pawn's collision top is cut to 0.55 (head and shoulders), using the same idea as CE's crouching, rather than lowering the whole pawn.
 Dug trench cells that actually protect whoever stands in them. Pairs with the carrion wall as a parapet (4.1) and thralls holding a line (4.5).
 - **Step one: check *Frontline – Trenches*.** It already exists and CE ships patches for its guns (`ModPatches/Frontline - Trenches` in CE's repo). Find out how its trenches work. If it covers this, make Hollow Pawns' content work alongside it instead of building our own.
 - **Why it needs code (vanilla):** vanilla cover is directional. When a pawn is shot, only cover in the adjacent cells on the side facing the shooter counts. What a pawn stands on (terrain, or a building in its own cell) never counts, so a plain dug terrain would give no protection.
