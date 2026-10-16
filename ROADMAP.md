@@ -61,6 +61,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Extraction polish (4.27) | Wisps while a rite runs (torn out in fits at the altar, a steady stream at the press), a flare and a release tone at the end, a drone at the start (placeholder sounds in `Sounds/HP`). The press draws attention: each rite adds to it, raids get up to +30% points, halving every five days. |
 | Corruption, the rest (4.28) | Cleansing rite (5 holy water, scours ~7 cells, eases pawns, lays ghosts to rest), Ideology precepts (abhorrent / disliked / exalted; `Mods/Ideology`), attuned cult perk without DLC, corrupting hits (demons, Profaned, corrupted-soul weapons), zealot raids for badly corrupted maps (purifying aura), cursed idol in trade and rewards. |
 | Demon raids and sieges (4.34) | Rift portals and burrowing (demon-only arrival modes), the Great Rift (waves every 18 hours for three days, a keeper to kill or a cleansing rite to seal it, a crater if left), sieges for demons and zealots. |
+| Thrall performance (4.26) | Lean think tree for thralls (mod setting), muster spots, thrall racks (six in suspended animation, release on raid), a benchmark spawner. Hauling area: use vanilla allowed areas. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -325,6 +326,7 @@ Dug trench cells that actually protect whoever stands in them. Pairs with the ca
 - Tick cost: none; both patches only run when a shot is resolved.
 
 ### 4.26 Thrall performance: cheap enough for a big base
+**Finished in v0.8:** the lean think tree (copied vanilla nodes, swapped in by a getter postfix, toggle in mod settings), muster spots, thrall racks, and a dev spawner for the benchmark. Area-restricted hauling is vanilla's allowed area: assign thralls a small one. The benchmark itself still needs running in game with Dubs Performance Analyzer.
 **Partly built in v0.7.** Stand guard is a toggle that drafts the pawn in place with a hediff (hunger 0.1x, no rest fall); drafted pawns already fire on hostiles, so no separate wake check was needed. They stand down when hungry. Not yet: the lean think tree, area-restricted hauling, thrall racks, the benchmark.
 Goal: Aaron wants a big base full of thralls. Thralls must cost far less than colonists to simulate.
 - **What the Soulless gene already cuts (4.5):** mood and situational thoughts (a notable per-pawn idle cost), social interactions and relationships, most needs, mental break checks, recreation jobs, most work scanning.

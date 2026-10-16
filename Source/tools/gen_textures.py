@@ -771,6 +771,26 @@ def great_rift():
     ]
 
 
+def thrall_muster():
+    """A painted ring with a cross, on the floor."""
+    return [
+        (ring(64, 64, 40, 5), (200, 190, 170), 0.85),
+        (union(rrect(64, 64, 28, 3, 1), rrect(64, 64, 3, 28, 1)), (200, 190, 170), 0.85),
+    ]
+
+
+def thrall_rack():
+    """3x1 steel frame with six cradles, a pale figure in some of them."""
+    layers = [(rrect(192, 64, 186, 50, 6), METAL_DARK, 1.0), (rrect(192, 64, 178, 42, 4), METAL, 1.0)]
+    for k in range(6):
+        x = 42 + k * 60
+        layers.append((rrect(x, 64, 24, 36, 4), (50, 55, 60), 1.0))
+        if k % 2 == 0:
+            layers.append((union(circle(x, 42, 8), rrect(x, 70, 10, 22, 4)), (170, 170, 160), 1.0))
+        layers.append((rrect(x, 64, 24, 2, 1), (110, 30, 30), 0.9))
+    return layers
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
@@ -839,3 +859,6 @@ if __name__ == "__main__":
     write_png(os.path.join(tx, "World", "HP_ZealotFaction.png"), render(128, zealot_faction()))
     # Demon raids (4.34)
     write_png(os.path.join(b, "HP_GreatRift.png"), render(128, great_rift()))
+    # Thrall performance (4.26)
+    write_png(os.path.join(b, "HP_ThrallMuster.png"), render(128, thrall_muster()))
+    write_png(os.path.join(b, "HP_ThrallRack.png"), render(384, thrall_rack(), 128))

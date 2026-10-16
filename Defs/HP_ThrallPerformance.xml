@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Thrall performance (4.26) =====================
+       The lean think tree thralls use instead of Humanlike (Patch_Pawn_Thinker_ThrallTree, off in mod
+       settings), the muster spot idle thralls stand at, and the thrall rack. ThrallPerformance.cs.
+       Every node here is copied from vanilla's Humanlike tree; only what a thrall needs is kept. -->
+
+  <ThinkTreeDef>
+    <defName>HP_Thrall</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="ThinkNode_ConditionalMustKeepLyingDown">
+          <subNodes>
+            <li Class="JobGiver_KeepLyingDown" />
+          </subNodes>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Downed</treeDef>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>BurningResponse</treeDef>
+        </li>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>MentalStateCritical</treeDef>
+        </li>
+        <li Class="JobGiver_ReactToCloseMeleeThreat" />
+        <li Class="ThinkNode_Subtree">
+          <treeDef>MentalStateNonCritical</treeDef>
+        </li>
+        <li Class="ThinkNode_QueuedJob" />
+
+        <!-- Drafted -->
+        <li Class="ThinkNode_ConditionalColonist">
+          <subNodes>
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>DraftedOrder</tagToGive>
+              <subNodes>
+                <li Class="JobGiver_MoveToStandable" />
+                <li Class="JobGiver_Orders" />
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+
+        <!-- Lord directives (high priority) -->
+        <li Class="ThinkNode_JoinVoluntarilyJoinableLord">
+          <dutyHook>HighPriority</dutyHook>
+          <subNodes>
+            <li Class="ThinkNode_Subtree">
+              <treeDef>LordDuty</treeDef>
+            </li>
+          </subNodes>
+        </li>
+
+        <li Class="ThinkNode_ConditionalColonist">
+          <subNodes>
+            <li Class="JobGiver_SeekAllowedArea" />
+            <li Class="JobGiver_SeekSafeTemperature" />
+            <li Class="JobGiver_Work">
+              <leaveJoinableLordIfIssuesJob>true</leaveJoinableLordIfIssuesJob>
+              <emergency>true</emergency>
+            </li>
+            <li Class="ThinkNode_JoinVoluntarilyJoinableLord">
+              <dutyHook>MediumPriority</dutyHook>
+              <subNodes>
+                <li Class="ThinkNode_Subtree">
+                  <treeDef>LordDuty</treeDef>
+                </li>
+              </subNodes>
+            </li>
+            <li Class="JobGiver_PickupDroppedWeapon">
+              <ignoreForbidden>true</ignoreForbidden>
+            </li>
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>ChangingApparel</tagToGive>
+              <subNodes>
+                <li Class="JobGiver_OptimizeApparel">
+                  <leaveJoinableLordIfIssuesJob>true</leaveJoinableLordIfIssuesJob>
+                </li>
+              </subNodes>
+            </li>
+            <!-- Needs: food and rest only. -->
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>SatisfyingNeeds</tagToGive>
+              <subNodes>
+                <li Class="ThinkNode_PrioritySorter">
+                  <subNodes>
+                    <li Class="JobGiver_GetFood" />
+                    <li Class="JobGiver_GetRest" />
+                  </subNodes>
+                </li>
+              </subNodes>
+            </li>
+            <li Class="JobGiver_Work">
+              <leaveJoinableLordIfIssuesJob>true</leaveJoinableLordIfIssuesJob>
+            </li>
+            <!-- Idle: stand down at a muster spot, or wander if there isn't one. -->
+            <li Class="ThinkNode_Tagger">
+              <tagToGive>Idle</tagToGive>
+              <subNodes>
+                <li Class="HollowPawns.JobGiver_ThrallMuster" />
+                <li Class="JobGiver_WanderColony">
+                  <maxDanger>None</maxDanger>
+                </li>
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+
+        <li Class="JobGiver_IdleError" />
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
+  <!-- Muster spot: a marker on the floor where idle thralls stand down. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_ThrallMuster</defName>
+    <label>thrall muster spot</label>
+    <description>A painted mark on the floor. Idle thralls come here and stand still until they're needed, instead of wandering around the colony.</description>
+    <graphicData>
+      <texPath>Things/Building/HP_ThrallMuster</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>FloorEmplacement</altitudeLayer>
+    <passability>Standable</passability>
+    <useHitPoints>false</useHitPoints>
+    <rotatable>false</rotatable>
+    <size>(1,1)</size>
+    <statBases>
+      <WorkToBuild>0</WorkToBuild>
+    </statBases>
+    <designationCategory>Misc</designationCategory>
+    <scatterableOnMapGen>false</scatterableOnMapGen>
+    <building>
+      <isEdifice>false</isEdifice>
+      <sowTag>SupportPlantsOnly</sowTag>
+      <canPlaceOverImpassablePlant>false</canPlaceOverImpassablePlant>
+      <ai_chillDestination>false</ai_chillDestination>
+    </building>
+    <clearBuildingArea>false</clearBuildingArea>
+  </ThingDef>
+
+  <!-- Thrall rack: six thralls in suspended animation. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_ThrallRack</defName>
+    <label>thrall rack</label>
+    <description>A steel frame with six cradles and the restraints to hold a thrall in each, still as a corpse. Racked thralls don't eat, rest or decay; they're simply stored until they're needed. Rack idle thralls with a button; release them all at once, drafted and ready, or let the rack open when a raid arrives.</description>
+    <thingClass>HollowPawns.Building_ThrallRack</thingClass>
+    <graphicData>
+      <texPath>Things/Building/HP_ThrallRack</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,1)</drawSize>
+    </graphicData>
+    <size>(3,1)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.6</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <designationCategory>Misc</designationCategory>
+    <researchPrerequisites>
+      <li>HP_IndustrialHarvest</li>
+    </researchPrerequisites>
+    <costList>
+      <Steel>120</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>3500</WorkToBuild>
+      <Flammability>0.2</Flammability>
+      <Beauty>-8</Beauty>
+    </statBases>
+    <building>
+      <isPlayerEjectable>true</isPlayerEjectable>
+    </building>
+  </ThingDef>
+
+  <JobDef>
+    <defName>HP_EnterThrallRack</defName>
+    <driverClass>HollowPawns.JobDriver_EnterThrallRack</driverClass>
+    <reportString>climbing into TargetA.</reportString>
+  </JobDef>
+
+</Defs>
