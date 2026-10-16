@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -157,11 +158,21 @@ namespace HollowPawns
 
         private void CorpsePass()
         {
+            if (ghostRolled.Count > 2000)
+            {
+                // Forget rolls for corpses that are long gone.
+                var present = new HashSet<int>(map.listerThings.ThingsInGroup(ThingRequestGroup.Corpse).Select(t => t.thingIDNumber));
+                ghostRolled.RemoveWhere(id => !present.Contains(id));
+            }
             foreach (Thing t in map.listerThings.ThingsInGroup(ThingRequestGroup.Corpse))
             {
                 if (t is Corpse corpse && corpse.Spawned && SoulUtility.IsCorrupted(corpse.InnerPawn))
                 {
                     Corruption.Spill(corpse.Position, map, 8, 1.5f);
+                }
+                if (t is Corpse c2 && c2.Spawned)
+                {
+                    Ghosts.MaybeRise(c2, this);
                 }
             }
         }
@@ -193,8 +204,16 @@ namespace HollowPawns
             return new Color(0.35f + 0.35f * f, 0.05f, 0.25f + 0.2f * f, 0.25f + 0.6f * f);
         }
 
+        /// <summary>Corpses that have had their one ghost roll (4.8), by thing ID.</summary>
+        public HashSet<int> ghostRolled = new HashSet<int>();
+
         public override void ExposeData()
         {
+            Scribe_Collections.Look(ref ghostRolled, "ghostRolled", LookMode.Value);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && ghostRolled == null)
+            {
+                ghostRolled = new HashSet<int>();
+            }
             byte[] g = Grid;
             DataExposeUtility.LookByteArray(ref g, "corruption");
             grid = g;
@@ -307,6 +326,12 @@ namespace HollowPawns
         protected override void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested, int ingestedCount)
         {
             Corruption.Cleanse(pawn, amount * ingestedCount);
+            // Holy water also thaws grave chill from a ghost's touch (4.8).
+            Hediff chill = pawn.health.hediffSet.GetFirstHediffOfDef(HP_DefOf.HP_GraveChill);
+            if (chill != null)
+            {
+                chill.Severity -= 0.3f * ingestedCount;
+            }
         }
     }
 

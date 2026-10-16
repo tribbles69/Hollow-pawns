@@ -707,6 +707,22 @@ def face_mask_worn(facing):
     ]
 
 
+def ghost(facing):
+    """A hooded, legless figure trailing off into mist. Drawn pale; each ghost kind tints it."""
+    pale, dim = (240, 245, 255), (200, 210, 230)
+    if facing == "east":
+        body = union(circle(68, 38, 16), poly([(52, 46), (82, 46), (90, 96), (70, 120), (44, 104)]))
+        eyes = [(circle(76, 38, 3), (30, 40, 60), 0.9)]
+    else:
+        body = union(circle(64, 38, 18), poly([(44, 48), (84, 48), (96, 100), (64, 122), (32, 100)]))
+        eyes = [] if facing == "north" else [(circle(57, 38, 3.5), (30, 40, 60), 0.9), (circle(71, 38, 3.5), (30, 40, 60), 0.9)]
+    return [
+        ("glow", 64, 64, 60, pale, 0.25),
+        (body, dim, 0.55),
+        (intersect(body, rrect(64, 60, 60, 32, 10)), pale, 0.45),
+    ] + eyes
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
@@ -765,3 +781,6 @@ if __name__ == "__main__":
     write_png(os.path.join(i, "Equipment", "HP_FaceMask.png"), render(128, face_mask_icon()))
     for facing in ("north", "east", "south"):
         write_png(os.path.join(t, "Pawn", "Humanlike", "Apparel", "HP_FaceMask", "HP_FaceMask_" + facing + ".png"), render(128, face_mask_worn(facing)))
+    # Ghosts (4.8): one pale figure, tinted per kind by the pawn kind (Graphic_Multi, Transparent).
+    for facing in ("north", "east", "south"):
+        write_png(os.path.join(t, "Pawn", "HP_Ghost", "HP_Ghost_" + facing + ".png"), render(128, ghost(facing)))

@@ -54,6 +54,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Full-kit apparel sets (4.22) | `gen_apparel_sets.py`: six sets (gravecloth, ossuary plate, mourner's kit, soulsteel kit, wraithweave, reliquary kit) built from vanilla originals, checked clash-free and complete against the game's Human body with and without CE; CE adds webbing, backpack and shield per set and mirrors CE's patches. Full-kit hediff on wearing every piece. Art borrowed and tinted. |
 | Flayed faces (4.23) | Take-face butcher bill (corpse marked, not used up) and flay-face surgery (violation, lasting scar and mood). Named masks with social thoughts, a horror for whoever loved the face, and Avenged for blood-debt avengers. |
 | The Profaned (4.32) | No hard dependency: genes looked up by name, revival patched by hand only if its type exists. Profaned souls count as corrupted; Cursebearers plant wretched soul shards (caster's residue) in what they raise; a dead Cursebearer collapses everything it raised. Not yet: Profaned blood and bones as cult inputs. |
+| Ghosts (4.8) | One 1% roll (mod setting) per neglected ensouled corpse, in the corruption corpse pass. Lingering (drifts, cold spot, dread) or wrathful (corrupted ground or corpse; hunts souls through walls inside its tether with grave chill, armour-ignoring, lethal). Ends when the body is rendered, bound, ground, burned, buried or taken away. Only soul weapons, soulsteel or the scythe, and fire hurt it. Shrines ward. Not yet: target filtering, true bullet pass-through, salt lines, smoother drift art. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
 
 ---
@@ -133,6 +134,7 @@ Emergency meat shields. Chosen over true Biotech mechs, because true mechs must 
 A casket-style pod (like a cryptosleep casket). Lock a prisoner in: it generates power while slowly draining their soul. When the soul runs out they die and drop essence. Adults only. Small C# on top of vanilla's casket.
 
 ### 4.8 Ghosts (reworked 13 Oct 2026)
+**Built in v0.8.** Decided while building: a ghost is an animal-race pawn with its own think tree and its own step-by-step movement (1.6's flying animals still use the pathfinder, so no help there); burying the body counts as dealing with it; killing a ghost leaves nothing and its corpse doesn't roll again; grave chill thaws slowly on its own (0.004 per 250 ticks) and fast in a warm warded room. Gravedigger scenario now possible.
 A ghost is a soul still clinging to its body. Ghosts are **rare and local**: tied to one corpse, dealt with by dealing with the dead.
 
 **Spawning**

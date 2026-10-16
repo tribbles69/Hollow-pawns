@@ -199,6 +199,19 @@ Under **Combat Extended** each set adds a webbing, a backpack and a shield (copi
 - **Cursebearers share their soul.** When one raises the dead, the body gets a **soul shard**: a splinter of the Cursebearer's own soul. A shard is always *wretched*, and its residue is the Cursebearer's.
 - **Kill the Cursebearer first.** When a Cursebearer dies, every body it raised on a loaded map loses its shard and drops dead again.
 
+### Ghosts
+A corpse of an adult who still has their soul, left lying for about a day, rolls **once**: a 1% chance (mod settings: *Hollow Pawns*) that the soul rises as a ghost, named for the dead and **tethered** to its body.
+
+| Kind | What it does |
+|---|---|
+| **Lingering ghost** | From an ordinary corpse. Drifts within about 4 cells of the body and chills the air around it. Harmless, but anyone who sees it gets *ghost nearby* (-4). |
+| **Wrathful ghost** | From a corpse on corrupted ground (60+) or a corrupted corpse (demons, Profaned). Hunts anyone with a soul within 7+ cells of the body (wider on worse ground), **through walls**. Its touch is **grave chill**: no armour helps, it builds with every touch (cold, numb, freezing, then failing) and kills at full. Holy water thaws it at once; a warm room on warded ground thaws it fast; otherwise it fades slowly. Seeing one: -10. Children have no soul to touch. |
+
+- **Ending one:** render, bind, grind, burn or bury its body (or carry it off the map), and the ghost fades.
+- **Fighting one:** only soul weapons (blasts, bursts, soul arrows), soulsteel melee weapons, the reaper's scythe and fire hurt it; everything else passes through. Killing it leaves nothing.
+- **Warding:** ghosts can't enter the reach of a consecrated bound shrine or a lit, cleansing essence shrine, and won't hunt anyone standing in it.
+- Dev tools: *Hollow Pawns → Raise lingering ghost / Raise wrathful ghost*, then click a corpse.
+
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
 - **Soul guns fire beams.** Like CE's own lasers: one shared **soul charge** ammo (100 from 6 soulsteel + 4 essence, so about 200 shots per corpse), and each gun maps it to its own beam with its own damage and penetration, plus a one-cell soul blast on impact.
@@ -304,6 +317,9 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Apparel sets: open the tailoring, smithy, machining and fabrication benches: each set's pieces are there next to the vanilla originals. Make and wear a full mourner's kit: no piece pushes another off, and *full kit* appears in health; take the hat off and it goes. With CE: the rig, pack and shield go on too, and the vest's armour reads in mm like CE's flak vest.
 - [ ] Faces: *take face* at a butcher table on a raider's corpse: a *face of X* mask appears and the corpse is still there (inspect its health: face taken); the bill won't take it again. Wear it: social tab shows *wears a human face*. Flay a prisoner: they live, mood -25, goodwill drops. Flay a blood debtor: the victim's friend near the wearer gets *effigy of the killer*.
 - [ ] The Profaned (if you run it): the log says *The Profaned found*. Mark a Profaned prisoner *render*: corrupted essence. Let a Cursebearer raise someone, capture them: health shows *soul shard (caster)*, grade is wretched. Kill that Cursebearer: the raised drop.
+- [ ] Ghosts (dev tool *Raise lingering ghost* on a raider's corpse): a letter, a translucent *ghost of X* drifting near the body; mood *ghost nearby*. Bury the body: it fades with a message.
+- [ ] Wrathful ghost (dev tool): it drifts through a wall to a colonist, touches them: *grave chill* rises, armour doesn't matter. Shoot it with a normal rifle: nothing. Hit it with a soul gun or the scythe: it takes damage and leaves no corpse when killed. Drink holy water: chill drops. Put a consecrated shrine near: the ghost won't come in. Render the corpse at the altar: it fades.
+- [ ] Mod settings: *Hollow Pawns* shows the ghost chance slider.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
@@ -321,6 +337,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - v0.8, unverified until tested in game: the apparel sets' borrowed worn art tinted by `colorGenerator`, `Inherit="False"` on empty `apparel/tags` and `thingSetMakerTags`, CE shields and backpacks copied from CE's own defs (render nodes and all), and whether every mirrored CE patch lands (the generator mirrors only patches that name the original by defName; patches on shared parents are inherited).
 - v0.8, unverified until tested in game: the flayed face's worn head art (three facings, EyeCover drawn over helmets), a `Thought_SituationalSocial` worker on every pair of pawns, `AddDirect` of a hediff on a corpse's head, `wearPerDay` on a mask.
 - v0.8, unverified until tested in game: the Profaned patch (checked against its 1.6 `Profaned.dll`: `Utility_Profaned.BestowCurse(Pawn caster, Pawn recipient, RevivalCurseExtension)` and the genes `BotchJob_UndeadPsysiology` and `BotchJob_Cursebearer`; not yet seen running), `RestorePart` on the soul part of a freshly revived husk.
+- v0.8, unverified until tested in game: ghosts (an animal-race pawn with its own think tree, moved by setting `Position` cell by cell through walls; `ManhunterPermanent` only to make the wrathful one count as hostile; the `Transparent` shader with a tinted `Graphic_Multi`; a one-part body tagged with every capacity source; `PreApplyDamage` postfix absorbing most damage; the corpse removed in a `Kill` postfix). Colonists still auto-target ghosts with weapons that can't hurt them (no target filter yet).
 - v0.7, unverified until tested in game: the rite job (carrying a restrained prisoner and laying them on the altar cell; vanilla `Toils_Haul.StartCarryThing` on a pawn), `Building_CloneVat` re-implementing `IBillGiver.CurrentlyUsableForBills` (vanilla's isn't virtual), `ResurrectionUtility.TryResurrect` on rotted husks, the corruption overlay (`CellBoolDrawer`) and its toggle among the play settings, `DataExposeUtility.LookByteArray` for the corruption grid, thralls generated with a forced xenotype that has `canGenerateAsCombatant` false, CE armour values for the conscript vest and helmet (set by eye below CE's steel flak vest).
 - v0.6, unverified until tested in game: adding a faction to an existing save with `FactionGenerator.NewGeneratedFaction` (it will have no world bases in that save, and Ideology must give it an ideoligion); the storyteller firing an incident whose `baseChance` is 0 through an on/off cycle; demon pawn kinds inheriting from non-abstract vanilla kinds (`ThrasherBase`, `PirateKindBase`, `MercenaryHeavyBase`); `CompProperties_CauseHediff_Apparel` with no body part.
 - v0.5, unverified until tested in game: `HediffDef.preventsDeath` (no vanilla XML uses it; the game code reads it in `ShouldBeDead`/`CheckForStateChange`), the soul jar surviving minify and save/load, and the soul broker caravan patch on the abstract `OutlanderFactionBase`.

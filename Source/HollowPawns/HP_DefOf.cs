@@ -34,6 +34,14 @@ namespace HollowPawns
         public static HediffDef HP_ReanimatedHusk;
         public static HediffDef HP_StandingGuard;
         public static HediffDef HP_Shackled;
+        public static ThingDef HP_GhostRace;
+        public static PawnKindDef HP_GhostLingering;
+        public static PawnKindDef HP_GhostWrathful;
+        public static JobDef HP_GhostDrift;
+        public static HediffDef HP_GraveChill;
+        public static DamageDef HP_SoulArrow;
+        public static ThingDef HP_ReaperScythe;
+        public static ThingDef HP_Soulsteel;
         public static HediffDef HP_SoulShard;
         public static HediffDef HP_FaceTaken;
         public static ThingDef HP_FaceMask;

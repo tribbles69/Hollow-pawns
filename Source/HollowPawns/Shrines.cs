@@ -110,7 +110,7 @@ namespace HollowPawns
 
         public bool Bound => soul != null;
 
-        private float Radius => soul == null ? 0f : 4.9f + (int)soul.grade * 1.4f;
+        public float Radius => soul == null ? 0f : 4.9f + (int)soul.grade * 1.4f;
 
         private int Strength => soul == null ? 0 : 3 + (int)soul.grade;
 
@@ -232,7 +232,7 @@ namespace HollowPawns
 
         public CompProperties_EssenceShrine Props => (CompProperties_EssenceShrine)props;
 
-        private CompRefuelable Fuel => parent.TryGetComp<CompRefuelable>();
+        public CompRefuelable Fuel => parent.TryGetComp<CompRefuelable>();
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {

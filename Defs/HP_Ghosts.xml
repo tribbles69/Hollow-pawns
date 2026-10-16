@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Ghosts (4.8) =====================
+       A soul still clinging to its body. Rolled once per neglected corpse in the corruption corpse
+       pass; tethered to that corpse; ended by dealing with the dead. A ghost is an animal-like pawn
+       with its own think tree (JobGiver_Ghost) and its own movement (JobDriver_GhostDrift), which
+       goes through walls without asking the pathfinder. Code in Ghosts.cs. -->
+
+  <BodyPartDef>
+    <defName>HP_Ectoplasm</defName>
+    <label>ectoplasm</label>
+    <hitPoints>60</hitPoints>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <bleedRate>0</bleedRate>
+    <skinCovered>false</skinCovered>
+    <solid>false</solid>
+    <canSuggestAmputation>false</canSuggestAmputation>
+    <tags>
+      <li>ConsciousnessSource</li>
+      <li>BloodPumpingSource</li>
+      <li>BloodFiltrationSource</li>
+      <li>BreathingSource</li>
+      <li>MetabolismSource</li>
+      <li>SightSource</li>
+      <li>HearingSource</li>
+      <li>MovingLimbCore</li>
+      <li>ManipulationLimbCore</li>
+    </tags>
+  </BodyPartDef>
+
+  <BodyDef>
+    <defName>HP_GhostBody</defName>
+    <label>ghost</label>
+    <corePart>
+      <def>HP_Ectoplasm</def>
+      <height>Middle</height>
+      <depth>Outside</depth>
+    </corePart>
+  </BodyDef>
+
+  <ToolCapacityDef>
+    <defName>HP_GraveTouch</defName>
+    <label>grave touch</label>
+  </ToolCapacityDef>
+
+  <ManeuverDef>
+    <defName>HP_GraveTouch</defName>
+    <requiredCapacity>HP_GraveTouch</requiredCapacity>
+    <verb>
+      <verbClass>Verb_MeleeAttackDamage</verbClass>
+      <meleeDamageDef>HP_GraveChill</meleeDamageDef>
+    </verb>
+    <logEntryDef>MeleeAttack</logEntryDef>
+    <combatLogRulesHit>Maneuver_Scratch_MeleeHit</combatLogRulesHit>
+    <combatLogRulesDeflect>Maneuver_Scratch_MeleeDeflect</combatLogRulesDeflect>
+    <combatLogRulesMiss>Maneuver_Scratch_MeleeMiss</combatLogRulesMiss>
+    <combatLogRulesDodge>Maneuver_Scratch_MeleeDodge</combatLogRulesDodge>
+  </ManeuverDef>
+
+  <!-- No armorCategory: armour doesn't stop a touch on the soul. -->
+  <DamageDef>
+    <defName>HP_GraveChill</defName>
+    <label>grave chill</label>
+    <workerClass>HollowPawns.DamageWorker_GraveChill</workerClass>
+    <externalViolence>true</externalViolence>
+    <deathMessage>{0} was chilled to death by a ghost.</deathMessage>
+    <defaultDamage>8</defaultDamage>
+  </DamageDef>
+
+  <HediffDef>
+    <defName>HP_GraveChill</defName>
+    <hediffClass>HollowPawns.Hediff_GraveChill</hediffClass>
+    <label>grave chill</label>
+    <description>A ghost's touch: cold in the soul, not the skin. It builds with every touch and thaws slowly; fast in a warm room on warded ground. Holy water thaws it at once. At its worst it stops the heart.</description>
+    <defaultLabelColor>(0.6, 0.8, 1)</defaultLabelColor>
+    <isBad>true</isBad>
+    <lethalSeverity>1</lethalSeverity>
+    <makesSickThought>true</makesSickThought>
+    <stages>
+      <li>
+        <label>cold</label>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.1</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.3</minSeverity>
+        <label>numb</label>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.25</offset>
+          </li>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.55</minSeverity>
+        <label>freezing</label>
+        <lifeThreatening>true</lifeThreatening>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.4</offset>
+          </li>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.35</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.8</minSeverity>
+        <label>failing</label>
+        <lifeThreatening>true</lifeThreatening>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>HP_SawGhost</defName>
+    <workerClass>HollowPawns.ThoughtWorker_SawGhost</workerClass>
+    <validWhileDespawned>false</validWhileDespawned>
+    <stages>
+      <li>
+        <label>ghost nearby</label>
+        <description>There is a dead person drifting around out there, wailing. It's cold near it.</description>
+        <baseMoodEffect>-4</baseMoodEffect>
+      </li>
+      <li>
+        <label>wrathful ghost nearby</label>
+        <description>That thing wants us. It walks through walls.</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <JobDef>
+    <defName>HP_GhostDrift</defName>
+    <driverClass>HollowPawns.JobDriver_GhostDrift</driverClass>
+    <reportString>drifting.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+
+  <ThinkTreeDef>
+    <defName>HP_Ghost</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="HollowPawns.JobGiver_Ghost" />
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
+  <ThinkTreeDef>
+    <defName>HP_GhostConstant</defName>
+    <thinkRoot Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="ThinkNode_Subtree">
+          <treeDef>Despawned</treeDef>
+        </li>
+      </subNodes>
+    </thinkRoot>
+  </ThinkTreeDef>
+
+  <ThingDef ParentName="AnimalThingBase">
+    <defName>HP_GhostRace</defName>
+    <label>ghost</label>
+    <description>A soul that never left its body. It is tied to its corpse and can't stray far from it. Most weapons pass straight through: only soul weapons, soulsteel blades, the reaper's scythe and fire touch it. Deal with the body and the ghost goes.</description>
+    <statBases>
+      <MoveSpeed>2.5</MoveSpeed>
+      <MarketValue>0</MarketValue>
+      <ComfyTemperatureMin>-273</ComfyTemperatureMin>
+      <ComfyTemperatureMax>1000</ComfyTemperatureMax>
+      <MeatAmount>0</MeatAmount>
+      <LeatherAmount>0</LeatherAmount>
+      <ToxicResistance>1</ToxicResistance>
+      <PsychicSensitivity>0</PsychicSensitivity>
+      <Flammability>0</Flammability>
+      <Wildness>1</Wildness>
+    </statBases>
+    <tools>
+      <li>
+        <label>touch</label>
+        <capacities>
+          <li>HP_GraveTouch</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+    <race>
+      <thinkTreeMain>HP_Ghost</thinkTreeMain>
+      <thinkTreeConstant>HP_GhostConstant</thinkTreeConstant>
+      <body>HP_GhostBody</body>
+      <baseBodySize>1</baseBodySize>
+      <baseHealthScale>1.5</baseHealthScale>
+      <foodType>None</foodType>
+      <needsRest>false</needsRest>
+      <hasGenders>false</hasGenders>
+      <bloodDef IsNull="True" />
+      <bloodSmearDef IsNull="True" />
+      <canBecomeShambler>false</canBecomeShambler>
+      <predator>false</predator>
+      <canBePredatorPrey>false</canBePredatorPrey>
+      <manhunterOnDamageChance>0</manhunterOnDamageChance>
+      <manhunterOnTameFailChance>0</manhunterOnTameFailChance>
+      <petness>0</petness>
+      <trainability>None</trainability>
+      <lifeExpectancy>10000</lifeExpectancy>
+      <hediffGiverSets Inherit="False" />
+      <lifeStageAges>
+        <li>
+          <def>AnimalAdult</def>
+          <minAge>0</minAge>
+        </li>
+      </lifeStageAges>
+    </race>
+    <tradeTags Inherit="False" />
+    <comps>
+      <li>
+        <compClass>HollowPawns.CompGhost</compClass>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <PawnKindDef ParentName="AnimalKindBase">
+    <defName>HP_GhostLingering</defName>
+    <label>lingering ghost</label>
+    <race>HP_GhostRace</race>
+    <combatPower>40</combatPower>
+    <ecoSystemWeight>0</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/HP_Ghost/HP_Ghost</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <shaderType>Transparent</shaderType>
+          <color>(190,220,255,180)</color>
+          <drawSize>1.5</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/HP_Ghost/HP_Ghost</texPath>
+          <drawSize>1.5</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="AnimalKindBase">
+    <defName>HP_GhostWrathful</defName>
+    <label>wrathful ghost</label>
+    <race>HP_GhostRace</race>
+    <combatPower>120</combatPower>
+    <ecoSystemWeight>0</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/HP_Ghost/HP_Ghost</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <shaderType>Transparent</shaderType>
+          <color>(235,140,150,200)</color>
+          <drawSize>1.6</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/HP_Ghost/HP_Ghost</texPath>
+          <drawSize>1.6</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+
+</Defs>
