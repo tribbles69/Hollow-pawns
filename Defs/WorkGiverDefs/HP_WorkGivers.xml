@@ -21,4 +21,22 @@
     <prioritizeSustains>true</prioritizeSustains>
   </WorkGiverDef>
 
+  <!-- The bone altar's corpse bills. Its own giver class waits while a prisoner is on the altar. -->
+  <WorkGiverDef>
+    <defName>HP_DoBillsBoneAltar</defName>
+    <label>gut souls at the bone altar</label>
+    <giverClass>HollowPawns.WorkGiver_DoBillBoneAltar</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>79</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HP_BoneAltar</li>
+    </fixedBillGiverDefs>
+    <verb>work at</verb>
+    <gerund>working at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <prioritizeSustains>true</prioritizeSustains>
+  </WorkGiverDef>
+
 </Defs>

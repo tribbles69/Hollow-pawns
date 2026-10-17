@@ -9,6 +9,7 @@ namespace HollowPawns
         public static ThingDef HP_SoulEssence;
         public static ThingDef HP_CorruptedEssence;
         public static ThingDef HP_SoulGenerator;
+        public static ThingDef HP_BoneAltar;
         public static ThingDef HP_CarrionBale;
         public static RecipeDef HP_BindCarrion;
         public static ThingDef HP_CarrionWall;

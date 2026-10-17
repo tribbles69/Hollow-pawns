@@ -28,7 +28,7 @@ namespace HollowPawns
         public override TaggedString GetExplanation()
         {
             return "These corpses still hold a soul, worth up to " + SoulUtility.EssenceFromDeadSoul
-                + " essence each at the soul crucible, less as they rot. Nobody has stored them yet.";
+                + " essence each at the soul crucible (half that at a bone altar), less as they rot. Nobody has stored them yet.";
         }
 
         public override AlertReport GetReport()

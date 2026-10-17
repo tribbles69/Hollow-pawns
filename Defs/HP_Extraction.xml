@@ -7,11 +7,13 @@
        building finishes the rite on its own rare tick (CompSoulRite), faster when staffed. Replaces the old surgeries. -->
 
   <!-- Bone Altar: early, unpowered, no research. Slow and risky: 1 in 4 rites botched (a grade
-       worse), witnesses are disturbed, and it spills heavy corruption close by. -->
+       worse), witnesses are disturbed, and it spills heavy corruption close by. It's also a work table
+       for the crude corpse harvest (HP_HarvestCorpseSoulCrude), worked while no rite is under way. -->
   <ThingDef ParentName="BuildingBase">
     <defName>HP_BoneAltar</defName>
     <label>bone altar</label>
-    <description>A slab of stone with channels cut for blood. A prisoner is bound on it and the soul torn out by hand. Slow, crude and messy: the rite often damages the soul, anyone watching is disturbed, and the ground around it sours with corruption.\n\nMark a prisoner to be rendered or bound; a warden binds them to the altar and leaves, and the altar does the rest. Someone working it (haulers and thralls too) makes it faster.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <description>A slab of stone with channels cut for blood. A prisoner is bound on it and the soul torn out by hand. Slow, crude and messy: the rite often damages the soul, anyone watching is disturbed, and the ground around it sours with corruption.\n\nMark a prisoner to be rendered or bound; a warden binds them to the altar and leaves, and the altar does the rest. Someone working it (haulers and thralls too) makes it faster.\n\nCorpses can be gutted here too: a bill takes what's left of a dead soul by hand, for half what a soul crucible gets and a lot more corruption.</description>
     <tickerType>Rare</tickerType>
     <graphicData>
       <texPath>Things/Building/HP_BoneAltar</texPath>
@@ -32,6 +34,12 @@
       <li>Stony</li>
     </stuffCategories>
     <costStuffCount>75</costStuffCount>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
     <statBases>
       <MaxHitPoints>200</MaxHitPoints>
       <WorkToBuild>2500</WorkToBuild>

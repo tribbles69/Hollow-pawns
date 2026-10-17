@@ -47,6 +47,49 @@
     <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
   </RecipeDef>
 
+  <!-- Bone altar: the crude corpse harvest. No power, no research: half the crucible's essence
+       (4 / 3 / 1, rounded up) and three times the corruption. RecipeWorker_HarvestCorpseSoulCrude. -->
+  <RecipeDef>
+    <defName>HP_HarvestCorpseSoulCrude</defName>
+    <label>gut soul from corpse</label>
+    <description>Open a human corpse on the altar and dig out what's left of its soul by hand. Crude and wasteful: 4 essence from a fresh corpse, 3 from a rotting one, 1 from a desiccated one, and the ground around the altar sours badly. The soulless husk is left behind.</description>
+    <workerClass>HollowPawns.RecipeWorker_HarvestCorpseSoulCrude</workerClass>
+    <jobString>Gutting a soul.</jobString>
+    <workAmount>2500</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <effectWorking>ButcherFlesh</effectWorking>
+    <soundWorking>Recipe_ButcherCorpseFlesh</soundWorking>
+    <recipeUsers>
+      <li>HP_BoneAltar</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>CorpsesHumanlike</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>CorpsesHumanlike</li>
+      </categories>
+      <specialFiltersToDisallow>
+        <li>HP_AllowSoulless</li>
+      </specialFiltersToDisallow>
+    </fixedIngredientFilter>
+    <defaultIngredientFilter>
+      <categories>
+        <li>CorpsesHumanlike</li>
+      </categories>
+      <specialFiltersToDisallow>
+        <li>AllowCorpsesColonist</li>
+      </specialFiltersToDisallow>
+    </defaultIngredientFilter>
+  </RecipeDef>
+
   <!-- Crucible: purge corrupted essence into clean. Twice the essence, but the worker may be
        cursed for it (RecipeWorker_PurgeCorruption, 33% per batch). -->
   <RecipeDef>
