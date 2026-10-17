@@ -28,6 +28,7 @@
     <designationCategory>Power</designationCategory>
     <researchPrerequisites>
       <li>HP_SoulExtraction</li>
+      <li>Electricity</li>
     </researchPrerequisites>
     <costList>
       <Steel>120</Steel>

@@ -78,7 +78,7 @@ Know which bodies still hold a soul, take one in a click, and never by accident.
 | **Alerts** | *Ensouled corpse unclaimed*: non-colony corpses with a soul lying outside storage on a home map. *Souls spoiling*: ensouled corpses that will rot within a day (a rotting soul gives 5 essence, not 8), with the total about to be lost; frozen ones never show. *Soul generator low*: a generator with about a day of essence left; the tooltip gives hours left for each and how many days your stored essence would run every generator. |
 
 ### Research
-- **Soul extraction** (Industrial, after Electricity): crucible, generator, soulsteel, scythe, soul canisters and the canister rack.
+- **Soul extraction** (Industrial, no prerequisite): soulsteel, the scythe, soul canisters and the unpowered soul works. The powered machines (crucible, generator, canister rack, prisoner battery) also need Electricity, so a cult that starts with soul extraction gets them once it learns Electricity.
 - **Soul press** (after Soul extraction and Microelectronics), **Soul lattice** (after Soul press and Fabrication), **Reanimation** (after Soul extraction), **Industrial harvest** (after Soul extraction and Machining), **Clone vats** (Biotech, after Soul extraction).
 - **Soul weaponry** (after Soul extraction and Gunsmithing): the gun family and soul ammo.
 
@@ -404,6 +404,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Kit out thralls: thralls that arrived with a random gun drop it and pick up a conscript rifle (as long as there are rifles on the floor, unforbidden); thralls already holding one are left alone.
 - [ ] Corpses: on an old save and a new one, human corpses (adult, child, flayed, debtor or not) go to a dumping stockpile and into the corpse hopper; the vengeance effigy bill still takes only debtors, the flaying bill only faced corpses, the grinder and slab never children.
 - [ ] Scenario fog: start the Coven, Gravedigger and Endless War; the map outside the building is revealed as normal, and every room inside it too.
+- [ ] Electricity: start the Coven; Electricity is not researched, soul extraction is, and the crucible, generator, canister rack and prisoner battery are locked in the architect menu. Research Electricity and all four unlock. The Escapee start still begins with Electricity.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.

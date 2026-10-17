@@ -442,6 +442,7 @@
     <designationCategory>Furniture</designationCategory>
     <researchPrerequisites Inherit="False">
       <li>HP_SoulExtraction</li>
+      <li>Electricity</li>
     </researchPrerequisites>
     <statBases>
       <MaxHitPoints>150</MaxHitPoints>

@@ -352,6 +352,10 @@ The scythe hurts what rises. Most things don't.</text>
         </li>
         <li Class="ScenPart_StartingResearch">
           <def>StartingResearch</def>
+          <project>Electricity</project>
+        </li>
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
           <project>HP_SoulExtraction</project>
         </li>
         <li Class="HollowPawns.ScenPart_HP_LovedOneLattice">

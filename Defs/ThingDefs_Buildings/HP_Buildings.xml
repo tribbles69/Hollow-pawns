@@ -36,6 +36,7 @@
     <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
     <researchPrerequisites>
       <li>HP_SoulExtraction</li>
+      <li>Electricity</li>
     </researchPrerequisites>
     <inspectorTabs>
       <li>ITab_Bills</li>
@@ -101,6 +102,7 @@
     <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
     <researchPrerequisites>
       <li>HP_SoulExtraction</li>
+      <li>Electricity</li>
     </researchPrerequisites>
     <comps>
       <li Class="CompProperties_Power">
