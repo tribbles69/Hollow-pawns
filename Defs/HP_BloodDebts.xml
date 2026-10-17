@@ -335,4 +335,34 @@
     </subSounds>
   </SoundDef>
 
+  <!-- A colonist killing a blood debtor (BloodDebts.cs). Shows up in art like any vanilla kill tale. -->
+  <TaleDef>
+    <defName>HP_VengeanceTaken</defName>
+    <label>vengeance taken</label>
+    <taleClass>Tale_DoublePawn</taleClass>
+    <type>Volatile</type>
+    <firstPawnSymbol>AVENGER</firstPawnSymbol>
+    <secondPawnSymbol>DEBTOR</secondPawnSymbol>
+    <baseInterest>6</baseInterest>
+    <rulePack>
+      <rulesStrings>
+        <li>tale_noun->[AVENGER_nameDef] settling the blood debt of [DEBTOR_nameDef]</li>
+        <li>tale_noun->[DEBTOR_nameDef] paying [DEBTOR_possessive] blood debt to [AVENGER_nameDef]</li>
+        <li>tale_noun->the vengeance of [AVENGER_nameDef]</li>
+        <li>image->[AVENGER_nameFull] standing over the body of [DEBTOR_nameFull] [circumstance_group]</li>
+        <li>image->[AVENGER_nameFull] striking down [DEBTOR_nameFull], who once killed one of [AVENGER_possessive] own [circumstance_group]</li>
+        <li>image->[DEBTOR_nameFull] falling at the feet of [AVENGER_nameFull] [circumstance_group]</li>
+        <li>circumstance_phrase->with a face like stone</li>
+        <li>circumstance_phrase->speaking a name [DEBTOR_pronoun] had forgotten</li>
+        <li>circumstance_phrase->as the dead look on</li>
+        <li>circumstance_phrase->without a word</li>
+        <li>circumstance_phrase->weeping and not stopping</li>
+        <li>desc_sentence->A pale figure stands behind [AVENGER_nameDef], watching.</li>
+        <li>desc_sentence->[DEBTOR_nameDef] is reaching out, too late, to beg.</li>
+        <li>desc_sentence->The ground around them is dark with old blood.</li>
+        <li>desc_sentence->[AVENGER_nameDef]'s eyes are on something far away.</li>
+      </rulesStrings>
+    </rulePack>
+  </TaleDef>
+
 </Defs>

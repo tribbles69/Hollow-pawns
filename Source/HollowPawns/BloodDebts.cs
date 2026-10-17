@@ -123,6 +123,31 @@ namespace HollowPawns
         }
     }
 
+    /// <summary>
+    /// A colonist killing a blood debtor is a tale worth carving: the avenger's name and the debtor's.
+    /// The debt is read before the death, while the hediff is certain to be there.
+    /// </summary>
+    [HarmonyPatch(typeof(Pawn), nameof(Pawn.Kill))]
+    public static class Patch_Pawn_Kill_VengeanceTale
+    {
+        public static void Prefix(Pawn __instance, DamageInfo? dinfo, out Pawn __state)
+        {
+            __state = null;
+            if (!__instance.Dead && dinfo?.Instigator is Pawn killer && killer.IsColonist && BloodDebts.IsDebtor(__instance))
+            {
+                __state = killer;
+            }
+        }
+
+        public static void Postfix(Pawn __instance, Pawn __state)
+        {
+            if (__state != null && __instance.Dead && HP_DefOf.HP_VengeanceTaken != null)
+            {
+                TaleRecorder.RecordTale(HP_DefOf.HP_VengeanceTaken, __state, __instance);
+            }
+        }
+    }
+
     /// <summary>A marked killer who escapes is kept in the world, so they can be met again.</summary>
     [HarmonyPatch(typeof(WorldPawnGC), "GetCriticalPawnReason")]
     public static class Patch_WorldPawnGC_BloodDebt

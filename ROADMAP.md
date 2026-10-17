@@ -43,13 +43,13 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Grades and vessels (4.29, 4.30) | Seven grades from skills (best and top three, passion counts). Render 6-20 essence by grade; smash a vessel for 1.5x. Urn (crafting spot, up to fine), canister (machining table, up to masterwork, powered rack), lattice (fabrication bench, any grade). Residue (a trait or top skill) is stored and shown; nothing uses it yet. |
 | Corruption core (4.28) | `MapComponent_Corruption`: a byte per cell; spills from rites, crucible, generator exhaust, soul blasts/bursts, broken vessels, demon auras and demon corpses; 200 sampled cells per 250 ticks for spread (above 80), withering (above 120) and fire cleansing; above 160 souls come out corrupted. Pawn corruption hediff (4 stages, curse at the top). Holy water (order + drink), purgation surgery. Overlay toggle in the play settings. Hell gate needs average 100 to open. |
 | Endless war (4.1, 4.5, 4.6, 4.24, 4.26, 4.31) | Thralls and clone vats (Biotech), reanimated husks (slab), stand guard, carrion bales and walls, corpse grinder, line forge with conscript rifle, helmet and vest. Grinder, forge, clone vat, bone altar and soul press (the last two load and leave) can be staffed (hauling work, thralls included) for up to x3 speed by skill. Soulless pawns keep only food and rest needs (Harmony on `ShouldHaveNeed`) and never chat. |
-| Reliquary, soul-bound items, shrines (4.35) | Reliquary case (Remembered thought for those who loved the soul), *bind soul into item* for any weapon or apparel (bonus by residue, size by grade, via a postfix on `StatWorker.StatOffsetFromGear`), bound shrine (consecrate or desecrate, fixed once bound) and essence shrine (fuelled, toggle). Shrines feed the corruption map pass. Not yet: shrines as ghost wards (with 4.8), soul-bound sculpture tales. |
+| Reliquary, soul-bound items, shrines (4.35) | Reliquary case (Remembered thought for those who loved the soul), *bind soul into item* for any weapon or apparel (bonus by residue, size by grade, via a postfix on `StatWorker.StatOffsetFromGear`), bound shrine (consecrate or desecrate, fixed once bound) and essence shrine (fuelled, toggle). Shrines feed the corruption map pass. Shrines ward ghosts; binding a soul records a tale for art. |
 | Prisoner battery (4.7) | Casket-style generator: mark a prisoner *Battery*, a warden locks them in, 300-900 W by soul grade for five days, then a husk and some essence. Release early for soul shock. Rare tick only. |
-| Blood debts (4.18) | Killers of colonists carry a blood debt (kept as world pawns if they escape). Torment prisoner mode (pain, soul shock, Avenging for loved ones, kind colonists disturbed, goodwill hit). Vengeance effigy cast from a debtor's corpse; wailing effigy from the *Effigy* fate, screaming at night, at passers-by and at raids (soul shock, panic). Placeholder scream sound. Not yet: Ideology precept reactions, vengeance TaleDef. |
-| Scenarios (4.33) | The Coven (granite chapel with the altar and a prison cell, shackled captive, corrupted ground), Endless War (Biotech: thralls, a steel bunker round the forge, grinder and generator, trench and sandbags, frequent raids) the Escapee (lattice holding a loved one, hunted) and the Gravedigger (lone undertaker with a hut, three empty graves and the scythe on an unburied battlefield, 8% ghost chance). Starting structures are text layouts with a legend (`ScenPart_HP_Structure`), so new scenarios can draw their own. Custom scenario parts for buildings, captives, corrupted ground, thralls, the lattice and the battlefield. Not yet: the Inquisitors (needs salt), precepts. |
+| Blood debts (4.18) | Killers of colonists carry a blood debt (kept as world pawns if they escape). Torment prisoner mode (pain, soul shock, Avenging for loved ones, kind colonists disturbed, goodwill hit). Vengeance effigy cast from a debtor's corpse; wailing effigy from the *Effigy* fate, screaming at night, at passers-by and at raids (soul shock, panic). Placeholder scream sound. Torment counts for the corruption precepts (Ideology); killing a debtor records a *vengeance taken* tale for art. |
+| Scenarios (4.33) | The Coven (granite chapel with the altar and a prison cell, shackled captive, corrupted ground), Endless War (Biotech: thralls, a steel bunker round the forge, grinder and generator, trench and sandbags, frequent raids) the Escapee (lattice holding a loved one, hunted) and the Gravedigger (lone undertaker with a hut, three empty graves and the scythe on an unburied battlefield, 8% ghost chance). Starting structures are text layouts with a legend (`ScenPart_HP_Structure`), so new scenarios can draw their own. Custom scenario parts for buildings, captives, corrupted ground, thralls, the lattice and the battlefield. Not yet: the Inquisitors (needs salt), starting precepts for each scenario. |
 | Longevity (4.10) | Fountain of youth (essence bath, 1-2 years, chance to cure a chronic condition, five-day cooldown) and soul cradle (spacer casket, three-day powered cycle on 30 essence: 5-8 years, all chronic conditions, one part regrown). |
 | Unique armour (4.12) | Reliquary armour (two essence charges that each cancel a death and leave the wearer downed for a day; recharged at the crucible; made with a filled vessel, so it is soul-bound) and the reaper's shroud (+5% reap chance through a new stat). |
-| Lower-tech soul gear (4.13) | Soul bow (soul shock on every hit; CE soul arrows in its own ammo set), bone fetish (halves reap chance against the wearer) and wraith lantern (once a day: soul shock and panic on enemies within 9 cells). Not yet: javelins. |
+| Lower-tech soul gear (4.13) | Soul bow (soul shock on every hit; CE soul arrows in its own ammo set), bone fetish (halves reap chance against the wearer) and wraith lantern (once a day: soul shock and panic on enemies within 9 cells). Under CE, soul great arrows and soul javelins (pila) join CE's own ammo sets. Not yet: vanilla javelins (vanilla has none to copy). |
 | Soul pipes (4.14) | Optional `Mods/VEF` folder, loaded only with Vanilla Expanded Framework: soul pipe, valve, drain, vat (vents a soul burst when wrecked), tap. Auto-refuels anything that burns essence. XML only. No soulsteel processor. |
 | Full-kit apparel sets (4.22) | `gen_apparel_sets.py`: six sets (gravecloth, ossuary plate, mourner's kit, soulsteel kit, wraithweave, reliquary kit) built from vanilla originals, checked clash-free and complete against the game's Human body with and without CE; CE adds webbing, backpack and shield per set and mirrors CE's patches. Full-kit hediff on wearing every piece. Art borrowed and tinted. |
 | Flayed faces (4.23) | Take-face butcher bill (corpse marked, not used up) and flay-face surgery (violation, lasting scar and mood). Named masks with social thoughts, a horror for whoever loved the face, and Avenged for blood-debt avengers. |
@@ -88,7 +88,7 @@ Added after the second pirate think tank: **soul jars → blood debts** (they bu
 **Backbone (decided 13 Oct 2026): corruption (4.28) and the Weight of Names (4.29).** Corruption is the spine the dark features hang off: ghosts, curses, demons, the hell gate, corrupted essence and the cleansing rite all read from it instead of being separate systems. The Weight of Names makes each harvest a choice. Build order after the first in-game test and the extraction buildings (4.27): **soul grades and jars → corruption core (terrain + pawn) → purification → hostile and event sources → cult-side benefits**, then the existing feature order, now wired into corruption.
 
 ### 4.1 Corpse wall (carrion wall)
-**Built in v0.7.** Decided: *bind carrion* gives 2 bales per human, 1-6 by body size for animals (Harmony on `GenRecipe.MakeRecipeProducts`); a bale renders back into 46 human meat (half an unbutchered human) and feeds the clone vat (2 bales for 60 meat); walls are unlinked lumps (no linked atlas art yet); frozen walls **stop** rotting; warm walls lose about 1% hit points a day and leak rot stink. Corruption leak from walls not built.
+**Built in v0.7.** Decided: *bind carrion* gives 2 bales per human, 1-6 by body size for animals (Harmony on `GenRecipe.MakeRecipeProducts`); a bale renders back into 46 human meat (half an unbutchered human) and feeds the clone vat (2 bales for 60 meat); walls are unlinked lumps (no linked atlas art yet); frozen walls **stop** rotting; warm walls lose about 1% hit points a day and leak rot stink. Since 17 Oct, rotting (unfrozen) walls also leak a little corruption at their foot on the same sampled pass.
 Outdoor wall made from a pile of corpses, human and animal. Goes with the StarCrete/hemocrete idea.
 - **Building it:** wall costs can't reference "any corpse" (every species has its own corpse def). So: a **"bind carrion"** bill at the butcher spot/table turns any corpse into a **carrion bale** (stackable resource); walls cost bales. XML. **Exclude child corpses** (needs a special filter, like `SpecialThingFilterWorker_Soulless`).
 - **Constant rot:** very negative beauty; continuously emits rot stink gas; loses HP over time when above freezing; burns well.
@@ -99,7 +99,7 @@ Outdoor wall made from a pile of corpses, human and animal. Goes with the StarCr
 
 ### 4.2 Curses
 **Curse ritual built in v0.8:** a prisoner interaction, not an ability; the point is to release them, so the curse reaches their faction's next raid.
-**Built in v0.6.** Decided: four curses, three rolled (fade in 4 days) and hollowed from the idol. The curse ritual on a prisoner is not built yet: still open.
+**Built in v0.6.** Decided: four curses, three rolled (fade in 4 days) and hollowed from the idol. The curse ritual on a prisoner was built in v0.8: a cursed captive released home curses their faction, and that faction's raiders arrive cursed for six hours.
 Debuff conditions: e.g. *Hollowed*, *Marked*, *Rotting luck*, *Soul-sick*.
 - Hediffs are pure XML.
 - Sources: demon attacks (4.3), cursed loot (a relic that curses its wearer), a curse ritual cast on a prisoner.
@@ -216,7 +216,7 @@ Sanguophage-style, eats souls. Needs Biotech.
 
 ### 4.16 Smaller ideas
 - ~~Essence yield by corpse freshness~~ **Built in v0.5** (8 / 5 / 2).
-- Ideology reactions: treat soul harvesting like organ harvesting (horrified vs approving precepts).
+- ~~Ideology reactions: treat soul harvesting like organ harvesting~~ **Built in v0.8** as the corruption precepts reacting to souls taken, torment, flaying and cleansing.
 
 ---
 
@@ -282,10 +282,10 @@ Hoarded essence is dangerous cargo, so players spread their stock out.
 Already done: essence shows in the top-left resource readout (it's a resource with a readout priority).
 
 **Later, once their features exist**
-- Rot alert ("corpses spoiling, ~N essence lost") → after essence-by-freshness.
+- ~~Rot alert ("corpses spoiling, ~N essence lost")~~ **Built 17 Oct:** *Souls spoiling* fires when an ensouled corpse will rot within a day, with the essence about to be lost.
 - Stockpile size and fire warning with a blast-radius overlay → after volatile stockpiles (4.20).
 - Thrall and husk status lines → after thralls and husks.
-- Essence forecast ("generators dark in ~9 hours") → once burn rates are stable.
+- ~~Essence forecast ("generators dark in ~9 hours")~~ **Built 17 Oct:** the *Soul generator low* alert lists hours left per generator and how many days stored essence would run every generator.
 - A full soul management **tab** (Barnacle's Register) and a **soul sight map overlay** (Mossbeard's Pale Sight: souls glow, the soulless show as cold outlines). Both are nice but costly UI.
 
 **Mutiny clause:** if the gizmo or dialog patches clash with CE or a heavy modlist, or v1 grows past these five items, cut back to Mark + Soul-Lock and ship that.
@@ -301,7 +301,7 @@ Aaron likes filling every clothing slot and hates working out what fits together
 - **Art is the real cost:** worn apparel needs every facing and body type. First pass borrows vanilla worn textures tinted by material, so stats and slot logic can be tested before custom art exists.
 
 ### 4.23 Face masks (flayed)
-**Built in v0.8.** Decided while building: the mask is on the eye slot (EyeCover) in both vanilla and CE, because vanilla only loads bodyless head art for Overhead and EyeCover; so it stacks with helmets but not with goggles. No Ideology precept reactions yet.
+**Built in v0.8.** Decided while building: the mask is on the eye slot (EyeCover) in both vanilla and CE, because vanilla only loads bodyless head art for Overhead and EyeCover; so it stacks with helmets but not with goggles. Taking a face counts for the corruption precepts (Ideology).
 Like Ideology's skull extraction, but the face, worn as a mask.
 - **From corpses:** a **"take face"** bill at the butcher table on an adult human corpse. The corpse is marked rather than consumed (same mark-instead-of-consume code as the crucible husk change in 4.1), so it can still go to the crucible, the reanimation slab or the carrion wall.
 - **From the living:** a **"flay face"** surgery on an adult prisoner. They survive, permanently disfigured: a lasting condition with a heavy beauty and social penalty and a strong mood penalty for them. It counts as a violation; their faction hates you for it. A living face makes a better-quality mask than a corpse's.
@@ -312,7 +312,7 @@ Like Ideology's skull extraction, but the face, worn as a mask.
 
 ### 4.24 Line forge: cheap conscript kit for the endless war
 **Finished in v0.8:** the full kit, the outfit policy (added on game load if missing) and one-click kitting (a forge button that puts every thrall on the policy and sends the unarmed for a rifle). The conscript kit is vanilla-only in the generator: under CE it's checked for clashes but gets no webbing, pack or shield.
-**Built in v0.7**, partly. Built: the machine (pick rifle / armour / full kit, pulls steel and components from adjacent cells, rare tick), conscript rifle with bayonet (CE: 5.56 and a ToolCE stab), conscript helmet and vest on vanilla textures. Not yet: the full slot-filling conscript set (needs the apparel set generator, 4.22), the outfit policy and one-click kitting.
+**Built in v0.7, finished in v0.8.** v0.8 added the full slot-filling conscript set, the *Conscript kit* outfit policy and a one-click *Kit out thralls* (which also swaps their weapons for conscript rifles). v0.7 built: the machine (pick rifle / armour / full kit, pulls steel and components from adjacent cells, rare tick), conscript rifle with bayonet (CE: 5.56 and a ToolCE stab), conscript helmet and vest on vanilla textures.
 Arm ten thralls between waves without spending souls; save the expensive gear for real colonists.
 - **The line forge:** a 2x4 powered machine. **Steel, components and power only: no essence.** No pawn works it: materials are pulled from an input area next to it, finished kit is dropped on an output tile for haulers or thralls. Progress on the rare tick, and only while a bill has materials (no cost when idle).
 - **It only makes its own conscript kit** (its own recipes; it does not patch into other benches' recipes):
@@ -332,8 +332,8 @@ Dug trench cells that actually protect whoever stands in them. Pairs with the ca
 - Tick cost: none; both patches only run when a shot is resolved.
 
 ### 4.26 Thrall performance: cheap enough for a big base
-**Finished in v0.8:** the lean think tree (copied vanilla nodes, swapped in by a getter postfix, toggle in mod settings), muster spots, thrall racks, and a dev spawner for the benchmark. Area-restricted hauling is vanilla's allowed area: assign thralls a small one. The benchmark itself still needs running in game with Dubs Performance Analyzer.
-**Partly built in v0.7.** Stand guard is a toggle that drafts the pawn in place with a hediff (hunger 0.1x, no rest fall); drafted pawns already fire on hostiles, so no separate wake check was needed. They stand down when hungry. Not yet: the lean think tree, area-restricted hauling, thrall racks, the benchmark.
+**Finished in v0.8:** the lean think tree (copied vanilla nodes, swapped in by a getter postfix, toggle in mod settings), muster spots, thrall racks, and a dev spawner for the benchmark. Area-restricted hauling is vanilla's allowed area: assign thralls a small one. First numbers from Aaron (16 Oct, RimDoctor, his full modlist with CE): 40 thralls and 3 colonists ran at 1000+ TPS with a hut, the machines and a few bills; about 400 TPS in a big raid; about 100 TPS when all of them mass-hauled chunks. A Dubs Performance Analyzer capture of the mass haul is the next step (likely vanilla haul searching; thrall-only throttling is the fallback).
+**Partly built in v0.7.** Stand guard is a toggle that drafts the pawn in place with a hediff (hunger 0.1x, no rest fall); drafted pawns already fire on hostiles, so no separate wake check was needed. They stand down when hungry.
 Goal: Aaron wants a big base full of thralls. Thralls must cost far less than colonists to simulate.
 - **What the Soulless gene already cuts (4.5):** mood and situational thoughts (a notable per-pawn idle cost), social interactions and relationships, most needs, mental break checks, recreation jobs, most work scanning.
 - **What it doesn't:** pathfinding (the biggest cost whenever anyone moves), combat, health ticking, and hauling (map-wide haul searches are expensive, and hauling is one of their two jobs). So unmanaged, thralls in a big fight cost close to normal pawns.
@@ -356,7 +356,7 @@ Goal: Aaron wants a big base full of thralls. Thralls must cost far less than co
 
 ### 4.27 Extraction buildings and animated extraction
 **Polish built in v0.8:** wisp flecks thrown on the building's rare tick (no effecter to tick), flare on release, placeholder `RiteStart` and `SoulRelease` sounds for Aaron to replace, and press attention (raid points). Ideology: witnesses' reactions follow the corruption precepts (4.28) rather than a full ritual. Not done: render-node shudder and the hollow overlay.
-**Built in v0.7** (see Built). Not yet: Ideology ritual integration, custom flecks/render-node animation and Aaron's sounds (vanilla effecters and the surgery sound stand in), the press drawing attention.
+**Built in v0.7** (see Built). v0.8 added soul wisps and placeholder rite sounds, load-and-leave autonomous rites and the press drawing raids. Not yet: Ideology ritual integration, render-node animation (the shudder and hollow overlay) and Aaron's own sounds.
 The extract-soul surgery is a stopgap: it's convenient, but taking a soul deserves a proper place to do it. Two tiers, from cult to industry. **Decided: the surgery will be removed once these buildings exist.** Anything that currently hangs off the surgery (soul jar bottling in 4.17, Reaper's Mark queueing in 4.21) moves to the buildings.
 
 **Bone Altar (early, no power, no research)**
@@ -383,8 +383,8 @@ The extract-soul surgery is a stopgap: it's convenient, but taking a soul deserv
 
 ### 4.28 Corruption: the backbone
 **Rest built in v0.8:** cleansing rite (a designation and a cleaning job, not an Ideology ritual), precepts, the no-DLC attuned perk (exalted or 50%+ soul corruption), corrupting hits, zealot raids (hidden faction, own incident, only when 400+ cells are at 80+), and the cursed idol as cursed loot.
-**Events built in v0.8:** black rain and the fallen idol. Still not built from this section: cursed loot, corrupted weapons, the cleansing rite, Ideology precepts, cult-side benefits, zealot raids, the purist mood penalty.
-**Core built in v0.7** (see Built). Decided while building: ground corruption never decays by itself, it only creeps (moved, not created) or is purified; pawn corruption fades slowly (-0.02 a day); the altar spills more per cell, the press less over a wider area. Not yet: events (black rain, fallen idol), corrupted weapons, the cleansing rite, shrines, Ideology precepts, cult-side benefits, zealot raids.
+**Finished in v0.8:** black rain and the fallen idol (which also turns up as cursed loot), corrupting hits, the cleansing rite, Ideology precepts with a no-DLC fallback, the attuned cult benefit, zealot raids and the purist corrupted-ground mood.
+**Core built in v0.7** (see Built). Decided while building: ground corruption never decays by itself, it only creeps (moved, not created) or is purified; pawn corruption fades slowly (-0.02 a day); the altar spills more per cell, the press less over a wider area. v0.8 finished the rest: black rain and the fallen idol, corrupting hits, the cleansing rite, shrines, Ideology precepts (with a no-DLC fallback), the attuned cult benefit and zealot raids.
 Works like Biotech pollution, but its own system. Taking and spending souls stains the ground and the people who do it. **Bad on a purist run, a resource on a demon-cult run.** Aaron's idea (13 Oct 2026); it replaces the global "soul tally" meter the pirate council pitched, because corruption is visible on the map, so cause and effect stay clear.
 
 **Two layers**
@@ -539,7 +539,7 @@ Arrival modes for demons (4.3) and, mirrored, zealots (4.28):
 **Performance:** waves and portals are one-off scheduled events; the Great Rift is a single building checking itself on the rare tick.
 
 ### 4.35 Reliquary, soul-bound items and shrines (decided 13 Oct 2026)
-**Built in v0.8.** Decided while building: the bind bill is at the soul crucible; residue is matched back from its stored text (skill label or trait label) to a stat; a bound shrine takes its vessel on its rare tick. Not yet: ghost warding (needs 4.8) and the sculpture tale.
+**Built in v0.8.** Decided while building: the bind bill is at the soul crucible; residue is matched back from its stored text (skill label or trait label) to a stat; a bound shrine takes its vessel on its rare tick. Ghost warding and the binding tale are built too.
 What to do with a bound vessel (4.30) besides recipes and smashing.
 
 **Reliquary (display for a vessel)**

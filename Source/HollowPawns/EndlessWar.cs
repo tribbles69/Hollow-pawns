@@ -324,6 +324,11 @@ namespace HollowPawns
                 {
                     wall.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, dmg));
                 }
+                if (!wall.Destroyed && Rand.Chance(0.25f))
+                {
+                    // Rotting dead leak a little soul corruption into the ground at the wall's foot.
+                    Corruption.Spill(wall.Position, map, 2, 1.5f);
+                }
                 if (Rand.Chance(0.25f) && !wall.Destroyed)
                 {
                     IntVec3 out1 = wall.Position + GenAdj.CardinalDirections.RandomElement();

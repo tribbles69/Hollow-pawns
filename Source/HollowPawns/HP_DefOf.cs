@@ -20,6 +20,7 @@ namespace HollowPawns
         public static DamageDef HP_SoulBlast;
         public static DamageDef HP_SoulBurst;
         public static TaleDef HP_SoulBound;
+        public static TaleDef HP_VengeanceTaken;
         public static JobDef HP_PerformSoulRite;
         public static JobDef HP_LoadSoulBattery;
         public static JobDef HP_StaffMachine;
