@@ -165,7 +165,7 @@
     <description>Corpses whose face is already taken, or that aren't adult humans.</description>
     <parentCategory>CorpsesHumanlike</parentCategory>
     <workerClass>HollowPawns.SpecialThingFilterWorker_NoFace</workerClass>
-    <allowedByDefault>false</allowedByDefault>
+    <allowedByDefault>true</allowedByDefault>
     <configurable>false</configurable>
   </SpecialThingFilterDef>
 

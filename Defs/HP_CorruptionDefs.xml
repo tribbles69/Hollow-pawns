@@ -258,6 +258,7 @@
     <description>Allow the corpses of children.</description>
     <parentCategory>CorpsesHumanlike</parentCategory>
     <workerClass>HollowPawns.SpecialThingFilterWorker_ChildCorpse</workerClass>
+    <allowedByDefault>true</allowedByDefault>
     <configurable>false</configurable>
   </SpecialThingFilterDef>
 

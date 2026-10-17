@@ -312,7 +312,7 @@
     <description>Corpses that carried no blood debt, or whose soul is gone.</description>
     <parentCategory>CorpsesHumanlike</parentCategory>
     <workerClass>HollowPawns.SpecialThingFilterWorker_NotDebtorCorpse</workerClass>
-    <allowedByDefault>false</allowedByDefault>
+    <allowedByDefault>true</allowedByDefault>
     <configurable>false</configurable>
   </SpecialThingFilterDef>
 

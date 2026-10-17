@@ -436,6 +436,18 @@ namespace HollowPawns
             placed = rect;
             placedOn = map;
 
+            // The fog step floods outward from the start spot, and doors stop it, so with the colonists
+            // starting inside the building only the room would be revealed. Give it roots outside too.
+            int reach = Mathf.Max(Width, Height) + 8;
+            for (int i = 0; i < 3; i++)
+            {
+                if (CellFinder.TryFindRandomCellNear(rect.CenterCell, map, reach,
+                    c => !rect.ExpandedBy(1).Contains(c) && c.Standable(map) && !c.Roofed(map) && !c.GetTerrain(map).IsWater, out IntVec3 root))
+                {
+                    MapGenerator.rootsToUnfog.Add(root);
+                }
+            }
+
             // Clear the footprint: plants, chunks, filth, stray items and anything else that can go.
             foreach (IntVec3 c in rect)
             {
