@@ -330,7 +330,7 @@ namespace HollowPawns
             {
                 grade = grade.Shift(-1);
             }
-            ThingDef essence = SoulUtility.EssenceDefAt(victim, cell, map);
+            ThingDef essence = SoulUtility.EssenceDefFor(victim);
 
             if (fate == SoulFate.Bind && emptyVessel != null && !emptyVessel.Destroyed)
             {

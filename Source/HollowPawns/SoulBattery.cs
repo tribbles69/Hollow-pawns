@@ -77,7 +77,7 @@ namespace HollowPawns
             Map map = Map;
             IntVec3 cell = InteractionCell;
             innerContainer.TryDrop(p, cell, map, ThingPlaceMode.Near, out Thing _);
-            SoulUtility.DropEssence(cell, map, Mathf.Max(1, SoulGrades.RenderYield(grade) / 2), SoulUtility.EssenceDefAt(p, cell, map));
+            SoulUtility.DropEssence(cell, map, Mathf.Max(1, SoulGrades.RenderYield(grade) / 2), SoulUtility.EssenceDefFor(p));
             Faction home = p.HomeFaction;
             if (home != null && home != Faction.OfPlayer && !home.HostileTo(Faction.OfPlayer))
             {

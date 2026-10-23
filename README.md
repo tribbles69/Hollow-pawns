@@ -41,7 +41,7 @@ The **cursed idol** is belt-slot demon loot: +4 shooting and melee accuracy and 
 |---|---|
 | **Demon** (xenotype) | Horned, deep red, red-eyed, tailed. Robust, fire-resistant, hyper-aggressive, strong in melee, reduced pain. Carries the **corrupted soul** gene. |
 | **Demon host** (faction) | A permanent enemy built like the pirates, every member a demon: thralls, reavers, ravagers, brutes and arch-demons (vanilla raider gear). Raids like any enemy. Added to existing saves on load. |
-| **Corrupted essence** | What a demon's soul gives (and any soul taken on deeply corrupted ground), from the altar, press, scythe, crucible or a demon's vessel. Worth 20. Volatile, more so than clean essence. *Purge corrupted essence* at the crucible: 5 corrupted → 10 clean, but the worker has a 1-in-3 chance of being cursed. The soul broker buys it. |
+| **Corrupted essence** | What a demon's (or a profaned's) soul gives, and only theirs, from the altar, press, scythe, crucible or a demon's vessel. Worth 20. Volatile, more so than clean essence. *Purge corrupted essence* at the crucible: 5 corrupted → 10 clean, but the worker has a 1-in-3 chance of being cursed. The soul broker buys it. |
 | **Hell gate** (Misc, 3x3; research *Hell gate* after Soul weaponry) | 150 soulsteel, 40 essence, 6 components. Open it and a demon raid (110% normal points) comes through every 3 days; close it to stop. Dev mode adds *Wave now*. Rare tick only, idle when closed. |
 | **Hell Unbound** (storyteller) | Cassandra Classic plus a demon wave roughly every 12 days from day 15. Generated from the game's own Cassandra by `Source/tools/gen_storyteller.py`. |
 
@@ -87,7 +87,7 @@ Know which bodies still hold a soul, take one in a click, and never by accident.
 Taking and spending souls stains the ground and the people who do it. Toggle the overlay with the purple button among the map controls (bottom right).
 | Thing | What it does |
 |---|---|
-| **Ground corruption** | Spilled by soul rites (altar heavy and close, press thin and wide), crucible harvests, soul generators while they burn, soul blasts and bursts, broken vessels, demons walking about and demon corpses lying around. Above 80 it creeps into neighbouring cells; above 120 plants wither; above 160 any soul taken there comes out as corrupted essence. A sample of cells is checked every 250 ticks: nothing ticks per cell. |
+| **Ground corruption** | Spilled by soul rites (altar heavy and close, press thin and wide), crucible harvests, soul generators while they burn, soul blasts and bursts, broken vessels, demons walking about and demon corpses lying around. Above 80 it creeps into neighbouring cells; above 120 plants wither. (Until 23 Oct, above 160 any soul taken there came out corrupted; cut because altars and crucibles stain their own spot, so everything they made turned corrupted.) A sample of cells is checked every 250 ticks: nothing ticks per cell. |
 | **Soul corruption** (pawns) | Builds while a soul stands on corrupted ground, and on wardens who perform rites. Stages: unease, dread, sickening, consumed; at *consumed* it draws a curse about every 4 days. Fades slowly. Children, thralls and husks can't carry it; demons are immune. |
 | **Tainted / corrupted ground** | -3 / -8 mood standing on it. |
 | **Fire** | Burning cleans corrupted ground, along with everything else. |

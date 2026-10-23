@@ -453,7 +453,7 @@ namespace HollowPawns
             Pawn inner = corpse.InnerPawn;
             if (SoulUtility.HasSoul(inner))
             {
-                SoulUtility.DropEssence(output, map, EssencePerSoul, SoulUtility.EssenceDefAt(inner, Position, map));
+                SoulUtility.DropEssence(output, map, EssencePerSoul, SoulUtility.EssenceDefFor(inner));
             }
             Thing bale = ThingMaker.MakeThing(HP_DefOf.HP_CarrionBale);
             bale.stackCount = CarrionBalesFor(inner);
