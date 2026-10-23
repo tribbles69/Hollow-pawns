@@ -304,8 +304,11 @@ The C# is in `Source/HollowPawns`. Most of the mod needs it. Without the DLL the
 ## Install
 Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `RimWorld\Mods`, enable it in RimSort, load it after Harmony, Core and the DLCs (and after Combat Extended if you use it). `Assemblies/` is committed, so building is only needed after a C# change.
 
+**RimWorld 1.7 (Waylith, unstable branch):** marked supported since 23 Oct. The same 1.6 DLL and XML load on 1.7, as Ludeon says 1.6 mods should. Checked offline: every game type and member the DLL uses exists in `Krafs.Rimworld.Ref` 1.7.4985-unstable (415 types, 777 members, 0 missing), every Harmony call exists in Harmony 3.0.0-rc.3, all 42 Harmony patches pass Harmony 3's stricter `__instance`/`__result`/argument type rules, and all 533 class names in the XML exist in 1.7. No Prepatcher. A native net10.0 build needs the .NET 10 SDK and isn't done yet.
+
 ## First test (dev mode on)
 - [ ] No red errors on load. Check the log for anything mentioning `HP_`.
+- [ ] On the 1.7 unstable branch: no yellow "potentially unsupported" warning on the mod, no red errors, and the Harmony log shows every Hollow Pawns patch applied. (On 1.7 the log is in a `Logs` folder under the usual Player.log location.)
 - [ ] Research both projects (dev mode: finish instantly). Check neither overlaps anything on the Main tab. If they do, change `researchViewX/Y` in `Defs/ResearchProjectDefs/HP_Research.xml`.
 - [ ] Check a child prisoner: no *Mark soul* button, the scythe never reaps them, and the crucible, grinder and carrion bills never take a child's corpse.
 - [x] ~~Extract soul surgery~~ (removed in v0.7; replaced by the altar and press).
@@ -416,6 +419,8 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Electricity: start the Coven; Electricity is not researched, soul extraction is, and the crucible, generator, canister rack and prisoner battery are locked in the architect menu. Research Electricity and all four unlock. The Escapee start still begins with Electricity.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
+
+- RimWorld 1.7: never run on it. The checks were against reference assemblies, not the real game, and XML defs were only checked for class names (1.7's Core XML isn't in the reference package). CE, VEF and the other optional mods have to support 1.7 themselves for their folders to matter.
 
 - Hellforged blades rely on the killing blow's `DamageInfo.Weapon` naming the blade (vanilla and CE melee verbs both set it, from memory) for corrupting hits and bloodrage. Kills that come later from bleeding out don't count. The CE hellfire beams use CE's `LaserBulletRed` preset, which I've seen in CE's own defs.
 
