@@ -25,7 +25,7 @@ namespace HollowPawns
             if (ingredient is Corpse corpse)
             {
                 int yield = Yield(corpse);
-                ThingDef essence = SoulUtility.EssenceDefFor(corpse.InnerPawn);
+                ThingDef essence = SoulUtility.EssenceDefAt(corpse.InnerPawn, corpse.PositionHeld, map);
                 SoulUtility.MarkSoulTaken(corpse.InnerPawn);
                 SoulUtility.DropEssence(corpse.PositionHeld, map, yield, essence);
                 // Rendering stains the ground around the bench (4.28).

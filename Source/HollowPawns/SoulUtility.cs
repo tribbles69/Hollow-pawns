@@ -97,6 +97,14 @@ namespace HollowPawns
         /// <summary>The essence this pawn's soul turns into: corrupted for demons, clean for everyone else.</summary>
         public static ThingDef EssenceDefFor(Pawn pawn) => IsCorrupted(pawn) ? HP_DefOf.HP_CorruptedEssence : HP_DefOf.HP_SoulEssence;
 
+        /// <summary>
+        /// The essence a soul taken here becomes: corrupted for demons, and for anyone taken on deeply
+        /// corrupted ground (4.28); clean otherwise.
+        /// </summary>
+        public static ThingDef EssenceDefAt(Pawn pawn, IntVec3 cell, Map map) =>
+            IsCorrupted(pawn) || Corruption.At(cell, map) >= MapComponent_Corruption.CorruptsEssenceLevel
+                ? HP_DefOf.HP_CorruptedEssence : HP_DefOf.HP_SoulEssence;
+
         /// <summary>Drops this pawn's kind of essence where the pawn (or its corpse) is.</summary>
         public static void DropEssence(Pawn pawn, int count) => DropEssence(pawn.PositionHeld, pawn.MapHeld, count, EssenceDefFor(pawn));
 
@@ -145,7 +153,7 @@ namespace HollowPawns
             if (pawn.MapHeld != null)
             {
                 MoteMaker.ThrowText(pawn.DrawPos, pawn.MapHeld, "Reaped", ReapTextColor);
-                DropEssence(pawn.PositionHeld, pawn.MapHeld, EssenceFromLivingSoul, EssenceDefFor(pawn));
+                DropEssence(pawn.PositionHeld, pawn.MapHeld, EssenceFromLivingSoul, EssenceDefAt(pawn, pawn.PositionHeld, pawn.MapHeld));
             }
             TakeSoulAndKill(pawn, dinfo);
         }

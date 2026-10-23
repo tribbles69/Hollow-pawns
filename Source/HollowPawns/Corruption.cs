@@ -25,6 +25,9 @@ namespace HollowPawns
         /// <summary>Ground this corrupted creeps into its neighbours.</summary>
         public const byte SpreadLevel = 80;
 
+        /// <summary>Ground this corrupted turns harvested and rendered essence corrupted.</summary>
+        public const byte CorruptsEssenceLevel = 160;
+
         private byte[] grid;
         private CellBoolDrawer drawer;
 
