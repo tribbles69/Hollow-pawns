@@ -66,6 +66,7 @@ The design record for the mod: what's built, what's decided, and everything plan
 | Soul eater (4.15) | Biotech xenotype: soul hunger resource gene (drains daily), soul drain (takes the whole soul, kills; more for a better grade), devour essence, soul starvation at zero. |
 | Soul dreadnoughts (4.9) | Superheavy mech on the centurion's body and art (tinted placeholder), gestated around a filled soul lattice; runs on a soul core of essence (60, ~8 a day) fed by haulers, no mech energy; shuts down when dry. |
 | CE | Soul guns fire CE laser beams on shared soul charges (one ammo, per-gun ammo sets). Soul-charged variants of 11 CE calibres used by vanilla guns. CE stats for scythe, guns, soulsteel. |
+| Hellforged (23 Oct) | Corrupted essence now has uses: gore axe, skull maul and blood blade (Metallic stuff + corrupted essence at the bone altar; `CorruptingExtension` hits, `BloodTitheExtension` bloodrage on kills, cut ghosts), black ichor (berserker combat drug, adds soul corruption per dose), a craftable cursed idol, and CE hellfire charges (a second ammo for every soul gun, `HP_HellfireBlast`, red beams, +25% damage, corrupting). `Hellforged.cs`. Placeholder sprites. |
 
 ---
 

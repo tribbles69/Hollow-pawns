@@ -127,13 +127,13 @@ namespace HollowPawns
         }
 
         /// <summary>
-        /// What can hurt a ghost: soul weapons, fire, and blades of soulsteel or the reaper's scythe.
+        /// What can hurt a ghost: soul weapons, fire, and blades of soulsteel, hellforged blades or the reaper's scythe.
         /// Everything else passes through.
         /// </summary>
         public static bool CanHurt(DamageInfo dinfo) => CanHurt(dinfo.Def, dinfo.Instigator, dinfo.Def != null && !dinfo.Def.isRanged);
 
         public static bool HurtsGhosts(DamageDef d) =>
-            d != null && (d == HP_DefOf.HP_SoulBlast || d == HP_DefOf.HP_SoulBurst || d == HP_DefOf.HP_SoulArrow || d == DamageDefOf.Flame || d == DamageDefOf.Burn);
+            d != null && (d == HP_DefOf.HP_SoulBlast || d == HP_DefOf.HP_HellfireBlast || d == HP_DefOf.HP_SoulBurst || d == HP_DefOf.HP_SoulArrow || d == DamageDefOf.Flame || d == DamageDefOf.Burn);
 
         public static bool CanHurt(DamageDef d, Thing instigator, bool melee)
         {
@@ -144,7 +144,7 @@ namespace HollowPawns
             if (melee && instigator is Pawn attacker)
             {
                 ThingWithComps weapon = attacker.equipment?.Primary;
-                if (weapon != null && (weapon.def == HP_DefOf.HP_ReaperScythe || weapon.Stuff == HP_DefOf.HP_Soulsteel))
+                if (weapon != null && (weapon.def == HP_DefOf.HP_ReaperScythe || weapon.Stuff == HP_DefOf.HP_Soulsteel || weapon.def.HasModExtension<CorruptingExtension>()))
                 {
                     return true;
                 }

@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Hellforged: what corrupted essence makes (23 Oct) =====================
+       Corrupted essence had no use but purging and selling. Now it quenches blades at the bone altar,
+       brews black ichor, fixes a cursed idol together and (CE) loads hellfire charges. All of it is
+       cult work: the altar, no power, no research. Hellforged.cs holds the C#. -->
+
+  <!-- Bloodrage: fed by kills with a hellforged blade (BloodTitheExtension). +0.25 a humanlike kill,
+       a third of that for anything else; burns off over about six hours from full. -->
+  <HediffDef>
+    <defName>HP_Bloodrage</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>bloodrage</label>
+    <description>The blade is fed and so is its wielder. Every kill sharpens the rage: faster, harder to stop, and less and less able to feel pain. It burns off when the killing stops.</description>
+    <defaultLabelColor>(0.85, 0.15, 0.1)</defaultLabelColor>
+    <initialSeverity>0.25</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-4</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>blood-hungry</label>
+        <statOffsets>
+          <MeleeHitChance>2</MeleeHitChance>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.05</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.45</minSeverity>
+        <label>frenzied</label>
+        <painFactor>0.6</painFactor>
+        <statOffsets>
+          <MeleeHitChance>4</MeleeHitChance>
+          <MeleeDodgeChance>3</MeleeDodgeChance>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.15</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.9</minSeverity>
+        <label>blood for the blood god</label>
+        <painFactor>0.25</painFactor>
+        <statOffsets>
+          <MeleeHitChance>6</MeleeHitChance>
+          <MeleeDodgeChance>5</MeleeDodgeChance>
+          <PainShockThreshold>0.2</PainShockThreshold>
+        </statOffsets>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.25</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>0.1</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- ===== Hellforged blades: Metallic stuff + corrupted essence, quenched at the bone altar.
+       Every hit stains the victim and the ground (CorruptingExtension), every kill feeds bloodrage
+       (BloodTitheExtension), and they cut ghosts. A soulsteel one is the worst thing in the room. -->
+
+  <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
+    <defName>HP_GoreAxe</defName>
+    <label>gore axe</label>
+    <description>A heavy, brutal axe quenched in a demon's blood on the altar. It bites deep, every wound it opens stains the soul behind it, and each life it takes feeds the rage of the one swinging it.\n\nHits spread soul corruption to the victim and the ground. Kills give the wielder bloodrage. It can cut ghosts.</description>
+    <graphicData>
+      <texPath>Things/Item/Equipment/HP_GoreAxe</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <techLevel>Medieval</techLevel>
+    <weaponTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </weaponTags>
+    <tradeTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </tradeTags>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>120</costStuffCount>
+    <costList>
+      <HP_CorruptedEssence>6</HP_CorruptedEssence>
+    </costList>
+    <statBases>
+      <WorkToMake>20000</WorkToMake>
+      <Mass>3</Mass>
+    </statBases>
+    <equippedAngleOffset>-65</equippedAngleOffset>
+    <recipeMaker>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <recipeUsers Inherit="False">
+        <li>HP_BoneAltar</li>
+      </recipeUsers>
+    </recipeMaker>
+    <tools>
+      <li>
+        <label>haft</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>10</power>
+        <cooldownTime>2.1</cooldownTime>
+        <chanceFactor>0.4</chanceFactor>
+      </li>
+      <li>
+        <label>blade</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>28</power>
+        <cooldownTime>2.6</cooldownTime>
+        <armorPenetration>0.4</armorPenetration>
+      </li>
+    </tools>
+    <modExtensions>
+      <li Class="HollowPawns.CorruptingExtension" />
+      <li Class="HollowPawns.BloodTitheExtension" />
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMeleeWeapon_Blunt_Quality">
+    <defName>HP_SkullMaul</defName>
+    <label>skull maul</label>
+    <description>A great hammer with a head cast around a ring of skulls, quenched in a demon's blood on the altar. It breaks armour, bones and souls alike, and each life it takes feeds the rage of the one swinging it.\n\nHits spread soul corruption to the victim and the ground. Kills give the wielder bloodrage. It can strike ghosts.</description>
+    <graphicData>
+      <texPath>Things/Item/Equipment/HP_SkullMaul</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <techLevel>Medieval</techLevel>
+    <weaponTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </weaponTags>
+    <tradeTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </tradeTags>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>140</costStuffCount>
+    <costList>
+      <HP_CorruptedEssence>6</HP_CorruptedEssence>
+    </costList>
+    <statBases>
+      <WorkToMake>20000</WorkToMake>
+      <Mass>4.5</Mass>
+    </statBases>
+    <equippedAngleOffset>-65</equippedAngleOffset>
+    <recipeMaker>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <recipeUsers Inherit="False">
+        <li>HP_BoneAltar</li>
+      </recipeUsers>
+    </recipeMaker>
+    <tools>
+      <li>
+        <label>haft</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>10</power>
+        <cooldownTime>2.2</cooldownTime>
+        <chanceFactor>0.3</chanceFactor>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>26</power>
+        <cooldownTime>2.8</cooldownTime>
+        <armorPenetration>0.5</armorPenetration>
+      </li>
+    </tools>
+    <modExtensions>
+      <li Class="HollowPawns.CorruptingExtension" />
+      <li Class="HollowPawns.BloodTitheExtension" />
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
+    <defName>HP_BloodBlade</defName>
+    <label>blood blade</label>
+    <description>A long blade with a demon's soul quenched into the steel. It is faster than it has any right to be, it is never quite clean, and each life it takes feeds the rage of the one holding it.\n\nHits spread soul corruption to the victim and the ground. Kills give the wielder bloodrage, more than the axe or the maul. It can cut ghosts.</description>
+    <graphicData>
+      <texPath>Things/Item/Equipment/HP_BloodBlade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <techLevel>Medieval</techLevel>
+    <weaponTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </weaponTags>
+    <tradeTags Inherit="False">
+      <li>HP_SoulWeapon</li>
+    </tradeTags>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>100</costStuffCount>
+    <costList>
+      <HP_CorruptedEssence>8</HP_CorruptedEssence>
+    </costList>
+    <statBases>
+      <WorkToMake>22000</WorkToMake>
+      <Mass>2</Mass>
+    </statBases>
+    <equippedAngleOffset>-65</equippedAngleOffset>
+    <recipeMaker>
+      <skillRequirements>
+        <Crafting>7</Crafting>
+      </skillRequirements>
+      <recipeUsers Inherit="False">
+        <li>HP_BoneAltar</li>
+      </recipeUsers>
+    </recipeMaker>
+    <tools>
+      <li>
+        <label>handle</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+      <li>
+        <label>point</label>
+        <capacities>
+          <li>Stab</li>
+        </capacities>
+        <power>23</power>
+        <cooldownTime>2.2</cooldownTime>
+      </li>
+      <li>
+        <label>edge</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>25</power>
+        <cooldownTime>2.2</cooldownTime>
+      </li>
+    </tools>
+    <modExtensions>
+      <li Class="HollowPawns.CorruptingExtension" />
+      <li Class="HollowPawns.BloodTitheExtension">
+        <rage>0.34</rage>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <!-- ================== Black ichor ==================
+       Corrupted essence cut with herbs and drunk from the altar's cup. A short, savage fighting high
+       (8 hours), every dose stains the drinker's soul (IngestionOutcomeDoer_Corrupt), and it hooks
+       hard. Withdrawal is "ichor thirst". Soulfire is the clean-essence go-juice; this is the berserker's. -->
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>HP_BlackIchor</defName>
+    <label>black ichor</label>
+    <description>Corrupted essence cut with bitter herbs into a thick black draught. For a few hours the drinker barely feels a wound, hits harder and moves like something hunting. Every dose leaves a stain on the soul, and the thirst for the next one comes quickly.</description>
+    <descriptionHyperlinks>
+      <HediffDef>HP_BlackIchorHigh</HediffDef>
+      <HediffDef>HP_BlackIchorAddiction</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Drug/HP_BlackIchor</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>900</WorkToMake>
+      <MarketValue>40</MarketValue>
+      <Mass>0.1</Mass>
+    </statBases>
+    <techLevel>Medieval</techLevel>
+    <tradeTags>
+      <li>HP_SoulDrug</li>
+    </tradeTags>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.25</joy>
+      <drugCategory>Hard</drugCategory>
+      <foodType>Processed, Fluid</foodType>
+      <baseIngestTicks>120</baseIngestTicks>
+      <ingestSound>Ingest_Drink</ingestSound>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.18,0,0)</offset>
+        </northDefault>
+      </ingestHoldOffsetStanding>
+      <ingestCommandString>Drink {0}</ingestCommandString>
+      <ingestReportString>Drinking {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <chairSearchRadius>0</chairSearchRadius>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HP_BlackIchorHigh</hediffDef>
+          <severity>1.0</severity>
+        </li>
+        <li Class="HollowPawns.IngestionOutcomeDoer_Corrupt">
+          <amount>0.04</amount>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>HP_BoneAltar</li>
+        <li>DrugLab</li>
+      </recipeUsers>
+      <soundWorking>Recipe_Drug</soundWorking>
+      <displayPriority>1610</displayPriority>
+    </recipeMaker>
+    <costList>
+      <HP_CorruptedEssence>1</HP_CorruptedEssence>
+      <MedicineHerbal>1</MedicineHerbal>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>HP_BlackIchor</chemical>
+        <addictiveness>0.06</addictiveness>
+        <existingAddictionSeverityOffset>0.15</existingAddictionSeverityOffset>
+        <needLevelOffset>0.9</needLevelOffset>
+        <isCombatEnhancingDrug>true</isCombatEnhancingDrug>
+        <listOrder>211</listOrder>
+        <overdoseSeverityOffset>0.18~0.35</overdoseSeverityOffset>
+        <largeOverdoseChance>0.01</largeOverdoseChance>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>HP_BlackIchorHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>black ichor</label>
+    <labelNoun>a black ichor high</labelNoun>
+    <description>Corrupted essence in the blood. Wounds barely register, every blow lands harder and the drinker moves like something hunting. It leaves the mind a little thinner while it lasts.</description>
+    <defaultLabelColor>(0.85, 0.15, 0.1)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <!-- 8 hours. -->
+        <severityPerDay>-3</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>raging</label>
+        <painFactor>0.35</painFactor>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.20</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>0.10</offset>
+          </li>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <MeleeHitChance>4</MeleeHitChance>
+          <MeleeDodgeChance>4</MeleeDodgeChance>
+          <PainShockThreshold>0.15</PainShockThreshold>
+          <MentalBreakThreshold>0.04</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>HP_BlackIchorHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>HP_BlackIchorHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>black ichor</label>
+        <description>There's a fire behind my eyes and I want something to put it out on.</description>
+        <baseMoodEffect>6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ChemicalDef>
+    <defName>HP_BlackIchor</defName>
+    <label>black ichor</label>
+    <addictionHediff>HP_BlackIchorAddiction</addictionHediff>
+    <geneOverdoseChanceFactorResist>0.5</geneOverdoseChanceFactorResist>
+    <geneOverdoseChanceFactorImmune>0</geneOverdoseChanceFactorImmune>
+  </ChemicalDef>
+
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>HP_Chemical_BlackIchor</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>black ichor</label>
+    <description>Because of a black ichor addiction, this person needs regular doses to keep the thirst away.</description>
+    <fallPerDay>0.333</fallPerDay>
+    <listPriority>45</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>HP_BlackIchorAddiction</defName>
+    <label>black ichor addiction</label>
+    <description>A chemical addiction to black ichor. Without regular doses comes ichor thirst: pain, rage and a short temper with everyone. Extended abstinence will eventually break the addiction.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <chemicalNeed>HP_Chemical_BlackIchor</chemicalNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.04</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+      </li>
+      <li>
+        <label>ichor thirst</label>
+        <painFactor>1.5</painFactor>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.15</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Berserk</mentalState>
+            <mtbDays>12</mtbDays>
+          </li>
+          <li>
+            <mentalState>Binging_DrugExtreme</mentalState>
+            <mtbDays>30</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>HP_BlackIchorWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>HP_BlackIchorAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>ichor thirst</label>
+        <description>My blood's gone thin and cold. Everyone around me is so slow and so loud.</description>
+        <baseMoodEffect>-20</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

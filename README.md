@@ -41,7 +41,7 @@ The **cursed idol** is belt-slot demon loot: +4 shooting and melee accuracy and 
 |---|---|
 | **Demon** (xenotype) | Horned, deep red, red-eyed, tailed. Robust, fire-resistant, hyper-aggressive, strong in melee, reduced pain. Carries the **corrupted soul** gene. |
 | **Demon host** (faction) | A permanent enemy built like the pirates, every member a demon: thralls, reavers, ravagers, brutes and arch-demons (vanilla raider gear). Raids like any enemy. Added to existing saves on load. |
-| **Corrupted essence** | What a demon's soul gives (and any soul taken on deeply corrupted ground), from the altar, press, scythe, crucible or a demon's vessel. Worth 20. Volatile, more so than clean essence. *Purge corrupted essence* at the crucible: 5 corrupted → 10 clean, but the worker has a 1-in-3 chance of being cursed. The soul broker buys it. |
+| **Corrupted essence** | What a demon's soul gives (and any soul taken on deeply corrupted ground), from the altar, press, scythe, crucible or a demon's vessel. Worth 20. Volatile, more so than clean essence. *Purge corrupted essence* at the crucible: 5 corrupted → 10 clean, but the worker has a 1-in-3 chance of being cursed. The soul broker buys it. Also makes the **hellforged** blades, black ichor, the cursed idol and (CE) hellfire charges: see *Hellforged* below. |
 | **Hell gate** (Misc, 3x3; research *Hell gate* after Soul weaponry) | 150 soulsteel, 40 essence, 6 components. Open it and a demon raid (110% normal points) comes through every 3 days; close it to stop. Dev mode adds *Wave now*. Rare tick only, idle when closed. |
 | **Hell Unbound** (storyteller) | Cassandra Classic plus a demon wave roughly every 12 days from day 15. Generated from the game's own Cassandra by `Source/tools/gen_storyteller.py`. |
 
@@ -176,6 +176,20 @@ If VEF is loaded, a **Soul pipes** build tab appears (research *Industrial harve
 
 No soulsteel processor: VEF's processor can't make soulsteel the way the crucible does. The pipes borrow vanilla's power conduit art, tinted.
 
+### Hellforged: what corrupted essence makes
+All cult work at the **bone altar** (crafting bills, no power, no research), except hellfire charges.
+
+| Thing | Recipe | What it does |
+|---|---|---|
+| **Gore axe** | 120 metal (any Metallic stuff) + 6 corrupted essence, Crafting 6 | Heavy axe: blade cut 28 (CE 44). |
+| **Skull maul** | 140 metal + 6 corrupted essence, Crafting 6 | Great hammer: head blunt 26 (CE 26, blunt penetration 9). |
+| **Blood blade** | 100 metal + 8 corrupted essence, Crafting 7 | Fast sword: stab 23 / cut 25 at 2.2s (CE 20 / 42); more bloodrage per kill. |
+| **Black ichor** (also the drug lab) | 1 corrupted essence + 1 herbal medicine | Combat drug, 8 hours: pain x0.35, +20% moving, +10% manipulation, +4 melee hit and dodge, -5% consciousness, breaks a little easier. Every dose adds soul corruption. Addictive; withdrawal is *ichor thirst* (-20 mood, berserk now and then). |
+| **Cursed idol** | 5 soulsteel + 6 corrupted essence, Crafting 5 | The cursed loot charm, now makeable. |
+| **Hellfire charge** (CE; soul crucible, *Soul weaponry*) | 6 soulsteel + 3 corrupted essence → 100 | Second ammo type for every soul gun: red beams, a quarter more damage and blast, and every hit and blast spreads soul corruption (twice a soul blast's ground stain). Hurts ghosts. |
+
+All three blades take their stuff's stats (soulsteel ones are frightening), **corrupt** every hit (victim's soul and the ground, like a demon's), **cut ghosts**, and feed **bloodrage** on kills: +0.25 a humanlike kill (blood blade 0.34), a third for animals, burning off over about six hours, and each kill adds a little soul corruption to the wielder. Stages: *blood-hungry* (+2 melee hit, +5% moving), *frenzied* (pain x0.6, +4 hit, +3 dodge, +15% moving), *blood for the blood god* (pain x0.25, +6 hit, +5 dodge, +25% moving, +10% manipulation, pain shock +20%).
+
 ### Soul clothing: soulweave
 The six soul apparel sets are gone (23 Oct): they were copies of vanilla gear a little weaker than the originals, so the essence wasn't worth it. **Soulweave** replaces them: a fabric, made at the soul crucible (*weave soulweave*: 25 cloth + 3 essence → 25), so any vanilla clothing or fabric armour can be made from it. Better than hyperweave: Sharp 2.6 / Blunt 0.8 / Heat 2.2 (hyperweave 2.0 / 0.54 / 2.88), insulation 32 cold / 20 heat, 3x hit points, barely wears out, hardly burns. Under CE: Sharp 1.6 / Blunt 2.4 / Heat 0.3 (CE hyperweave 1 / 1.5 / 0.2).
 
@@ -231,7 +245,7 @@ How your colony feels about corruption, and what comes for it.
 | **Attuned** (no DLC needed) | A pawn who is exalted, or whose own soul corruption is 50%+, stops minding corrupted ground and, standing on it, gets +10% work speed, +10% pain threshold and steadier nerves. Purists (everyone else) still get the old ground mood penalty. |
 | **Corrupting hits** | Demons, Profaned and anyone wielding a weapon with a corrupted soul bound into it stain whoever they hit (soul corruption) and the ground under them. |
 | **Zealot raids** | Once 400+ cells of your map are badly corrupted (80+), zealots may come: flagellants, purifiers with molotovs, gunners and an inquisitor. They cleanse the ground they walk on. They never come for a clean colony. |
-| **Cursed loot** | The cursed idol now turns up with exotic traders and in quest rewards. |
+| **Cursed loot** | The cursed idol now turns up with exotic traders and in quest rewards, and can be made at the bone altar. |
 
 ### Demon raids and sieges (Biotech)
 | Arrival | What happens |
@@ -372,6 +386,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Soul bow: shoot a raider a few times: soul shock appears in their health tab. Under CE: the bow's ammo list shows soul arrows next to stone, steel and plasteel, and so do the short bow's and recurve bow's; the soul arrow bill is at the crafting spot and smithy.
 - [ ] Bone fetish: wear it: stats show reap ward 50%. Wraith lantern: wear it in a fight, press *Unshutter*: message counts who fled, button greys out for a day.
 - [ ] Soul pipes (with VEF): the *Soul pipes* tab appears after *Industrial harvest*. Drain to vat to soul generator: essence hauled to the drain fills the vat, the generator refuels itself. *Draw essence* on the vat drops 25. A tap fills with stacks. Shut a valve: the far side stops filling. Without VEF: no tab, no errors.
+- [ ] Hellforged: at the bone altar, add a gore axe (steel), a skull maul, a blood blade, black ichor and a cursed idol; all appear with no research. Equip a colonist with the gore axe and fight a raid: hits leave soul corruption on the victim and stains on the ground; each kill shows *Blood* over the wielder and *bloodrage* grows in health (three stages, *BLOOD!* at the top), fading over a few hours. Swing at a ghost: it takes damage. Drink black ichor: *black ichor* high for 8 hours, soul corruption goes up. With CE: make hellfire charges at the crucible, switch a dirge rifle's ammo to hellfire: red beams, red blasts, ground stained; the blade tools show CE-style armour penetration.
 - [ ] Soulweave and soulsteel: *weave soulweave* at the crucible (25 cloth, 3 essence). Make a duster and a flak vest from soulweave and a plate armour from soulsteel; compare armour against hyperweave and plasteel versions. Old saves: any of the removed soul-set clothing is dropped on load with a missing-def warning (expected). The tailoring, smithy and fabrication benches no longer list gravecloth, ossuary, mourner, soulsteel kit, wraithweave or reliquary pieces.
 - [ ] Faces: *take face* at a butcher table on a raider's corpse: a *face of X* mask appears and the corpse is still there (inspect its health: face taken); the bill won't take it again. Wear it: social tab shows *wears a human face*. Flay a prisoner: they live, mood -25, goodwill drops. Flay a blood debtor: the victim's friend near the wearer gets *effigy of the killer*.
 - [ ] The Profaned (if you run it): the log says *The Profaned found*. Mark a Profaned prisoner *render*: corrupted essence. Let a Cursebearer raise someone, capture them: health shows *soul shard (caster)*, grade is wretched. Kill that Cursebearer: the raised drop.
@@ -401,6 +416,8 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Electricity: start the Coven; Electricity is not researched, soul extraction is, and the crucible, generator, canister rack and prisoner battery are locked in the architect menu. Research Electricity and all four unlock. The Escapee start still begins with Electricity.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
+
+- Hellforged blades rely on the killing blow's `DamageInfo.Weapon` naming the blade (vanilla and CE melee verbs both set it, from memory) for corrupting hits and bloodrage. Kills that come later from bleeding out don't count. The CE hellfire beams use CE's `LaserBulletRed` preset, which I've seen in CE's own defs.
 
 - Soulsteel and soulweave balance (23 Oct): numbers picked to sit near Metasteel, not tested in play. Soulsteel armour caps out sharp armour on most stuffed pieces in vanilla; under CE the blunt figure (7.5) is the one to watch.
 

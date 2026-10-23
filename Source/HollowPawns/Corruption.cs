@@ -299,7 +299,7 @@ namespace HollowPawns
         }
     }
 
-    /// <summary>Soul blasts and soul bursts stain the ground they hit.</summary>
+    /// <summary>Soul blasts and soul bursts stain the ground they hit; hellfire blasts stain it twice as badly.</summary>
     [HarmonyPatch(typeof(GenExplosion), nameof(GenExplosion.DoExplosion))]
     public static class Patch_GenExplosion_DoExplosion
     {
@@ -308,6 +308,10 @@ namespace HollowPawns
             if (map != null && (damType == HP_DefOf.HP_SoulBlast || damType == HP_DefOf.HP_SoulBurst))
             {
                 Corruption.Spill(center, map, 12, 0.9f);
+            }
+            else if (map != null && damType == HP_DefOf.HP_HellfireBlast)
+            {
+                Corruption.Spill(center, map, 24, 1.5f);
             }
         }
     }

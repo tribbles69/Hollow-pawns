@@ -53,6 +53,51 @@
     </additionalHediffs>
   </DamageDef>
 
+  <!-- Hellfire blast: a soul blast from corrupted essence (CE hellfire charges). Same wound and soul shock,
+       red, and every hit stains the victim and the ground (CorruptingExtension); its explosions stain
+       twice what a soul blast does (Corruption.cs). Hurts ghosts like a soul blast. -->
+  <DamageDef>
+    <defName>HP_HellfireBlast</defName>
+    <label>hellfire blast</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <isExplosive>true</isExplosive>
+    <isRanged>true</isRanged>
+    <makesAnimalsFlee>true</makesAnimalsFlee>
+    <deathMessage>{0} was torn apart by hellfire.</deathMessage>
+    <hediff>Shredded</hediff>
+    <hediffSolid>Crack</hediffSolid>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Sharp</armorCategory>
+    <!-- Any part that takes even slightly more damage than it can hold is gone. -->
+    <overkillPctToDestroyPart>0~0.1</overkillPctToDestroyPart>
+    <minDamageToFragment>10</minDamageToFragment>
+    <defaultDamage>20</defaultDamage>
+    <defaultStoppingPower>1.5</defaultStoppingPower>
+    <defaultArmorPenetration>0.4</defaultArmorPenetration>
+    <!-- Walls take 4x: that's the crater. -->
+    <buildingDamageFactorImpassable>4</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>2</buildingDamageFactorPassable>
+    <plantDamageFactor>2</plantDamageFactor>
+    <explosionAffectOutsidePartsOnly>false</explosionAffectOutsidePartsOnly>
+    <explosionCellFleck>BlastDry</explosionCellFleck>
+    <explosionColorCenter>(1.0, 0.35, 0.15)</explosionColorCenter>
+    <explosionColorEdge>(0.6, 0.1, 0.05)</explosionColorEdge>
+    <additionalHediffs>
+      <li>
+        <hediff>HP_SoulShock</hediff>
+        <!-- 30 damage = 0.45 shock. Roughly three solid hits put someone down. -->
+        <severityPerDamageDealt>0.015</severityPerDamageDealt>
+      </li>
+    </additionalHediffs>
+    <modExtensions>
+      <li Class="HollowPawns.CorruptingExtension">
+        <pawnCorruption>0.02</pawnCorruption>
+      </li>
+    </modExtensions>
+  </DamageDef>
+
   <!-- Soul burst: what a stack of essence or a broken soul generator lets go of. Not a weapon:
        it barely bruises and ignores armour, but it slams soul shock into everyone caught in it,
        so they drop alive. Used by volatile essence stacks and the generator's breakdown vent. -->

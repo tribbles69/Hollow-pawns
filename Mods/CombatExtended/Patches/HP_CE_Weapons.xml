@@ -49,4 +49,166 @@
     </value>
   </Operation>
 
+  <!-- ========== Hellforged blades (23 Oct) ==========
+       CE tool format, pitched a little above CE's own (longsword edge 40 / 1.64s / sharp 0.72 blunt 3.24,
+       point 18 / sharp 2.0; mace head 15 / 1.9s / blunt 5.625). Their stuff scales them from there,
+       and the corrupting hits and bloodrage ride on the def's mod extensions exactly as in vanilla. -->
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="HP_GoreAxe"]/tools</xpath>
+    <value>
+      <tools>
+        <li Class="CombatExtended.ToolCE">
+          <label>haft</label>
+          <capacities>
+            <li>Blunt</li>
+          </capacities>
+          <power>5</power>
+          <cooldownTime>1.8</cooldownTime>
+          <chanceFactor>0.33</chanceFactor>
+          <armorPenetrationBlunt>1.5</armorPenetrationBlunt>
+          <linkedBodyPartsGroup>Handle</linkedBodyPartsGroup>
+        </li>
+        <li Class="CombatExtended.ToolCE">
+          <label>blade</label>
+          <capacities>
+            <li>Cut</li>
+          </capacities>
+          <power>44</power>
+          <cooldownTime>2.0</cooldownTime>
+          <armorPenetrationBlunt>5.0</armorPenetrationBlunt>
+          <armorPenetrationSharp>1.2</armorPenetrationSharp>
+          <linkedBodyPartsGroup>Blade</linkedBodyPartsGroup>
+        </li>
+      </tools>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HP_GoreAxe"]/statBases</xpath>
+    <value>
+      <Bulk>9</Bulk>
+      <MeleeCounterParryBonus>0.4</MeleeCounterParryBonus>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HP_GoreAxe"]</xpath>
+    <value>
+      <equippedStatOffsets>
+        <MeleeCritChance>0.6</MeleeCritChance>
+        <MeleeParryChance>0.3</MeleeParryChance>
+        <MeleeDodgeChance>0.2</MeleeDodgeChance>
+      </equippedStatOffsets>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="HP_SkullMaul"]/tools</xpath>
+    <value>
+      <tools>
+        <li Class="CombatExtended.ToolCE">
+          <label>haft</label>
+          <capacities>
+            <li>Blunt</li>
+          </capacities>
+          <power>5</power>
+          <cooldownTime>1.8</cooldownTime>
+          <chanceFactor>0.33</chanceFactor>
+          <armorPenetrationBlunt>1.5</armorPenetrationBlunt>
+          <linkedBodyPartsGroup>Handle</linkedBodyPartsGroup>
+        </li>
+        <li Class="CombatExtended.ToolCE">
+          <label>head</label>
+          <capacities>
+            <li>Blunt</li>
+          </capacities>
+          <power>26</power>
+          <cooldownTime>2.2</cooldownTime>
+          <armorPenetrationBlunt>9</armorPenetrationBlunt>
+          <linkedBodyPartsGroup>Head</linkedBodyPartsGroup>
+        </li>
+      </tools>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HP_SkullMaul"]/statBases</xpath>
+    <value>
+      <Bulk>10</Bulk>
+      <MeleeCounterParryBonus>0.3</MeleeCounterParryBonus>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HP_SkullMaul"]</xpath>
+    <value>
+      <equippedStatOffsets>
+        <MeleeCritChance>0.5</MeleeCritChance>
+        <MeleeParryChance>0.3</MeleeParryChance>
+        <MeleeDodgeChance>0.1</MeleeDodgeChance>
+      </equippedStatOffsets>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="HP_BloodBlade"]/tools</xpath>
+    <value>
+      <tools>
+        <li Class="CombatExtended.ToolCE">
+          <label>handle</label>
+          <capacities>
+            <li>Blunt</li>
+          </capacities>
+          <power>4</power>
+          <cooldownTime>1.6</cooldownTime>
+          <chanceFactor>0.1</chanceFactor>
+          <armorPenetrationBlunt>1.0</armorPenetrationBlunt>
+          <linkedBodyPartsGroup>Handle</linkedBodyPartsGroup>
+        </li>
+        <li Class="CombatExtended.ToolCE">
+          <label>point</label>
+          <capacities>
+            <li>Stab</li>
+          </capacities>
+          <power>20</power>
+          <cooldownTime>1.6</cooldownTime>
+          <armorPenetrationBlunt>1.2</armorPenetrationBlunt>
+          <armorPenetrationSharp>2.4</armorPenetrationSharp>
+          <linkedBodyPartsGroup>Point</linkedBodyPartsGroup>
+        </li>
+        <li Class="CombatExtended.ToolCE">
+          <label>edge</label>
+          <capacities>
+            <li>Cut</li>
+          </capacities>
+          <power>42</power>
+          <cooldownTime>1.5</cooldownTime>
+          <armorPenetrationBlunt>3.5</armorPenetrationBlunt>
+          <armorPenetrationSharp>0.9</armorPenetrationSharp>
+          <linkedBodyPartsGroup>Edge</linkedBodyPartsGroup>
+        </li>
+      </tools>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HP_BloodBlade"]/statBases</xpath>
+    <value>
+      <Bulk>8</Bulk>
+      <MeleeCounterParryBonus>0.8</MeleeCounterParryBonus>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HP_BloodBlade"]</xpath>
+    <value>
+      <equippedStatOffsets>
+        <MeleeCritChance>0.5</MeleeCritChance>
+        <MeleeParryChance>0.6</MeleeParryChance>
+        <MeleeDodgeChance>0.4</MeleeDodgeChance>
+      </equippedStatOffsets>
+    </value>
+  </Operation>
+
 </Patch>

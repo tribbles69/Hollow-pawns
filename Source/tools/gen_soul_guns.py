@@ -3,7 +3,7 @@
 Edit the GUNS table and re-run:  python3 Source/tools/gen_soul_guns.py
 Writes:
   Defs/ThingDefs_Weapons/HP_SoulGuns.xml                  (vanilla guns + one-cell blast bolts)
-  Mods/CombatExtended/Defs/HP_CE_SoulCharge.xml           (soul charge ammo, per-gun ammo sets + beams)
+  Mods/CombatExtended/Defs/HP_CE_SoulCharge.xml           (soul and hellfire charge ammo, per-gun ammo sets + beams)
   Mods/CombatExtended/Patches/HP_CE_SoulGuns.xml          (CE conversion of each gun)
 """
 import os
@@ -274,6 +274,73 @@ def ce_defs():
       <HP_Ammo_SoulCharge>100</HP_Ammo_SoulCharge>
     </products>
   </RecipeDef>
+
+  <!-- Hellfire charges (23 Oct): the same cell filled with corrupted essence. A quarter more damage,
+       and every hit and blast stains the victim and the ground (HP_HellfireBlast). Red beams. -->
+  <CombatExtended.AmmoCategoryDef>
+    <defName>HP_HellfireCharge</defName>
+    <label>hellfire charge</label>
+    <labelShort>hellfire</labelShort>
+    <description>A cell of corrupted essence. Soul guns turn each one into a red beam that hits harder than a soul charge and stains the soul and the ground of whatever it hits.</description>
+  </CombatExtended.AmmoCategoryDef>
+
+  <ThingDef Class="CombatExtended.AmmoDef" ParentName="SpacerSmallAmmoBase">
+    <defName>HP_Ammo_HellfireCharge</defName>
+    <label>hellfire charge</label>
+    <description>A cell of corrupted essence. Any soul gun fires it.</description>
+    <graphicData>
+      <texPath>Things/Item/HP_HellfireCharge</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <techLevel>Industrial</techLevel>
+    <tradeTags Inherit="False" />
+    <statBases>
+      <Mass>0.01</Mass>
+      <Bulk>0.01</Bulk>
+      <MarketValue>2.2</MarketValue>
+    </statBases>
+    <thingCategories>
+      <li>HP_AmmoSoulCharge</li>
+    </thingCategories>
+    <stackLimit>1000</stackLimit>
+    <ammoClass>HP_HellfireCharge</ammoClass>
+    <generateAllowChance>0</generateAllowChance>
+  </ThingDef>
+
+  <!-- 100 hellfire charges from 6 soulsteel + 3 corrupted essence. -->
+  <RecipeDef ParentName="AmmoRecipeBase">
+    <defName>HP_MakeAmmo_HellfireCharge</defName>
+    <label>make hellfire charges x100</label>
+    <description>Bind corrupted essence into 100 hellfire charges.</description>
+    <jobString>Making hellfire charges.</jobString>
+    <recipeUsers Inherit="False">
+      <li>HP_SoulCrucible</li>
+    </recipeUsers>
+    <researchPrerequisite>HP_SoulWeaponry</researchPrerequisite>
+    <skillRequirements>
+      <Crafting>6</Crafting>
+    </skillRequirements>
+    <workAmount>4000</workAmount>
+    <ingredients>
+      <li>
+        <filter><thingDefs><li>HP_Soulsteel</li></thingDefs></filter>
+        <count>6</count>
+      </li>
+      <li>
+        <filter><thingDefs><li>HP_CorruptedEssence</li></thingDefs></filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HP_Soulsteel</li>
+        <li>HP_CorruptedEssence</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HP_Ammo_HellfireCharge>100</HP_Ammo_HellfireCharge>
+    </products>
+  </RecipeDef>
 """]
     for g in GUNS:
         k, c = g["key"], g["ce"]
@@ -284,6 +351,7 @@ def ce_defs():
     <label>soul charge</label>
     <ammoTypes>
       <HP_Ammo_SoulCharge>HP_Beam_{k}</HP_Ammo_SoulCharge>
+      <HP_Ammo_HellfireCharge>HP_HellBeam_{k}</HP_Ammo_HellfireCharge>
     </ammoTypes>
   </CombatExtended.AmmoSetDef>
 
@@ -301,6 +369,25 @@ def ce_defs():
       <li Class="CombatExtended.CompProperties_ExplosiveCE">
         <damageAmountBase>{c['blast']}</damageAmountBase>
         <explosiveDamageType>HP_SoulBlast</explosiveDamageType>
+        <explosiveRadius>0.5</explosiveRadius>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- The hellfire beam: CE's red preset, a quarter more damage, hellfire blasts that corrupt. -->
+  <ThingDef Class="CombatExtended.Lasers.LaserBeamDefCE" ParentName="LaserBulletRed">
+    <defName>HP_HellBeam_{k}</defName>
+    <label>{g['label']} hellfire beam</label>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
+      <damageDef>HP_HellfireBlast</damageDef>
+      <damageAmountBase>{round(c['dmg'] * 1.25)}</damageAmountBase>
+      <armorPenetrationSharp>{c['sharp']}</armorPenetrationSharp>
+      <armorPenetrationBlunt>{c['blunt']}</armorPenetrationBlunt>
+    </projectile>
+    <comps>
+      <li Class="CombatExtended.CompProperties_ExplosiveCE">
+        <damageAmountBase>{round(c['blast'] * 1.25)}</damageAmountBase>
+        <explosiveDamageType>HP_HellfireBlast</explosiveDamageType>
         <explosiveRadius>0.5</explosiveRadius>
       </li>
     </comps>

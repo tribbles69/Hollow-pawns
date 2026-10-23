@@ -107,8 +107,9 @@ namespace HollowPawns
     // ======================= Corrupted hits =======================
 
     /// <summary>
-    /// A hit from a corrupted attacker (a demon, a Profaned) or a weapon with a corrupted soul bound in
-    /// it stains the victim's soul and the ground they stand on. Runs only when damage lands.
+    /// A hit from a corrupted attacker (a demon, a Profaned), a weapon with a corrupted soul bound in
+    /// it, or a corrupting weapon or damage type (hellforged blades, hellfire blasts: CorruptingExtension)
+    /// stains the victim's soul and the ground they stand on. Runs only when damage lands.
     /// </summary>
     [HarmonyPatch(typeof(Pawn), nameof(Pawn.PostApplyDamage))]
     public static class Patch_Pawn_PostApplyDamage_CorruptedHit
@@ -117,6 +118,13 @@ namespace HollowPawns
         {
             if (totalDamageDealt <= 0f || !__instance.Spawned || !(dinfo.Instigator is Pawn attacker) || attacker == __instance)
             {
+                return;
+            }
+            CorruptingExtension ext = Hellforged.CorruptingOf(dinfo);
+            if (ext != null)
+            {
+                Corruption.AddToPawn(__instance, ext.pawnCorruption);
+                Corruption.Spill(__instance.Position, __instance.Map, ext.groundSpill, 0.9f);
                 return;
             }
             bool corrupt = SoulUtility.IsCorrupted(attacker);

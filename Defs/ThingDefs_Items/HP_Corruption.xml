@@ -39,7 +39,8 @@
   </ThingDef>
 
   <!-- Cursed idol: demon loot. A strong charm that hollows whoever wears it, for as long as they do.
-       Utility (belt) layer, no worn graphic. Not craftable: taken from demons, or bought from the broker. -->
+       Utility (belt) layer, no worn graphic. Taken from demons, bought from the broker, or (since 23 Oct)
+       made at the bone altar from soulsteel wire and corrupted essence. -->
   <ThingDef ParentName="ApparelBase">
     <defName>HP_CursedIdol</defName>
     <label>cursed idol</label>
@@ -56,7 +57,24 @@
       <Flammability>0</Flammability>
       <MarketValue>450</MarketValue>
       <EquipDelay>1</EquipDelay>
+      <WorkToMake>9000</WorkToMake>
     </statBases>
+    <costList>
+      <HP_Soulsteel>5</HP_Soulsteel>
+      <HP_CorruptedEssence>6</HP_CorruptedEssence>
+    </costList>
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Sculpt</effectWorking>
+      <soundWorking>Recipe_Sculpt</soundWorking>
+      <skillRequirements>
+        <Crafting>5</Crafting>
+      </skillRequirements>
+      <recipeUsers>
+        <li>HP_BoneAltar</li>
+      </recipeUsers>
+    </recipeMaker>
     <equippedStatOffsets>
       <ShootingAccuracyPawn>4</ShootingAccuracyPawn>
       <MeleeHitChance>4</MeleeHitChance>

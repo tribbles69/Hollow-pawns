@@ -800,6 +800,86 @@ def soul_hunger_icon():
     ]
 
 
+def rotated(shape, deg, k=1.0, cx=64, cy=64):
+    """The shape turned clockwise by deg and scaled by k about (cx, cy): melee sprites lie on the
+    diagonal like vanilla's."""
+    a = math.radians(deg)
+    ca, sa = math.cos(a), math.sin(a)
+
+    def d(x, y):
+        x, y = cx + (x - cx) / k, cy + (y - cy) / k
+        return shape(cx + (x - cx) * ca + (y - cy) * sa, cy - (x - cx) * sa + (y - cy) * ca) * k
+    return d
+
+
+# Hellforged blades: pale steel so the stuff colour tints it, red for the blood worked into it.
+HF_STEEL = (215, 215, 215)
+HF_GRIP = (70, 40, 35)
+HF_BLOOD = (170, 25, 20)
+
+
+def gore_axe():
+    """A long haft and a broad bearded axe head with a hooked back spike."""
+    head = union(poly([(60, 22), (98, 14), (104, 34), (96, 52), (60, 44)]), poly([(56, 26), (40, 22), (56, 38)]))
+    return [(rotated(sh, 40, 0.78), rgb, a) for sh, rgb, a in [
+        (rrect(64, 70, 4, 50, 2), HF_GRIP, 1.0),
+        (head, HF_STEEL, 1.0),
+        (poly([(96, 18), (102, 34), (95, 48), (90, 34)]), HF_BLOOD, 0.75),
+        (rrect(64, 118, 6, 4, 2), HF_STEEL, 1.0),
+        (rrect(64, 34, 6, 10, 2), METAL_DARK, 1.0),
+    ]]
+
+
+def skull_maul():
+    """A heavy hammer head ringed with skulls on a long haft."""
+    skulls = union(*[circle(64 + dx, 32, 7) for dx in (-22, 0, 22)])
+    eyes = union(*[circle(64 + dx + ex, 31, 2) for dx in (-22, 0, 22) for ex in (-3, 3)])
+    return [(rotated(sh, 40, 0.8), rgb, a) for sh, rgb, a in [
+        (rrect(64, 74, 4, 46, 2), HF_GRIP, 1.0),
+        (rrect(64, 32, 34, 14, 4), HF_STEEL, 1.0),
+        (skulls, (225, 215, 190), 1.0),
+        (eyes, (30, 20, 20), 1.0),
+        (rrect(64, 48, 30, 2, 1), HF_BLOOD, 0.8),
+        (rrect(64, 118, 6, 4, 2), HF_STEEL, 1.0),
+    ]]
+
+
+def blood_blade():
+    """A long straight blade with a red fuller and a spiked guard."""
+    return [(rotated(sh, 45), rgb, a) for sh, rgb, a in [
+        (poly([(58, 86), (58, 18), (64, 6), (70, 18), (70, 86)]), HF_STEEL, 1.0),
+        (rrect(64, 50, 1.6, 34, 1), HF_BLOOD, 0.9),
+        (poly([(42, 86), (86, 86), (80, 94), (48, 94)]), METAL_DARK, 1.0),
+        (poly([(42, 86), (34, 80), (46, 90)]), METAL_DARK, 1.0),
+        (poly([(86, 86), (94, 80), (82, 90)]), METAL_DARK, 1.0),
+        (rrect(64, 106, 4, 12, 2), HF_GRIP, 1.0),
+        (circle(64, 120, 5), HF_BLOOD, 1.0),
+    ]]
+
+
+def black_ichor():
+    """A squat stoppered flask of thick black liquid with a red sheen."""
+    return [
+        (rrect(64, 80, 30, 34, 12), (40, 20, 22), 1.0),
+        (rrect(64, 86, 26, 26, 10), (15, 8, 8), 1.0),
+        (rrect(54, 76, 4, 14, 3), HF_BLOOD, 0.6),
+        (rrect(64, 40, 10, 10, 3), (40, 20, 22), 1.0),
+        (rrect(64, 28, 12, 6, 2), CORK, 1.0),
+    ]
+
+
+def hellfire_charge():
+    """A small cell like the soul charge, glowing red."""
+    return [
+        ("glow", 64, 64, 50, (230, 60, 30), 0.5),
+        (rrect(64, 64, 18, 34, 5), METAL_DARK, 1.0),
+        (rrect(64, 64, 12, 26, 3), (200, 40, 25), 1.0),
+        (rrect(64, 64, 5, 20, 2), (255, 150, 90), 0.9),
+        (rrect(64, 28, 14, 4, 1), METAL, 1.0),
+        (rrect(64, 100, 14, 4, 1), METAL, 1.0),
+    ]
+
+
 def soulweave():
     """A folded bolt of pale cloth with soul thread glowing through it."""
     cloth, fold, thread = (150, 200, 205), (105, 150, 160), (200, 250, 255)
@@ -841,6 +921,11 @@ if __name__ == "__main__":
     write_png(os.path.join(i, "HP_HolyWater.png"), render(128, holy_water()))
     write_png(os.path.join(i, "HP_CarrionBale.png"), render(128, carrion_bale()))
     write_png(os.path.join(i, "HP_Soulweave.png"), render(128, soulweave()))
+    write_png(os.path.join(i, "Equipment", "HP_GoreAxe.png"), render(128, gore_axe()))
+    write_png(os.path.join(i, "Equipment", "HP_SkullMaul.png"), render(128, skull_maul()))
+    write_png(os.path.join(i, "Equipment", "HP_BloodBlade.png"), render(128, blood_blade()))
+    write_png(os.path.join(i, "Drug", "HP_BlackIchor.png"), render(128, black_ichor()))
+    write_png(os.path.join(i, "HP_HellfireCharge.png"), render(128, hellfire_charge()))
     write_png(os.path.join(b, "HP_CarrionWall.png"), render(128, carrion_wall()))
     write_png(os.path.join(b, "HP_BoneAltar.png"), render(256, bone_altar(), 128))
     write_png(os.path.join(b, "HP_SoulPress.png"), render(256, soul_press()))

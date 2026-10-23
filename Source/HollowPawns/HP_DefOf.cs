@@ -20,6 +20,8 @@ namespace HollowPawns
         public static ResearchProjectDef HP_SoulExtraction;
         public static DamageDef HP_SoulBlast;
         public static DamageDef HP_SoulBurst;
+        public static DamageDef HP_HellfireBlast;
+        public static HediffDef HP_Bloodrage;
         public static TaleDef HP_SoulBound;
         public static TaleDef HP_VengeanceTaken;
         public static JobDef HP_PerformSoulRite;
