@@ -22,7 +22,12 @@
       </li>
       <li Class="StockGenerator_SingleDef">
         <thingDef>HP_Soulsteel</thingDef>
-        <countRange>50~150</countRange>
+        <countRange>20~60</countRange>
+        <price>Expensive</price>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HP_Soulweave</thingDef>
+        <countRange>30~80</countRange>
         <price>Expensive</price>
       </li>
       <li Class="StockGenerator_Tag">

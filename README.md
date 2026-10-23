@@ -13,8 +13,9 @@ Every human has a soul. Take it from the dead at the soul crucible, or from the 
 | **Soul grades** | Every soul is wretched, poor, common, good, fine, masterwork or exalted, from the victim's best and top-three skills (passion counts). Rendering gives 6 to 20 essence by grade. |
 | **Vessels** (bind) | A bound soul goes into the best empty vessel you have and keeps its name, grade, residue (a trait or top skill) and the day taken. **Reliquary urn** (crafting spot, stone): holds up to fine, fragile. **Soul canister** (machining table): up to masterwork; keep filled canisters on a powered **canister rack** or after a day without power they vent and the souls lose a grade. **Soul lattice** (fabrication bench, research *Soul lattice*): any grade, stable. |
 | **Smashing a vessel** | Gives 1.5x what rendering would have. If a vessel is broken any other way, the soul gets out and corruption spills. Binding records a tale sculptors can carve. The old extract and bottle soul surgeries are gone. |
-| **Soul crucible** (Production, 3x1, 250W, worked under **Crafting**) | *Harvest soul from corpse*: 1 human corpse → 8 essence fresh, 5 rotting, 2 desiccated, leaving a soulless husk behind for haulers. Husks are never hauled back to it. Colonist corpses are off by default in the bill filter. *Forge soulsteel*: 10 plasteel + 3 essence → 10 soulsteel. Also makes every soul weapon and soul ammo. |
-| **Soulsteel** | Metallic stuff one tier above plasteel: tougher, sharper, lighter, non-flammable. Weapons, armour, walls, furniture. |
+| **Soul crucible** (Production, 3x1, 250W, worked under **Crafting**) | *Harvest soul from corpse*: 1 human corpse → 8 essence fresh, 5 rotting, 2 desiccated, leaving a soulless husk behind for haulers. Husks are never hauled back to it. Colonist corpses are off by default in the bill filter. *Forge soulsteel*: 10 plasteel + 3 essence → 10 soulsteel. *Weave soulweave*: 25 cloth + 3 essence → 25 soulweave. Also makes every soul weapon and soul ammo. |
+| **Soulsteel** | Metallic stuff far above plasteel, toward Metasteel: armour Sharp 4 / Blunt 1.6 / Heat 1.2 (plasteel 1.14 / 0.55 / 0.65), so stuffed armour from it caps out against most attacks; blades x1.8 sharp damage and 15% faster; 5x hit points, never deteriorates, non-flammable. Weapons, armour, walls, furniture. |
+| **Soulweave** | Fabric above hyperweave, for any vanilla clothing. See *Soul clothing* below. |
 | **Soul generator** (Power, 2x2) | 1200W, burns 2 essence a day, holds 20. One fresh corpse runs it for 4 days. A breakdown vents a **soul burst** (radius ~3.9) at whoever is nearby. |
 | **Volatile essence** | Fire or a heavy blow sets an essence stack off in a **soul burst**: barely a bruise, ignores armour, but enough soul shock to drop anyone in it, alive. Radius grows with stack size (1.5 + 0.03 per unit, ~3.8 for a full 75). Inspect warns "Volatile: spread your stock." |
 
@@ -175,19 +176,10 @@ If VEF is loaded, a **Soul pipes** build tab appears (research *Industrial harve
 
 No soulsteel processor: VEF's processor can't make soulsteel the way the crucible does. The pipes borrow vanilla's power conduit art, tinted.
 
-### Full-kit apparel sets
-Six sets that fill every apparel slot (skin, middle, shell, belt, head, eyes) and never clash. Wear every piece of one set for **full kit** (mental break threshold -3%, pain shock threshold +5%). Most pieces are renamed copies of a vanilla piece (same coverage, recipe, bench and research, same art tinted, armour 90% of the original for light sets and 95% for heavy) plus a little essence; the belts (+3% global work speed) and eye pieces (-5% aiming time) are new.
+### Soul clothing: soulweave
+The six soul apparel sets are gone (23 Oct): they were copies of vanilla gear a little weaker than the originals, so the essence wasn't worth it. **Soulweave** replaces them: a fabric, made at the soul crucible (*weave soulweave*: 25 cloth + 3 essence → 25), so any vanilla clothing or fabric armour can be made from it. Better than hyperweave: Sharp 2.6 / Blunt 0.8 / Heat 2.2 (hyperweave 2.0 / 0.54 / 2.88), insulation 32 cold / 20 heat, 3x hit points, barely wears out, hardly burns. Under CE: Sharp 1.6 / Blunt 2.4 / Heat 0.3 (CE hyperweave 1 / 1.5 / 0.2).
 
-| Set | Tier | Pieces |
-|---|---|---|
-| **Gravecloth** | medieval light | tunic, leggings, gambeson, mourning cloak, hood, corpse-pouch belt, grave blinkers |
-| **Ossuary plate** | medieval heavy | arming shirt, arming hose, ossuary plate, ossuary helm, sword belt, bone visor |
-| **Mourner's kit** | industrial light | shirt, trousers, vest, coat, hat, belt, smoked goggles |
-| **Soulsteel kit** | industrial heavy | undershirt, greaves, vest, jacket, helmet, belt, goggles |
-| **Wraithweave** | spacer light | undershirt, leggings, armour, helmet, belt, lenses |
-| **Reliquary kit** | spacer heavy | undershirt, leggings, **reliquary armour** (4.12), helm, belt, lenses |
-
-Under **Combat Extended** each set adds a webbing, a backpack and a shield (copies of CE's own), and every CE patch on a vanilla original is applied to its copy too, so the CE numbers are CE's. Those three don't count toward the full-kit bonus, so it works the same either way.
+The **conscript kit** (line forge only) is still a matched set: wear all six pieces for **full kit** (mental break threshold -3%, pain shock threshold +5%).
 
 ### Flayed faces
 | Thing | What it does |
@@ -278,7 +270,8 @@ At zero the eater starves (*soul starvation*) and dies in about two days unless 
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
 - **Soul guns fire beams.** Like CE's own lasers: one shared **soul charge** ammo (100 from 6 soulsteel + 4 essence, so about 200 shots per corpse), and each gun maps it to its own beam with its own damage and penetration, plus a one-cell soul blast on impact.
 - **Soul-charged ammo for normal guns.** .45 ACP, .44 Magnum, 5.56 and 7.62 NATO, .303 British, 5x50mm caseless, 12 gauge slug and the four charged calibres each get a soul-charged variant: ×1.25 damage, ×1.5 sharp / ×1.25 blunt penetration, soul blast damage and a one-cell blast. Made at the crucible from 100 standard rounds + 2 essence. Any gun on those calibres, modded ones included, can load it. Generated from CE's own defs by `Source/tools/gen_soul_ammo.py <path to CE>`: re-run it after a CE update.
-- Soulsteel: armour Sharp 2.4 / Blunt 3.6 vs CE plasteel 2 / 3, mass ×0.75, melee penetration ×1.4, CE's weapon and building material tags.
+- Soulsteel: armour Sharp 5 / Blunt 7.5 vs CE plasteel 2 / 3, mass ×0.6, melee penetration ×2, CE's weapon and building material tags.
+- Soulweave: Sharp 1.6 / Blunt 2.4 / Heat 0.3 vs CE hyperweave 1 / 1.5 / 0.2, same bulk as hyperweave.
 - CE versions of the scythe (still reaps) and every soul gun.
 
 Tick cost: nothing new ticks except the generator, which ticks like the vanilla wood-fired generator, and soul shock fading like any other condition.
@@ -379,7 +372,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Soul bow: shoot a raider a few times: soul shock appears in their health tab. Under CE: the bow's ammo list shows soul arrows next to stone, steel and plasteel, and so do the short bow's and recurve bow's; the soul arrow bill is at the crafting spot and smithy.
 - [ ] Bone fetish: wear it: stats show reap ward 50%. Wraith lantern: wear it in a fight, press *Unshutter*: message counts who fled, button greys out for a day.
 - [ ] Soul pipes (with VEF): the *Soul pipes* tab appears after *Industrial harvest*. Drain to vat to soul generator: essence hauled to the drain fills the vat, the generator refuels itself. *Draw essence* on the vat drops 25. A tap fills with stacks. Shut a valve: the far side stops filling. Without VEF: no tab, no errors.
-- [ ] Apparel sets: open the tailoring, smithy, machining and fabrication benches: each set's pieces are there next to the vanilla originals. Make and wear a full mourner's kit: no piece pushes another off, and *full kit* appears in health; take the hat off and it goes. With CE: the rig, pack and shield go on too, and the vest's armour reads in mm like CE's flak vest.
+- [ ] Soulweave and soulsteel: *weave soulweave* at the crucible (25 cloth, 3 essence). Make a duster and a flak vest from soulweave and a plate armour from soulsteel; compare armour against hyperweave and plasteel versions. Old saves: any of the removed soul-set clothing is dropped on load with a missing-def warning (expected). The tailoring, smithy and fabrication benches no longer list gravecloth, ossuary, mourner, soulsteel kit, wraithweave or reliquary pieces.
 - [ ] Faces: *take face* at a butcher table on a raider's corpse: a *face of X* mask appears and the corpse is still there (inspect its health: face taken); the bill won't take it again. Wear it: social tab shows *wears a human face*. Flay a prisoner: they live, mood -25, goodwill drops. Flay a blood debtor: the victim's friend near the wearer gets *effigy of the killer*.
 - [ ] The Profaned (if you run it): the log says *The Profaned found*. Mark a Profaned prisoner *render*: corrupted essence. Let a Cursebearer raise someone, capture them: health shows *soul shard (caster)*, grade is wretched. Kill that Cursebearer: the raised drop.
 - [ ] Ghosts (dev tool *Raise lingering ghost* on a raider's corpse): a letter, a translucent *ghost of X* drifting near the body; mood *ghost nearby*. Bury the body: it fades with a message.
@@ -408,6 +401,8 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Electricity: start the Coven; Electricity is not researched, soul extraction is, and the crucible, generator, canister rack and prisoner battery are locked in the architect menu. Research Electricity and all four unlock. The Escapee start still begins with Electricity.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
+
+- Soulsteel and soulweave balance (23 Oct): numbers picked to sit near Metasteel, not tested in play. Soulsteel armour caps out sharp armour on most stuffed pieces in vanilla; under CE the blunt figure (7.5) is the one to watch.
 
 - Bone altar migration: altars saved before it became a work table load as plain buildings (the save names their class), so `GameComponent_BoneAltarMigration` swaps idle ones for fresh altars on load. One with a prisoner strapped in is skipped until the next load; opening its Bills tab before then would throw.
 - The vanilla (non-CE) soulsteel numbers are set from memory of plasteel's. The CE numbers are taken from CE's own patch file.
@@ -479,7 +474,7 @@ Every def reference, abstract parent and field name in the mod was cross-checked
 - Ideology reactions, soul-eating xenotype.
 - Blood debts (torment, vengeance effigies and the wailing effigy), building on vessels.
 - Curse ritual on a prisoner (the third curse source); demon-specific art.
-- Full-kit apparel sets (light and heavy for medieval, industrial and spacer) that fill every slot, with CE webbing/backpack/shield pieces when CE is loaded.
+- Soulweave, a soul fabric above hyperweave, for any vanilla clothing (replaced the six soul apparel sets).
 - Flayed face masks, from corpses or living prisoners, named like vessels.
 - Trenches that give real cover (all-round in vanilla, lower profile under CE); check the existing Frontline – Trenches mod first.
 - Thrall performance for big bases: a lean thrall think tree and thrall racks that store them in suspension at near-zero cost.

@@ -5,7 +5,7 @@
   <ThingDef ParentName="BenchBase">
     <defName>HP_SoulCrucible</defName>
     <label>soul crucible</label>
-    <description>A powered crucible that draws the lingering soul out of human corpses and binds soul essence into steel.</description>
+    <description>A powered crucible that draws the lingering soul out of human corpses and binds soul essence into steel and cloth.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
       <texPath>Things/Building/HP_SoulCrucible</texPath>

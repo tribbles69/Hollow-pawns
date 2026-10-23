@@ -2,19 +2,23 @@
 
     python gen_apparel_sets.py <RimWorld Data dir> <Combat Extended dir>
 
-Six sets that fill every apparel slot without a single clash, light and heavy for each of
-medieval, industrial and spacer. Most pieces are copies of a real vanilla piece (its layers,
-body coverage, art, recipe and stats), renamed for the set, with armour scaled down a little so
-nothing beats the vanilla original. A few pieces vanilla has no equivalent for (the medieval
-gambeson, every belt and eye piece) are written out here. Under Combat Extended each set also
-gets a webbing, a backpack and a shield (copies of CE's own), and every CE patch on a vanilla
-original is mirrored onto its copy, so CE balance carries over.
+Only the conscript kit is left: the line forge's slot-filling set for thralls (4.24). The six
+soul-essence sets (gravecloth, ossuary, mourner, soulsteel, wraithweave, reliquary) were cut on
+23 Oct: copies of vanilla gear a shade weaker than the original weren't worth the essence.
+Soulweave (a fabric, Defs/ThingDefs_Items/HP_Items.xml) replaces them: any vanilla clothing
+made from it is the soul gear now. The copy/belt/eyes helpers stay for any future set.
+
+A set can mix pieces copied from a real vanilla piece (its layers, body coverage, art, recipe
+and stats, armour scaled down a little), pieces written out here, and existing defs. Under
+Combat Extended a set can add a webbing, a backpack and a shield, and every CE patch on a
+vanilla original is mirrored onto its copy.
 
 The script refuses to write anything unless, both without and with CE:
   - no two pieces in a set clash, by vanilla's own rule (ApparelUtility.CanWearTogether: a
     shared layer plus overlapping body-part groups on the Human body, read from the game), and
   - every layer is filled (vanilla: OnSkin, Middle, Shell, Belt, Overhead, EyeCover; CE adds
-    Webbing, Backpack, Shield) and the skin layer covers both torso and legs.
+    Webbing, Backpack, Shield, except for a vanillaOnly set) and the skin layer covers both
+    torso and legs.
 
 Writes:
   Defs/HP_ApparelSets.xml
@@ -60,12 +64,6 @@ def external(defname):
     return {"kind": "external", "def": defname}
 
 
-GRAVE = (0.30, 0.30, 0.28)
-BONE = (0.80, 0.77, 0.68)
-MOURN = (0.14, 0.14, 0.16)
-SOULSTEEL = (0.27, 0.32, 0.38)
-WRAITH = (0.22, 0.27, 0.32)
-
 SETS = [
     {"id": "Conscript", "label": "conscript kit", "tier": "line forge", "vanillaOnly": True, "pieces": [
         # Made only by the line forge (4.24): no bench recipe, no stuff, near-worthless.
@@ -101,92 +99,6 @@ SETS = [
          "stats": {"MaxHitPoints": 40, "Mass": 0.2, "MarketValue": 1, "ArmorRating_Sharp": 0.04, "ArmorRating_Blunt": 0.02, "EquipDelay": 1},
          "offsets": {}, "color": (0.40, 0.40, 0.36)},
     ], "ce": []},
-    {"id": "Gravecloth", "label": "gravecloth", "tier": "medieval light", "pieces": [
-        copy_of("Tunic", "Apparel_CollarShirt", "gravecloth tunic", "A long-sleeved shirt of grave-wrapping cloth, the first layer of the gravecloth kit.", essence=1),
-        copy_of("Leggings", "Apparel_Pants", "gravecloth leggings", "Wrapped leggings of grave-cloth. Part of the gravecloth kit.", essence=1),
-        {"kind": "custom", "id": "Gambeson", "label": "gravecloth gambeson",
-         "desc": "A quilted jacket stuffed with rags from the dead, worn between shirt and cloak. Cheap, warm and better than nothing against a blade. Part of the gravecloth kit.",
-         "parent": "ApparelMakeableBase", "tech": "Medieval", "layers": ["Middle"], "groups": ["Torso", "Neck"],
-         "tex": "Things/Pawn/Humanlike/Apparel/FlakVest/FlakVest", "worn": "Things/Pawn/Humanlike/Apparel/FlakVest/FlakVest",
-         "stuff": ["Fabric", "Leathery"], "costStuff": 50, "cost": {"HP_SoulEssence": 1},
-         "stats": {"MaxHitPoints": 120, "WorkToMake": 5000, "Mass": 1.5, "StuffEffectMultiplierArmor": 0.4,
-                   "StuffEffectMultiplierInsulation_Cold": 0.35, "StuffEffectMultiplierInsulation_Heat": 0.1, "EquipDelay": 2},
-         "offsets": {}, "color": None},
-        copy_of("Cloak", "Apparel_Cape", "mourning cloak", "A long hooded cloak in grave-cloth, cut to fit over everything else in the gravecloth kit."),
-        copy_of("Hood", "Apparel_HatHood", "gravecloth hood", "A deep hood. Part of the gravecloth kit.", essence=1),
-        belt("Gravecloth", "corpse-pouch belt", "A belt hung with pouches and tools for handling the dead. Part of the gravecloth kit.", "Medieval", GRAVE),
-        eyes("grave blinkers", "Smoked glass in leather cups, against the glare and the dust. Part of the gravecloth kit.", "Medieval", GRAVE),
-    ], "ce": [
-        copy_of("Webbing", "CE_Apparel_TacVest", "gravecloth bandolier", "Pouches and straps over the gravecloth kit.", research=None, ce=True, essence=1),
-        copy_of("Pack", "CE_Apparel_TribalBackpack", "gravecloth pack", "A plain pack for the gravecloth kit.", ce=True, essence=1),
-        copy_of("Shield", "CE_Apparel_MeleeShield", "gravecloth buckler", "A small round shield for the gravecloth kit.", ce=True, essence=1),
-    ]},
-    {"id": "Ossuary", "label": "ossuary plate", "tier": "medieval heavy", "pieces": [
-        copy_of("Shirt", "Apparel_CollarShirt", "ossuary arming shirt", "A padded shirt worn under ossuary plate.", essence=1),
-        copy_of("Hose", "Apparel_Pants", "ossuary arming hose", "Padded hose worn under ossuary plate.", essence=1),
-        copy_of("Plate", "Apparel_PlateArmor", "ossuary plate", "Full plate decorated with bone and lacquered black. Part of the ossuary plate kit.", armour=0.95, essence=5),
-        copy_of("Helm", "Apparel_SimpleHelmet", "ossuary helm", "A plain helm with a bone crest. Part of the ossuary plate kit.", armour=0.95, essence=2),
-        belt("Ossuary", "sword belt", "A heavy belt for a blade and a purse. Part of the ossuary plate kit.", "Medieval", BONE),
-        eyes("bone visor", "A strip of carved bone with eye slits, worn under the helm. Part of the ossuary plate kit.", "Medieval", BONE,
-             cost={"WoodLog": 10, "HP_SoulEssence": 1}),
-    ], "ce": [
-        copy_of("Webbing", "CE_Apparel_TacVest", "ossuary baldric", "Straps and pouches over ossuary plate.", research=None, ce=True, essence=1),
-        copy_of("Pack", "CE_Apparel_TribalBackpack", "ossuary pack", "A pack for the ossuary plate kit.", ce=True, essence=1),
-        copy_of("Shield", "CE_Apparel_MeleeShield", "ossuary shield", "A heater shield with a bone boss. Part of the ossuary plate kit.", armour=0.95, ce=True, essence=2),
-    ]},
-    {"id": "Mourner", "label": "mourner's kit", "tier": "industrial light", "pieces": [
-        copy_of("Shirt", "Apparel_CollarShirt", "mourner's shirt", "A black button-down shirt. Part of the mourner's kit.", essence=1),
-        copy_of("Trousers", "Apparel_Pants", "mourner's trousers", "Black trousers. Part of the mourner's kit.", essence=1),
-        copy_of("Vest", "Apparel_FlakVest", "mourner's vest", "A light armoured vest worn under the coat. Part of the mourner's kit.", essence=2, color=MOURN),
-        copy_of("Coat", "Apparel_Duster", "mourner's coat", "A long black coat. Part of the mourner's kit."),
-        copy_of("Hat", "Apparel_BowlerHat", "mourner's hat", "A black hat with a narrow brim. Part of the mourner's kit.", essence=1),
-        belt("Mourner", "mourner's belt", "A belt with a pistol loop and a pocket for the dead's effects. Part of the mourner's kit.", "Industrial", MOURN),
-        eyes("smoked goggles", "Dark glass goggles. Part of the mourner's kit.", "Industrial", MOURN),
-    ], "ce": [
-        copy_of("Webbing", "CE_Apparel_TacVest", "mourner's rig", "Load-bearing rig for the mourner's kit.", ce=True, essence=1),
-        copy_of("Pack", "CE_Apparel_Backpack", "mourner's pack", "A black pack for the mourner's kit.", ce=True, essence=1),
-        copy_of("Shield", "CE_Apparel_MeleeShield", "mourner's shield", "A light shield for the mourner's kit.", ce=True, essence=1),
-    ]},
-    {"id": "Soulsteel", "label": "soulsteel kit", "tier": "industrial heavy", "pieces": [
-        copy_of("Shirt", "Apparel_CollarShirt", "soulsteel undershirt", "A heavy undershirt worn under the soulsteel kit.", essence=1),
-        copy_of("Legs", "Apparel_FlakPants", "soulsteel greaves", "Armoured trousers. Part of the soulsteel kit.", armour=0.95, essence=2, color=SOULSTEEL),
-        copy_of("Vest", "Apparel_FlakVest", "soulsteel vest", "An armoured vest with soulsteel plates. Part of the soulsteel kit.", armour=0.95, essence=3, color=SOULSTEEL),
-        copy_of("Jacket", "Apparel_FlakJacket", "soulsteel jacket", "An armoured jacket. Part of the soulsteel kit.", armour=0.95, essence=3, color=SOULSTEEL),
-        copy_of("Helmet", "Apparel_AdvancedHelmet", "soulsteel helmet", "A closed helmet. Part of the soulsteel kit.", armour=0.95, essence=2),
-        belt("Soulsteel", "soulsteel belt", "A belt with armoured pouches. Part of the soulsteel kit.", "Industrial", SOULSTEEL),
-        eyes("soulsteel goggles", "Armoured goggles. Part of the soulsteel kit.", "Industrial", SOULSTEEL,
-             cost={"Steel": 10, "HP_SoulEssence": 1}),
-    ], "ce": [
-        copy_of("Webbing", "CE_Apparel_TacVest", "soulsteel rig", "Load-bearing rig for the soulsteel kit.", ce=True, essence=1),
-        copy_of("Pack", "CE_Apparel_Backpack", "soulsteel pack", "A pack for the soulsteel kit.", ce=True, essence=1),
-        copy_of("Shield", "CE_Apparel_BallisticShield", "soulsteel shield", "A ballistic shield faced with soulsteel. Part of the soulsteel kit.", armour=0.95, ce=True, essence=3),
-    ]},
-    {"id": "Wraithweave", "label": "wraithweave", "tier": "spacer light", "pieces": [
-        copy_of("Shirt", "Apparel_CollarShirt", "wraithweave undershirt", "A close-fitting undershirt. Part of the wraithweave kit.", essence=1),
-        copy_of("Leggings", "Apparel_Pants", "wraithweave leggings", "Close-fitting leggings. Part of the wraithweave kit.", essence=1),
-        copy_of("Armour", "Apparel_ArmorRecon", "wraithweave armour", "Light powered armour woven through with soul thread. Part of the wraithweave kit.", essence=6, color=WRAITH),
-        copy_of("Helmet", "Apparel_ArmorHelmetRecon", "wraithweave helmet", "A light powered helmet. Part of the wraithweave kit.", essence=3, color=WRAITH),
-        belt("Wraithweave", "wraithweave belt", "A slim belt with sealed pouches. Part of the wraithweave kit.", "Spacer", WRAITH),
-        eyes("wraithweave lenses", "Thin lenses that see a little further into the dark. Part of the wraithweave kit.", "Spacer", WRAITH,
-             cost={"Plasteel": 5, "HP_SoulEssence": 2}),
-    ], "ce": [
-        copy_of("Webbing", "CE_Apparel_TacVest", "wraithweave rig", "Load-bearing rig for the wraithweave kit.", ce=True, essence=1),
-        copy_of("Pack", "CE_Apparel_Backpack", "wraithweave pack", "A pack for the wraithweave kit.", ce=True, essence=1),
-        copy_of("Shield", "CE_Apparel_MeleeShield", "wraithweave shield", "A light shield for the wraithweave kit.", ce=True, essence=2),
-    ]},
-    {"id": "Reliquary", "label": "reliquary kit", "tier": "spacer heavy", "pieces": [
-        copy_of("Undersuit", "Apparel_CollarShirt", "reliquary undershirt", "A padded undershirt for reliquary armour.", essence=1),
-        copy_of("Leggings", "Apparel_Pants", "reliquary leggings", "Padded leggings for reliquary armour.", essence=1),
-        external("HP_ReliquaryArmour"),
-        copy_of("Helm", "Apparel_PowerArmorHelmet", "reliquary helm", "A soulsteel helm with a relic sealed in the brow. Part of the reliquary kit.", armour=0.95, essence=5, color=SOULSTEEL),
-        belt("Reliquary", "reliquary belt", "A belt of soulsteel links. Part of the reliquary kit.", "Spacer", SOULSTEEL),
-        eyes("reliquary lenses", "Soulsteel-framed lenses. Part of the reliquary kit.", "Spacer", SOULSTEEL,
-             cost={"Plasteel": 5, "HP_SoulEssence": 2}),
-    ], "ce": [
-        copy_of("Webbing", "CE_Apparel_TacVest", "reliquary rig", "Load-bearing rig for the reliquary kit.", ce=True, essence=1),
-        copy_of("Pack", "CE_Apparel_Backpack", "reliquary pack", "A pack for the reliquary kit.", ce=True, essence=1),
-        copy_of("Shield", "CE_Apparel_BallisticShield", "reliquary shield", "A soulsteel ballistic shield. Part of the reliquary kit.", armour=0.95, ce=True, essence=4),
-    ]},
 ]
 
 ARMOUR_STATS = ("ArmorRating_Sharp", "ArmorRating_Blunt", "ArmorRating_Heat", "StuffEffectMultiplierArmor")

@@ -171,4 +171,48 @@
     <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
   </RecipeDef>
 
+  <!-- Crucible: bind essence into cloth. 25 soulweave makes about a third of a duster. -->
+  <RecipeDef>
+    <defName>HP_WeaveSoulweave</defName>
+    <label>weave soulweave</label>
+    <description>Bind soul essence through cloth to make soulweave, a fabric better than hyperweave.</description>
+    <jobString>Weaving soulweave.</jobString>
+    <workAmount>1600</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <effectWorking>Tailor</effectWorking>
+    <soundWorking>Recipe_Tailor</soundWorking>
+    <recipeUsers>
+      <li>HP_SoulCrucible</li>
+    </recipeUsers>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Cloth</li>
+          </thingDefs>
+        </filter>
+        <count>25</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HP_SoulEssence</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Cloth</li>
+        <li>HP_SoulEssence</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HP_Soulweave>25</HP_Soulweave>
+    </products>
+    <researchPrerequisite>HP_SoulExtraction</researchPrerequisite>
+  </RecipeDef>
+
 </Defs>

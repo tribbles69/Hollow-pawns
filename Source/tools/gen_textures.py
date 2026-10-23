@@ -800,6 +800,23 @@ def soul_hunger_icon():
     ]
 
 
+def soulweave():
+    """A folded bolt of pale cloth with soul thread glowing through it."""
+    cloth, fold, thread = (150, 200, 205), (105, 150, 160), (200, 250, 255)
+    return [
+        ("glow", 64, 66, 58, (98, 196, 206), 0.35),
+        (rrect(64, 82, 44, 14, 6), fold, 1.0),
+        (rrect(64, 64, 44, 14, 6), cloth, 1.0),
+        (rrect(64, 46, 44, 14, 6), fold, 1.0),
+        (rrect(64, 40, 44, 8, 6), cloth, 1.0),
+        (rrect(64, 64, 40, 1.2, 1), thread, 0.9),
+        (rrect(64, 82, 40, 1.2, 1), thread, 0.7),
+        (rrect(64, 44, 40, 1.2, 1), thread, 0.7),
+        (rrect(38, 64, 1.2, 44, 1), thread, 0.5),
+        (rrect(90, 64, 1.2, 44, 1), thread, 0.5),
+    ]
+
+
 if __name__ == "__main__":
     tx = os.path.join(ROOT, "Textures")
     t = os.path.join(tx, "Things")
@@ -823,6 +840,7 @@ if __name__ == "__main__":
     write_png(os.path.join(i, "HP_Lattice.png"), render(128, lattice(True)))
     write_png(os.path.join(i, "HP_HolyWater.png"), render(128, holy_water()))
     write_png(os.path.join(i, "HP_CarrionBale.png"), render(128, carrion_bale()))
+    write_png(os.path.join(i, "HP_Soulweave.png"), render(128, soulweave()))
     write_png(os.path.join(b, "HP_CarrionWall.png"), render(128, carrion_wall()))
     write_png(os.path.join(b, "HP_BoneAltar.png"), render(256, bone_altar(), 128))
     write_png(os.path.join(b, "HP_SoulPress.png"), render(256, soul_press()))
