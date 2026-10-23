@@ -1,22 +1,40 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <!-- One build, two DLLs: net48 against RimWorld 1.6 (Unity, Harmony 2) into 1.6/Assemblies, and
+       net10.0 against RimWorld 1.7 (Waylith, Harmony 3) into 1.7/Assemblies. LoadFolders.xml picks
+       the right one for the running game. Building net10.0 needs the .NET 10 SDK. -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFrameworks>net48;net10.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <RootNamespace>HollowPawns</RootNamespace>
     <AssemblyName>HollowPawns</AssemblyName>
-    <OutputPath>../../Assemblies/</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
     <DebugType>none</DebugType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <!-- RimWorld reference assemblies, so this builds without a RimWorld install. -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net48'">
+    <OutputPath>../../1.6/Assemblies/</OutputPath>
+    <IntermediateOutputPath>obj/$(Configuration)/net48/</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0'">
+    <OutputPath>../../1.7/Assemblies/</OutputPath>
+    <IntermediateOutputPath>obj/$(Configuration)/net10.0/</IntermediateOutputPath>
+  </PropertyGroup>
+
+  <!-- RimWorld reference assemblies, so this builds without a RimWorld install. Harmony comes from the
+       Harmony mod (brrainz.harmony) at runtime, so 0Harmony.dll is never shipped. -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
     <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.*" ExcludeAssets="runtime" />
-    <!-- Harmony comes from the Harmony mod (brrainz.harmony) at runtime, so never ship 0Harmony.dll. -->
     <PackageReference Include="Lib.Harmony" Version="2.3.3" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.7.4985-unstable" ExcludeAssets="runtime" />
+    <PackageReference Include="Lib.Harmony" Version="3.0.0-rc.3" ExcludeAssets="runtime" />
   </ItemGroup>
 
 </Project>

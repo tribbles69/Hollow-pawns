@@ -31,8 +31,8 @@ namespace HollowPawns
             get
             {
                 float c = HollowPawnsMod.Settings.ghostChance;
-                ScenPart_HP_Battlefield field = Find.Scenario?.AllParts.OfType<ScenPart_HP_Battlefield>().FirstOrDefault();
-                return field != null ? Mathf.Max(c, field.ghostChance) : c;
+                ScenPart_HP_Battlefield battlefield = Find.Scenario?.AllParts.OfType<ScenPart_HP_Battlefield>().FirstOrDefault();
+                return battlefield != null ? Mathf.Max(c, battlefield.ghostChance) : c;
             }
         }
 

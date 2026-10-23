@@ -299,12 +299,12 @@ The C# is in `Source/HollowPawns`. Most of the mod needs it. Without the DLL the
    cd Source\HollowPawns
    dotnet build -c Release
    ```
-3. That writes `Assemblies\HollowPawns.dll`. It pulls RimWorld reference assemblies from NuGet (`Krafs.Rimworld.Ref`), so you don't need to point it at your RimWorld install.
+3. That writes `1.6\Assemblies\HollowPawns.dll` (RimWorld 1.6) and `1.7\Assemblies\HollowPawns.dll` (RimWorld 1.7); it needs the .NET 10 SDK. It pulls RimWorld reference assemblies from NuGet (`Krafs.Rimworld.Ref`), so you don't need to point it at your RimWorld install.
 
 ## Install
-Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `RimWorld\Mods`, enable it in RimSort, load it after Harmony, Core and the DLCs (and after Combat Extended if you use it). `Assemblies/` is committed, so building is only needed after a C# change.
+Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `RimWorld\Mods`, enable it in RimSort, load it after Harmony, Core and the DLCs (and after Combat Extended if you use it). `1.6/` and `1.7/` (the DLLs) are committed, so building is only needed after a C# change.
 
-**RimWorld 1.7 (Waylith, unstable branch):** marked supported since 23 Oct. The same 1.6 DLL and XML load on 1.7, as Ludeon says 1.6 mods should. Checked offline: every game type and member the DLL uses exists in `Krafs.Rimworld.Ref` 1.7.4985-unstable (415 types, 777 members, 0 missing), every Harmony call exists in Harmony 3.0.0-rc.3, all 42 Harmony patches pass Harmony 3's stricter `__instance`/`__result`/argument type rules, and all 533 class names in the XML exist in 1.7. No Prepatcher. A native net10.0 build needs the .NET 10 SDK and isn't done yet.
+**RimWorld 1.7 (Waylith, unstable branch):** marked supported since 23 Oct. Since 24 Oct there's a native 1.7 build (net10.0, against `Krafs.Rimworld.Ref` 1.7.4985-unstable and Harmony 3.0.0-rc.3) in `1.7/Assemblies`, and all defs pass `check_defs.py` against the installed 1.7.4985 game data. Checked offline before that, on the 1.6 DLL: every game type and member the DLL uses exists in `Krafs.Rimworld.Ref` 1.7.4985-unstable (415 types, 777 members, 0 missing), every Harmony call exists in Harmony 3.0.0-rc.3, all 42 Harmony patches pass Harmony 3's stricter `__instance`/`__result`/argument type rules, and all 533 class names in the XML exist in 1.7. No Prepatcher. The native 1.7 DLL passes the same Harmony 3 patch-type check.
 
 ## First test (dev mode on)
 - [ ] No red errors on load. Check the log for anything mentioning `HP_`.
