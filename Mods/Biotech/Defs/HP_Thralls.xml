@@ -135,7 +135,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HP_CloneVat</defName>
     <label>clone vat</label>
-    <description>A powered vat that grows a soulless adult thrall in three days. A worker starts the culture (meat, steel and essence); the vat does the rest and decants the thrall naked and unarmed. It takes no new culture while it's growing, and pauses without power.</description>
+    <description>A powered vat that grows a soulless adult thrall in three days, then decants it naked and unarmed. It runs itself: whenever it's empty it starts the next thrall from what's in the cells around it (make a stockpile there): 25 steel, 5 soul essence, and 2 carrion bales or 60 raw meat. Essence can come from soul pipes, and food from nutrient paste pipes, instead. Someone tending it makes it grow faster. It pauses without power.</description>
     <thingClass>HollowPawns.Building_CloneVat</thingClass>
     <graphicData>
       <texPath>Things/Building/HP_CloneVat</texPath>
@@ -156,9 +156,6 @@
     <researchPrerequisites>
       <li>HP_CloneVats</li>
     </researchPrerequisites>
-    <inspectorTabs>
-      <li>ITab_Bills</li>
-    </inspectorTabs>
     <costList>
       <Steel>200</Steel>
       <ComponentIndustrial>6</ComponentIndustrial>
@@ -179,96 +176,6 @@
       <li Class="CompProperties_Breakdownable" />
     </comps>
   </ThingDef>
-
-  <RecipeDef>
-    <defName>HP_StartThrall</defName>
-    <label>start thrall culture</label>
-    <description>Seed the vat with meat, steel and essence. It grows a thrall over three days.</description>
-    <workerClass>HollowPawns.RecipeWorker_StartThrall</workerClass>
-    <jobString>Starting a thrall culture.</jobString>
-    <workAmount>1500</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <effectWorking>Cook</effectWorking>
-    <soundWorking>Recipe_CookMeal</soundWorking>
-    <recipeUsers>
-      <li>HP_CloneVat</li>
-    </recipeUsers>
-    <ingredients>
-      <li>
-        <filter><categories><li>MeatRaw</li></categories></filter>
-        <count>60</count>
-      </li>
-      <li>
-        <filter><thingDefs><li>Steel</li></thingDefs></filter>
-        <count>25</count>
-      </li>
-      <li>
-        <filter><thingDefs><li>HP_SoulEssence</li></thingDefs></filter>
-        <count>5</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <categories><li>MeatRaw</li></categories>
-      <thingDefs>
-        <li>Steel</li>
-        <li>HP_SoulEssence</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-  </RecipeDef>
-
-  <RecipeDef>
-    <defName>HP_StartThrallCarrion</defName>
-    <label>start thrall culture (carrion)</label>
-    <description>Seed the vat with carrion bales, steel and essence. It grows a thrall over three days.</description>
-    <workerClass>HollowPawns.RecipeWorker_StartThrall</workerClass>
-    <jobString>Starting a thrall culture.</jobString>
-    <workAmount>1500</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <effectWorking>Cook</effectWorking>
-    <soundWorking>Recipe_CookMeal</soundWorking>
-    <recipeUsers>
-      <li>HP_CloneVat</li>
-    </recipeUsers>
-    <ingredients>
-      <li>
-        <filter><thingDefs><li>HP_CarrionBale</li></thingDefs></filter>
-        <count>2</count>
-      </li>
-      <li>
-        <filter><thingDefs><li>Steel</li></thingDefs></filter>
-        <count>25</count>
-      </li>
-      <li>
-        <filter><thingDefs><li>HP_SoulEssence</li></thingDefs></filter>
-        <count>5</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <thingDefs>
-        <li>HP_CarrionBale</li>
-        <li>Steel</li>
-        <li>HP_SoulEssence</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-  </RecipeDef>
-
-  <WorkGiverDef>
-    <defName>HP_DoBillsCloneVat</defName>
-    <label>tend the clone vats</label>
-    <giverClass>WorkGiver_DoBill</giverClass>
-    <workType>Crafting</workType>
-    <priorityInType>70</priorityInType>
-    <fixedBillGiverDefs>
-      <li>HP_CloneVat</li>
-    </fixedBillGiverDefs>
-    <verb>tend</verb>
-    <gerund>tending</gerund>
-    <requiredCapacities>
-      <li>Manipulation</li>
-    </requiredCapacities>
-  </WorkGiverDef>
 
   <!-- Staffing (Staffing.cs): the vat grows faster with someone tending it. Hauling work like the
        grinder and forge, so thralls can tend the vat that makes more thralls; Medicine sets the speed. -->

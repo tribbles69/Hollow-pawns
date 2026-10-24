@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Vanilla Expanded Framework: the clone vat joins the soul pipe net (HP_SoulNet, Mods/VEF) and takes
+       the 5 essence for each culture from the pipes when they hold enough (Building_CloneVat and PipeNets
+       in EndlessWar.cs). A building on two nets is fine: VE's own draincasket is on paste and hemogen.
+       This folder only loads with Biotech; the soul net only exists with VEF. -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Vanilla Expanded Framework</li>
+    </mods>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="HP_CloneVat"]/comps</xpath>
+      <value>
+        <li Class="PipeSystem.CompProperties_Resource">
+          <pipeNet>HP_SoulNet</pipeNet>
+        </li>
+      </value>
+    </match>
+  </Operation>
+
+</Patch>

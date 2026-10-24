@@ -57,75 +57,66 @@ namespace HollowPawns
     // ======================= Clone vat (Biotech) =======================
 
     /// <summary>
-    /// The clone vat: a worker starts a culture (the bill eats meat, steel and essence quickly), then
-    /// the vat grows it for a few days on its own and decants an adult thrall, naked and unarmed (Thralls.Generate). Rare tick
-    /// while growing; idle otherwise. Takes no new bill while it's growing. Grows faster with someone
-    /// tending it (Staffing.cs, Medicine skill). With Vanilla Nutrient Paste Expanded, a culture started
-    /// with the paste bill is fed from the paste pipes as it grows instead (PastePipes, below).
+    /// The clone vat: automatic, no bills. When it's idle, powered and switched on, it starts a culture by
+    /// itself as soon as it can take everything a thrall needs, then grows it for three days and decants an
+    /// adult thrall, naked and unarmed (Thralls.Generate). Like the line forge, it takes from the cells around
+    /// it (make a stockpile there) or from pipes:
+    ///   steel: 25 from next to it;
+    ///   essence: 5 from a soul pipe net it's on (VEF), or from next to it;
+    ///   food: 2 carrion bales or 60 raw meat from next to it, or, with VNPE, nutrient paste from the pipes:
+    ///         4 meals drawn as it grows, one per quarter, pausing while the pipes are dry.
+    /// Rare tick only. Grows faster with someone tending it (Staffing.cs, Medicine skill).
     /// </summary>
-    public class Building_CloneVat : Building_WorkTable, IBillGiver, IStaffable
+    public class Building_CloneVat : Building, IStaffable
     {
         public Staffing Staffing { get; } = new Staffing(SkillDefOf.Medicine);
 
-        public bool WantsOperator => Spawned && Growing && (GetComp<CompPowerTrader>()?.PowerOn ?? true);
+        public bool WantsOperator => Spawned && Growing && Powered;
 
         public const float GrowDays = 3f;
-
-        private int growTicksLeft = -1;
+        public const int Steel = 25;
+        public const int Essence = 5;
+        public const int Meat = 60;
+        public const int Bales = 2;
 
         /// <summary>Paste meals a pipe-fed culture eats over its growth: about what 60 raw meat is worth.</summary>
         public const int PasteMeals = 4;
 
+        private int growTicksLeft = -1;
         private bool pasteFed;
         private int pasteMealsLeft;
 
         /// <summary>Growth already paid for with paste (ticks). Growth stops when it runs out and the pipes are dry.</summary>
         private int fedTicks;
 
+        private bool autoGrow = true;
+
+        /// <summary>Stop starting cultures once the colony has this many thralls on this map (0: no limit).</summary>
+        private int stopAt;
+        private static readonly int[] StopAtOptions = { 0, 5, 10, 20, 30, 50, 100 };
+
+        /// <summary>Why the last attempt to start couldn't, for the inspect pane.</summary>
+        private string waitingFor;
+
         public bool Growing => growTicksLeft > 0;
 
+        private bool Powered => GetComp<CompPowerTrader>()?.PowerOn ?? true;
+
         private static int TicksPerMeal => Mathf.RoundToInt(GrowDays * GenDate.TicksPerDay / PasteMeals);
-
-        // Re-implements IBillGiver: Building_WorkTable's versions aren't virtual, and callers go through the interface.
-        // WorkGiver_DoBill only checks UsableForBillsAfterFueling while JobDriver_DoBill checks CurrentlyUsableForBills,
-        // so both must refuse while growing, or workers take the bill and drop it in a loop.
-        bool IBillGiver.CurrentlyUsableForBills() => !Growing && base.CurrentlyUsableForBills();
-        bool IBillGiver.UsableForBillsAfterFueling() => !Growing && base.UsableForBillsAfterFueling();
-
-        public void StartGrowing(bool fedByPaste = false)
-        {
-            growTicksLeft = Mathf.RoundToInt(GrowDays * GenDate.TicksPerDay);
-            pasteFed = fedByPaste;
-            pasteMealsLeft = fedByPaste ? PasteMeals : 0;
-            fedTicks = 0;
-        }
-
-        /// <summary>A pipe-fed culture draws its next meal when the last one is used up. False: it's starving.</summary>
-        private bool FeedFromPipes()
-        {
-            if (!pasteFed || fedTicks > 0 || pasteMealsLeft <= 0)
-            {
-                return true;
-            }
-            if (!PastePipes.TryDraw(this, 1f))
-            {
-                return false;
-            }
-            pasteMealsLeft--;
-            fedTicks += TicksPerMeal;
-            return true;
-        }
 
         public override void TickRare()
         {
             base.TickRare();
-            if (!Growing)
+            if (!Powered)
             {
                 return;
             }
-            CompPowerTrader power = GetComp<CompPowerTrader>();
-            if (power != null && !power.PowerOn)
+            if (!Growing)
             {
+                if (autoGrow && !AtLimit())
+                {
+                    TryStart();
+                }
                 return;
             }
             if (!FeedFromPipes())
@@ -145,6 +136,124 @@ namespace HollowPawns
             }
         }
 
+        private bool AtLimit() => stopAt > 0 && Map.mapPawns.FreeColonistsSpawned.Count(Thralls.IsThrall) >= stopAt;
+
+        private List<IntVec3> Around() => GenAdj.CellsAdjacent8Way(this).Where(c => c.InBounds(Map)).ToList();
+
+        private int CountAround(List<IntVec3> cells, Func<Thing, bool> match)
+        {
+            int n = 0;
+            foreach (IntVec3 c in cells)
+            {
+                foreach (Thing t in c.GetThingList(Map))
+                {
+                    if (t.def.category == ThingCategory.Item && match(t))
+                    {
+                        n += t.stackCount;
+                    }
+                }
+            }
+            return n;
+        }
+
+        private void TakeAround(List<IntVec3> cells, Func<Thing, bool> match, int count)
+        {
+            foreach (IntVec3 c in cells)
+            {
+                foreach (Thing t in c.GetThingList(Map).ToList())
+                {
+                    if (count <= 0)
+                    {
+                        return;
+                    }
+                    if (t.def.category != ThingCategory.Item || !match(t))
+                    {
+                        continue;
+                    }
+                    int n = Mathf.Min(count, t.stackCount);
+                    t.SplitOff(n).Destroy();
+                    count -= n;
+                }
+            }
+        }
+
+        private static bool IsSteel(Thing t) => t.def == ThingDefOf.Steel;
+        private static bool IsEssence(Thing t) => t.def == HP_DefOf.HP_SoulEssence;
+        private static bool IsBale(Thing t) => t.def == HP_DefOf.HP_CarrionBale;
+        private static bool IsMeat(Thing t) => t.def.IsMeat;
+
+        /// <summary>Checks everything first and takes nothing unless it can take it all.</summary>
+        private void TryStart()
+        {
+            List<IntVec3> cells = Around();
+            var missing = new List<string>();
+
+            bool steel = CountAround(cells, IsSteel) >= Steel;
+            if (!steel)
+            {
+                missing.Add(Steel + " steel");
+            }
+
+            bool essencePiped = PipeNets.Stored(this, PipeNets.Soul) >= Essence;
+            bool essence = essencePiped || CountAround(cells, IsEssence) >= Essence;
+            if (!essence)
+            {
+                missing.Add(Essence + " essence" + (PipeNets.Connected(this, PipeNets.Soul) ? " (pipes or next to it)" : ""));
+            }
+
+            bool bales = HP_DefOf.HP_CarrionBale != null && CountAround(cells, IsBale) >= Bales;
+            bool meat = !bales && CountAround(cells, IsMeat) >= Meat;
+            bool paste = !bales && !meat && PipeNets.Stored(this, PipeNets.Paste) >= 1f;
+            if (!bales && !meat && !paste)
+            {
+                missing.Add(Bales + " carrion bales or " + Meat + " raw meat" + (PipeNets.Connected(this, PipeNets.Paste) ? " (or paste in the pipes)" : ""));
+            }
+
+            if (missing.Count > 0)
+            {
+                waitingFor = missing.ToCommaList(true);
+                return;
+            }
+            waitingFor = null;
+            TakeAround(cells, IsSteel, Steel);
+            if (essencePiped)
+            {
+                PipeNets.TryDraw(this, PipeNets.Soul, Essence);
+            }
+            else
+            {
+                TakeAround(cells, IsEssence, Essence);
+            }
+            if (bales)
+            {
+                TakeAround(cells, IsBale, Bales);
+            }
+            else if (meat)
+            {
+                TakeAround(cells, IsMeat, Meat);
+            }
+            growTicksLeft = Mathf.RoundToInt(GrowDays * GenDate.TicksPerDay);
+            pasteFed = paste;
+            pasteMealsLeft = paste ? PasteMeals : 0;
+            fedTicks = 0;
+        }
+
+        /// <summary>A pipe-fed culture draws its next meal when the last one is used up. False: it's starving.</summary>
+        private bool FeedFromPipes()
+        {
+            if (!pasteFed || fedTicks > 0 || pasteMealsLeft <= 0)
+            {
+                return true;
+            }
+            if (!PipeNets.TryDraw(this, PipeNets.Paste, 1f))
+            {
+                return false;
+            }
+            pasteMealsLeft--;
+            fedTicks += TicksPerMeal;
+            return true;
+        }
+
         private void Decant()
         {
             Pawn thrall = Thralls.Generate();
@@ -159,27 +268,36 @@ namespace HollowPawns
         public override string GetInspectString()
         {
             var sb = new StringBuilder(base.GetInspectString());
-            if (Growing)
+            void Line(string s)
             {
                 if (sb.Length > 0)
                 {
                     sb.AppendLine();
                 }
-                sb.Append("Growing a thrall: " + growTicksLeft.ToStringTicksToPeriod() + " left.");
-                sb.AppendLine();
+                sb.Append(s);
+            }
+            if (Growing)
+            {
+                Line("Growing a thrall: " + growTicksLeft.ToStringTicksToPeriod() + " left.");
                 if (pasteFed)
                 {
-                    if (fedTicks <= 0 && pasteMealsLeft > 0)
-                    {
-                        sb.Append(PastePipes.Connected(this) ? "Starving: waiting for nutrient paste from the pipes." : "Starving: not connected to nutrient paste pipes.");
-                    }
-                    else
-                    {
-                        sb.Append("Fed from the paste pipes: " + pasteMealsLeft + " more meal" + (pasteMealsLeft == 1 ? "" : "s") + " to draw.");
-                    }
-                    sb.AppendLine();
+                    Line(fedTicks <= 0 && pasteMealsLeft > 0
+                        ? "Starving: waiting for nutrient paste from the pipes."
+                        : "Fed from the paste pipes: " + pasteMealsLeft + " more meal" + (pasteMealsLeft == 1 ? "" : "s") + " to draw.");
                 }
-                sb.Append(Staffing.InspectLine());
+                Line(Staffing.InspectLine());
+            }
+            else if (!autoGrow)
+            {
+                Line("Switched off: not starting new thralls.");
+            }
+            else if (AtLimit())
+            {
+                Line("Stopped: the colony has " + stopAt + " thralls.");
+            }
+            else if (waitingFor != null)
+            {
+                Line("Waiting for " + waitingFor + ".");
             }
             return sb.ToString();
         }
@@ -190,6 +308,22 @@ namespace HollowPawns
             {
                 yield return g;
             }
+            yield return new Command_Toggle
+            {
+                defaultLabel = "Grow thralls",
+                defaultDesc = "Start a new thrall on its own whenever the vat is empty and has what it needs: 25 steel, 5 essence, and 2 carrion bales or 60 raw meat, from the cells around it (make a stockpile there). Essence can come from soul pipes and food from nutrient paste pipes instead.",
+                icon = TexCommand.ForbidOff,
+                isActive = () => autoGrow,
+                toggleAction = () => autoGrow = !autoGrow
+            };
+            yield return new Command_Action
+            {
+                defaultLabel = stopAt == 0 ? "Stop at: no limit" : "Stop at: " + stopAt + " thralls",
+                defaultDesc = "Stop starting new thralls once the colony has this many on this map.",
+                icon = TexCommand.SelectShelf,
+                action = () => Find.WindowStack.Add(new FloatMenu(StopAtOptions.Select(n =>
+                    new FloatMenuOption(n == 0 ? "No limit" : n + " thralls", () => stopAt = n)).ToList()))
+            };
             if (DebugSettings.ShowDevGizmos && Growing)
             {
                 yield return new Command_Action { defaultLabel = "DEV: Decant now", action = () => growTicksLeft = 1 };
@@ -203,47 +337,71 @@ namespace HollowPawns
             Scribe_Values.Look(ref pasteFed, "pasteFed");
             Scribe_Values.Look(ref pasteMealsLeft, "pasteMealsLeft");
             Scribe_Values.Look(ref fedTicks, "fedTicks");
+            Scribe_Values.Look(ref autoGrow, "autoGrow", true);
+            Scribe_Values.Look(ref stopAt, "stopAt");
         }
     }
 
     /// <summary>
-    /// Vanilla Nutrient Paste Expanded's pipes, reached by reflection so Hollow Pawns never needs VEF's
-    /// PipeSystem.dll to load. The clone vat gets a PipeSystem CompResource on the paste net from
-    /// Mods/Biotech/Patches/HP_VNPE_CloneVat.xml, only when VNPE is active. Draws the way VNPE feeds
-    /// vanilla's growth vat: PipeNet.DrawAmongStorage(amount, PipeNet.storages), one unit per paste meal.
+    /// VEF's PipeSystem, reached by reflection so Hollow Pawns never needs PipeSystem.dll to load. A building
+    /// can sit on several nets (VE's own draincasket does), so the net is picked by its PipeNetDef name. The
+    /// clone vat joins the soul net (HP_SoulNet, with VEF) and the paste net (VNPE_NutrientPasteNet, with
+    /// VNPE) from patches in Mods/Biotech/Patches. Draws the way VNPE feeds vanilla's growth vat:
+    /// PipeNet.DrawAmongStorage(amount, PipeNet.storages).
     /// </summary>
-    public static class PastePipes
+    public static class PipeNets
     {
+        public const string Soul = "HP_SoulNet";
+        public const string Paste = "VNPE_NutrientPasteNet";
+
         private static bool resolved;
+        private static Type compType;
+        private static PropertyInfo propsProp;
+        private static FieldInfo pipeNetDefField;
         private static PropertyInfo pipeNetProp;
         private static PropertyInfo storedProp;
         private static FieldInfo storagesField;
         private static MethodInfo drawMethod;
 
-        private static object NetOf(ThingWithComps thing)
+        private static void Resolve()
         {
-            if (!resolved)
+            if (resolved)
             {
-                resolved = true;
-                Type comp = AccessTools.TypeByName("PipeSystem.CompResource");
-                Type net = AccessTools.TypeByName("PipeSystem.PipeNet");
-                Type storage = AccessTools.TypeByName("PipeSystem.CompResourceStorage");
-                if (comp != null && net != null && storage != null)
-                {
-                    pipeNetProp = AccessTools.Property(comp, "PipeNet");
-                    storedProp = AccessTools.Property(net, "Stored");
-                    storagesField = AccessTools.Field(net, "storages");
-                    // Overloaded: pin the (float, List<CompResourceStorage>) one VNPE uses for the growth vat.
-                    drawMethod = AccessTools.Method(net, "DrawAmongStorage", new[] { typeof(float), typeof(List<>).MakeGenericType(storage) });
-                }
+                return;
             }
-            if (pipeNetProp == null || drawMethod == null)
+            resolved = true;
+            compType = AccessTools.TypeByName("PipeSystem.CompResource");
+            Type props = AccessTools.TypeByName("PipeSystem.CompProperties_Resource");
+            Type net = AccessTools.TypeByName("PipeSystem.PipeNet");
+            Type storage = AccessTools.TypeByName("PipeSystem.CompResourceStorage");
+            if (compType == null || props == null || net == null || storage == null)
+            {
+                compType = null;
+                return;
+            }
+            propsProp = AccessTools.Property(compType, "Props");
+            pipeNetDefField = AccessTools.Field(props, "pipeNet");
+            pipeNetProp = AccessTools.Property(compType, "PipeNet");
+            storedProp = AccessTools.Property(net, "Stored");
+            storagesField = AccessTools.Field(net, "storages");
+            // Overloaded: pin the (float, List<CompResourceStorage>) one VNPE uses for the growth vat.
+            drawMethod = AccessTools.Method(net, "DrawAmongStorage", new[] { typeof(float), typeof(List<>).MakeGenericType(storage) });
+            if (propsProp == null || pipeNetDefField == null || pipeNetProp == null || storedProp == null || storagesField == null || drawMethod == null)
+            {
+                compType = null;
+            }
+        }
+
+        private static object NetOf(ThingWithComps thing, string netDef)
+        {
+            Resolve();
+            if (compType == null)
             {
                 return null;
             }
             foreach (ThingComp c in thing.AllComps)
             {
-                if (pipeNetProp.DeclaringType.IsInstanceOfType(c))
+                if (compType.IsInstanceOfType(c) && (pipeNetDefField.GetValue(propsProp.GetValue(c)) as Def)?.defName == netDef)
                 {
                     return pipeNetProp.GetValue(c);
                 }
@@ -251,11 +409,17 @@ namespace HollowPawns
             return null;
         }
 
-        public static bool Connected(ThingWithComps thing) => NetOf(thing) != null;
+        public static bool Connected(ThingWithComps thing, string netDef) => NetOf(thing, netDef) != null;
 
-        public static bool TryDraw(ThingWithComps thing, float amount)
+        public static float Stored(ThingWithComps thing, string netDef)
         {
-            object net = NetOf(thing);
+            object net = NetOf(thing, netDef);
+            return net == null ? 0f : (float)storedProp.GetValue(net);
+        }
+
+        public static bool TryDraw(ThingWithComps thing, string netDef, float amount)
+        {
+            object net = NetOf(thing, netDef);
             if (net == null || (float)storedProp.GetValue(net) < amount)
             {
                 return false;
@@ -263,27 +427,6 @@ namespace HollowPawns
             drawMethod.Invoke(net, new[] { (object)amount, storagesField.GetValue(net) });
             return true;
         }
-    }
-
-    /// <summary>The "start thrall culture" bill: when it finishes, the vat it was done at starts growing.</summary>
-    public class RecipeWorker_StartThrall : RecipeWorker
-    {
-        protected virtual bool FedByPaste => false;
-
-        public override void Notify_IterationCompleted(Pawn billDoer, List<Thing> ingredients)
-        {
-            base.Notify_IterationCompleted(billDoer, ingredients);
-            if (billDoer?.CurJob?.targetA.Thing is Building_CloneVat vat)
-            {
-                vat.StartGrowing(FedByPaste);
-            }
-        }
-    }
-
-    /// <summary>The paste bill (VNPE only): no meat, the culture eats paste from the pipes while it grows.</summary>
-    public class RecipeWorker_StartThrallPaste : RecipeWorker_StartThrall
-    {
-        protected override bool FedByPaste => true;
     }
 
     // ======================= Reanimated husks (4.6) =======================
