@@ -4,7 +4,10 @@
   <!-- Curses. Marked, rotting luck and soul-sick are rolled by demon hits (CurseUtility, 10% per
        damaging hit) and by purging corrupted essence; they fade over 4 days, and a fresh curse of
        the same kind resets the clock. Hollowed comes only from wearing a cursed idol, and lasts
-       exactly as long as the idol is worn (CompProperties_CauseHediff_Apparel). -->
+       exactly as long as the idol is worn (CompProperties_CauseHediff_Apparel).
+       Pawns attuned to corruption aren't cursed at all (CurseUtility.CurseRandom), any fading curse they
+       carry lifts once they're attuned, and the idol's hollowing goes dormant while they are
+       (HediffComp_AttunedWard). -->
 
   <HediffDef Name="HP_CurseBase" Abstract="True">
     <hediffClass>HediffWithComps</hediffClass>
@@ -18,6 +21,7 @@
         <severityPerDay>-0.25</severityPerDay>
         <showDaysToRecover>true</showDaysToRecover>
       </li>
+      <li Class="HollowPawns.HediffCompProperties_AttunedWard" />
     </comps>
   </HediffDef>
 
@@ -79,8 +83,19 @@
     <defaultLabelColor>(0.75, 0.3, 0.35)</defaultLabelColor>
     <isBad>true</isBad>
     <makesSickThought>false</makesSickThought>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HollowPawns.HediffCompProperties_AttunedWard">
+        <dormant>true</dormant>
+      </li>
+    </comps>
     <stages>
       <li>
+        <label>dormant</label>
+      </li>
+      <li>
+        <minSeverity>0.75</minSeverity>
         <capMods>
           <li>
             <capacity>Consciousness</capacity>

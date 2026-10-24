@@ -64,6 +64,11 @@ namespace HollowPawns
         {
             Thing mask = ThingMaker.MakeThing(HP_DefOf.HP_FaceMask);
             mask.TryGetComp<CompFace>()?.Fill(victim);
+            // The mask takes the victim's own skin colour (the sprites are drawn pale so the tint reads true).
+            if (victim.story != null)
+            {
+                mask.TryGetComp<CompColorable>()?.SetColor(victim.story.SkinColor);
+            }
             QualityCategory q = maker != null ? QualityUtility.GenerateQualityCreatedByPawn(maker, skill) : QualityCategory.Normal;
             q = victim.Dead ? (QualityCategory)Mathf.Min((int)q, (int)QualityCategory.Normal) : (QualityCategory)Mathf.Min((int)q + 1, (int)QualityCategory.Legendary);
             mask.TryGetComp<CompQuality>()?.SetQuality(q, ArtGenerationContext.Colony);

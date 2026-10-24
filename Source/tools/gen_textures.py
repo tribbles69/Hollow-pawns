@@ -672,8 +672,10 @@ def kit_goggles():
     ]
 
 
-SKIN = (215, 185, 165)
-SKIN_DARK = (150, 110, 95)
+# Drawn pale: the mask is tinted to the victim's skin colour in game (CompColorable), so the
+# sprite's skin has to be near-white for the tint to read true.
+SKIN = (245, 240, 236)
+SKIN_DARK = (175, 165, 160)
 
 
 def face_mask_icon():

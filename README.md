@@ -26,7 +26,7 @@ Every human has a soul. Take it from the dead at the soul crucible, or from the 
 | **Borrowed time** (4 essence, 2 neutroamine) | For a day no wound can kill the user: they go down instead. Each dose ages them a year. If the wounds are still lethal when it wears off, they die. |
 
 ### Curses
-Debuffs that fade over 4 days (a fresh curse of the same kind resets the clock).
+Debuffs that fade over 4 days (a fresh curse of the same kind resets the clock). **Attuned** pawns (exalted, or 50%+ soul corruption) are never cursed (*Curse refused*), any fading curse they carry lifts once they become attuned, and the idol's *hollowed* goes dormant while they stay attuned.
 | Curse | Effect | Where it comes from |
 |---|---|---|
 | **Marked** | Takes 25% more damage | Demon hits (10% per damaging hit), purging corrupted essence |
@@ -200,7 +200,7 @@ The **conscript kit** (line forge only) is still a matched set: wear all six pie
 |---|---|
 | **Take face** (butcher spot or table) | On an adult human corpse. Makes a **flayed face** mask; the corpse is marked, not used up, so it can still go to the crucible, the slab or the wall. Up to *normal* quality. |
 | **Flay face** (surgery, prisoners and slaves) | They live, with *face taken* (beauty -3) and *my face was taken* (-25 for 60 days). A violation: -30 goodwill. The mask comes out a grade better than a corpse's. |
-| **Flayed face** (eye slot) | *face of Vex*: keeps the name. Social impact -15%, slave suppression +15% (Ideology). Others think less of the wearer (-15), unless they're psychopaths or bloodlust (+10). Anyone who loved that person and sees it worn gets -20. If the face carried a **blood debt**, the avengers who see it get *effigy of the killer* (+5). Wears out like leather. |
+| **Flayed face** (eye slot) | *face of Vex*: keeps the name, and the victim's own skin colour (on the ground and worn). Social impact -15%, slave suppression +15% (Ideology). Others think less of the wearer (-15), unless they're psychopaths or bloodlust (+10). Anyone who loved that person and sees it worn gets -20. If the face carried a **blood debt**, the avengers who see it get *effigy of the killer* (+5). Wears out like leather. |
 
 ### The Profaned (only does anything with The Profaned loaded)
 - **Profaned have souls, corrupted ones.** They can be rendered or bound; their essence comes out corrupted; corrupted ground doesn't bother them.
@@ -389,6 +389,8 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Soul bow: shoot a raider a few times: soul shock appears in their health tab. Under CE: the bow's ammo list shows soul arrows next to stone, steel and plasteel, and so do the short bow's and recurve bow's; the soul arrow bill is at the crafting spot and smithy.
 - [ ] Bone fetish: wear it: stats show reap ward 50%. Wraith lantern: wear it in a fight, press *Unshutter*: message counts who fled, button greys out for a day.
 - [ ] Soul pipes (with VEF): the *Soul pipes* tab appears after *Industrial harvest*. Drain to vat to soul generator: essence hauled to the drain fills the vat, the generator refuels itself. *Draw essence* on the vat drops 25. A tap fills with stacks. Shut a valve: the far side stops filling. Without VEF: no tab, no errors.
+- [ ] Flayed faces take the victim's skin colour: flay a pale and a dark-skinned corpse; the two masks differ, on the floor and worn. Older masks show a default skin tone.
+- [ ] Attuned and curses: dev-add 60% soul corruption to a colonist; let a demon hit them: *Curse refused*, no curse. Give a non-attuned colonist a curse, then make them attuned: within a few seconds the curse lifts with a message. Put a cursed idol on an attuned pawn: *hollowed (dormant)*, no penalties.
 - [ ] Hellforged: at the bone altar, add a gore axe (steel), a skull maul, a blood blade, black ichor and a cursed idol; all appear with no research. Equip a colonist with the gore axe and fight a raid: hits leave soul corruption on the victim and stains on the ground; each kill shows *Blood* over the wielder and *bloodrage* grows in health (three stages, *BLOOD!* at the top), fading over a few hours. Swing at a ghost: it takes damage. Drink black ichor: *black ichor* high for 8 hours, soul corruption goes up. With CE: make hellfire charges at the crucible, switch a dirge rifle's ammo to hellfire: red beams, red blasts, ground stained; the blade tools show CE-style armour penetration.
 - [ ] Soulweave and soulsteel: *weave soulweave* at the crucible (25 cloth, 3 essence). Make a duster and a flak vest from soulweave and a plate armour from soulsteel; compare armour against hyperweave and plasteel versions. Old saves: any of the removed soul-set clothing is dropped on load with a missing-def warning (expected). The tailoring, smithy and fabrication benches no longer list gravecloth, ossuary, mourner, soulsteel kit, wraithweave or reliquary pieces.
 - [ ] Faces: *take face* at a butcher table on a raider's corpse: a *face of X* mask appears and the corpse is still there (inspect its health: face taken); the bill won't take it again. Wear it: social tab shows *wears a human face*. Flay a prisoner: they live, mood -25, goodwill drops. Flay a blood debtor: the victim's friend near the wearer gets *effigy of the killer*.
@@ -419,6 +421,8 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Electricity: start the Coven; Electricity is not researched, soul extraction is, and the crucible, generator, canister rack and prisoner battery are locked in the architect menu. Research Electricity and all four unlock. The Escapee start still begins with Electricity.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
+
+- Flayed-face tint: relies on the plain Cutout shader multiplying the sprite by the thing's colour (CompColorable), on the ground and in the worn graphic (`Apparel.DrawColor`). If the worn mask stays pale, it needs `useWornGraphicMask` and masks.
 
 - RimWorld 1.7: never run on it. The checks were against reference assemblies, not the real game, and XML defs were only checked for class names (1.7's Core XML isn't in the reference package). CE, VEF and the other optional mods have to support 1.7 themselves for their folders to matter.
 

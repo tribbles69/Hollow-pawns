@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using HarmonyLib;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace HollowPawns
@@ -38,11 +39,22 @@ namespace HollowPawns
             }
         }
 
-        /// <summary>Lays a random curse on the pawn, or refreshes it if they already carry that one.</summary>
+        /// <summary>
+        /// Lays a random curse on the pawn, or refreshes it if they already carry that one. A pawn attuned to
+        /// corruption (exalted, or 50%+ soul corruption) shrugs it off.
+        /// </summary>
         public static void CurseRandom(Pawn pawn, string reason)
         {
             if (pawn?.health == null || pawn.Dead || !pawn.RaceProps.Humanlike || Rollable.Count == 0)
             {
+                return;
+            }
+            if (CorruptionCult.Attuned(pawn))
+            {
+                if (pawn.Spawned)
+                {
+                    MoteMaker.ThrowText(pawn.DrawPos, pawn.Map, "Curse refused", new Color(0.75f, 0.3f, 0.35f));
+                }
                 return;
             }
             HediffDef curse = Rollable.RandomElement();
@@ -59,6 +71,51 @@ namespace HollowPawns
             {
                 Messages.Message(pawn.LabelShort + " has been cursed (" + curse.label + ") " + reason + ".",
                     pawn, MessageTypeDefOf.NegativeHealthEvent);
+            }
+        }
+    }
+
+    /// <summary>
+    /// On every curse hediff: a pawn attuned to corruption isn't troubled by curses. Fading curses lift as
+    /// soon as the pawn is attuned; the idol's hollowing (dormant=true) goes quiet while they are, and comes
+    /// back if they stop being attuned, since it lasts as long as the idol is worn. Checked every 250 ticks.
+    /// </summary>
+    public class HediffCompProperties_AttunedWard : HediffCompProperties
+    {
+        /// <summary>Hold the curse at severity 0.5 (its dormant stage) instead of lifting it.</summary>
+        public bool dormant;
+
+        public HediffCompProperties_AttunedWard()
+        {
+            compClass = typeof(HediffComp_AttunedWard);
+        }
+    }
+
+    public class HediffComp_AttunedWard : HediffComp
+    {
+        private HediffCompProperties_AttunedWard Props => (HediffCompProperties_AttunedWard)props;
+
+        public override void CompPostTickInterval(ref float severityAdjustment, int delta)
+        {
+            if (!Pawn.IsHashIntervalTick(250, delta))
+            {
+                return;
+            }
+            bool attuned = CorruptionCult.Attuned(Pawn);
+            if (Props.dormant)
+            {
+                float target = attuned ? 0.5f : 1f;
+                severityAdjustment += target - parent.Severity;
+                return;
+            }
+            if (attuned)
+            {
+                // Through severityAdjustment, so the tracker removes it safely after the tick.
+                severityAdjustment -= parent.Severity + 1f;
+                if (PawnUtility.ShouldSendNotificationAbout(Pawn))
+                {
+                    Messages.Message(Pawn.LabelShort + "'s corruption swallowed the curse (" + parent.def.label + ").", Pawn, MessageTypeDefOf.PositiveEvent);
+                }
             }
         }
     }

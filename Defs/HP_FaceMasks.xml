@@ -78,6 +78,9 @@
     <graphicData>
       <texPath>Things/Item/Equipment/HP_FaceMask</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <!-- The sprites are pale; CompColorable tints them to the victim's skin (FaceMasks.Make).
+           Faces taken before that existed fall back to this tone. -->
+      <color>(215,185,165)</color>
     </graphicData>
     <statBases>
       <MaxHitPoints>50</MaxHitPoints>
@@ -112,6 +115,9 @@
     <comps>
       <li>
         <compClass>HollowPawns.CompFace</compClass>
+      </li>
+      <li>
+        <compClass>CompColorable</compClass>
       </li>
     </comps>
   </ThingDef>
