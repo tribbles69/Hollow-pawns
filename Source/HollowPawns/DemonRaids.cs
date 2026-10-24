@@ -142,6 +142,7 @@ namespace HollowPawns
         public const int WaveTicks = GenDate.TicksPerHour * 18;
 
         public Pawn keeper;
+        private bool closed;
         private int ticksLeft = LifeTicks;
         private int nextWave = GenDate.TicksPerHour * 2;
 
@@ -162,6 +163,10 @@ namespace HollowPawns
         public override void TickRare()
         {
             base.TickRare();
+            if (closed)
+            {
+                return;
+            }
             if (keeper != null && (keeper.Dead || keeper.Destroyed))
             {
                 Close("its keeper is dead", false);
@@ -201,6 +206,12 @@ namespace HollowPawns
         /// <summary>Closes the rift. Burned out: a crater of corruption. Closed early: much less.</summary>
         public void Close(string why, bool collapse)
         {
+            // Once only, even if something keeps the rift from being destroyed this tick.
+            if (closed || !Spawned)
+            {
+                return;
+            }
+            closed = true;
             Map map = Map;
             IntVec3 pos = Position;
             Destroy(DestroyMode.Vanish);

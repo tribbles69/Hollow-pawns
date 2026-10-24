@@ -86,7 +86,8 @@
     <useHitPoints>false</useHitPoints>
     <rotatable>false</rotatable>
     <tickerType>Rare</tickerType>
-    <destroyable>false</destroyable>
+    <!-- Not destroyable=false: that also blocks the rift's own Destroy() when it closes, so it stayed
+         and "closed" again every rare tick. With no hit points and not targetable, nothing can hurt it anyway. -->
     <selectable>true</selectable>
     <statBases>
       <Flammability>0</Flammability>
