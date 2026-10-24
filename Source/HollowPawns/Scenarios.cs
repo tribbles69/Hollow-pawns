@@ -215,17 +215,7 @@ namespace HollowPawns
             }
             for (int i = 0; i < count; i++)
             {
-                var request = new PawnGenerationRequest(HP_DefOf.HP_ThrallKind, Faction.OfPlayer, PawnGenerationContext.NonPlayer,
-                    forceGenerateNewPawn: true, canGeneratePawnRelations: false, mustBeCapableOfViolence: true,
-                    allowAddictions: false, forceNoIdeo: true, fixedBiologicalAge: 20f, fixedChronologicalAge: 0f,
-                    forcedXenotype: HP_DefOf.HP_ThrallXenotype, developmentalStages: DevelopmentalStage.Adult);
-                Pawn thrall = PawnGenerator.GeneratePawn(request);
-                thrall.Name = new NameSingle("Thrall " + Rand.RangeInclusive(100, 999));
-                if (HP_DefOf.HP_ThrallDecay != null)
-                {
-                    thrall.health.AddHediff(HP_DefOf.HP_ThrallDecay);
-                }
-                yield return thrall;
+                yield return Thralls.Generate();
             }
         }
 

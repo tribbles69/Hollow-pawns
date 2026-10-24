@@ -58,7 +58,7 @@ namespace HollowPawns
 
     /// <summary>
     /// The clone vat: a worker starts a culture (the bill eats meat, steel and essence quickly), then
-    /// the vat grows it for a few days on its own and decants an adult thrall in basic gear. Rare tick
+    /// the vat grows it for a few days on its own and decants an adult thrall, naked and unarmed (Thralls.Generate). Rare tick
     /// while growing; idle otherwise. Takes no new bill while it's growing. Grows faster with someone
     /// tending it (Staffing.cs, Medicine skill). With Vanilla Nutrient Paste Expanded, a culture started
     /// with the paste bill is fed from the paste pipes as it grows instead (PastePipes, below).
@@ -147,20 +147,10 @@ namespace HollowPawns
 
         private void Decant()
         {
-            PawnKindDef kind = HP_DefOf.HP_ThrallKind;
-            if (kind == null)
+            Pawn thrall = Thralls.Generate();
+            if (thrall == null)
             {
                 return;
-            }
-            var request = new PawnGenerationRequest(kind, Faction.OfPlayer, PawnGenerationContext.NonPlayer,
-                forceGenerateNewPawn: true, canGeneratePawnRelations: false, mustBeCapableOfViolence: true,
-                allowAddictions: false, forceNoIdeo: true, fixedBiologicalAge: 20f, fixedChronologicalAge: 0f,
-                forcedXenotype: HP_DefOf.HP_ThrallXenotype, developmentalStages: DevelopmentalStage.Adult);
-            Pawn thrall = PawnGenerator.GeneratePawn(request);
-            thrall.Name = new NameSingle("Thrall " + Rand.RangeInclusive(100, 999));
-            if (HP_DefOf.HP_ThrallDecay != null)
-            {
-                thrall.health.AddHediff(HP_DefOf.HP_ThrallDecay);
             }
             GenSpawn.Spawn(thrall, InteractionCell, Map);
             Messages.Message("A thrall has been decanted from the clone vat.", thrall, MessageTypeDefOf.PositiveEvent);

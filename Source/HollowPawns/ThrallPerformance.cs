@@ -18,6 +18,33 @@ namespace HollowPawns
     {
         /// <summary>A soulless pawn of the player's: a thrall or a husk.</summary>
         public static bool IsThrall(Pawn p) => p?.Faction != null && p.Faction.IsPlayer && p.RaceProps.Humanlike && SoulUtility.IsSoulless(p);
+
+        /// <summary>
+        /// Every thrall comes from here: the clone vat, the Endless War start and the dev benchmark. Thralls are
+        /// decanted naked and unarmed (the kind gives no gear money, and anything generation adds anyway, such as
+        /// clothes for the cold or CE's loadout, is stripped); the forge's conscript kit is how they get dressed.
+        /// </summary>
+        public static Pawn Generate(bool decay = true)
+        {
+            if (HP_DefOf.HP_ThrallKind == null)
+            {
+                return null;
+            }
+            var request = new PawnGenerationRequest(HP_DefOf.HP_ThrallKind, Faction.OfPlayer, PawnGenerationContext.NonPlayer,
+                forceGenerateNewPawn: true, canGeneratePawnRelations: false, mustBeCapableOfViolence: true,
+                allowAddictions: false, forceNoIdeo: true, fixedBiologicalAge: 20f, fixedChronologicalAge: 0f,
+                forcedXenotype: HP_DefOf.HP_ThrallXenotype, developmentalStages: DevelopmentalStage.Adult);
+            Pawn thrall = PawnGenerator.GeneratePawn(request);
+            thrall.Name = new NameSingle("Thrall " + Rand.RangeInclusive(100, 999));
+            thrall.equipment?.DestroyAllEquipment();
+            thrall.apparel?.DestroyAll();
+            thrall.inventory?.DestroyAll();
+            if (decay && HP_DefOf.HP_ThrallDecay != null)
+            {
+                thrall.health.AddHediff(HP_DefOf.HP_ThrallDecay);
+            }
+            return thrall;
+        }
     }
 
     /// <summary>
@@ -298,12 +325,7 @@ namespace HollowPawns
             IntVec3 at = UI.MouseCell();
             for (int i = 0; i < 20; i++)
             {
-                var request = new PawnGenerationRequest(HP_DefOf.HP_ThrallKind, Faction.OfPlayer, PawnGenerationContext.NonPlayer,
-                    forceGenerateNewPawn: true, canGeneratePawnRelations: false, mustBeCapableOfViolence: true, allowAddictions: false,
-                    forceNoIdeo: true, fixedBiologicalAge: 20f, fixedChronologicalAge: 0f, forcedXenotype: HP_DefOf.HP_ThrallXenotype,
-                    developmentalStages: DevelopmentalStage.Adult);
-                Pawn t = PawnGenerator.GeneratePawn(request);
-                t.Name = new NameSingle("Thrall " + Rand.RangeInclusive(100, 999));
+                Pawn t = Thralls.Generate(decay: false);
                 IntVec3 c = CellFinder.TryFindRandomCellNear(at, map, 6, x => x.Standable(map), out IntVec3 found) ? found : at;
                 GenSpawn.Spawn(t, c, map);
             }

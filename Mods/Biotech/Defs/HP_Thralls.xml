@@ -79,15 +79,10 @@
         </categories>
       </li>
     </backstoryFiltersOverride>
-    <apparelMoney>200~400</apparelMoney>
-    <apparelTags>
-      <li>IndustrialBasic</li>
-      <li>IndustrialMilitaryBasic</li>
-    </apparelTags>
-    <weaponMoney>150~300</weaponMoney>
-    <weaponTags>
-      <li>Gun</li>
-    </weaponTags>
+    <!-- Decanted naked and unarmed: no gear money. Thralls.Generate strips anything added anyway;
+         the line forge's conscript kit dresses them. -->
+    <apparelMoney>0~0</apparelMoney>
+    <weaponMoney>0~0</weaponMoney>
     <techHediffsChance>0</techHediffsChance>
     <initialWillRange>0~1</initialWillRange>
     <initialResistanceRange>5~10</initialResistanceRange>
@@ -140,7 +135,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HP_CloneVat</defName>
     <label>clone vat</label>
-    <description>A powered vat that grows a soulless adult thrall in three days. A worker starts the culture (meat, steel and essence); the vat does the rest and decants the thrall in basic gear. It takes no new culture while it's growing, and pauses without power.</description>
+    <description>A powered vat that grows a soulless adult thrall in three days. A worker starts the culture (meat, steel and essence); the vat does the rest and decants the thrall naked and unarmed. It takes no new culture while it's growing, and pauses without power.</description>
     <thingClass>HollowPawns.Building_CloneVat</thingClass>
     <graphicData>
       <texPath>Things/Building/HP_CloneVat</texPath>

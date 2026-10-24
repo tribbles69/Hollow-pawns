@@ -121,7 +121,7 @@ Demons arriving in waves. Two flavours, both wanted:
 - **A gate you build:** a structure that pulls demon waves on a timer. A risk-for-reward way to farm corrupted souls. Small C#, rare-tick only.
 
 ### 4.5 Thralls and clone vats (endless war)
-**Built in v0.7 (Biotech).** Decided: the 30-day lifespan is on; the vat takes a 1500-work bill (60 meat, 25 steel, 5 essence), then grows for 3 days on the rare tick and pauses without power; thralls get vanilla basic gear from their pawn kind and a vat-grown backstory.
+**Built in v0.7 (Biotech).** Decided: the 30-day lifespan is on; the vat takes a 1500-work bill (60 meat, 25 steel, 5 essence), then grows for 3 days on the rare tick and pauses without power; thralls get a vat-grown backstory and (since 24 Oct, Aaron's call) come out naked and unarmed: the conscript kit and *Kit out thralls* dress and arm them.
 The loop: kill a wave → corpses into walls, souls into ammo → vats grow new soldiers armed with basic gear → take the next wave. Raids scale with colony size, so it escalates by itself.
 - **Thrall xenotype** with a **Soulless** gene:
   - No soul, but alive: `SoulUtility` treats the gene as "no soul".
