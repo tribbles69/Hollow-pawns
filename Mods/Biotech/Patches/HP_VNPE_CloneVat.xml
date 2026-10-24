@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Vanilla Nutrient Paste Expanded: the clone vat joins the paste pipe net (the way VNPE patches
+       vanilla's growth vat) and gets a paste-fed culture bill. The vat draws 4 paste meals from the pipes
+       as it grows, one per quarter of the growth, and pauses while the pipes are dry (Building_CloneVat,
+       PastePipes in EndlessWar.cs). Only applies with VNPE; this folder only loads with Biotech. -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Vanilla Nutrient Paste Expanded</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="HP_CloneVat"]/comps</xpath>
+          <value>
+            <li Class="PipeSystem.CompProperties_Resource">
+              <pipeNet>VNPE_NutrientPasteNet</pipeNet>
+            </li>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs</xpath>
+          <value>
+            <RecipeDef>
+              <defName>HP_StartThrallPaste</defName>
+              <label>start thrall culture (paste-fed)</label>
+              <description>Seed the vat with steel and essence, and let it feed on nutrient paste from the pipes while it grows: 4 meals over three days. Growth pauses if the pipes run dry.</description>
+              <workerClass>HollowPawns.RecipeWorker_StartThrallPaste</workerClass>
+              <jobString>Starting a thrall culture.</jobString>
+              <workAmount>1500</workAmount>
+              <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+              <workSkill>Crafting</workSkill>
+              <effectWorking>Cook</effectWorking>
+              <soundWorking>Recipe_CookMeal</soundWorking>
+              <recipeUsers>
+                <li>HP_CloneVat</li>
+              </recipeUsers>
+              <ingredients>
+                <li>
+                  <filter><thingDefs><li>Steel</li></thingDefs></filter>
+                  <count>25</count>
+                </li>
+                <li>
+                  <filter><thingDefs><li>HP_SoulEssence</li></thingDefs></filter>
+                  <count>5</count>
+                </li>
+              </ingredients>
+              <fixedIngredientFilter>
+                <thingDefs>
+                  <li>Steel</li>
+                  <li>HP_SoulEssence</li>
+                </thingDefs>
+              </fixedIngredientFilter>
+            </RecipeDef>
+          </value>
+        </li>
+
+      </operations>
+    </match>
+  </Operation>
+
+</Patch>

@@ -98,7 +98,7 @@ Taking and spending souls stains the ground and the people who do it. Toggle the
 ### The endless war
 | Thing | What it does |
 |---|---|
-| **Thralls** (Biotech; research *Clone vats*) | A **clone vat** (3x2, 400W): a crafter starts a culture (60 meat, 25 steel, 5 essence), the vat grows an adult thrall for 3 days and decants it in basic gear. Thralls are soulless: no pain, only food and rest needs (no mood, no breaks), never chat, and can only haul, fight fires and fight. They fail after about 30 days. |
+| **Thralls** (Biotech; research *Clone vats*) | A **clone vat** (3x2, 400W): a crafter starts a culture (60 meat, 25 steel, 5 essence) (or, with **Vanilla Nutrient Paste Expanded**, the *paste-fed* culture: 25 steel and 5 essence, and the vat draws 4 paste meals from connected paste pipes as it grows, one per quarter; it pauses, *starving*, while the pipes are dry), the vat grows an adult thrall for 3 days and decants it in basic gear. Thralls are soulless: no pain, only food and rest needs (no mood, no breaks), never chat, and can only haul, fight fires and fight. They fail after about 30 days. |
 | **Husks** (research *Reanimation*) | The **reanimation slab** (2x1, 300W, doctors) raises a soulless adult human corpse (a husk from the crucible or a rite) as a husk on your side: same body and gear, -30% moving, -20% manipulation, no pain, food and rest only, haul / firefight / fight only, dead in about 4 days. |
 | **Stand guard** (button on thralls and husks) | Drafted in place, hunger at a tenth, no tiredness. They stand down on their own when hungry. |
 | **Carrion** | *Bind carrion* at a butcher table or spot turns an adult human or animal corpse (never a child) into carrion bales: 2 from a human, 1 to 6 from animals by body size (the grinder uses the same rule). *Render carrion* turns a bale back into 46 human meat (a human corpse unbutchered is about 92), and a clone vat can start a thrall from 2 bales instead of 60 meat. **Carrion walls** (Structure, 2 bales) rot about 1% a day above freezing, leak rot stink and a little soul corruption at their foot, burn well and look awful. |
@@ -358,6 +358,7 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] A colonist standing on heavy corruption picks up *soul corruption* and the ground mood penalty. Holy water: make some, use *Cleanse corruption* (Orders) over the patch: cleaners sprinkle it and it fades. Drink one: corruption goes down. Purge surgery halves it.
 - [ ] Set fire to a corrupted patch: the corruption drops.
 - [ ] Hell gate: on clean ground the Open button is disabled with the corruption figure; on corrupted ground it opens.
+- [ ] Paste-fed clone vat (Biotech + VNPE): run a paste pipe to the clone vat (it shows on the paste overlay). Add *start thrall culture (paste-fed)*: steel and essence only. While growing, the inspect pane shows meals left to draw and the network's stored paste drops by 1 at the start of each quarter. Empty the pipes: *Starving: waiting for nutrient paste*, the countdown stops; refill and it carries on.
 - [ ] Clone vat (Biotech): research, build, power, add *start thrall culture*: a crafter loads it, then the vat grows (inspect countdown; dev *Decant now*). A bald grey thrall appears in gear: only food and rest needs, no mood tab, works only hauling and firefighting, can be drafted. *Thrall lifespan* in health.
 - [ ] Reanimation slab: harvest a raider at the crucible (husk), then *reanimate husk*: the husk stands up on your side, slow, with *reanimated husk* in health and only food and rest needs.
 - [ ] *Stand guard* on a thrall: drafted in place; it shoots raiders in range; when hungry it stands down with a message.
@@ -421,6 +422,8 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Electricity: start the Coven; Electricity is not researched, soul extraction is, and the crucible, generator, canister rack and prisoner battery are locked in the architect menu. Research Electricity and all four unlock. The Escapee start still begins with Electricity.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
+
+- Paste-fed clone vat: VEF's PipeSystem is reached by reflection (`PastePipes` in EndlessWar.cs: `CompResource.PipeNet`, `PipeNet.Stored`, `PipeNet.DrawAmongStorage(float, List<CompResourceStorage>)`, checked against VEF's 1.6 and 1.7 PipeSystem.dll). Not run in game.
 
 - Flayed-face tint: relies on the plain Cutout shader multiplying the sprite by the thing's colour (CompColorable), on the ground and in the worn graphic (`Apparel.DrawColor`). If the worn mask stays pale, it needs `useWornGraphicMask` and masks.
 
