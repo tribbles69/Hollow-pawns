@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using HarmonyLib;
 using LudeonTK;
 using RimWorld;
@@ -329,6 +330,54 @@ namespace HollowPawns
                 IntVec3 c = CellFinder.TryFindRandomCellNear(at, map, 6, x => x.Standable(map), out IntVec3 found) ? found : at;
                 GenSpawn.Spawn(t, c, map);
             }
+        }
+    }
+
+    /// <summary>
+    /// Everybody Gets One (and its "x per person" bill modes) counts people with a TD Find Lib search that,
+    /// by default, takes every colonist. Thralls and reanimated husks are colonists to the game but not
+    /// people: they shouldn't make the kitchen cook more meals or the tailor sew more parkas. This drops
+    /// soulless pawns from whatever that search found. Patched by hand, and only when EGO is loaded.
+    /// </summary>
+    [StaticConstructorOnStartup]
+    public static class EverybodyGetsOneCompat
+    {
+        private static MethodInfo getCounter;
+        private static FieldInfo resultField;
+        private static FieldInfo allThingsField;
+
+        static EverybodyGetsOneCompat()
+        {
+            System.Type comp = AccessTools.TypeByName("Everybody_Gets_One.PersonCountWorldComp");
+            System.Type search = AccessTools.TypeByName("TD_Find_Lib.QuerySearch");
+            System.Type result = AccessTools.TypeByName("TD_Find_Lib.SearchResult");
+            MethodInfo countFor = comp == null ? null : AccessTools.Method(comp, "CountFor", new[] { typeof(Bill_Production) });
+            getCounter = comp == null ? null : AccessTools.Method(comp, "GetPersonCounter", new[] { typeof(Bill_Production) });
+            resultField = search == null ? null : AccessTools.Field(search, "result");
+            allThingsField = result == null ? null : AccessTools.Field(result, "allThings");
+            if (countFor == null || getCounter == null || resultField == null || allThingsField == null)
+            {
+                return;
+            }
+            new Harmony("aaronclews.hollowpawns.ego").Patch(countFor, postfix: new HarmonyMethod(typeof(EverybodyGetsOneCompat), nameof(Postfix)));
+        }
+
+        public static void Postfix(object __instance, Bill_Production bill, ref int __result)
+        {
+            // CountFor has just rebuilt the search; read what it found rather than searching again.
+            if (!(allThingsField.GetValue(resultField.GetValue(getCounter.Invoke(__instance, new object[] { bill }))) is List<Thing> found))
+            {
+                return;
+            }
+            int soulless = 0;
+            for (int i = 0; i < found.Count; i++)
+            {
+                if (found[i] is Pawn p && Thralls.IsThrall(p))
+                {
+                    soulless++;
+                }
+            }
+            __result = Mathf.Max(0, __result - soulless);
         }
     }
 }
