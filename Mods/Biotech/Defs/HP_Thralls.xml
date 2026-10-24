@@ -135,7 +135,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HP_CloneVat</defName>
     <label>clone vat</label>
-    <description>A powered vat that grows a soulless adult thrall in three days, then decants it naked and unarmed. It runs itself: whenever it's empty it starts the next thrall from what's in the cells around it (make a stockpile there): 25 steel, 5 soul essence, and 2 carrion bales or 60 raw meat. Essence can come from soul pipes, and food from nutrient paste pipes, instead. Someone tending it makes it grow faster. It pauses without power.</description>
+    <description>A powered vat that grows a soulless adult thrall in three days, then decants it naked and unarmed. It runs itself: whenever it's empty it starts the next thrall from what's in the cells around it (make a stockpile there): 25 steel, 5 soul essence, and 2 carrion bales or 60 raw meat. Essence can come from soul pipes, and food from nutrient paste pipes, instead. It pauses without power.</description>
     <thingClass>HollowPawns.Building_CloneVat</thingClass>
     <graphicData>
       <texPath>Things/Building/HP_CloneVat</texPath>
@@ -176,25 +176,5 @@
       <li Class="CompProperties_Breakdownable" />
     </comps>
   </ThingDef>
-
-  <!-- Staffing (Staffing.cs): the vat grows faster with someone tending it. Hauling work like the
-       grinder and forge, so thralls can tend the vat that makes more thralls; Medicine sets the speed. -->
-  <WorkGiverDef>
-    <defName>HP_StaffCloneVat</defName>
-    <label>tend the clone vat</label>
-    <giverClass>HollowPawns.WorkGiver_StaffMachine</giverClass>
-    <workType>Hauling</workType>
-    <priorityInType>1</priorityInType>
-    <verb>tend</verb>
-    <gerund>tending</gerund>
-    <requiredCapacities>
-      <li>Manipulation</li>
-    </requiredCapacities>
-    <modExtensions>
-      <li Class="HollowPawns.StaffingExtension">
-        <building>HP_CloneVat</building>
-      </li>
-    </modExtensions>
-  </WorkGiverDef>
 
 </Defs>

@@ -65,14 +65,10 @@ namespace HollowPawns
     ///   essence: 5 from a soul pipe net it's on (VEF), or from next to it;
     ///   food: 2 carrion bales or 60 raw meat from next to it, or, with VNPE, nutrient paste from the pipes:
     ///         4 meals drawn as it grows, one per quarter, pausing while the pipes are dry.
-    /// Rare tick only. Grows faster with someone tending it (Staffing.cs, Medicine skill).
+    /// Rare tick only. Nobody tends it: it grows at one speed (Aaron's call, 24 Oct).
     /// </summary>
-    public class Building_CloneVat : Building, IStaffable
+    public class Building_CloneVat : Building
     {
-        public Staffing Staffing { get; } = new Staffing(SkillDefOf.Medicine);
-
-        public bool WantsOperator => Spawned && Growing && Powered;
-
         public const float GrowDays = 3f;
         public const int Steel = 25;
         public const int Essence = 5;
@@ -123,7 +119,7 @@ namespace HollowPawns
             {
                 return;
             }
-            int step = Mathf.RoundToInt(GenTicks.TickRareInterval * Staffing.Factor);
+            int step = GenTicks.TickRareInterval;
             growTicksLeft -= step;
             if (pasteFed)
             {
@@ -285,7 +281,6 @@ namespace HollowPawns
                         ? "Starving: waiting for nutrient paste from the pipes."
                         : "Fed from the paste pipes: " + pasteMealsLeft + " more meal" + (pasteMealsLeft == 1 ? "" : "s") + " to draw.");
                 }
-                Line(Staffing.InspectLine());
             }
             else if (!autoGrow)
             {
@@ -760,17 +755,11 @@ namespace HollowPawns
     /// <summary>
     /// Turns steel and components lying next to it into cheap conscript kit, with no worker and no
     /// essence. Pick what it makes; it pulls materials from adjacent cells and drops kit on its
-    /// output cell. Rare tick, and only works while powered and fed.
+    /// output cell. Rare tick, and only works while powered and fed. Nobody works it: one speed (24 Oct).
     /// </summary>
-    public class Building_LineForge : Building, IStaffable
+    public class Building_LineForge : Building
     {
-        public Staffing Staffing { get; } = new Staffing(SkillDefOf.Crafting);
-
         private bool Powered => GetComp<CompPowerTrader>()?.PowerOn ?? true;
-
-        /// <summary>Mid-piece, or ready to start one: an operator would speed it up.</summary>
-        public bool WantsOperator => Spawned && Powered && product != Product.Off
-            && (workLeft > 0 || (!StockFull() && HasMaterials(SteelFor(product), ComponentsFor(product))));
 
         public enum Product : byte { Off, Rifle, Armour, FullKit }
 
@@ -800,7 +789,7 @@ namespace HollowPawns
                 }
                 workLeft = TicksFor(product);
             }
-            workLeft -= Mathf.RoundToInt(GenTicks.TickRareInterval * Staffing.Factor);
+            workLeft -= GenTicks.TickRareInterval;
             if (workLeft <= 0)
             {
                 workLeft = -1;
@@ -833,24 +822,6 @@ namespace HollowPawns
         private int OnHand() => Items(product).Select(d => Map.listerThings.ThingsOfDef(d).Count).DefaultIfEmpty(0).Min();
 
         private bool StockFull() => stopAt > 0 && OnHand() >= stopAt;
-
-        private bool HasMaterials(int steel, int components)
-        {
-            int haveSteel = 0, haveComp = 0;
-            foreach (IntVec3 c in GenAdj.CellsAdjacent8Way(this))
-            {
-                if (!c.InBounds(Map))
-                {
-                    continue;
-                }
-                foreach (Thing t in c.GetThingList(Map))
-                {
-                    if (t.def == ThingDefOf.Steel) haveSteel += t.stackCount;
-                    else if (t.def == ThingDefOf.ComponentIndustrial) haveComp += t.stackCount;
-                }
-            }
-            return haveSteel >= steel && haveComp >= components;
-        }
 
         private bool TryTakeMaterials(int steel, int components)
         {
@@ -971,11 +942,6 @@ namespace HollowPawns
             else if (product != Product.Off)
             {
                 sb.Append(" (waiting for " + SteelFor(product) + " steel" + (ComponentsFor(product) > 0 ? " and a component" : "") + " in hoppers next to it)");
-            }
-            if (product != Product.Off)
-            {
-                sb.AppendLine();
-                sb.Append(Staffing.InspectLine());
             }
             return sb.ToString();
         }
