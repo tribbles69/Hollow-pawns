@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Vanilla Nutrient Paste Expanded: battery cages and pens join the paste pipe net. When the feed
+       hoppers in range are empty, a cage draws one meal of paste at a time from the pipes
+       (Building_BatteryCage.Restock in GrimIndustry.cs). Medicine still has to come from a hopper. -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Vanilla Nutrient Paste Expanded</li>
+    </mods>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[@Name="HP_BatteryCageBase"]/comps</xpath>
+      <value>
+        <li Class="PipeSystem.CompProperties_Resource">
+          <pipeNet>VNPE_NutrientPasteNet</pipeNet>
+        </li>
+      </value>
+    </match>
+  </Operation>
+
+</Patch>
