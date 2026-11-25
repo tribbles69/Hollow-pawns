@@ -28,6 +28,7 @@ namespace HollowPawns
                     + "Bind: at an altar or press, the whole soul goes into an empty vessel (urn, canister or lattice), named and graded. "
                     + "Needs an empty vessel.\n"
                     + "Battery: locked in a prisoner battery and drained for power over days, then they die and leave essence.\n"
+                    + "Slurry: sealed in a rendering pod and broken down into nutrient slurry over days. Nothing is left but a little essence.\n"
                     + "Effigy (blood debtors only): at an altar or press, their living soul is bound into a wailing effigy.\n\nEvery fate ends in death.",
                 icon = MarkIcon,
                 action = () =>
@@ -37,6 +38,7 @@ namespace HollowPawns
                         new FloatMenuOption("Render (essence)", () => SoulUtility.SetFate(pawn, SoulFate.Render)),
                         new FloatMenuOption("Bind (into a vessel)", () => SoulUtility.SetFate(pawn, SoulFate.Bind)),
                         new FloatMenuOption("Battery (drain for power)", () => SoulUtility.SetFate(pawn, SoulFate.Battery)),
+                        new FloatMenuOption("Slurry (rendering pod)", () => SoulUtility.SetFate(pawn, SoulFate.Slurry)),
                     };
                     if (BloodDebts.IsDebtor(pawn))
                     {
@@ -64,6 +66,7 @@ namespace HollowPawns
                 case SoulFate.Bind: return "Marked: bind";
                 case SoulFate.Battery: return "Marked: battery";
                 case SoulFate.Effigy: return "Marked: effigy";
+                case SoulFate.Slurry: return "Marked: slurry";
                 default: return "Mark soul";
             }
         }

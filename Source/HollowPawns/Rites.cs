@@ -20,6 +20,8 @@ namespace HollowPawns
         Battery,
         /// <summary>A blood debtor's living soul bound into a wailing effigy (4.18).</summary>
         Effigy,
+        /// <summary>Sealed in a rendering pod and broken down into nutrient slurry (4.37).</summary>
+        Slurry,
     }
 
     public class CompProperties_SoulRite : CompProperties

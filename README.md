@@ -280,6 +280,13 @@ At zero the eater starves (*soul starvation*) and dies in about two days unless 
 ### Soul dreadnoughts (Biotech)
 **Gestate soul dreadnought** at the large mech gestator (research *Ultra mechtech* and *Soul lattice*): 250 soulsteel, 100 plasteel, 2 advanced components, 60 essence and a **filled soul lattice** as its core. A centurion-class war mech (shield bubble, point-defence turret, tougher armour) that runs on **essence, not mech energy**: its soul core holds 60 and burns about 8 a day. Haulers bring it essence when it's under half; if it runs dry it shuts down until fed. Placeholder art: the centurion, tinted.
 
+### Grim industry: battery farming (new, untested)
+- **Battery farming** research (after Electricity) unlocks the feed hopper, battery cage and battery pen.
+- **Battery cage / pen:** assign a tame animal (cage up to body size 1, pen up to 3.5) and a handler carries it in. Eggs, milk and wool come half again as fast; anything that produces nothing (and males) grows five times as fast while young and fattens for meat once grown. Feed and medicine come from feed hoppers within five cells (VNPE paste pipes as a fallback). No medicine and it sickens; no food and it starves.
+- **Rendering pod** (also needs Soul extraction): mark a prisoner *Slurry*; a warden seals them in and over four days they become about 100 nutrient slurry and a little essence. Slurry is human meat for every purpose.
+- **Mech dynamo** (also needs Microelectronics): colony mechs make 300 W per body size and wear out over ten days; downed enemy mechs make twice that, get stripped for parts and might break out. Wastepacks with Biotech.
+- Art from Higgsfield, sounds from ElevenLabs: run `python Source/tools/fetch_grim_art.py` once to replace the placeholders.
+
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
 - **Soul guns fire beams.** Like CE's own lasers: one shared **soul charge** ammo (100 from 6 soulsteel + 4 essence, so about 200 shots per corpse), and each gun maps it to its own beam with its own damage and penetration, plus a one-cell soul blast on impact.
@@ -423,6 +430,8 @@ Needs **Harmony** (brrainz.harmony). Copy the whole `HollowPawns` folder into `R
 - [ ] Electricity: start the Coven; Electricity is not researched, soul extraction is, and the crucible, generator, canister rack and prisoner battery are locked in the architect menu. Research Electricity and all four unlock. The Escapee start still begins with Electricity.
 
 ## Things I'm least sure of (from memory, not checked against 1.6)
+
+- Grim industry (4.37), written without a build: `CompProperties_EggLayer.eggUnfertilizedDef/eggLayIntervalDays/eggCountRange/eggLayFemaleOnly`, `CompProperties_Milkable.milkDef/milkIntervalDays/milkAmount/milkFemaleOnly`, `CompProperties_Shearable.woolDef/shearIntervalDays/woolAmount`, `LifeStageDef.milkable/shearable/reproductive/hungerRateFactor`, `Pawn_AgeTracker.AgeTickMothballed(int)`, `MapPawns.SpawnedColonyAnimals`, `PawnKindDef.isBoss`, `RaceProperties.CanEverEat(Thing)` and `Pawn.ButcherProducts(Pawn, float)` are from memory. Also unchecked: `MeatAmount` as a hediff stat factor (fattening), carrying a restrained, standing animal or colony mech (the job reuses the rite restraint), `IngestibleProperties.sourceDef` making slurry count as human meat, and the research position (7, 6.7).
 
 - Everybody Gets One: a hand-made postfix on `Everybody_Gets_One.PersonCountWorldComp.CountFor(Bill_Production)` (EGO and TD Find Lib 1.7, checked by decompiling) subtracts soulless pawns from what the bill's person search found. If someone edits a bill's counter to count only thralls on purpose, it will show 0.
 

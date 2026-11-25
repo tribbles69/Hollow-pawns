@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ===================== Grim industry (4.37): battery farming ===================== -->
+  <!-- Cages and pens for animals, the rendering pod for prisoners, the mech dynamo for mechanoids.
+       Everything runs on the pod's rare tick (GrimIndustry.cs). Art from Higgsfield, sounds from
+       ElevenLabs: see Source/tools/fetch_grim_art.py. -->
+
+  <ResearchProjectDef>
+    <defName>HP_BatteryFarming</defName>
+    <label>battery farming</label>
+    <description>Pack livestock into steel cages, feed them from hoppers and dose them against the disease that follows. More eggs, milk and wool from fewer animals, juveniles grown in weeks and adults fattened for slaughter. The same thinking, taken further, puts prisoners and mechanoids in pods.</description>
+    <baseCost>1200</baseCost>
+    <techLevel>Industrial</techLevel>
+    <prerequisites>
+      <li>Electricity</li>
+    </prerequisites>
+    <!-- Placeholder position on the Main tab; move it if it overlaps something in your load order. -->
+    <researchViewX>7.00</researchViewX>
+    <researchViewY>6.70</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- ===================== Nutrient slurry ===================== -->
+
+  <ThingDef ParentName="OrganicProductBase">
+    <defName>HP_NutrientSlurry</defName>
+    <label>nutrient slurry</label>
+    <description>Grey-pink sludge from a rendering pod: what a person is once nothing about them matters any more. It counts as human meat. Hoppers take it, so it goes into nutrient paste, kibble and battery cages, and cannibals will happily eat it raw.</description>
+    <graphicData>
+      <texPath>Things/Item/HP_NutrientSlurry</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <statBases>
+      <MarketValue>0.4</MarketValue>
+      <Mass>0.03</Mass>
+      <Nutrition>0.05</Nutrition>
+      <DeteriorationRate>6</DeteriorationRate>
+      <Beauty>-4</Beauty>
+    </statBases>
+    <ingestible>
+      <foodType>Meat</foodType>
+      <preferability>RawBad</preferability>
+      <sourceDef>Human</sourceDef>
+      <ingestEffect>EatMeat</ingestEffect>
+      <ingestSound>RawMeat_Eat</ingestSound>
+    </ingestible>
+    <thingCategories>
+      <li>MeatRaw</li>
+    </thingCategories>
+    <comps>
+      <li Class="CompProperties_Rottable">
+        <daysToRotStart>2</daysToRotStart>
+        <rotDestroys>true</rotDestroys>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- ===================== Fattened ===================== -->
+
+  <HediffDef>
+    <defName>HP_Fattened</defName>
+    <label>fattened</label>
+    <description>Kept still and fed hard in a battery pen. There is more meat on it, and less will to move.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.85, 0.7, 0.55)</defaultLabelColor>
+    <isBad>false</isBad>
+    <maxSeverity>1.0</maxSeverity>
+    <initialSeverity>0.01</initialSeverity>
+    <stages>
+      <li>
+        <label>plump</label>
+        <statFactors>
+          <MeatAmount>1.1</MeatAmount>
+        </statFactors>
+      </li>
+      <li>
+        <minSeverity>0.5</minSeverity>
+        <label>fat</label>
+        <statFactors>
+          <MeatAmount>1.25</MeatAmount>
+        </statFactors>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.1</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>1.0</minSeverity>
+        <label>bloated</label>
+        <statFactors>
+          <MeatAmount>1.4</MeatAmount>
+        </statFactors>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.2</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- ===================== Feed hopper ===================== -->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_FeedHopper</defName>
+    <label>feed hopper</label>
+    <description>A steel bin for animal feed and medicine. Battery cages, pens and nothing else draw from it: every cage within five cells takes the food its animal can eat and the medicine that keeps it alive. Haulers keep it topped up.</description>
+    <thingClass>Building_Storage</thingClass>
+    <graphicData>
+      <texPath>Things/Building/HP_FeedHopper</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>42</pathCost>
+    <canOverlapZones>false</canOverlapZones>
+    <surfaceType>Item</surfaceType>
+    <specialDisplayRadius>4.9</specialDisplayRadius>
+    <designationCategory>Production</designationCategory>
+    <researchPrerequisites>
+      <li>HP_BatteryFarming</li>
+    </researchPrerequisites>
+    <building>
+      <storageGroupTag>HP_FeedHopper</storageGroupTag>
+      <blueprintClass>Blueprint_Storage</blueprintClass>
+      <fixedStorageSettings>
+        <priority>Important</priority>
+        <filter>
+          <categories>
+            <li>Foods</li>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <priority>Important</priority>
+        <filter>
+          <categories>
+            <li>FoodRaw</li>
+            <li>Medicine</li>
+          </categories>
+          <thingDefs>
+            <li>Kibble</li>
+          </thingDefs>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+    <inspectorTabs>
+      <li>ITab_Storage</li>
+    </inspectorTabs>
+    <castEdgeShadows>true</castEdgeShadows>
+    <statBases>
+      <WorkToBuild>400</WorkToBuild>
+      <MaxHitPoints>120</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <Beauty>-4</Beauty>
+    </statBases>
+    <costList>
+      <Steel>25</Steel>
+    </costList>
+  </ThingDef>
+
+  <!-- ===================== Battery cage and pen ===================== -->
+
+  <ThingDef Name="HP_BatteryCageBase" ParentName="BuildingBase" Abstract="True">
+    <thingClass>HollowPawns.Building_BatteryCage</thingClass>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.6</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <tickerType>Rare</tickerType>
+    <designationCategory>Production</designationCategory>
+    <researchPrerequisites>
+      <li>HP_BatteryFarming</li>
+    </researchPrerequisites>
+    <building>
+      <isPlayerEjectable>false</isPlayerEjectable>
+      <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
+    </building>
+    <comps />
+  </ThingDef>
+
+  <ThingDef ParentName="HP_BatteryCageBase">
+    <defName>HP_BatteryCage</defName>
+    <label>battery cage</label>
+    <description>A wire box barely bigger than the animal in it. Holds one tame animal of body size up to 1 (hens, ducks, goats, pigs, alpacas). Whatever it gives in the field (eggs, milk, wool) it gives half again as fast here, straight into a tray. An animal that gives nothing, or a male, is grown five times as fast while young and fattened for meat once grown. Caged animals age a quarter faster.\n\nFeeds from feed hoppers within five cells; dose it from the same hoppers or it sickens and dies. Assign an animal and a handler carries it in.</description>
+    <graphicData>
+      <texPath>Things/Building/HP_BatteryCage</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <size>(1,1)</size>
+    <costList>
+      <Steel>30</Steel>
+    </costList>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>900</WorkToBuild>
+      <Flammability>0.3</Flammability>
+      <Beauty>-6</Beauty>
+    </statBases>
+    <modExtensions>
+      <li Class="HollowPawns.GrimPodExtension">
+        <maxBodySize>1.0</maxBodySize>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="HP_BatteryCageBase">
+    <defName>HP_BatteryPen</defName>
+    <label>battery pen</label>
+    <description>A steel crush stall with milking clamps. Holds one tame animal of body size up to 3.5 (cows, muffalo, yaks, horses, bison). Works like the battery cage: half again as much of whatever it gives, fast growth for the young, fattening for the rest, a quarter faster ageing.\n\nFeeds from feed hoppers within five cells; dose it from the same hoppers or it sickens and dies. Assign an animal and a handler carries it in.</description>
+    <graphicData>
+      <texPath>Things/Building/HP_BatteryPen</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <size>(2,2)</size>
+    <costList>
+      <Steel>90</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <statBases>
+      <MaxHitPoints>240</MaxHitPoints>
+      <WorkToBuild>2200</WorkToBuild>
+      <Flammability>0.3</Flammability>
+      <Beauty>-10</Beauty>
+    </statBases>
+    <modExtensions>
+      <li Class="HollowPawns.GrimPodExtension">
+        <maxBodySize>3.5</maxBodySize>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <!-- ===================== Rendering pod ===================== -->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_RenderingPod</defName>
+    <label>rendering pod</label>
+    <description>A sealed casket of enzyme bath. A living adult prisoner sealed inside is broken down, slowly and completely, into nutrient slurry: a share every day for four days (longer for bigger bodies), about a hundred slurry from a person. At the end nothing is left of them but a little soul essence.\n\nMark a prisoner "slurry" and a warden will seal them in. Pull them out early and they live, broken. It leaks a little corruption every day it runs.</description>
+    <thingClass>HollowPawns.Building_RenderingPod</thingClass>
+    <graphicData>
+      <texPath>Things/Building/HP_RenderingPod</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,1)</drawSize>
+    </graphicData>
+    <size>(2,1)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>42</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>true</rotatable>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <tickerType>Rare</tickerType>
+    <designationCategory>Production</designationCategory>
+    <researchPrerequisites>
+      <li>HP_BatteryFarming</li>
+      <li>HP_SoulExtraction</li>
+    </researchPrerequisites>
+    <costList>
+      <Steel>110</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <WorkToBuild>4000</WorkToBuild>
+      <Flammability>0.4</Flammability>
+      <Beauty>-14</Beauty>
+    </statBases>
+    <building>
+      <isPlayerEjectable>false</isPlayerEjectable>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+    </building>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>150</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>2.5</glowRadius>
+        <glowColor>(150,210,90,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- ===================== Mech dynamo ===================== -->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HP_MechDynamo</defName>
+    <label>mech dynamo</label>
+    <description>A clamp cradle that runs a mechanoid's power core backwards into the grid. Takes mechs of body size up to 2.6; never bosses.\n\nA colony mech gives 300 W per unit of body size, wears as it runs and comes out dented after ten days. A downed enemy mech gives twice that and is stripped for parts over six days per unit of body size, but every day there is a small chance it wakes, mends and tears its way out. Either way it leaves a wastepack every two days (Biotech).\n\nAssign a mech and a hauler carries it in.</description>
+    <thingClass>HollowPawns.Building_MechDynamo</thingClass>
+    <graphicData>
+      <texPath>Things/Building/HP_MechDynamo</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <size>(2,2)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.8</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <rotatable>false</rotatable>
+    <tickerType>Rare</tickerType>
+    <designationCategory>Power</designationCategory>
+    <researchPrerequisites>
+      <li>HP_BatteryFarming</li>
+      <li>MicroelectronicsBasics</li>
+    </researchPrerequisites>
+    <costList>
+      <Steel>200</Steel>
+      <Plasteel>40</Plasteel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <WorkToBuild>8000</WorkToBuild>
+      <Flammability>0.2</Flammability>
+      <Beauty>-10</Beauty>
+    </statBases>
+    <building>
+      <isPlayerEjectable>false</isPlayerEjectable>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+    </building>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>HollowPawns.CompPowerPlant_MechDynamo</compClass>
+        <basePowerConsumption>-1560</basePowerConsumption>
+        <transmitsPower>true</transmitsPower>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(230,60,50,0)</glowColor>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="HollowPawns.GrimPodExtension">
+        <maxBodySize>2.6</maxBodySize>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <!-- ===================== Loading ===================== -->
+
+  <JobDef>
+    <defName>HP_LoadIntoPod</defName>
+    <driverClass>HollowPawns.JobDriver_LoadIntoPod</driverClass>
+    <reportString>sealing TargetA into TargetB.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <WorkGiverDef>
+    <defName>HP_LoadBatteryCage</defName>
+    <label>load battery cages</label>
+    <giverClass>HollowPawns.WorkGiver_LoadGrimPod</giverClass>
+    <workType>Handling</workType>
+    <priorityInType>40</priorityInType>
+    <verb>cage</verb>
+    <gerund>caging</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>HP_LoadRenderingPod</defName>
+    <label>seal prisoners into rendering pods</label>
+    <giverClass>HollowPawns.WorkGiver_LoadGrimPod</giverClass>
+    <workType>Warden</workType>
+    <priorityInType>57</priorityInType>
+    <verb>seal</verb>
+    <gerund>sealing</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>HP_LoadMechDynamo</defName>
+    <label>load mech dynamos</label>
+    <giverClass>HollowPawns.WorkGiver_LoadGrimPod</giverClass>
+    <workType>Hauling</workType>
+    <priorityInType>30</priorityInType>
+    <verb>load</verb>
+    <gerund>loading</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <!-- ===================== Sounds (ElevenLabs) ===================== -->
+
+  <SoundDef>
+    <defName>HP_CageCollect</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>HP/CageCollect</clipPath>
+          </li>
+        </grains>
+        <volumeRange>18~24</volumeRange>
+        <pitchRange>0.92~1.08</pitchRange>
+        <distRange>8~30</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>HP_RenderSquelch</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>HP/RenderSquelch</clipPath>
+          </li>
+        </grains>
+        <volumeRange>25~32</volumeRange>
+        <pitchRange>0.9~1.05</pitchRange>
+        <distRange>10~40</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>HP_MechBreakout</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>HP/MechBreakout</clipPath>
+          </li>
+        </grains>
+        <volumeRange>38~45</volumeRange>
+        <pitchRange>0.95~1.05</pitchRange>
+        <distRange>15~60</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+</Defs>
