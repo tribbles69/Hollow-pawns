@@ -104,7 +104,29 @@ def render(size, layers, height=None):
     return px
 
 
+# Sprites that now have painted art (Higgsfield, Nov 2026): never overwrite them with the placeholder.
+PAINTED = {
+    # grim industry (fetch_grim_art.py)
+    "HP_BatteryCage", "HP_BatteryPen", "HP_FeedHopper", "HP_MechDynamo", "HP_RenderingPod", "HP_NutrientSlurry",
+    # buildings
+    "HP_BoneAltar", "HP_BoundShrine", "HP_CarrionWall", "HP_CloneVat", "HP_CorpseGrinder", "HP_EssenceShrine",
+    "HP_FallenIdol", "HP_FountainOfYouth", "HP_GreatRift", "HP_HellGate", "HP_LineForge", "HP_PrisonerBattery",
+    "HP_ReanimationSlab", "HP_Reliquary", "HP_SoulCradle", "HP_SoulCrucible", "HP_SoulDrain", "HP_SoulGenerator",
+    "HP_SoulPress", "HP_SoulTap", "HP_SoulValve", "HP_SoulVat", "HP_ThrallMuster", "HP_ThrallRack",
+    "HP_VengeanceEffigy", "HP_WailingEffigy",
+    # items, drugs and equipment
+    "HP_BlackIchor", "HP_BorrowedTime", "HP_Soulfire", "HP_BloodBlade", "HP_BoneFetish", "HP_CursedIdol",
+    "HP_Dirge", "HP_FaceMask", "HP_GoreAxe", "HP_LastRites", "HP_Litany", "HP_ReaperScythe", "HP_Requiem",
+    "HP_SkullMaul", "HP_Vesper", "HP_Wake", "HP_Whisper", "HP_WraithLantern", "HP_Canister", "HP_CanisterEmpty",
+    "HP_CarrionBale", "HP_CorruptedEssence", "HP_HellfireCharge", "HP_HolyWater", "HP_Lattice", "HP_LatticeEmpty",
+    "HP_SoulArrow", "HP_SoulCharge", "HP_SoulEssence", "HP_Soulsteel", "HP_Soulweave", "HP_Urn", "HP_UrnEmpty",
+}
+
+
 def write_png(path, px):
+    if os.path.splitext(os.path.basename(path))[0] in PAINTED:
+        print("kept painted", os.path.relpath(path, ROOT))
+        return
     w, h = len(px[0]), len(px)
     raw = bytearray()
     for row in px:

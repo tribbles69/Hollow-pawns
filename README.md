@@ -287,6 +287,8 @@ At zero the eater starves (*soul starvation*) and dies in about two days unless 
 - **Mech dynamo** (also needs Microelectronics): colony mechs make 300 W per body size and wear out over ten days; downed enemy mechs make twice that, get stripped for parts and might break out. Wastepacks with Biotech.
 - Art from Higgsfield, sounds from ElevenLabs: run `python Source/tools/fetch_grim_art.py` once to replace the placeholders.
 
+**Art:** every building and every item, drug and weapon sprite is painted (Higgsfield, Nov 2026); `gen_textures.py` lists them in `PAINTED` and won't overwrite them. Still placeholders: icons, faction marks, hero art, the soul wisp and bolt, the ghost and the worn flayed face, and the conscript belt and goggles. If a texture tool (RimSort/RimPy's todds) has made `.dds` copies next to the PNGs, delete the `.dds` for anything repainted, or the game keeps showing the old placeholder.
+
 ### Combat Extended (only loads with CE)
 Lives in `Mods/CombatExtended`, wired up in `LoadFolders.xml`.
 - **Soul guns fire beams.** Like CE's own lasers: one shared **soul charge** ammo (100 from 6 soulsteel + 4 essence, so about 200 shots per corpse), and each gun maps it to its own beam with its own damage and penetration, plus a one-cell soul blast on impact.
